@@ -102,7 +102,12 @@ async function loadAllFromAdapters(): Promise<MissingPersonWithSources[]> {
     while (offset < MAX_PER_SOURCE) {
       let batch: ImportedMissingRecord[];
       try {
-        batch = await adapter.fetchBatch(offset, BATCH_SIZE);
+        batch = await Promise.race([
+          adapter.fetchBatch(offset, BATCH_SIZE),
+          new Promise<ImportedMissingRecord[]>((_, reject) => {
+            setTimeout(() => reject(new Error("fetch timeout")), 12_000);
+          }),
+        ]);
       } catch (err) {
         console.error(`[missing-persons] live fetch ${adapter.slug} failed:`, err);
         break;
