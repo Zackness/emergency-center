@@ -1,0 +1,107 @@
+---
+import { phoneTelHref } from "@/lib/phone";
+
+interface Props {
+  anchorId?: string;
+  imageUrl?: string | null;
+  title: string;
+  subtitle: string;
+  body: string;
+  urgency: string;
+  phone?: string;
+  phoneLabel?: string;
+  whatsappLabel?: string;
+  whatsappUrl?: string;
+  shareLabel: string;
+  targetLabel: string;
+  targetRegions: string;
+  deployLabel: string;
+  deployRegions: string;
+  offerLabel: string;
+  offerText: string;
+}
+
+const {
+  anchorId = "rescatistas",
+  imageUrl,
+  title,
+  subtitle,
+  body,
+  urgency,
+  phone,
+  phoneLabel,
+  whatsappLabel,
+  whatsappUrl,
+  shareLabel,
+  targetLabel,
+  targetRegions,
+  deployLabel,
+  deployRegions,
+  offerLabel,
+  offerText,
+} = Astro.props;
+---
+
+<article class="card border-emergency/25 bg-emergency-muted/20 mb-10" id={anchorId}>
+  <div class:list={["grid gap-6", imageUrl ? "lg:grid-cols-2" : ""]}>
+    {
+      imageUrl && (
+        <img
+          src={imageUrl}
+          alt={title}
+          class="w-full rounded-xl border border-zinc-200/80 object-contain bg-surface-elevated max-h-[520px]"
+          loading="lazy"
+        />
+      )
+    }
+    <div>
+      <span class="badge-emergency mb-3">Urgente</span>
+      <h2 class="text-xl font-semibold text-ink">{title}</h2>
+      <p class="mt-2 text-sm font-medium text-ink-secondary">{subtitle}</p>
+      <p class="mt-4 text-sm text-ink-secondary leading-relaxed">{body}</p>
+
+      <dl class="mt-5 space-y-3 text-sm">
+        <div>
+          <dt class="text-ink-muted font-medium">{targetLabel}</dt>
+          <dd class="text-ink">{targetRegions}</dd>
+        </div>
+        <div>
+          <dt class="text-ink-muted font-medium">{deployLabel}</dt>
+          <dd class="text-ink">{deployRegions}</dd>
+        </div>
+        <div>
+          <dt class="text-ink-muted font-medium">{offerLabel}</dt>
+          <dd class="text-ink">{offerText}</dd>
+        </div>
+      </dl>
+
+      <p class="mt-5 rounded-xl border border-warning/30 bg-warning-muted p-3 text-sm text-warning">
+        {urgency}
+      </p>
+
+      {
+        (phone && phoneLabel) || (whatsappUrl && whatsappLabel) ? (
+          <div class="mt-6 flex flex-wrap gap-3">
+            {phone && phoneLabel && (
+              <a href={phoneTelHref(phone)} class="btn-primary">
+                {phoneLabel}: {phone}
+              </a>
+            )}
+            {whatsappUrl && whatsappLabel && (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary"
+              >
+                {whatsappLabel} →
+              </a>
+            )}
+          </div>
+        ) : null
+      }
+
+      <p class="mt-4 text-xs text-ink-muted">{shareLabel}</p>
+    </div>
+  </div>
+</article>

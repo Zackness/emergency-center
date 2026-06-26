@@ -1,0 +1,59 @@
+---
+interface Props {
+  anchorId: string;
+  organization: string;
+  title: string;
+  body: string;
+  priorityLabel: string;
+  priorityText: string;
+  registerLabel: string;
+  registerUrl: string;
+  displayUrl: string;
+  shareLabel: string;
+  verifiedLabel?: string;
+}
+
+const {
+  anchorId,
+  organization,
+  title,
+  body,
+  priorityLabel,
+  priorityText,
+  registerLabel,
+  registerUrl,
+  displayUrl,
+  shareLabel,
+  verifiedLabel = "Verificado",
+} = Astro.props;
+---
+
+<article class="card border-accent/25 bg-accent-muted/20 mb-10" id={anchorId}>
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center gap-2 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wide text-accent">
+          {organization}
+        </span>
+        <span class="badge-verified">{verifiedLabel}</span>
+      </div>
+      <h2 class="text-xl font-semibold text-ink">{title}</h2>
+      <p class="mt-4 text-sm text-ink-secondary leading-relaxed">{body}</p>
+      <dl class="mt-5 text-sm">
+        <div>
+          <dt class="text-ink-muted font-medium">{priorityLabel}</dt>
+          <dd class="mt-1 text-ink">{priorityText}</dd>
+        </div>
+      </dl>
+      <p class="mt-4 text-xs text-ink-muted">{shareLabel}</p>
+    </div>
+    <a
+      href={registerUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-primary shrink-0"
+    >
+      {registerLabel}: {displayUrl} →
+    </a>
+  </div>
+</article>

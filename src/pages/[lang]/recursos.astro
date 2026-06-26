@@ -1,0 +1,214 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import OfflineToolCard from "@/components/ui/OfflineToolCard.astro";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
+import { getOfflineTools } from "@/data/offline-tools";
+import { getPsychologicalSupportResources } from "@/data/psychological-support";
+import { isValidLocale, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { phoneTelHref } from "@/lib/phone";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect("/es/recursos");
+
+const locale = lang as Locale;
+const { t, dict } = useTranslations(locale);
+const offlineTools = getOfflineTools(locale);
+const psychologicalSupport = getPsychologicalSupportResources();
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+
+const guides = [
+  {
+    phase: "before",
+    title: locale === "es" ? "Preparación ante terremotos" : "Earthquake preparedness",
+    items: locale === "es"
+      ? [
+          "Identifica zonas seguras en tu hogar (bajo mesas resistentes, lejos de ventanas)",
+          "Prepara una mochila de emergencia con agua, alimentos, medicinas y documentos",
+          "Acuerda un punto de reunión familiar",
+          "Conoce las rutas de evacuación de tu edificio",
+          "Instala BitChat para comunicarte sin internet si cae la red",
+        ]
+      : [
+          "Identify safe zones in your home (under sturdy tables, away from windows)",
+          "Prepare an emergency bag with water, food, medicine and documents",
+          "Agree on a family meeting point",
+          "Know your building's evacuation routes",
+          "Install BitChat to communicate without internet if the network goes down",
+        ],
+  },
+  {
+    phase: "during",
+    title: locale === "es" ? "Durante un terremoto" : "During an earthquake",
+    items: locale === "es"
+      ? [
+          "Mantén la calma y protégete: Agáchate, Cúbrete y Agárrate",
+          "No uses ascensores",
+          "Aléjate de estructuras dañadas y cables eléctricos",
+          "Si estás en la calle, aléjate de edificios y postes",
+        ]
+      : [
+          "Stay calm and protect yourself: Drop, Cover and Hold On",
+          "Do not use elevators",
+          "Stay away from damaged structures and power lines",
+          "If outdoors, move away from buildings and poles",
+        ],
+  },
+  {
+    phase: "after",
+    title: locale === "es" ? "Después del terremoto" : "After the earthquake",
+    items: locale === "es"
+      ? [
+          "Verifica si hay heridos y llama al 171 solo en emergencias reales",
+          "No reingreses a edificios dañados",
+          "Usa máscara si hay polvo en el ambiente",
+          "Escucha solo información de fuentes oficiales",
+          "Reporta daños a través de VenApp",
+          "Si no hay señal, usa BitChat con personas cercanas para coordinar ayuda",
+        ]
+      : [
+          "Check for injuries and call 171 only for real emergencies",
+          "Do not re-enter damaged buildings",
+          "Use a mask if there is dust in the air",
+          "Listen only to information from official sources",
+          "Report damage through VenApp",
+          "If there is no signal, use BitChat with nearby people to coordinate aid",
+        ],
+  },
+];
+---
+
+<BaseLayout locale={locale} title={t("resources.title")}>
+  <PageHeader title={t("resources.title")} subtitle={t("resources.subtitle")}>
+    <section class="mb-16" id="herramientas-offline">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("resources.offlineTools.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary">{t("resources.offlineTools.subtitle")}</p>
+      </div>
+      <div class="grid gap-4 max-w-4xl">
+        {
+          offlineTools.map((tool) => (
+            <div id={tool.slug}>
+              <OfflineToolCard
+                name={tool.name}
+                tagline={tool.tagline}
+                description={tool.description}
+                features={tool.features}
+                tips={tool.tips}
+                links={tool.links}
+                worksOffline={tool.worksOffline}
+                offlineLabel={t("resources.offlineTools.offlineBadge")}
+                featuresLabel={t("resources.offlineTools.features")}
+                tipsLabel={t("resources.offlineTools.tips")}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-16" id="apoyo-psicologico">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("resources.psychologicalSupport.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary max-w-3xl">
+          {t("resources.psychologicalSupport.subtitle")}
+        </p>
+      </div>
+      <div class="grid gap-4 max-w-4xl sm:grid-cols-2">
+        {
+          psychologicalSupport.map((resource) => (
+            <article class="card-interactive" id={resource.id}>
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-semibold text-ink">{resource.name}</h3>
+                    {resource.is_verified && (
+                      <span class="badge-verified">{t("common.verified")}</span>
+                    )}
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-secondary">
+                    {locale === "es" ? resource.description.es : resource.description.en}
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-3 border-t border-border pt-4">
+                {resource.phone && (
+                  <a href={phoneTelHref(resource.phone)} class="btn-primary text-sm">
+                    {t("common.phone")}: {resource.phone}
+                  </a>
+                )}
+                {resource.instagram_url && (
+                  <a
+                    href={resource.instagram_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-secondary text-sm"
+                  >
+                    Instagram {resource.handle ?? ""} →
+                  </a>
+                )}
+                {resource.website_url && (
+                  <a
+                    href={resource.website_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-secondary text-sm"
+                  >
+                    {t("common.officialLink")} →
+                  </a>
+                )}
+              </div>
+              <CommunityFeedback
+                client:visible
+                contentType="external_link"
+                contentId={resource.id}
+                locale={locale}
+                labels={feedbackLabels}
+                confidenceLabels={confidenceLabels}
+                compact
+              />
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold text-ink mb-6">{t("resources.guidesTitle")}</h2>
+      <div class="grid gap-8 lg:grid-cols-3">
+        {
+          guides.map((guide) => (
+            <article class="card" id={guide.phase}>
+              <span class="badge bg-accent-muted text-accent mb-4">
+                {t(`resources.phases.${guide.phase}` as "resources.phases.before")}
+              </span>
+              <h3 class="font-semibold text-ink text-lg">{guide.title}</h3>
+              <ul class="mt-4 space-y-2">
+                {guide.items.map((item) => (
+                  <li class="flex gap-2 text-sm text-ink-secondary">
+                    <span class="text-accent shrink-0">•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <CommunityFeedback
+                client:visible
+                contentType="external_link"
+                contentId={`guide-${guide.phase}`}
+                locale={locale}
+                labels={feedbackLabels}
+                confidenceLabels={confidenceLabels}
+                compact
+              />
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </PageHeader>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import { ALLIED_PLATFORMS, type AlliedPlatformColor } from "@/data/allied-platforms";
+import type { Locale } from "@/i18n/config";
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  subtitle?: string;
+}
+
+const { locale, title, subtitle } = Astro.props;
+
+const heading = title ?? (locale === "es" ? "Plataformas aliadas" : "Allied platforms");
+const sub =
+  subtitle ??
+  (locale === "es"
+    ? "Otras iniciativas ciudadanas que complementan la respuesta de emergencia."
+    : "Other citizen-led initiatives that complement the emergency response.");
+
+const dotColor: Record<AlliedPlatformColor, string> = {
+  blue: "bg-accent",
+  yellow: "bg-warning",
+  red: "bg-emergency",
+};
+---
+
+<section>
+  <span class="eyebrow mb-3">{locale === "es" ? "Red de apoyo" : "Support network"}</span>
+  <h2 class="section-title text-2xl sm:text-3xl">{heading}</h2>
+  <p class="section-subtitle">{sub}</p>
+
+  <ul class="mt-8 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-soft">
+    {
+      ALLIED_PLATFORMS.map((platform) => (
+        <li>
+          <a
+            href={platform.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-surface-muted focus-visible:bg-surface-muted"
+          >
+            <span class:list={["h-2.5 w-2.5 shrink-0 rounded-full", dotColor[platform.color]]} aria-hidden="true" />
+            <span class="min-w-0 flex-1">
+              <span class="font-semibold text-ink transition-colors group-hover:text-accent">
+                {platform.domain}
+              </span>
+              <span class="ml-2 text-sm text-ink-secondary">
+                — {locale === "es" ? platform.description.es : platform.description.en}
+              </span>
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="shrink-0 text-ink-muted transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+            >
+              <path d="M7 7h10v10" />
+              <path d="M7 17 17 7" />
+            </svg>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

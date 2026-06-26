@@ -1,0 +1,118 @@
+---
+import type { ExternalSourceStatus, SourceRegistrationType } from "@/types";
+
+interface Props {
+  name: string;
+  description?: string | null;
+  url: string;
+  registrationType: SourceRegistrationType;
+  registrationTypeLabel: string;
+  approximateCount?: number | null;
+  countPending?: number | null;
+  countLocated?: number | null;
+  lastUpdated?: string | null;
+  lastUpdatedLabel: string;
+  status: ExternalSourceStatus;
+  statusLabel: string;
+  externalSourceLabel: string;
+  visitLabel: string;
+  verified?: boolean;
+  verifiedLabel?: string;
+  countLabel?: string;
+  countPendingLabel?: string;
+  countLocatedLabel?: string;
+}
+
+const {
+  name,
+  description,
+  url,
+  registrationType,
+  registrationTypeLabel,
+  approximateCount,
+  countPending,
+  countLocated,
+  lastUpdated,
+  lastUpdatedLabel,
+  status,
+  statusLabel,
+  externalSourceLabel,
+  visitLabel,
+  verified = false,
+  verifiedLabel = "Verified",
+  countLabel,
+  countPendingLabel,
+  countLocatedLabel,
+} = Astro.props;
+
+const statusClass =
+  status === "active"
+    ? "bg-success-muted text-success"
+    : status === "down"
+      ? "bg-emergency-muted text-emergency"
+      : "bg-warning-muted text-warning";
+
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(locale === "en" ? "en-US" : "es-VE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+const locale = Astro.url.pathname.startsWith("/en") ? "en" : "es";
+---
+
+<article class="card">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-wrap items-center gap-2 mb-1">
+        <span class="text-xs font-medium uppercase tracking-wide text-ink-muted">{externalSourceLabel}</span>
+        <span class={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusClass}`}>{statusLabel}</span>
+        {verified && <span class="badge-verified">{verifiedLabel}</span>}
+      </div>
+      <h3 class="font-semibold text-ink text-lg">{name}</h3>
+      {description && <p class="mt-2 text-sm text-ink-secondary">{description}</p>}
+
+      <dl class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+        <div>
+          <dt class="text-ink-muted">{registrationTypeLabel}</dt>
+          <dd class="font-medium text-ink capitalize">{registrationType.replace("_", " ")}</dd>
+        </div>
+        {approximateCount != null && countLabel && (
+          <div>
+            <dt class="text-ink-muted">{countLabel}</dt>
+            <dd class="font-medium text-ink">{approximateCount.toLocaleString()}</dd>
+          </div>
+        )}
+        {countPending != null && countPendingLabel && (
+          <div>
+            <dt class="text-ink-muted">{countPendingLabel}</dt>
+            <dd class="font-medium text-ink">{countPending.toLocaleString()}</dd>
+          </div>
+        )}
+        {countLocated != null && countLocatedLabel && (
+          <div>
+            <dt class="text-ink-muted">{countLocatedLabel}</dt>
+            <dd class="font-medium text-ink">{countLocated.toLocaleString()}</dd>
+          </div>
+        )}
+        {lastUpdated && (
+          <div>
+            <dt class="text-ink-muted">{lastUpdatedLabel}</dt>
+            <dd class="font-medium text-ink">{formatDate(lastUpdated, locale)}</dd>
+          </div>
+        )}
+      </dl>
+    </div>
+
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-primary shrink-0"
+    >
+      {visitLabel} →
+    </a>
+  </div>
+</article>

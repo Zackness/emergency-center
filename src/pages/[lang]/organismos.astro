@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import SocialLinks from "@/components/ui/SocialLinks.astro";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
+import { phoneTelHref } from "@/lib/phone";
+import { isValidLocale, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { fetchAgencies } from "@/lib/data";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect("/es/organismos");
+
+const locale = lang as Locale;
+const { t, dict } = useTranslations(locale);
+const agencies = await fetchAgencies();
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+
+const categoryLabels: Record<string, string> = {
+  civil_protection: t("agencies.categories.civilProtection"),
+  firefighters: t("agencies.categories.firefighters"),
+  red_cross: t("agencies.categories.redCross"),
+  police: t("agencies.categories.police"),
+  government: t("agencies.categories.governments"),
+  mayor: t("agencies.categories.mayors"),
+};
+
+const grouped = agencies.reduce(
+  (acc, agency) => {
+    const cat = agency.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(agency);
+    return acc;
+  },
+  {} as Record<string, typeof agencies>
+);
+---
+
+<BaseLayout locale={locale} title={t("agencies.title")}>
+  <PageHeader title={t("agencies.title")} subtitle={t("agencies.subtitle")}>
+    <div class="rounded-2xl border border-border bg-surface-muted p-4 mb-8 text-sm text-ink-secondary max-w-3xl">
+      {t("agencies.socialFallback")}
+    </div>
+
+    <div class="space-y-10">
+      {
+        Object.entries(grouped).map(([category, items]) => (
+          <div>
+            <h2 class="text-lg font-semibold text-ink mb-4">
+              {categoryLabels[category] ?? category}
+            </h2>
+            <div class="grid gap-4 sm:grid-cols-2">
+              {items.map((agency) => (
+                <article class="card" id={agency.id}>
+                  <div class="flex flex-col gap-4">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <h3 class="font-medium text-ink">{agency.name}</h3>
+                          {agency.is_verified && (
+                            <span class="badge-verified">{t("common.verified")}</span>
+                          )}
+                        </div>
+                        {agency.description && (
+                          <p class="mt-2 text-sm text-ink-secondary">{agency.description}</p>
+                        )}
+                        {agency.category === "red_cross" && (
+                          <p class="mt-2 text-sm">
+                            <a
+                              href={`/${locale}/desaparecidos#cruz-roja-contacto-familiar`}
+                              class="text-accent hover:underline"
+                            >
+                              {t("agencies.redCrossFamilyLink")}
+                            </a>
+                          </p>
+                        )}
+                        <div class="mt-3 space-y-1 text-sm text-ink-secondary">
+                          {agency.phone && (
+                            <p>
+                              {t("common.phone")}:{" "}
+                              <a href={phoneTelHref(agency.phone)} class="text-accent hover:underline">
+                                {agency.phone}
+                              </a>
+                            </p>
+                          )}
+                          {agency.email && <p>{t("common.email")}: {agency.email}</p>}
+                        </div>
+                      </div>
+                      {agency.website && (
+                        <a
+                          href={agency.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="btn-secondary shrink-0 text-xs"
+                        >
+                          {t("common.officialLink")}
+                        </a>
+                      )}
+                    </div>
+                    <SocialLinks
+                      links={agency.social_links}
+                      title={t("common.socialMedia")}
+                      compact
+                    />
+                    <CommunityFeedback
+                      client:visible
+                      contentType="agency"
+                      contentId={agency.id}
+                      locale={locale}
+                      labels={feedbackLabels}
+                      confidenceLabels={confidenceLabels}
+                      compact
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </PageHeader>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+interface Props {
+  images: string[];
+  alt: string;
+}
+
+const { images, alt } = Astro.props;
+const isPlaceholder = images.length === 1 && images[0].includes("placeholder.svg");
+---
+
+<div
+  class:list={[
+    "mb-4 grid gap-2",
+    images.length > 1 ? "sm:grid-cols-2" : "grid-cols-1",
+  ]}
+>
+  {
+    images.map((src, index) => (
+      <img
+        src={src}
+        alt={images.length > 1 ? `${alt} (${index + 1})` : alt}
+        class:list={[
+          "w-full rounded-xl border border-zinc-200/80 object-cover",
+          isPlaceholder ? "max-h-40 opacity-80" : "max-h-72",
+        ]}
+        loading="lazy"
+      />
+    ))
+  }
+</div>

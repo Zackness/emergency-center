@@ -1,0 +1,274 @@
+export type SolidarityResource =
+  | "water"
+  | "food"
+  | "fuel"
+  | "transport"
+  | "internet"
+  | "telecom"
+  | "medicine"
+  | "machinery"
+  | "lodging";
+
+export interface SolidarityCompany {
+  id: string;
+  slug: string;
+  name: string;
+  resources: SolidarityResource[];
+  state: string;
+  city: string;
+  /** Alcance geográfico en texto libre. */
+  coverage: { es: string; en: string };
+  description: { es: string; en: string };
+  website_url?: string;
+  instagram_url?: string;
+  phone?: string;
+  /** Enlace a sede de acopio en /centros-ayuda#id */
+  help_center_id?: string;
+  is_verified: boolean;
+  sort_order: number;
+}
+
+export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
+  {
+    id: "vamos-app",
+    slug: "vamos-app",
+    name: "Vamos App",
+    resources: ["transport"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — encomienda y viajes con opción Donaciones",
+      en: "Nationwide — delivery and rides with Donations option",
+    },
+    description: {
+      es: "Activó viajes y encomiendas gratis para llevar donativos a centros de acopio: abre la app, selecciona la opción Donaciones y el viaje aparece con costo $0.00. Varios centros en Barquisimeto indican este servicio en sus afiches.",
+      en: "Enabled free rides and deliveries to take donations to collection centers: open the app, select Donations and the trip shows $0.00. Several Barquisimeto centers mention this service on their flyers.",
+    },
+    website_url: "https://vamosapp.com/",
+    is_verified: true,
+    sort_order: 1,
+  },
+  {
+    id: "yummy",
+    slug: "yummy",
+    name: "Yummy",
+    resources: ["transport"],
+    state: "Distrito Capital",
+    city: "Caracas",
+    coverage: {
+      es: "Caracas — destino hospitales y clínicas",
+      en: "Caracas — trips to hospitals and clinics",
+    },
+    description: {
+      es: "Tras el terremoto del 24 de junio, anunció viajes gratuitos a hospitales y clínicas en Caracas (la app reconoce el destino como centro de salud). Eliminó el precio dinámico por alta demanda y los conductores recibieron el 100 % de las ganancias sin comisión de la plataforma.",
+      en: "After the June 24 earthquake, it announced free trips to hospitals and clinics in Caracas (the app recognizes health-center destinations). Surge pricing was removed and drivers received 100% of earnings with no platform commission.",
+    },
+    website_url: "https://yummy.com.ve/",
+    is_verified: true,
+    sort_order: 2,
+  },
+  {
+    id: "farmatodo",
+    slug: "farmatodo",
+    name: "Farmatodo",
+    resources: ["medicine", "water", "food"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Sucursales seleccionadas a nivel nacional",
+      en: "Selected branches nationwide",
+    },
+    description: {
+      es: "Habilitó puntos de acopio en farmacias y en su centro de distribución (CENDIS, Charallave). Reciben agua potable, alimentos no perecederos, medicinas, insumos médicos y artículos de higiene. Confirma en tu sucursal o en sus redes cuáles están activas (ej. El Viñedo, Tipuro Maturín).",
+      en: "Enabled collection points at pharmacies and its distribution center (CENDIS, Charallave). They accept drinking water, non-perishable food, medicine, medical supplies and hygiene items. Confirm at your branch or on their social channels which are active (e.g. El Viñedo, Tipuro Maturín).",
+    },
+    website_url: "https://www.farmatodo.com.ve/",
+    phone: "0800-3276286",
+    is_verified: true,
+    sort_order: 3,
+  },
+  {
+    id: "movistar",
+    slug: "movistar",
+    name: "Movistar Venezuela",
+    resources: ["telecom"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — usuarios con línea Movistar",
+      en: "Nationwide — Movistar mobile subscribers",
+    },
+    description: {
+      es: "Tras el terremoto del 24 de junio, activó entre 48 y 72 horas de señal móvil, llamadas y SMS gratis para sus usuarios, para facilitar contacto con familiares y servicios de emergencia mientras se restablecían las comunicaciones.",
+      en: "After the June 24 earthquake, it enabled 48 to 72 hours of free mobile signal, voice calls and SMS for its subscribers, to help people reach family and emergency services while communications were being restored.",
+    },
+    website_url: "https://www.movistar.com.ve/",
+    phone: "*611",
+    is_verified: true,
+    sort_order: 4,
+  },
+  {
+    id: "digitel",
+    slug: "digitel",
+    name: "Digitel",
+    resources: ["telecom"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — usuarios con línea Digitel",
+      en: "Nationwide — Digitel mobile subscribers",
+    },
+    description: {
+      es: "Ante la emergencia del sismo, ofreció entre 48 y 72 horas de señal, llamadas y mensajes de texto sin costo para sus abonados, como apoyo para mantener comunicación en zonas afectadas.",
+      en: "In response to the earthquake emergency, it offered 48 to 72 hours of free signal, calls and text messages for its subscribers, to help maintain communication in affected areas.",
+    },
+    website_url: "https://www.digitel.com.ve/",
+    phone: "*123",
+    is_verified: true,
+    sort_order: 5,
+  },
+  {
+    id: "caritas-venezuela",
+    slug: "caritas-venezuela",
+    name: "Cáritas de Venezuela",
+    resources: ["water", "food", "medicine"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Red nacional y diocesana — centros de acopio y ayuda humanitaria",
+      en: "Nationwide and diocesan network — collection points and humanitarian aid",
+    },
+    description: {
+      es: "Activó una campaña de emergencia para apoyar a las personas afectadas por los terremotos. Coordina centros de acopio nacionales y diocesanos para recibir agua potable, alimentos no perecederos, medicinas esenciales y bienes de primera necesidad. Actualizaciones oficiales en Instagram: @caritasdevzla.",
+      en: "Activated an emergency campaign to support people affected by the earthquakes. Coordinates national and diocesan collection points for drinking water, non-perishable food, essential medicine and basic supplies. Official updates on Instagram: @caritasdevzla.",
+    },
+    website_url: "https://caritasvenezuela.org/",
+    instagram_url: "https://www.instagram.com/caritasdevzla/",
+    help_center_id: "1",
+    is_verified: true,
+    sort_order: 6,
+  },
+  {
+    id: "mi-odontologo-favorito",
+    slug: "mi-odontologo-favorito",
+    name: "Mi Odontólogo Favorito (MOF)",
+    resources: ["medicine", "transport", "food", "water"],
+    state: "Lara",
+    city: "Barquisimeto y regiones",
+    coverage: {
+      es: "10 sedes en Lara, Portuguesa y otros estados — destino Tucacas, Falcón",
+      en: "10 branches in Lara, Portuguesa and other states — bound for Tucacas, Falcón",
+    },
+    description: {
+      es: "Red de clínicas odontológicas que habilitó sus sedes como centros de acopio. Priorizan insumos médicos para equipos de atención en zonas afectadas; la recolección se destina a Tucacas, estado Falcón.",
+      en: "Dental clinic network that opened branches as collection centers. They prioritize medical supplies for response teams; donations are bound for Tucacas, Falcón state.",
+    },
+    help_center_id: "32",
+    is_verified: false,
+    sort_order: 10,
+  },
+  {
+    id: "fundacion-bel",
+    slug: "fundacion-bel",
+    name: "Fundación BEL",
+    resources: ["water", "food", "medicine"],
+    state: "Lara",
+    city: "Barquisimeto",
+    coverage: {
+      es: "Barquisimeto — apoyo a Caracas y La Guaira",
+      en: "Barquisimeto — aid for Caracas and La Guaira",
+    },
+    description: {
+      es: "Centro de acopio en la Torre BEL para familias afectadas en la Capital y La Guaira. Reciben agua, fórmulas, alimentos, medicinas, higiene, pañales, ropa, cobijas y también insumos para mascotas.",
+      en: "Collection center at Torre BEL for families affected in the capital region and La Guaira. They accept water, formula, food, medicine, hygiene, diapers, clothing, blankets and pet supplies.",
+    },
+    help_center_id: "24",
+    phone: "0424-5839025",
+    is_verified: true,
+    sort_order: 11,
+  },
+  {
+    id: "will-store",
+    slug: "will-store",
+    name: "Will Store y Studio Gizah Rodríguez",
+    resources: ["food", "water", "medicine"],
+    state: "Lara",
+    city: "Barquisimeto",
+    coverage: {
+      es: "Barrio Unión, Barquisimeto",
+      en: "Barrio Unión, Barquisimeto",
+    },
+    description: {
+      es: "Centro de acopio solidario «¡No están solos!» ante la emergencia nacional. Reciben alimentos no perecederos, ropa, linternas, insumos médicos y artículos de aseo personal.",
+      en: "Solidarity collection center «You are not alone» during the national emergency. They accept non-perishable food, clothing, flashlights, medical supplies and personal hygiene items.",
+    },
+    help_center_id: "31",
+    is_verified: false,
+    sort_order: 12,
+  },
+  {
+    id: "cc-las-trinitarias",
+    slug: "cc-las-trinitarias",
+    name: "C.C. Las Trinitarias",
+    resources: ["food", "water", "medicine", "transport"],
+    state: "Lara",
+    city: "Barquisimeto",
+    coverage: {
+      es: "Tarima central, Barquisimeto",
+      en: "Central stage area, Barquisimeto",
+    },
+    description: {
+      es: "Centro comercial que habilitó su tarima central como acopio. Reciben alimentos, ropa, cobijas, medicinas, higiene, pañales y agua. El afiche indica encomienda gratis con Vamos App para entregar donativos.",
+      en: "Shopping center that opened its central stage as a collection point. They accept food, clothing, blankets, medicine, hygiene, diapers and water. Flyers mention free Vamos App delivery for donations.",
+    },
+    help_center_id: "28",
+    is_verified: false,
+    sort_order: 13,
+  },
+  {
+    id: "renov",
+    slug: "renov",
+    name: "RENOV",
+    resources: ["medicine", "food", "water"],
+    state: "Falcón",
+    city: "Tucacas / Puerto Cabello",
+    coverage: {
+      es: "C.C. París — zona costera de Falcón",
+      en: "C.C. París — Falcón coastal area",
+    },
+    description: {
+      es: "Centro de acopio en el C.C. París para apoyar a damnificados en la zona de Tucacas y Puerto Cabello. Reciben insumos médicos y donativos de primera necesidad.",
+      en: "Collection center at C.C. París supporting affected families in the Tucacas and Puerto Cabello area. They accept medical supplies and essential donations.",
+    },
+    help_center_id: "42",
+    is_verified: false,
+    sort_order: 14,
+  },
+  {
+    id: "operacion-todos-vzla",
+    slug: "operacion-todos-vzla",
+    name: "Operación Todos con VZLA",
+    resources: ["food", "water", "medicine"],
+    state: "Lara",
+    city: "Barquisimeto",
+    coverage: {
+      es: "Sambil Barquisimeto, municipio Iribarren",
+      en: "Sambil Barquisimeto, Iribarren municipality",
+    },
+    description: {
+      es: "Iniciativa ciudadana con centro de acopio junto al Sambil de Barquisimeto (Av. Venezuela). Canalizan ayuda humanitaria para zonas afectadas por el sismo.",
+      en: "Citizen initiative with a collection center next to Sambil Barquisimeto (Av. Venezuela). They channel humanitarian aid to earthquake-affected areas.",
+    },
+    help_center_id: "43",
+    is_verified: false,
+    sort_order: 15,
+  },
+];
+
+export function getSolidarityCompanies() {
+  return [...SOLIDARITY_COMPANIES].sort((a, b) => a.sort_order - b.sort_order);
+}
+
+export function getSolidarityCompany(slug: string) {
+  return SOLIDARITY_COMPANIES.find((c) => c.slug === slug);
+}

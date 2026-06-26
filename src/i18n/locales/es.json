@@ -1,0 +1,1137 @@
+{
+  "meta": {
+    "title": "Emergency Center",
+    "description": "Hub central de información y ayuda durante emergencias nacionales en Venezuela. Centros de acopio, refugios, hospitales, organismos oficiales y más.",
+    "tagline": "Información verificada. Ayuda centralizada. Comunidad unida."
+  },
+  "nav": {
+    "home": "Inicio",
+    "helpCenters": "Centros de ayuda",
+    "hospitals": "Hospitales",
+    "shelters": "Refugios",
+    "agencies": "Organismos",
+    "missing": "Desaparecidos",
+    "pets": "Mascotas",
+    "news": "Noticias",
+    "volunteers": "Voluntarios",
+    "companies": "Empresas",
+    "resources": "Recursos",
+    "damage": "Mapa de daños",
+    "roadmap": "Roadmap",
+    "admin": "Admin",
+    "menu": "Menú",
+    "close": "Cerrar"
+  },
+  "common": {
+    "search": "Buscar...",
+    "filter": "Filtrar",
+    "all": "Todos",
+    "viewMap": "Ver mapa",
+    "viewList": "Ver listado",
+    "contact": "Contacto",
+    "schedule": "Horario",
+    "directions": "Cómo llegar",
+    "status": "Estado",
+    "operational": "Operativo",
+    "limited": "Operación limitada",
+    "closed": "Cerrado",
+    "unknown": "Sin información",
+    "submit": "Enviar",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "Enviado correctamente",
+    "learnMore": "Más información",
+    "officialLink": "Enlace oficial",
+    "socialMedia": "Redes sociales",
+    "verified": "Verificado",
+    "lastUpdated": "Última actualización",
+    "donate": "Donar",
+    "volunteer": "Ser voluntario",
+    "report": "Reportar",
+    "share": "Compartir",
+    "back": "Volver",
+    "open": "Abierto",
+    "capacity": "Capacidad",
+    "services": "Servicios",
+    "state": "Estado",
+    "city": "Ciudad",
+    "phone": "Teléfono",
+    "email": "Correo",
+    "website": "Sitio web",
+    "noResults": "No se encontraron resultados",
+    "emergencyNumbers": "Números de emergencia",
+    "devNotice": {
+      "message": "Todavía estamos desarrollando y actualizando la información de forma constante, agregando cada vez más funcionalidades. Gracias por tu paciencia.",
+      "roadmapLink": "Ver qué viene"
+    }
+  },
+  "communityFeedback": {
+    "sectionTitle": "Valoración comunitaria",
+    "credibilityTitle": "¿Qué tan veraz es esta información?",
+    "voteHint": "Cualquier persona puede votar, con o sin cuenta. Tu voto ayuda a la comunidad a priorizar información confiable.",
+    "voteCredible": "Parece veraz",
+    "voteFalse": "Parece falsa",
+    "crediblePercent": "{percent}% la considera veraz",
+    "noVotes": "Sin votos aún",
+    "votes": "Votos",
+    "commentsTitle": "Comentarios",
+    "commentsCount": "comentarios",
+    "noComments": "Sé el primero en comentar.",
+    "commentHint": "Puedes comentar con o sin cuenta. Si no inicias sesión, puedes usar un nombre opcional.",
+    "authorPlaceholder": "Tu nombre (opcional)",
+    "commentPlaceholder": "Comparte información adicional, correcciones o tu experiencia…",
+    "submitComment": "Publicar comentario",
+    "submitting": "Publicando…",
+    "anonymous": "Anónimo",
+    "registered": "Registrado",
+    "loading": "Cargando valoraciones…",
+    "loadError": "No se pudo cargar la valoración.",
+    "voteError": "No se pudo registrar tu voto.",
+    "commentError": "No se pudo publicar el comentario.",
+    "confidence": {
+      "unrated": "Sin evaluar",
+      "likely_credible": "Probablemente veraz",
+      "disputed": "En disputa",
+      "likely_false": "Probablemente falsa"
+    }
+  },
+  "home": {
+    "banner": {
+      "title": "Emergencia sísmica en Venezuela",
+      "subtitle": "Terremotos de magnitud 7.2 y 7.5 el 24 de junio de 2026. Estado de emergencia activo. Encuentra ayuda verificada en un solo lugar.",
+      "cta": "Ver centros de ayuda",
+      "secondary": "Registrar como voluntario"
+    },
+    "stats": {
+      "helpCenters": "Centros de acopio",
+      "shelters": "Refugios activos",
+      "hospitals": "Hospitales",
+      "volunteers": "Voluntarios registrados"
+    },
+    "about": {
+      "eyebrow": "Qué es esta plataforma",
+      "title": "Un solo lugar para encontrar y dar ayuda verificada",
+      "lead": "Centro de Emergencia reúne en un mismo sitio la información esencial para responder al terremoto de Venezuela: dónde donar, dónde refugiarse, qué hospitales operan, a quién buscar y cómo ofrecer tu ayuda. Todo verificado por la comunidad y sin duplicar las herramientas que ya existen.",
+      "missionTitle": "Nuestro objetivo",
+      "mission": "Salvar tiempo en una emergencia. En vez de buscar entre decenas de cuentas, grupos y enlaces dispersos, centralizamos la información confiable y dejamos que la comunidad la valide en tiempo real.",
+      "points": {
+        "centralizeTitle": "Centralizamos la información",
+        "centralizeDesc": "Centros de acopio, refugios, hospitales, organismos oficiales y empresas solidarias en un mapa y un buscador únicos.",
+        "verifyTitle": "Verificación comunitaria",
+        "verifyDesc": "Cualquier persona puede votar qué tan veraz es cada dato y dejar comentarios, con o sin cuenta.",
+        "connectTitle": "Conectamos ayuda con quien la necesita",
+        "connectDesc": "Reportes de desaparecidos, registro de voluntarios y rutas hacia los puntos de ayuda más cercanos.",
+        "openTitle": "Software libre y abierta",
+        "openDesc": "Plataforma de software libre y código abierto. No necesitas registrarte para consultar, donar o reportar."
+      }
+    },
+    "footprints": {
+      "eyebrow": "Mapa del sitio",
+      "title": "Huellas",
+      "subtitle": "Todas las secciones de la plataforma en un solo lugar para acceder rápido.",
+      "groups": {
+        "help": "Ayuda y ubicaciones",
+        "people": "Personas y familias",
+        "participate": "Participar",
+        "info": "Información y herramientas"
+      }
+    },
+    "quickAccess": {
+      "title": "Accesos rápidos",
+      "subtitle": "Entra directo a la sección que necesitas.",
+      "missing": "Buscar desaparecidos",
+      "missingDesc": "Hub híbrido: enlaces, resumen de fuentes y registro de respaldo",
+      "shelters": "Encontrar refugio",
+      "sheltersDesc": "Refugios con capacidad y servicios",
+      "donate": "Donar ayuda",
+      "donateDesc": "Centros de acopio cercanos",
+      "volunteer": "Ofrecer ayuda",
+      "volunteerDesc": "Regístrate o únete como rescatista en Caracas/La Guaira",
+      "news": "Noticias verificadas",
+      "newsDesc": "Publica, vota y evalúa noticias con la comunidad",
+      "resources": "Guías de emergencia",
+      "resourcesDesc": "Qué hacer antes, durante y después",
+      "roadmap": "Roadmap y novedades",
+      "roadmapDesc": "Funciones en desarrollo y sugerencias"
+    },
+    "situation": {
+      "title": "Resumen de la situación",
+      "content": "El 24 de junio de 2026, dos terremotos de magnitud 7.2 y 7.5 afectaron el centro-norte de Venezuela. El gobierno declaró estado de emergencia y activó un Estado Mayor de Contingencia. Se reportan cientos de víctimas, daños estructurales en Caracas y La Guaira, interrupciones de servicios y cortes de comunicación. Esta plataforma centraliza información verificada sin duplicar herramientas existentes."
+    },
+    "external": {
+      "title": "Plataformas y herramientas útiles",
+      "venapp": "VenApp — Reportar desaparecidos y daños",
+      "redCross": "Cruz Roja Venezolana",
+      "civilProtection": "Protección Civil",
+      "bitchat": "BitChat — Mensajes sin internet (Bluetooth)"
+    }
+  },
+  "helpCenters": {
+    "title": "Centros de ayuda",
+    "subtitle": "Centros de acopio verificados para donaciones de agua, alimentos, medicinas y más.",
+    "cargoBanner": {
+      "title": "¿Necesitas llevar tus donaciones a un acopio en Barquisimeto?",
+      "description": "Hay carreras gratis para trasladar insumos a los centros de acopio en Barquisimeto. Contactos: Ronny Oviedo y Gabriela Arroyo.",
+      "cta": "Ver carreras gratis"
+    },
+    "logistics": {
+      "badge": "Apoyo logístico",
+      "title": "Vamos App activó viajes gratis para donaciones",
+      "description": "Si necesitas llevar donativos a un centro de acopio, abre Vamos App y selecciona la opción Donaciones. El viaje aparece con costo $0.00 para apoyar la entrega de ayuda.",
+      "free": "Gratis"
+    },
+    "needs": {
+      "title": "¿Qué se necesita donar o comprar?",
+      "subtitle": "Lista de insumos médicos solicitados por equipos de atención. Puedes comprarlos y llevarlos a cualquier centro de acopio de abajo.",
+      "disclaimer": "Lista orientativa difundida por la comunidad. Cada centro puede tener prioridades distintas; confirma en el punto de acopio antes de llevar grandes cantidades.",
+      "categories": {
+        "wound-care": "Curación y material estéril",
+        "antiseptics": "Antisépticos",
+        "iv-solutions": "Soluciones intravenosas",
+        "syringes": "Jeringas (inyectadoras)",
+        "gloves": "Guantes",
+        "medications": "Medicamentos"
+      },
+      "items": {
+        "compress-packs": "Paquetes de compresas",
+        "sterile-gauze": "Gasas estériles",
+        "suture-nylon": "Sutura Nylon 2-0, 3-0",
+        "suture-silk": "Sutura Seda 2-0, 3-0",
+        "hydrogen-peroxide": "Agua oxigenada",
+        "povidone-iodine": "Yodopovidona",
+        "saline-09": "Solución 0,9%",
+        "ringer-lactate": "Solución Ringer Lactato",
+        "dextrose-5-10": "Solución Dextrosa 5% y 10%",
+        "syringe-3cc": "Inyectadoras 3 cc",
+        "syringe-5cc": "Inyectadoras 5 cc",
+        "syringe-10cc": "Inyectadoras 10 cc",
+        "syringe-20cc": "Inyectadoras 20 cc",
+        "sterile-gloves": "Guantes estériles",
+        "work-gloves": "Guantes de trabajo",
+        "captopril-50": "Captopril tab 50 mg",
+        "nifedipine": "Nifedipino tab 10 mg y gotas 20 mg",
+        "ketoprofen-100": "Ketoprofeno amp 100 mg",
+        "dexamethasone": "Dexametasona amp",
+        "metoclopramide": "Metoclopramida amp",
+        "adrenaline": "Adrenalina amp",
+        "omeprazole": "Omeprazol amp",
+        "vitamin-k": "Vitamina K amp",
+        "tranexamic-acid": "Ácido tranexámico amp",
+        "lidocaine": "Lidocaína"
+      }
+    },
+    "filters": {
+      "state": "Filtrar por estado",
+      "type": "Tipo de centro",
+      "accepts": "Acepta"
+    },
+    "types": {
+      "church": "Iglesia / Cáritas",
+      "community": "Comunitario",
+      "university": "Universidad",
+      "government": "Gubernamental",
+      "ngo": "ONG"
+    },
+    "accepts": {
+      "water": "Agua",
+      "food": "Alimentos",
+      "medicine": "Medicinas",
+      "clothing": "Ropa",
+      "hygiene": "Higiene",
+      "blankets": "Mantas"
+    },
+    "register": {
+      "title": "Registrar centro de acopio",
+      "subtitle": "Publica tu punto de recolección o reporta uno que conozcas para que más personas puedan donar.",
+      "cta": "Registrar centro",
+      "ctaOwn": "Registrar mi centro",
+      "ctaThird": "Reportar de terceros",
+      "modeOwnTitle": "Es mi centro de acopio",
+      "modeOwnDesc": "Coordino o represento este punto. Necesitas una cuenta para gestionar voluntarios e inventario en el panel.",
+      "modeThirdTitle": "Reportar centro de terceros",
+      "modeThirdDesc": "Conoces un acopio ajeno y quieres que aparezca en el mapa. No necesitas cuenta.",
+      "modeOwnNotice": "Para registrar tu propio centro debes crear una cuenta o iniciar sesión. Al publicarlo quedarás asignado como coordinador y podrás entrar al panel.",
+      "authTitle": "Cuenta de coordinador",
+      "authSubtitle": "Crea una cuenta o inicia sesión para continuar con el registro de tu centro.",
+      "signupTab": "Crear cuenta",
+      "loginTab": "Iniciar sesión",
+      "fullName": "Nombre completo",
+      "password": "Contraseña (mín. 8 caracteres)",
+      "authConfirmEmail": "Revisa tu correo para confirmar la cuenta y vuelve a iniciar sesión.",
+      "authError": "No se pudo autenticar. Verifica tus datos.",
+      "authRequired": "Debes iniciar sesión para registrar tu centro.",
+      "loggedInAs": "Sesión activa:",
+      "thirdPartyNotice": "Este registro quedará pendiente de verificación comunitaria antes de mostrarse como confirmado.",
+      "centerName": "Nombre del centro de acopio",
+      "centerType": "Tipo de centro",
+      "scheduleHint": "Ej. Lun-Dom 9:00-17:00",
+      "address": "Dirección exacta",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "useLocation": "Usar mi ubicación actual",
+      "description": "Descripción (qué reciben, a quién van destinados los insumos, etc.)",
+      "reporterName": "Tu nombre (quien reporta)",
+      "reporterPhone": "Tu teléfono de contacto",
+      "consent": "Confirmo que la información es verídica y autorizo su publicación para coordinación de ayuda",
+      "submitting": "Enviando...",
+      "successOwn": "Centro registrado. Redirigiendo al panel…",
+      "successThirdParty": "Centro reportado. Aparecerá en el listado para verificación comunitaria.",
+      "submitError": "No se pudo enviar el registro. Intenta de nuevo."
+    }
+  },
+  "hospitals": {
+    "title": "Hospitales y clínicas",
+    "subtitle": "Directorio nacional de hospitales y clínicas en Venezuela con dirección, mapa y filtros por estado.",
+    "socialFallback": "Si la web de un hospital no carga, consulta las redes del Ministerio de Salud para información actualizada.",
+    "filterType": "Tipo",
+    "allTypes": "Hospitales y clínicas",
+    "typeHospital": "Hospital",
+    "typeClinic": "Clínica",
+    "showing": "Mostrando",
+    "of": "de",
+    "hub": {
+      "searchPlaceholder": "Buscar hospital por nombre, ciudad o dirección",
+      "advancedFilters": "Filtros",
+      "hospitalCount": "hospitales",
+      "filterState": "Estado",
+      "filterAll": "Todos",
+      "empty": "No hay hospitales que coincidan con tu búsqueda.",
+      "loadMore": "Cargar más hospitales"
+    }
+  },
+  "shelters": {
+    "title": "Refugios",
+    "subtitle": "Refugios temporales con servicios disponibles y capacidad reportada."
+  },
+  "damage": {
+    "title": "Mapa de daños",
+    "subtitle": "Edificios y estructuras afectadas por el sismo en Venezuela — datos sincronizados y reportes ciudadanos.",
+    "sourceCredit": "Datos importados y verificados progresivamente desde el mapa comunitario",
+    "disclaimer": "Información aportada por la comunidad y en proceso de validación. Verifica siempre con las autoridades. Ante una emergencia, llama al 171.",
+    "legend": "Leyenda",
+    "listTitle": "Edificios reportados",
+    "empty": "No hay edificios que coincidan con tu búsqueda. Prueba otros filtros o reporta uno nuevo.",
+    "source": "Fuente",
+    "reportTitle": "Reportar un edificio",
+    "reportSubtitle": "Comparte la ubicación de un edificio o estructura afectada. No necesitas cuenta.",
+    "severityLabels": {
+      "collapsed": "Daño total",
+      "damaged": "Daño severo",
+      "evacuated": "Daño parcial"
+    },
+    "hub": {
+      "hubTitle": "Mapa de Daños",
+      "hubRegion": "VENEZUELA",
+      "help": "Ayuda",
+      "searchPlaceholder": "Buscar edif. por nombre, dirección",
+      "advancedFilters": "Filtros avanzados",
+      "buildingCount": "edificios",
+      "reportBuilding": "Reportar edificio",
+      "progressBanner": "Cifras en progreso: estos números están siendo verificados y validados a partir de la información compartida por los usuarios. Pueden cambiar a medida que confirmamos cada reporte.",
+      "lastUpdate": "Última actualización",
+      "loading": "Cargando mapa y edificios…",
+      "loadingMore": "Cargando más…",
+      "loadMore": "Cargar más edificios",
+      "verified": "Verificado",
+      "directions": "Cómo llegar",
+      "filterSeverity": "Nivel de daño",
+      "filterState": "Estado",
+      "filterAll": "Todos"
+    },
+    "form": {
+      "notice": "Reporta solo información que conozcas. No publiques datos sensibles. Verifica antes de difundir.",
+      "titleField": "Nombre o referencia del lugar",
+      "titlePlaceholder": "Ej: Edificio Residencial Las Acacias",
+      "severity": "Estado de la estructura",
+      "severityCollapsed": "Daño total",
+      "severityDamaged": "Daño severo",
+      "severityEvacuated": "Daño parcial",
+      "state": "Estado",
+      "city": "Ciudad / municipio",
+      "address": "Dirección o referencia",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "useMyLocation": "Usar mi ubicación actual",
+      "description": "Descripción (opcional)",
+      "reporterName": "Tu nombre (opcional)",
+      "reporterContact": "Tu contacto (opcional)",
+      "sourceName": "Fuente (opcional)",
+      "sourcePlaceholder": "Ej: Terremoto Venezuela, medio o red social",
+      "sourceUrl": "Enlace de la fuente (opcional)",
+      "consent": "Declaro que la información es veraz y autorizo su publicación con fines humanitarios."
+    }
+  },
+  "agencies": {
+    "title": "Organismos oficiales",
+    "subtitle": "Enlaces verificados a Protección Civil, Bomberos, Cruz Roja, Policía y gobiernos locales.",
+    "socialFallback": "Varios sitios web oficiales están inestables o caídos. Usa las redes sociales como canal alternativo de información.",
+    "redCrossFamilyLink": "Restablecimiento del contacto familiar → ver en Desaparecidos",
+    "categories": {
+      "civilProtection": "Protección Civil",
+      "firefighters": "Bomberos",
+      "redCross": "Cruz Roja",
+      "police": "Policía",
+      "governments": "Gobernaciones",
+      "mayors": "Alcaldías"
+    }
+  },
+  "missing": {
+    "title": "Personas desaparecidas",
+    "subtitle": "Registro unificado deduplicado desde plataformas ciudadanas, con enlaces a fuentes oficiales y formulario de respaldo.",
+    "hubQuote": "Registro unificado sin duplicados: importamos de las plataformas ciudadanas y mostramos cada persona una sola vez.",
+    "hubQuoteDetail": "También enlazamos fuentes oficiales y mantenemos un formulario de respaldo si alguna plataforma no cubre un caso.",
+    "disclaimer": "Para reportar o buscar a alguien, utiliza primero las plataformas enlazadas abajo. VenApp es la vía oficial del gobierno.",
+    "redCross": {
+      "title": "Cruz Roja — Restablecimiento del contacto familiar",
+      "quote": "En una emergencia, lo primero que pensamos es en nuestros seres queridos. Es normal. Es humano.",
+      "description": "La Cruz Roja Venezolana activó su servicio de Restablecimiento del Contacto entre Familiares. Si perdiste comunicación con algún familiar y necesitas saber si está bien, contáctanos.",
+      "call": "Llamar ahora",
+      "generalLine": "Línea general Cruz Roja"
+    },
+    "venevision": {
+      "title": "Venevisión — Línea para reportar desaparecidos",
+      "description": "Venevisión activó una línea para reportar personas desaparecidas y difundirlas en las pantallas del canal.",
+      "requiredLabel": "Al contactar, indica:",
+      "requiredFields": [
+        "Nombre de la persona",
+        "Edad",
+        "Fotografía",
+        "Lugar de la desaparición"
+      ],
+      "call": "Llamar o escribir",
+      "whatsapp": "WhatsApp"
+    },
+    "external": {
+      "title": "Plataformas externas",
+      "subtitle": "Enlaces directos a registros oficiales, comunitarios y de ONG. Usa estas herramientas como primera opción.",
+      "visit": "Visitar plataforma"
+    },
+    "aggregator": {
+      "title": "Resumen de fuentes",
+      "subtitle": "Cifras publicadas por cada plataforma. La misma persona puede estar en varias — no sumes los totales.",
+      "disclaimer": "Estas cifras provienen de cada sitio web y se actualizan manualmente. No representan personas únicas: muchas familias reportan en más de una plataforma. Para reportar o buscar, usa el enlace directo de cada fuente.",
+      "externalSource": "Fuente externa",
+      "registrationType": "Tipo de registro",
+      "approximateCount": "Reportados",
+      "countPending": "Por localizar",
+      "countLocated": "Localizados",
+      "platform": "Plataforma",
+      "noSumWarning": "No sumes cifras entre plataformas: hay personas repetidas entre registros."
+    },
+    "official": {
+      "title": "Balance oficial (autoridades)",
+      "subtitle": "Cifras reportadas por el gobierno nacional el 25 de junio de 2026. Distintas a los conteos ciudadanos de las plataformas.",
+      "fatalities": "Fallecidos",
+      "injured": "Heridos",
+      "missing": "Desaparecidos (oficial)",
+      "trapped": "Atrapados con vida",
+      "affectedFamilies": "Familias damnificadas",
+      "source": "Fuente"
+    },
+    "petsCrosslink": {
+      "title": "¿Buscas una mascota perdida?",
+      "description": "Este registro es para personas desaparecidas. Si perdiste a tu perro o gato en el terremoto, Academia Leguau recibe reportes por Instagram y WhatsApp (no es una web).",
+      "cta": "Ver registro de mascotas"
+    },
+    "backup": {
+      "title": "Registro de respaldo",
+      "subtitle": "Antes de registrar aquí, verifica si la persona ya está en las plataformas principales."
+    },
+    "registry": {
+      "title": "Registro unificado sin duplicados",
+      "subtitle": "Consolidamos registros de Venezuela Te Busca, Encuéntralos y reportes propios. La misma persona aparece una sola vez con enlaces a cada fuente.",
+      "sources": "Fuentes asociadas",
+      "lastSeen": "Última ubicación conocida",
+      "searchPlaceholder": "Buscar por nombre o ubicación…",
+      "stateFilter": "Filtrar por estado",
+      "allStates": "Todos los estados",
+      "showing": "Mostrando",
+      "of": "de",
+      "loadMore": "Cargar más",
+      "loading": "Cargando…",
+      "statsUnique": "Personas únicas",
+      "statsRecords": "Registros importados",
+      "statsDedupNote": "Cifra deduplicada: no sumes los totales de cada plataforma."
+    },
+    "sourceStatus": {
+      "active": "Activo",
+      "down": "Caído",
+      "unverified": "Sin verificar"
+    },
+    "verification": {
+      "unverified": "No verificado",
+      "family_verified": "Verificado por familiar",
+      "org_verified": "Verificado por organización",
+      "found": "Encontrado",
+      "deceased": "Fallecido"
+    },
+    "form": {
+      "fullName": "Nombre completo de la persona desaparecida",
+      "age": "Edad (opcional)",
+      "gender": "Género (opcional)",
+      "state": "Estado",
+      "city": "Ciudad",
+      "lastSeenLocation": "Último lugar visto",
+      "lastSeenAt": "Fecha y hora aproximada",
+      "description": "Descripción (ropa, señas particulares, etc.)",
+      "photo": "Fotografía (opcional)",
+      "photoHint": "Se almacena en Bunny CDN bajo startupven-responde/missing-persons. Máx. 8 MB.",
+      "contactName": "Nombre del contacto familiar",
+      "contactPhone": "Teléfono de contacto",
+      "contactEmail": "Correo de contacto (opcional)",
+      "hasExternalLink": "Esta persona también está registrada en otra plataforma",
+      "externalSource": "Plataforma externa",
+      "externalUrl": "Enlace al registro externo",
+      "backupNotice": "Antes de registrar aquí, verifica si ya está en VenApp, Venezuela Te Busca u otras plataformas principales. Este formulario sirve como respaldo y centralización. Si la persona ya existe en nuestro registro, no se creará un duplicado.",
+      "duplicateError": "Esta persona ya figura en nuestro registro. No se creó un duplicado.",
+      "consent": "Confirmo que la información es verídica y autorizo su uso para coordinación de búsqueda"
+    },
+    "platforms": {
+      "venapp": {
+        "name": "VenApp",
+        "desc": "Plataforma oficial del gobierno para reportar desaparecidos y daños en viviendas."
+      },
+      "desaparecidosTerremoto": {
+        "name": "Desaparecidos Terremoto Venezuela",
+        "desc": "Herramienta ciudadana voluntaria para reportar y buscar personas tras el sismo. Incluye listado público y teléfonos de emergencia."
+      },
+      "venezuelaTeBusca": {
+        "name": "Venezuela Te Busca",
+        "desc": "Iniciativa ciudadana para reconectar familias y facilitar la búsqueda de personas desaparecidas."
+      }
+    }
+  },
+  "pets": {
+    "title": "Mascotas perdidas",
+    "subtitle": "Enlaces a plataformas comunitarias y redes sociales para reportar y buscar mascotas perdidas.",
+    "disclaimer": "Centralizamos recursos existentes. No creamos una base de datos duplicada.",
+    "otherPlatforms": "Otras plataformas web",
+    "academiaLeguau": {
+      "title": "¿Perdiste a tu mascota en el terremoto?",
+      "subtitle": "Registro por Instagram y WhatsApp — Academia Leguau",
+      "body": "No es una página web: es la cuenta de Instagram @academialeguau. Escríbeles por WhatsApp o mensaje directo (DM) con la foto de tu mascota y los datos solicitados.",
+      "channelLabel": "Instagram + WhatsApp",
+      "instagramLabel": "Instagram",
+      "whatsappLabel": "WhatsApp",
+      "notWebsiteNote": "Canal comunitario en redes sociales, no plataforma web propia.",
+      "fieldsLabel": "Información que debes enviar",
+      "fields": [
+        "Foto de la mascota",
+        "Nombre de la mascota",
+        "Especie: perro / gato / otro",
+        "Sexo: macho / hembra",
+        "Raza",
+        "Ubicación donde se perdió",
+        "Edad aproximada",
+        "Colores y señas (manchas, etc.)",
+        "Tu nombre y WhatsApp de contacto"
+      ]
+    },
+    "vetcity": {
+      "sectionTitle": "Atención veterinaria solidaria",
+      "title": "Ellos también merecen atención médica",
+      "subtitle": "VETCITY — Maracay",
+      "body": "Muchos animales se vieron afectados durante el terremoto. En VETCITY reciben mascotas afectadas para brindarles atención médica solidaria.",
+      "channelLabel": "Atención veterinaria solidaria",
+      "locationLabel": "Ubicación",
+      "instagramLabel": "Instagram",
+      "phoneLabel": "Llamar",
+      "whatsappLabel": "WhatsApp"
+    },
+    "platforms": {
+      "huellascan": {
+        "name": "HuellasCAN — Terremoto",
+        "desc": "Plataforma pública de emergencia para reunir perritos y gatitos extraviados tras el sismo. Sin registro ni contraseñas."
+      }
+    }
+  },
+  "news": {
+    "title": "Noticias y verificación comunitaria",
+    "eyebrow": "Verificación colectiva",
+    "subtitle": "Publica noticias, vota si parecen ciertas o falsas y descubre qué información tiene más respaldo según la comunidad.",
+    "sources": "Fuente",
+    "feed": {
+      "disclaimer": "Las votaciones ayudan a priorizar información, pero no reemplazan la verificación oficial. Usa siempre fuentes confiables antes de compartir.",
+      "sortBy": "Ordenar por",
+      "sortNewest": "Más recientes",
+      "sortCredible": "Más creíbles",
+      "sortDisputed": "Más disputadas",
+      "source": "Fuente",
+      "votes": "Votos",
+      "credibilityTitle": "Evaluación de la comunidad",
+      "crediblePercent": "{percent}% la considera creíble",
+      "noVotes": "Sin votos aún",
+      "voteCredible": "Parece cierta",
+      "voteFalse": "Parece falsa",
+      "readSource": "Ver fuente",
+      "community": "Comunidad",
+      "verified": "Verificado",
+      "loading": "Cargando noticias...",
+      "empty": "Aún no hay noticias publicadas.",
+      "loadError": "No se pudieron cargar las noticias.",
+      "voteError": "No se pudo registrar tu voto. Intenta de nuevo."
+    },
+    "confidence": {
+      "unrated": "Sin evaluar",
+      "likely_credible": "Probablemente cierta",
+      "disputed": "En disputa",
+      "likely_false": "Probablemente falsa"
+    },
+    "form": {
+      "sectionTitle": "Publicar una noticia",
+      "sectionSubtitle": "Comparte un enlace o resumen para que la comunidad pueda evaluar su credibilidad.",
+      "title": "Titular",
+      "summary": "Resumen",
+      "summaryPlaceholder": "Resume de qué trata la noticia y por qué es relevante para la emergencia.",
+      "source": "Medio o autor",
+      "sourceUrl": "Enlace de la fuente",
+      "hint": "La noticia aparecerá como aporte comunitario hasta que un editor la verifique.",
+      "submitting": "Publicando...",
+      "success": "Noticia publicada. La comunidad ya puede votar.",
+      "error": "No se pudo publicar la noticia. Intenta de nuevo."
+    }
+  },
+  "volunteers": {
+    "title": "Registro de voluntarios",
+    "subtitle": "Ofrece tu ayuda profesional o logística durante la emergencia.",
+    "lodging": {
+      "badge": "Hospedaje",
+      "title": "Hospedaje gratuito en Tucacas para quienes vienen a ayudar",
+      "description": "Club de Playa Calipso (Tucacas, Falcón) ofrece hospedaje gratuito a personas que viajan para apoyar en la emergencia. Corran la voz y coordinen antes de llegar.",
+      "call": "Llamar",
+      "cta": "Ver detalles en Refugios"
+    },
+    "rescuerCall": {
+      "title": "Convocatoria: rescatistas y defensa civil",
+      "subtitle": "¿Conoces a alguien que quiera ayudar en Caracas o La Guaira?",
+      "body": "Si conoces a algún rescatista o miembro de defensa civil en Barquisimeto, Yaracuy o Lara que quiera apoyar en Caracas o La Guaira pero no tiene recursos para trasladarse, esta iniciativa le brindará el transporte y los gastos de comida.",
+      "urgency": "Necesitan nuestro apoyo en Caracas y La Guaira. Las primeras 72 horas son clave para las personas que siguen bajo los escombros.",
+      "targetLabel": "¿Quién puede aplicar?",
+      "targetRegions": "Rescatistas o defensa civil en Barquisimeto, Yaracuy y Lara",
+      "deployLabel": "Zonas de apoyo",
+      "deployRegions": "Caracas y La Guaira",
+      "offerLabel": "Qué cubren",
+      "offerText": "Transporte hasta la zona de emergencia y gastos de comida",
+      "phoneLabel": "Llamar",
+      "whatsappLabel": "Escribir por WhatsApp",
+      "share": "Por favor difunde esta convocatoria con quien pueda ayudar.",
+      "formTitle": "Registro general de voluntarios",
+      "formSubtitle": "Si ofreces otro tipo de ayuda (médica, logística, etc.), completa el formulario abajo."
+    },
+    "laraTransportCall": {
+      "title": "Traslado gratuito Lara → Caracas",
+      "subtitle": "¿Eres protección civil, bombero, guardaparque o rescate en Lara?",
+      "body": "Si hay personal de protección civil, bomberos, guardaparques o grupos de rescate de Lara que vayan a prestar apoyo en Caracas, hay un vehículo disponible para brindar traslado gratuito.",
+      "urgency": "Salida hoy — comunícate cuanto antes si puedes unirte al apoyo en Caracas.",
+      "targetLabel": "¿Quién puede contactar?",
+      "targetRegions": "Protección civil, bomberos, guardaparques y grupos de rescate de Lara",
+      "deployLabel": "Destino",
+      "deployRegions": "Caracas",
+      "offerLabel": "Qué ofrecen",
+      "offerText": "Vehículo disponible con traslado gratuito",
+      "phoneLabel": "Llamar",
+      "whatsappLabel": "Escribir por WhatsApp",
+      "share": "Difunde con equipos de emergencia en Lara que quieran sumarse."
+    },
+    "medicalCall": {
+      "title": "Convocatoria: equipo médico hacia Caracas",
+      "subtitle": "Estudiantes de medicina, médicos, paramédicos y enfermeros/as",
+      "body": "Están conformando un equipo de cuidado y rescate que saldrá hacia Caracas junto al personal del Seguro Pastor Oropeza para ayudar a las personas afectadas.",
+      "urgency": "Salida hoy — si estás dispuesto/a a viajar y apoyar, contacta al Dr. Héctor cuanto antes.",
+      "targetLabel": "¿Quién puede aplicar?",
+      "targetRegions": "Estudiantes de medicina, médicos, paramédicos y enfermeros/as",
+      "deployLabel": "Destino",
+      "deployRegions": "Caracas",
+      "offerLabel": "Coordinación",
+      "offerText": "Equipo de cuidado y rescate junto al personal del Seguro Pastor Oropeza",
+      "phoneLabel": "Dr. Héctor",
+      "whatsappLabel": "Escribir por WhatsApp",
+      "share": "Difunde con personal médico y estudiantes que puedan viajar a Caracas."
+    },
+    "unefmTucacasCall": {
+      "title": "Voluntariado UNEFM — ¡Tucacas nos necesita!",
+      "subtitle": "Estudiantes de medicina de la Universidad Nacional Experimental Francisco de Miranda",
+      "body": "Ante la emergencia nacional por el terremoto, los estudiantes de medicina de la UNEFM se movilizan para brindar atención médica y auxilio a los afectados en Tucacas.",
+      "urgency": "Movilización del viernes 25 de junio. ¡Ninguna donación es pequeña cuando se trata de salvar vidas!",
+      "targetLabel": "¿Quién puede participar?",
+      "targetRegions": "Estudiantes de medicina UNEFM, voluntarios y personas que puedan donar insumos",
+      "deployLabel": "Destino",
+      "deployRegions": "Tucacas, Falcón",
+      "offerLabel": "Insumos solicitados",
+      "offerText": "Gasas estériles, alcohol, agua oxigenada, acetaminofén, ibuprofeno, suero oral, agua, guantes y alimentos no perecederos",
+      "share": "Difunde con estudiantes de medicina, voluntarios y donantes en Coro y Falcón."
+    },
+    "acariguaTransportCall": {
+      "title": "Se necesita transporte: Acarigua → La Guaira",
+      "subtitle": "Personal de enfermería dispuesto a apoyar en zonas afectadas",
+      "body": "Un grupo de personal de salud (enfermería) capacitado quiere ir a La Guaira a prestar ayuda en las zonas afectadas, pero no cuenta con transporte desde Acarigua.",
+      "urgency": "Urgente — si puedes ofrecer vehículo o coordinar el traslado, contacta cuanto antes.",
+      "targetLabel": "¿Quién necesita el traslado?",
+      "targetRegions": "Personal de enfermería capacitado, dispuesto a apoyar en La Guaira",
+      "deployLabel": "Ruta",
+      "deployRegions": "Acarigua → La Guaira",
+      "offerLabel": "Qué se necesita",
+      "offerText": "Transporte para el equipo de salud",
+      "phoneLabel": "Llamar",
+      "whatsappLabel": "Escribir por WhatsApp",
+      "share": "¡Ayúdanos a difundir! Si tienes vehículo o conoces a alguien que pueda colaborar."
+    },
+    "cargoTransportCall": {
+      "title": "Carreras gratis para llevar insumos a los acopios",
+      "subtitle": "Transporte gratuito dentro de Barquisimeto",
+      "body": "Ofrecen carreras gratis para trasladar insumos o lo que necesites hacia los centros de acopio en Barquisimeto. Contactos: Ronny Oviedo (0424-510-03-13) y Gabriela Arroyo (0412-892-61-26).",
+      "urgency": "Disponible para apoyar la logística de donaciones en Barquisimeto.",
+      "targetLabel": "¿Para quién?",
+      "targetRegions": "Personas que necesitan trasladar insumos a los centros de acopio en Barquisimeto",
+      "deployLabel": "Zona",
+      "deployRegions": "Barquisimeto",
+      "offerLabel": "Qué ofrecen",
+      "offerText": "Traslado gratuito de insumos hacia los centros de acopio",
+      "phoneLabel": "Ronny Oviedo",
+      "whatsappLabel": "WhatsApp Gabriela Arroyo",
+      "share": "Difunde con quienes tengan donaciones por llevar a los acopios de Barquisimeto."
+    },
+    "redCrossCall": {
+      "title": "Súmate como voluntario de la Cruz Roja Venezolana",
+      "body": "Abrimos un registro para quienes deseen apoyar en la respuesta tras los eventos sísmicos registrados el 24 de junio. Estamos priorizando a voluntarios del área de salud y respuesta; sin embargo, cada ayuda cuenta.",
+      "priorityLabel": "Prioridad",
+      "priorityText": "Voluntarios del área de salud y respuesta (toda ayuda es bienvenida)",
+      "register": "Registrarse",
+      "share": "Convocatoria oficial de la Cruz Roja Venezolana."
+    },
+    "interpretersCall": {
+      "badge": "Para los de idiomas",
+      "title": "Se buscan intérpretes para ayuda médica internacional",
+      "body": "Se está buscando intérpretes para apoyar con la ayuda médica que viene del exterior. Si estás en capacidad, únete al grupo de WhatsApp donde se dará más información.",
+      "priorityLabel": "¿Quién puede sumarse?",
+      "priorityText": "Intérpretes y profesionales de todas las áreas — no solo medicina e ingeniería",
+      "joinLabel": "Unirse al grupo",
+      "linkNote": "El enlace del flyer aparece truncado; si el botón no abre el grupo, pide el enlace completo a quien compartió la convocatoria.",
+      "share": "Difunde con personas bilingües o multilingües que puedan apoyar la coordinación."
+    },
+    "form": {
+      "name": "Nombre completo",
+      "city": "Ciudad",
+      "state": "Estado",
+      "profession": "Profesión",
+      "specialty": "Especialidad",
+      "vehicle": "Vehículo disponible",
+      "availability": "Disponibilidad",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "location": "Ubicación",
+      "notes": "Notas adicionales",
+      "helpCenter": "Centro de acopio donde quieres colaborar (opcional)",
+      "helpCenterNone": "Sin centro específico — registro general",
+      "helpCenterHint": "Si eliges un centro, el coordinador revisará tu solicitud desde el panel de voluntariado.",
+      "consent": "Acepto que mis datos sean utilizados para coordinación de emergencia"
+    }
+  },
+  "centerDashboard": {
+    "title": "Panel del centro de acopio",
+    "subtitle": "Gestiona voluntarios e inventario de suministros en tu centro.",
+    "selectCenter": "Centro de acopio",
+    "noCenters": "No tienes centros asignados. Registra tu centro de acopio para acceder al panel.",
+    "loginRequired": "Inicia sesión con tu cuenta de coordinador para continuar.",
+    "registerCenter": "Registrar mi centro",
+    "signIn": "Iniciar sesión",
+    "tabVolunteers": "Voluntarios",
+    "tabInventory": "Inventario",
+    "approve": "Aprobar",
+    "deactivate": "Desactivar",
+    "addItem": "Agregar insumo al inventario",
+    "itemName": "Nombre del insumo",
+    "category": "Categoría",
+    "unit": "Unidad",
+    "quantity": "Cantidad",
+    "minimumStock": "Stock mínimo",
+    "stock": "Stock actual",
+    "recordInbound": "Registrar entrada (donación)",
+    "recordOutbound": "Registrar salida (distribución)",
+    "donor": "Donante / origen",
+    "destination": "Destino",
+    "notes": "Notas",
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "stats": {
+      "pendingVolunteers": "Voluntarios pendientes",
+      "activeVolunteers": "Voluntarios activos",
+      "items": "Insumos registrados",
+      "lowStock": "Bajo stock mínimo"
+    },
+    "units": {
+      "unidad": "Unidad",
+      "caja": "Caja",
+      "litro": "Litro",
+      "kg": "Kg",
+      "paquete": "Paquete"
+    },
+    "categories": {
+      "water": "Agua",
+      "food": "Alimentos",
+      "medicine": "Medicinas",
+      "clothing": "Ropa",
+      "hygiene": "Higiene",
+      "blankets": "Mantas",
+      "fuel": "Combustible",
+      "tools": "Herramientas",
+      "other": "Otros"
+    },
+    "banner": {
+      "title": "¿Coordinas un centro de acopio?",
+      "description": "Administra voluntarios que se registran en tu centro y lleva el inventario de donaciones que llegan y salen.",
+      "panelCta": "Abrir panel",
+      "registerCta": "Registrar centro",
+      "volunteerCta": "Registrarse como voluntario"
+    }
+  },
+  "companies": {
+    "title": "Empresas solidarias",
+    "subtitle": "Empresas y marcas que ya están apoyando con transporte, acopio o insumos — y formulario para sumar la tuya.",
+    "directory": {
+      "title": "Empresas que ya están apoyando",
+      "subtitle": "Transporte gratuito, telefonía móvil sin costo, puntos de acopio en sucursales y logística solidaria tras el terremoto del 24 de junio.",
+      "resources": "Recursos ofrecidos",
+      "coverage": "Cobertura",
+      "visitWebsite": "Sitio web",
+      "instagram": "Instagram",
+      "phone": "Teléfono",
+      "viewHelpCenter": "Ver centro de acopio"
+    },
+    "register": {
+      "title": "¿Tu empresa quiere sumarse?",
+      "subtitle": "Si tu empresa puede ofrecer agua, alimentos, transporte, medicinas u otros recursos, regístrala aquí."
+    },
+    "form": {
+      "companyName": "Nombre de la empresa",
+      "contactName": "Persona de contacto",
+      "phone": "Teléfono",
+      "email": "Correo",
+      "state": "Estado",
+      "city": "Ciudad",
+      "resources": "Recursos disponibles",
+      "description": "Descripción de la oferta",
+      "consent": "Confirmo que la información proporcionada es verídica"
+    },
+    "resourceTypes": {
+      "water": "Agua",
+      "food": "Alimentos",
+      "fuel": "Combustible",
+      "transport": "Transporte",
+      "internet": "Internet",
+      "telecom": "Telefonía móvil",
+      "medicine": "Medicinas",
+      "machinery": "Maquinaria",
+      "lodging": "Alojamiento"
+    }
+  },
+  "resources": {
+    "title": "Recursos y guías",
+    "subtitle": "Qué hacer antes, durante y después de una emergencia.",
+    "phases": {
+      "before": "Antes",
+      "during": "Durante",
+      "after": "Después"
+    },
+    "download": "Descargar documento",
+    "guidesTitle": "Guías de emergencia",
+    "offlineTools": {
+      "title": "Herramientas sin internet",
+      "subtitle": "Apps útiles cuando no hay señal, datos móviles o electricidad estable. El chat no depende de internet.",
+      "offlineBadge": "Funciona sin internet",
+      "features": "Ventajas",
+      "tips": "Consejos de uso"
+    },
+    "psychologicalSupport": {
+      "title": "Apoyo psicológico",
+      "subtitle": "Primeros auxilios psicológicos, contención emocional e intervención en crisis para personas afectadas por la emergencia."
+    }
+  },
+  "search": {
+    "title": "Buscador",
+    "subtitle": "Encuentra centros de ayuda, refugios, hospitales, desaparecidos, números de emergencia y más.",
+    "placeholder": "¿Qué necesitas? Ej: refugio Caracas, bomberos, desaparecidos…",
+    "placeholderShort": "Buscar ayuda…",
+    "hint": "Busca por ciudad, servicio, nombre o tipo de ayuda. Atajo: Ctrl+K",
+    "noResults": "No encontramos resultados. Prueba con otras palabras o revisa las secciones del menú.",
+    "resultsFor": "Resultados para «{query}»",
+    "external": "Externo",
+    "categories": {
+      "help_center": "Centros de ayuda",
+      "hospital": "Hospitales",
+      "shelter": "Refugios",
+      "agency": "Organismos",
+      "missing_person": "Desaparecidos",
+      "external_source": "Plataformas externas",
+      "external_link": "Enlaces útiles",
+      "news": "Noticias",
+      "page": "Secciones",
+      "emergency_number": "Emergencias",
+      "resource": "Guías y recursos"
+    }
+  },
+  "emergency": {
+    "171": "Emergencias generales",
+    "bomberos": "Bomberos",
+    "policia": "Policía",
+    "cruzroja": "Cruz Roja"
+  },
+  "legal": {
+    "updatedLabel": "Última actualización",
+    "updatedAt": "26 de junio de 2026",
+    "privacy": {
+      "title": "Política de privacidad",
+      "subtitle": "Cómo recopilamos, usamos y protegemos la información en Emergency Center.",
+      "sections": [
+        {
+          "title": "1. Responsable",
+          "paragraphs": [
+            "Emergency Center es una plataforma de software libre operada por StartupVen (startupven.com), con contribución de Zackness (pages.zackness.dev). Esta política describe el tratamiento de datos personales cuando usas el sitio web y sus formularios.",
+            "Al enviar información o crear una cuenta, declaras haber leído esta política."
+          ]
+        },
+        {
+          "title": "2. Datos que podemos recopilar",
+          "paragraphs": ["Según cómo uses la plataforma, podemos tratar:"],
+          "list": [
+            "Datos de navegación técnicos (dirección IP, tipo de navegador, páginas visitadas, idioma).",
+            "Datos que introduces voluntariamente en formularios: nombre, teléfono, correo, ubicación, descripciones y otros campos según el módulo (voluntarios, centros de acopio, desaparecidos, daños, noticias, empresas, etc.).",
+            "Credenciales de acceso si creas cuenta de coordinador o administrador.",
+            "Votos, comentarios y valoraciones comunitarias (pueden incluir un identificador anónimo en el navegador para evitar duplicados).",
+            "Preferencias locales: tema claro/oscuro, idioma y tokens de sesión almacenados en cookies o almacenamiento del navegador."
+          ]
+        },
+        {
+          "title": "3. Finalidad del tratamiento",
+          "paragraphs": ["Usamos los datos para:"],
+          "list": [
+            "Publicar y mostrar información de ayuda durante emergencias (centros, refugios, reportes, etc.).",
+            "Permitir el registro de voluntarios, empresas solidarias y coordinadores de centros de acopio.",
+            "Gestionar cuentas, paneles y permisos de coordinación.",
+            "Evitar duplicados, moderar contenido y mejorar la verificación comunitaria.",
+            "Mantener la seguridad, prevenir abusos y mejorar el servicio.",
+            "Cumplir obligaciones legales cuando corresponda."
+          ]
+        },
+        {
+          "title": "4. Base legal y consentimiento",
+          "paragraphs": [
+            "La consulta pública del sitio no requiere registro. Cuando envías un formulario, nos autorizas a tratar los datos indicados para las finalidades descritas.",
+            "La creación de cuenta implica aceptación expresa de esta política y de los términos de uso."
+          ]
+        },
+        {
+          "title": "5. Almacenamiento y seguridad",
+          "paragraphs": [
+            "Los datos se alojan en infraestructura en la nube (Supabase/PostgreSQL) con medidas razonables de seguridad. Ningún sistema es 100 % infalible; te pedimos no enviar información sensible innecesaria.",
+            "Conservamos los datos mientras sean relevantes para la emergencia, la operación del servicio o el cumplimiento legal, y luego podremos anonimizarlos o eliminarlos."
+          ]
+        },
+        {
+          "title": "6. Cookies y almacenamiento local",
+          "paragraphs": [
+            "Usamos cookies y almacenamiento local para sesión de usuario, preferencias de idioma/tema y funciones técnicas. Puedes limitar cookies desde tu navegador, aunque algunas funciones podrían dejar de operar correctamente."
+          ]
+        },
+        {
+          "title": "7. Compartición con terceros",
+          "paragraphs": [
+            "La información que publicas en listados públicos (por ejemplo, un centro de acopio o un reporte ciudadano) puede ser visible para otros usuarios.",
+            "No vendemos datos personales. Podemos usar proveedores de infraestructura (hosting, base de datos, mapas) que procesan datos en nuestro nombre bajo contratos de tratamiento.",
+            "Podremos divulgar información si la ley lo exige o para proteger derechos y seguridad."
+          ]
+        },
+        {
+          "title": "8. Tus derechos",
+          "paragraphs": [
+            "Puedes solicitar acceso, rectificación, actualización o eliminación de tus datos personales, así como oponerte a ciertos tratamientos, escribiendo a StartupVen a través de startupven.com.",
+            "Responderemos en un plazo razonable. Algunos datos publicados en contexto de emergencia pueden requerir verificación adicional antes de ser modificados o retirados."
+          ]
+        },
+        {
+          "title": "9. Menores",
+          "paragraphs": [
+            "La plataforma no está dirigida a menores de edad sin supervisión. Si registras información sobre un menor (por ejemplo, en reportes de desaparecidos), declaras tener autorización para hacerlo."
+          ]
+        },
+        {
+          "title": "10. Cambios",
+          "paragraphs": [
+            "Podemos actualizar esta política. Publicaremos la versión vigente en esta página con la fecha de actualización. El uso continuado del sitio tras los cambios implica su aceptación."
+          ]
+        },
+        {
+          "title": "11. Contacto",
+          "paragraphs": [
+            "Para consultas sobre privacidad, contacta a StartupVen en startupven.com."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos de uso",
+      "subtitle": "Condiciones para usar Emergency Center durante y después de emergencias.",
+      "sections": [
+        {
+          "title": "1. Aceptación",
+          "paragraphs": [
+            "Al acceder o usar Emergency Center aceptas estos términos. Si no estás de acuerdo, no uses el servicio."
+          ]
+        },
+        {
+          "title": "2. Naturaleza del servicio",
+          "paragraphs": [
+            "Emergency Center es un hub informativo comunitario. No sustituye servicios oficiales de emergencia (171, bomberos, Protección Civil, hospitales, etc.).",
+            "La información puede cambiar rápidamente durante una crisis. Siempre verifica en el lugar y con fuentes oficiales antes de actuar."
+          ]
+        },
+        {
+          "title": "3. Uso permitido",
+          "paragraphs": ["Te comprometes a:"],
+          "list": [
+            "Usar la plataforma de buena fe para coordinar ayuda humanitaria.",
+            "No publicar información falsa, difamatoria, fraudulenta o que ponga en riesgo a terceros.",
+            "No intentar vulnerar la seguridad, sobrecargar el sistema ni extraer datos de forma masiva no autorizada.",
+            "Respetar la privacidad y dignidad de las personas, especialmente en módulos de desaparecidos y daños."
+          ]
+        },
+        {
+          "title": "4. Contenido de usuarios",
+          "paragraphs": [
+            "Eres responsable de la veracidad de lo que envías. Al publicar, nos concedes una licencia no exclusiva para mostrar, almacenar y distribuir ese contenido en el marco del servicio.",
+            "Podemos revisar, ocultar o eliminar contenido que viole estos términos, la ley o que represente un riesgo para la comunidad."
+          ]
+        },
+        {
+          "title": "5. Verificación comunitaria",
+          "paragraphs": [
+            "Los votos y comentarios reflejan opiniones de usuarios, no dictámenes oficiales. Usa tu criterio y confirma datos críticos por canales oficiales."
+          ]
+        },
+        {
+          "title": "6. Cuentas y coordinadores",
+          "paragraphs": [
+            "Las cuentas de coordinador de centros de acopio deben usarse solo para gestionar información real del centro que representas. Eres responsable de mantener seguras tus credenciales."
+          ]
+        },
+        {
+          "title": "7. Enlaces y servicios de terceros",
+          "paragraphs": [
+            "El sitio enlaza a plataformas externas (VenApp, mapas, redes sociales, etc.). No controlamos ni garantizamos su contenido o disponibilidad."
+          ]
+        },
+        {
+          "title": "8. Software libre",
+          "paragraphs": [
+            "Emergency Center es software libre y de código abierto. El servicio en línea se ofrece «tal cual», sin garantías de disponibilidad continua, exactitud absoluta ni ausencia de errores."
+          ]
+        },
+        {
+          "title": "9. Limitación de responsabilidad",
+          "paragraphs": [
+            "En la medida permitida por la ley, StartupVen, sus colaboradores y contribuyentes no serán responsables por daños directos o indirectos derivados del uso o la imposibilidad de uso de la plataforma, ni por decisiones tomadas con base en información publicada aquí.",
+            "Ante una emergencia vital, llama de inmediato a los números oficiales."
+          ]
+        },
+        {
+          "title": "10. Modificaciones",
+          "paragraphs": [
+            "Podemos modificar estos términos o funcionalidades del sitio. La versión vigente estará publicada en esta página."
+          ]
+        },
+        {
+          "title": "11. Ley aplicable",
+          "paragraphs": [
+            "Estos términos se interpretan conforme a las leyes de la República Bolivariana de Venezuela, sin perjuicio de normas imperativas de protección al usuario que resulten aplicables."
+          ]
+        },
+        {
+          "title": "12. Contacto",
+          "paragraphs": [
+            "Para consultas legales o de uso del servicio, contacta a StartupVen en startupven.com."
+          ]
+        }
+      ]
+    }
+  },
+  "footer": {
+    "madeBy": "Una iniciativa de",
+    "and": "y",
+    "creditsTitle": "Créditos",
+    "openSourceBadge": "Software libre",
+    "openSource": "Esta plataforma es de software libre y código abierto. Puedes revisarla, usarla y contribuir a mejorarla.",
+    "openSourceLink": "Ver código fuente",
+    "disclaimer": "Esta plataforma centraliza información pública. Siempre verifica con fuentes oficiales.",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "legalTitle": "Legal"
+  },
+  "admin": {
+    "title": "Panel administrativo",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "dashboard": "Dashboard",
+    "manage": "Gestionar contenido",
+    "unauthorized": "No autorizado"
+  },
+  "pwa": {
+    "install": "Instalar aplicación",
+    "offline": "Sin conexión — mostrando datos guardados"
+  },
+  "roadmap": {
+    "title": "Roadmap y novedades",
+    "eyebrow": "Transparencia",
+    "subtitle": "Conoce en qué estamos trabajando, qué viene después y sugiere nuevas funcionalidades para la plataforma.",
+    "viewFeature": "Ver sección",
+    "inProgress": {
+      "eyebrow": "En desarrollo",
+      "title": "Funcionalidades en las que trabajamos",
+      "subtitle": "Estas mejoras están activas en desarrollo y se irán publicando progresivamente."
+    },
+    "planned": {
+      "eyebrow": "Próximamente",
+      "title": "En la cola",
+      "subtitle": "Ideas confirmadas que planeamos implementar después de las funciones actuales."
+    },
+    "shipped": {
+      "eyebrow": "Listo",
+      "title": "Ya disponible"
+    },
+    "suggest": {
+      "eyebrow": "Tu voz cuenta",
+      "title": "Sugerir una funcionalidad",
+      "subtitle": "¿Falta algo que te ayudaría en esta emergencia? Cuéntanos. Revisamos cada propuesta."
+    },
+    "status": {
+      "in_progress": "En desarrollo",
+      "planned": "Planificado",
+      "shipped": "Disponible"
+    },
+    "categories": {
+      "missing": "Desaparecidos",
+      "help_centers": "Centros de ayuda",
+      "maps": "Mapas",
+      "volunteers": "Voluntarios",
+      "infrastructure": "Plataforma",
+      "community": "Comunidad",
+      "other": "Otro"
+    },
+    "form": {
+      "title": "Nombre de la funcionalidad",
+      "titlePlaceholder": "Ej: Alertas por zona cuando hay refugios disponibles",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Explica qué problema resolvería y cómo te ayudaría en una emergencia.",
+      "category": "Categoría",
+      "categoryAny": "Sin categoría específica",
+      "contactName": "Tu nombre (opcional)",
+      "contactEmail": "Tu correo (opcional)",
+      "contactHint": "Si dejas contacto, podremos avisarte si implementamos tu idea.",
+      "submitting": "Enviando...",
+      "success": "¡Gracias! Tu sugerencia fue registrada y la revisaremos pronto.",
+      "error": "No se pudo enviar. Intenta de nuevo más tarde."
+    }
+  }
+}

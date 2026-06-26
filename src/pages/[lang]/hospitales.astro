@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import HospitalDirectory from "@/components/hospitals/HospitalDirectory";
+import { isValidLocale, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { fetchHospitals } from "@/lib/data";
+import { HOSPITALS_DATA_SOURCE, HOSPITALS_DATA_ATTRIBUTION, HOSPITALS_TOTAL_COUNT } from "@/data/hospitals";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect("/es/hospitales");
+
+const locale = lang as Locale;
+const { t } = useTranslations(locale);
+const hospitals = await fetchHospitals();
+
+const statesInData = [...new Set(hospitals.map((h) => h.state))].sort((a, b) =>
+  a.localeCompare(b, "es")
+);
+const filterStates = [
+  ...VENEZUELA_STATES.filter((s) => statesInData.includes(s)),
+  ...statesInData.filter((s) => !VENEZUELA_STATES.includes(s as (typeof VENEZUELA_STATES)[number])),
+];
+
+const directoryLabels = {
+  searchPlaceholder: t("hospitals.hub.searchPlaceholder"),
+  filterState: t("hospitals.hub.filterState"),
+  allStates: t("hospitals.hub.filterAll"),
+  filterType: t("hospitals.filterType"),
+  allTypes: t("hospitals.allTypes"),
+  typeHospital: t("hospitals.typeHospital"),
+  typeClinic: t("hospitals.typeClinic"),
+  showing: t("hospitals.showing"),
+  of: t("hospitals.of"),
+  phone: t("common.phone"),
+  directions: t("common.directions"),
+  socialMedia: t("common.socialMedia"),
+  operational: t("common.operational"),
+  limited: t("common.limited"),
+  closed: t("common.closed"),
+  unknown: t("common.unknown"),
+  dataSource:
+    locale === "es"
+      ? `Listado de ${HOSPITALS_TOTAL_COUNT} hospitales y clínicas con dirección según ${HOSPITALS_DATA_SOURCE}${HOSPITALS_DATA_ATTRIBUTION ? `. ${HOSPITALS_DATA_ATTRIBUTION}` : ""}. Verifica en el lugar antes de desplazarte.`
+      : `Directory of ${HOSPITALS_TOTAL_COUNT} hospitals and clinics with addresses from ${HOSPITALS_DATA_SOURCE}${HOSPITALS_DATA_ATTRIBUTION ? `. ${HOSPITALS_DATA_ATTRIBUTION}` : ""}. Verify on site before traveling.`,
+  noResults: t("hospitals.hub.empty"),
+  loadMore: t("hospitals.hub.loadMore"),
+};
+---
+
+<BaseLayout locale={locale} title={t("hospitals.title")}>
+  <PageHeader title={t("hospitals.title")} subtitle={t("hospitals.subtitle")}>
+    <div class="rounded-2xl border border-border bg-surface-muted p-4 mb-8 text-sm text-ink-secondary max-w-3xl">
+      {t("hospitals.socialFallback")}
+    </div>
+
+    <HospitalDirectory
+      client:only="react"
+      hospitals={hospitals}
+      locale={locale}
+      states={filterStates}
+      labels={directoryLabels}
+    />
+  </PageHeader>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+export const prerender = false;
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import CenterDashboard from "@/components/dashboard/CenterDashboard";
+import { isValidLocale, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect("/es/centros-ayuda/panel");
+
+const locale = lang as Locale;
+const { t, dict } = useTranslations(locale);
+
+const dashboardLabels = {
+  title: t("centerDashboard.title"),
+  selectCenter: t("centerDashboard.selectCenter"),
+  noCenters: t("centerDashboard.noCenters"),
+  loginRequired: t("centerDashboard.loginRequired"),
+  registerCenter: t("centerDashboard.registerCenter"),
+  signIn: t("centerDashboard.signIn"),
+  tabVolunteers: t("centerDashboard.tabVolunteers"),
+  tabInventory: t("centerDashboard.tabInventory"),
+  pending: t("centerDashboard.status.pending"),
+  active: t("centerDashboard.status.active"),
+  inactive: t("centerDashboard.status.inactive"),
+  approve: t("centerDashboard.approve"),
+  deactivate: t("centerDashboard.deactivate"),
+  volunteersPending: t("centerDashboard.stats.pendingVolunteers"),
+  volunteersActive: t("centerDashboard.stats.activeVolunteers"),
+  itemsCount: t("centerDashboard.stats.items"),
+  lowStock: t("centerDashboard.stats.lowStock"),
+  addItem: t("centerDashboard.addItem"),
+  itemName: t("centerDashboard.itemName"),
+  category: t("centerDashboard.category"),
+  unit: t("centerDashboard.unit"),
+  quantity: t("centerDashboard.quantity"),
+  minimumStock: t("centerDashboard.minimumStock"),
+  recordInbound: t("centerDashboard.recordInbound"),
+  recordOutbound: t("centerDashboard.recordOutbound"),
+  donor: t("centerDashboard.donor"),
+  destination: t("centerDashboard.destination"),
+  notes: t("centerDashboard.notes"),
+  save: t("common.submit"),
+  loading: t("common.loading"),
+  stock: t("centerDashboard.stock"),
+  categories: dict.centerDashboard.categories as Record<string, string>,
+  units: dict.centerDashboard.units as Record<string, string>,
+};
+---
+
+<BaseLayout locale={locale} title={t("centerDashboard.title")}>
+  <PageHeader
+    title={t("centerDashboard.title")}
+    subtitle={t("centerDashboard.subtitle")}
+  />
+
+  <div class="container-app pb-16 -mt-4">
+    <CenterDashboard client:load locale={locale} labels={dashboardLabels} />
+  </div>
+</BaseLayout>

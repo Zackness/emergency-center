@@ -1,0 +1,84 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+import EmergencyBar from "@/components/layout/EmergencyBar.astro";
+import DevNoticeBar from "@/components/layout/DevNoticeBar.astro";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale: Locale;
+  noEmergencyBar?: boolean;
+}
+
+const { title, description, locale, noEmergencyBar = false } = Astro.props;
+const { t, dict } = useTranslations(locale);
+const pageTitle = title ? `${title} — ${t("meta.title")}` : t("meta.title");
+const pageDescription = description ?? dict.meta.description;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={pageDescription} />
+    <meta
+      name="theme-color"
+      content="#fafafa"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#09090b"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="generator" content={Astro.generator} />
+
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        if (stored === "dark" || (!stored && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={locale === "es" ? "es_VE" : "en_US"} />
+
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" hreflang="es" href={`${Astro.site}es/`} />
+    <link rel="alternate" hreflang="en" href={`${Astro.site}en/`} />
+
+    <title>{pageTitle}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    {!noEmergencyBar && <EmergencyBar locale={locale} />}
+    <DevNoticeBar locale={locale} />
+    <Header locale={locale} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }
+    </script>
+  </body>
+</html>

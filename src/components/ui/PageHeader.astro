@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  class?: string;
+}
+
+const { title, subtitle, eyebrow, class: className } = Astro.props;
+---
+
+<section class:list={["relative overflow-hidden border-b border-border", className]}>
+  <div class="absolute inset-0 bg-gradient-to-b from-surface-muted/60 to-surface" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-grid opacity-40" aria-hidden="true"></div>
+  <div class="container-app relative py-12 sm:py-16">
+    {eyebrow && <span class="eyebrow mb-3 animate-fade-in">{eyebrow}</span>}
+    <h1 class="section-title animate-fade-in">{title}</h1>
+    {subtitle && <p class="section-subtitle animate-slide-up">{subtitle}</p>}
+  </div>
+</section>
+<div class="container-app">
+  <div class="py-8 sm:py-10">
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "name": "Emergency Center",
+  "short_name": "Emergency",
+  "description": "Hub central de información y ayuda durante emergencias nacionales",
+  "start_url": "/es",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import NewsHub from "@/components/news/NewsHub";
+import { isValidLocale, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params;
+if (!isValidLocale(lang)) return Astro.redirect("/es/noticias");
+
+const locale = lang as Locale;
+const { t, dict } = useTranslations(locale);
+
+const feedLabels = {
+  ...dict.news.feed,
+  verified: t("common.verified"),
+  loading: t("common.loading"),
+};
+
+const formLabels = {
+  ...dict.news.form,
+  submit: t("common.submit"),
+};
+
+const confidenceLabels = dict.news.confidence as Record<string, string>;
+const { confidence: communityConfidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+---
+
+<BaseLayout locale={locale} title={t("news.title")}>
+  <PageHeader
+    eyebrow={t("news.eyebrow")}
+    title={t("news.title")}
+    subtitle={t("news.subtitle")}
+  />
+
+  <div class="container-app pb-16 -mt-4">
+    <NewsHub
+      client:load
+      locale={locale}
+      feedLabels={feedLabels}
+      formLabels={formLabels}
+      confidenceLabels={confidenceLabels}
+      feedbackLabels={feedbackLabels}
+      communityConfidenceLabels={communityConfidenceLabels}
+    />
+  </div>
+</BaseLayout>

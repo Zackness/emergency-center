@@ -1,0 +1,91 @@
+---
+interface Props {
+  anchorId: string;
+  imageUrl: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  channelLabel: string;
+  instagramLabel: string;
+  instagramUrl: string;
+  handle: string;
+  whatsappLabel: string;
+  whatsappUrl: string;
+  phoneDisplay: string;
+  fieldsLabel: string;
+  fields: string[];
+  notWebsiteNote: string;
+}
+
+const {
+  anchorId,
+  imageUrl,
+  title,
+  subtitle,
+  body,
+  channelLabel,
+  instagramLabel,
+  instagramUrl,
+  handle,
+  whatsappLabel,
+  whatsappUrl,
+  phoneDisplay,
+  fieldsLabel,
+  fields,
+  notWebsiteNote,
+} = Astro.props;
+---
+
+<article
+  class="card border-accent/25 bg-accent-muted/15 mb-10"
+  id={anchorId}
+>
+  <span class="badge bg-accent-muted text-accent mb-3">{channelLabel}</span>
+  <div class="grid gap-6 lg:grid-cols-2">
+    <img
+      src={imageUrl}
+      alt={title}
+      class="w-full rounded-xl border border-zinc-200/80 object-contain bg-surface-elevated max-h-[520px]"
+      loading="lazy"
+    />
+    <div>
+      <h2 class="text-xl font-semibold text-ink">{title}</h2>
+      <p class="mt-2 text-sm font-medium text-ink-secondary">{subtitle}</p>
+      <p class="mt-3 text-sm text-ink-secondary leading-relaxed">{body}</p>
+      <p class="mt-3 text-xs text-ink-muted">{notWebsiteNote}</p>
+
+      <div class="mt-5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-ink-muted mb-2">
+          {fieldsLabel}
+        </h3>
+        <ul class="space-y-1.5">
+          {fields.map((field) => (
+            <li class="flex gap-2 text-sm text-ink-secondary">
+              <span class="text-accent shrink-0">•</span>
+              {field}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+        >
+          {whatsappLabel}: {phoneDisplay}
+        </a>
+        <a
+          href={instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-secondary"
+        >
+          {instagramLabel} {handle} →
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,38 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+.astro/
+
+# env — NUNCA commitear secretos reales (usar .env.example como plantilla)
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# artefactos de scraping de terremotovenezuela.com (no son código del proyecto)
+tv-*.js
+
+# temporales / diagnóstico
+scripts/gitdiag.sh
+*.tmp
+hosp.html
+hbuild.txt
+devsrv.txt

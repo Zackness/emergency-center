@@ -1,0 +1,86 @@
+---
+interface Props {
+  name: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  tips: string[];
+  links: { label: string; url: string }[];
+  worksOffline: boolean;
+  offlineLabel: string;
+  featuresLabel: string;
+  tipsLabel: string;
+}
+
+const {
+  name,
+  tagline,
+  description,
+  features,
+  tips,
+  links,
+  worksOffline,
+  offlineLabel,
+  featuresLabel,
+  tipsLabel,
+} = Astro.props;
+---
+
+<article class="card border-accent/20 bg-accent-muted/20">
+  <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+    <div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="font-semibold text-ink text-xl">{name}</h3>
+        {worksOffline && (
+          <span class="badge bg-success-muted text-success">{offlineLabel}</span>
+        )}
+      </div>
+      <p class="mt-2 text-sm font-medium text-ink-secondary">{tagline}</p>
+    </div>
+    <span class="text-3xl" aria-hidden="true">📡</span>
+  </div>
+
+  <p class="text-sm text-ink-secondary leading-relaxed">{description}</p>
+
+  <div class="mt-6 grid gap-6 sm:grid-cols-2">
+    <div>
+      <h4 class="text-xs font-semibold uppercase tracking-wide text-ink-muted mb-2">
+        {featuresLabel}
+      </h4>
+      <ul class="space-y-2">
+        {features.map((item) => (
+          <li class="flex gap-2 text-sm text-ink-secondary">
+            <span class="text-accent shrink-0">✓</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-xs font-semibold uppercase tracking-wide text-ink-muted mb-2">
+        {tipsLabel}
+      </h4>
+      <ul class="space-y-2">
+        {tips.map((item) => (
+          <li class="flex gap-2 text-sm text-ink-secondary">
+            <span class="text-warning shrink-0">•</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-6 flex flex-wrap gap-2">
+    {links.map((link) => (
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary text-xs"
+      >
+        {link.label} →
+      </a>
+    ))}
+  </div>
+</article>

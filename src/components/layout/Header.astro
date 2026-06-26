@@ -1,0 +1,147 @@
+---
+import type { Locale } from "@/i18n/config";
+import { getNavItems, useTranslations } from "@/i18n/utils";
+import { switchLocalePath } from "@/i18n/config";
+import { PROJECT_OWNER } from "@/data/credits";
+import Logo from "@/components/ui/Logo.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+import HeaderSearch from "@/components/search/HeaderSearch.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t } = useTranslations(locale);
+const navItems = getNavItems(locale);
+const otherLocale = locale === "es" ? "en" : "es";
+const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
+---
+
+<header class="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-lg">
+  <div class="container-app">
+    <div class="flex h-16 items-center justify-between gap-4">
+      <a href={`/${locale}`} class="flex items-center gap-2.5 shrink-0 group">
+        <Logo size={36} class="transition-transform group-hover:scale-105" />
+        <div class="hidden sm:block leading-tight">
+          <span class="font-semibold text-ink">Emergency Center</span>
+          <span class="block text-xs text-ink-muted">
+            <a
+              href={PROJECT_OWNER.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-ink"
+            >
+              {PROJECT_OWNER.name}
+            </a>
+          </span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex flex-1 justify-center px-4 max-w-xl">
+        <HeaderSearch locale={locale} />
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-1 shrink-0" aria-label="Main navigation">
+        {
+          navItems.slice(0, 6).map((item) => (
+            <a
+              href={item.href}
+              aria-current={Astro.url.pathname === item.href ? "page" : undefined}
+              class:list={[
+                "btn-ghost text-xs",
+                Astro.url.pathname === item.href && "!bg-accent-muted !text-accent",
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <details class="relative group">
+          <summary class="btn-ghost text-xs cursor-pointer list-none">
+            {locale === "es" ? "Más" : "More"} ▾
+          </summary>
+          <div class="absolute right-0 top-full mt-1 w-48 rounded-xl border border-border bg-surface-elevated py-2 shadow-elevated">
+            {
+              navItems.slice(6).map((item) => (
+                <a
+                  href={item.href}
+                  class="block px-4 py-2 text-sm text-ink-secondary hover:bg-surface-muted hover:text-ink"
+                >
+                  {item.label}
+                </a>
+              ))
+            }
+          </div>
+        </details>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <ThemeToggle locale={locale} />
+        <a
+          href={switchPath}
+          class="btn-ghost text-xs font-medium uppercase"
+          aria-label={locale === "es" ? "Switch to English" : "Cambiar a español"}
+        >
+          {otherLocale}
+        </a>
+        <a href={`/${locale}/voluntarios`} class="btn-primary hidden sm:inline-flex text-xs">
+          {t("common.volunteer")}
+        </a>
+        <button
+          id="mobile-menu-btn"
+          class="btn-ghost lg:hidden"
+          aria-label={t("nav.menu")}
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg id="menu-icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden border-t border-border bg-surface-elevated lg:hidden"
+    aria-label="Mobile navigation"
+  >
+    <div class="container-app py-4 space-y-1">
+      <div class="px-4 pb-3 md:hidden">
+        <HeaderSearch locale={locale} compact={false} />
+      </div>
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            aria-current={Astro.url.pathname === item.href ? "page" : undefined}
+            class:list={[
+              "block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
+              Astro.url.pathname === item.href
+                ? "bg-accent-muted text-accent"
+                : "text-ink-secondary hover:bg-surface-muted hover:text-ink",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+  btn?.addEventListener("click", () => {
+    const willOpen = menu?.classList.contains("hidden");
+    menu?.classList.toggle("hidden");
+    if (willOpen) menu?.classList.add("animate-slide-up");
+    iconOpen?.classList.toggle("hidden", willOpen);
+    iconClose?.classList.toggle("hidden", !willOpen);
+    btn.setAttribute("aria-expanded", String(Boolean(willOpen)));
+  });
+</script>

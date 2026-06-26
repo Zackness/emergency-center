@@ -1,0 +1,33 @@
+---
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t } = useTranslations(locale);
+---
+
+<div
+  class="border-b border-accent/20 bg-accent-muted/60 text-sm text-ink-secondary"
+  role="status"
+  aria-live="polite"
+>
+  <div class="container-app flex flex-col gap-2 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+    <p class="flex items-start gap-2 sm:items-center">
+      <span
+        class="mt-0.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-accent sm:mt-0"
+        aria-hidden="true"
+      ></span>
+      <span>{t("common.devNotice.message")}</span>
+    </p>
+    <a
+      href={`/${locale}/roadmap`}
+      class="shrink-0 text-xs font-medium text-accent hover:underline sm:ml-4"
+    >
+      {t("common.devNotice.roadmapLink")} →
+    </a>
+  </div>
+</div>

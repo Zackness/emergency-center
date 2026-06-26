@@ -1,0 +1,52 @@
+---
+import QuickAccessCard from "@/components/ui/QuickAccessCard.astro";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import {
+  groupSiteFootprints,
+  resolveSiteFootprints,
+  type FootprintGroupId,
+} from "@/data/site-footprints";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t } = useTranslations(locale);
+const footprints = resolveSiteFootprints(locale, t);
+const grouped = groupSiteFootprints(footprints);
+
+const groupLabels: Record<FootprintGroupId, string> = {
+  help: t("home.footprints.groups.help"),
+  people: t("home.footprints.groups.people"),
+  participate: t("home.footprints.groups.participate"),
+  info: t("home.footprints.groups.info"),
+};
+---
+
+<section class="container-app pb-16" id="huellas">
+  <span class="eyebrow mb-3">{t("home.footprints.eyebrow")}</span>
+  <h2 class="section-title">{t("home.footprints.title")}</h2>
+  <p class="section-subtitle">{t("home.footprints.subtitle")}</p>
+
+  {
+    grouped.map((group) => (
+      <div class="mt-10">
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-4">
+          {groupLabels[group.id]}
+        </h3>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {group.items.map((item) => (
+            <QuickAccessCard
+              href={item.href}
+              title={item.title}
+              description={item.description}
+              icon={item.icon}
+            />
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</section>
