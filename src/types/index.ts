@@ -158,6 +158,7 @@ export interface MapLocation {
   status?: OperationalStatus;
   address?: string;
   severity?: DamageSeverity;
+  image_urls?: string[];
 }
 
 export type DamageSeverity = "collapsed" | "damaged" | "evacuated";

@@ -34,7 +34,7 @@ const mapLocations: MapLocation[] = centers.map((c) => ({
 ---
 
 <BaseLayout locale={locale} title={t("helpCenters.title")}>
-  <PageHeader title={t("helpCenters.title")} subtitle={t("helpCenters.subtitle")}>
+  <PageHeader title={t("helpCenters.title")} subtitle={t("helpCenters.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
     <section class="mb-6 rounded-2xl border border-accent/30 bg-surface-muted p-5">
       <h2 class="text-lg font-semibold text-ink">{t("centerDashboard.banner.title")}</h2>
       <p class="mt-2 text-sm text-ink-secondary">{t("centerDashboard.banner.description")}</p>
@@ -54,7 +54,7 @@ const mapLocations: MapLocation[] = centers.map((c) => ({
       </div>
     </section>
 
-    <section class="mb-6 rounded-2xl border border-accent/20 bg-accent-muted/40 p-5">
+    <section class="mb-6 rounded-2xl border border-accent/20 bg-accent-muted/40 p-5" id="logistica-gratis">
       <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
@@ -71,9 +71,22 @@ const mapLocations: MapLocation[] = centers.map((c) => ({
           {t("helpCenters.logistics.free")}
         </span>
       </div>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="help-centers-logistics"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
     </section>
 
-    <DonationNeedsList locale={locale} />
+    <DonationNeedsList
+      locale={locale}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+    />
 
     <div class="mb-8">
       <MapView client:only="react" locations={mapLocations} locale={locale} height="450px" />

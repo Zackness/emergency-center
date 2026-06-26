@@ -32,6 +32,7 @@ tv-*.js
 
 # temporales / diagnóstico
 scripts/gitdiag.sh
+tmp_extract.py
 *.tmp
 hosp.html
 hbuild.txt

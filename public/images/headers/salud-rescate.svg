@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Salud y rescate</title>
+  <desc id="desc">Entrada de emergencia médica y equipos de rescate coordinando atención.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ecfeff"/>
+      <stop offset="48%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="0" x2="1">
+      <stop offset="0%" stop-color="#101828" stop-opacity=".68"/>
+      <stop offset="58%" stop-color="#101828" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#101828" stop-opacity=".24"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .07"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <path d="M610 230h790v450H610z" fill="#e5e7eb"/>
+  <path d="M650 270h700v88H650z" fill="#f8fafc"/>
+  <path d="M740 304h110v20H740zM905 304h110v20H905zM1070 304h110v20h-110z" fill="#94a3b8"/>
+  <rect x="825" y="430" width="250" height="250" fill="#bfdbfe"/>
+  <path d="M940 475h42v135h-42zM893 522h136v42H893z" fill="#dc2626"/>
+  <path d="M1040 575h330v105h-330z" fill="#334155"/>
+  <path d="M1090 520h210l70 55h-330z" fill="#f8fafc"/>
+  <circle cx="1118" cy="696" r="38" fill="#111827"/>
+  <circle cx="1312" cy="696" r="38" fill="#111827"/>
+  <path d="M1110 612h190" stroke="#60a5fa" stroke-width="18" stroke-linecap="round"/>
+  <g transform="translate(1165 420)">
+    <circle cx="46" cy="42" r="30" fill="#6b3f2a"/>
+    <path d="M16 82h66l18 150H0z" fill="#2563eb"/>
+    <path d="M6 105h88v40H6z" fill="#93c5fd" opacity=".85"/>
+  </g>
+  <g transform="translate(1285 435)">
+    <circle cx="44" cy="38" r="28" fill="#543728"/>
+    <path d="M12 76h66l17 148H0z" fill="#f8fafc"/>
+    <path d="M26 106h42v84H26z" fill="#60a5fa" opacity=".8"/>
+  </g>
+  <path d="M0 700c140-45 280-50 450-16 250 50 460 45 710-22 172-46 310-54 440-22v260H0z" fill="#475467" opacity=".24"/>
+  <rect width="1600" height="900" fill="url(#shade)"/>
+  <rect width="1600" height="900" filter="url(#grain)" opacity=".35"/>
+</svg>

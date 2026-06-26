@@ -1,5 +1,5 @@
 import type { ImportedBuilding } from "./types";
-import { inferState, mapExternalDamageLevel } from "./normalize";
+import { dedupeImageUrls, inferState, mapExternalDamageLevel } from "./normalize";
 
 export const DAMAGE_MAP_EXTERNAL_SOURCE = "terremotovenezuela" as const;
 
@@ -43,10 +43,7 @@ function getConfig() {
 }
 
 function mapRow(row: ExternalBuildingRow): ImportedBuilding {
-  const imageUrls = [
-    ...(row.main_photo_url ? [row.main_photo_url] : []),
-    ...(row.media_urls ?? []),
-  ].filter(Boolean);
+  const imageUrls = dedupeImageUrls(row.main_photo_url, row.media_urls);
 
   const city = row.city?.trim() || row.zone?.trim() || "Venezuela";
   const address = row.address?.trim() || null;

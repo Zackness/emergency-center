@@ -5,6 +5,7 @@ import RescuerCallCard from "@/components/ui/RescuerCallCard.astro";
 import VolunteerGroupCard from "@/components/ui/VolunteerGroupCard.astro";
 import VolunteerRegistryCard from "@/components/ui/VolunteerRegistryCard.astro";
 import VolunteerForm from "@/components/forms/VolunteerForm";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { INTERPRETER_VOLUNTEER_GROUP } from "@/data/interpreter-volunteer-group";
 import { RED_CROSS_VOLUNTEER_REGISTRY } from "@/data/red-cross-volunteer";
 import { CALIPSO_VOLUNTEER_LODGING } from "@/data/volunteer-lodging";
@@ -30,6 +31,7 @@ if (!isValidLocale(lang)) return Astro.redirect("/es/voluntarios");
 
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const helpCenters = await fetchHelpCenters();
 const rescuerCall = dict.volunteers.rescuerCall;
 const acariguaCall = dict.volunteers.acariguaTransportCall;
@@ -73,8 +75,8 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
 ---
 
 <BaseLayout locale={locale} title={t("volunteers.title")}>
-  <PageHeader title={t("volunteers.title")} subtitle={t("volunteers.subtitle")}>
-    <section class="mb-8 rounded-2xl border border-accent/20 bg-accent-muted/40 p-5">
+  <PageHeader title={t("volunteers.title")} subtitle={t("volunteers.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
+    <section class="mb-8 rounded-2xl border border-accent/20 bg-accent-muted/40 p-5" id={CALIPSO_VOLUNTEER_LODGING.id}>
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
         {t("volunteers.lodging.badge")}
       </p>
@@ -99,6 +101,15 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
           {t("volunteers.lodging.cta")}
         </a>
       </div>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId={CALIPSO_VOLUNTEER_LODGING.id}
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
     </section>
 
     <VolunteerRegistryCard
@@ -113,7 +124,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       displayUrl={RED_CROSS_VOLUNTEER_REGISTRY.displayUrl}
       shareLabel={redCrossCall.share}
       verifiedLabel={t("common.verified")}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="cruz-roja-voluntarios"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </VolunteerRegistryCard>
 
     <VolunteerGroupCard
       anchorId="interpretes-idiomas"
@@ -128,7 +149,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       shareLabel={interpretersCall.share}
       imageUrl={INTERPRETER_VOLUNTEER_GROUP.imageUrl}
       linkNote={interpretersCall.linkNote}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="interpretes-idiomas"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </VolunteerGroupCard>
 
     <RescuerCallCard
       anchorId="equipo-medico"
@@ -148,7 +179,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={medicalCall.deployRegions}
       offerLabel={medicalCall.offerLabel}
       offerText={medicalCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="equipo-medico"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <RescuerCallCard
       anchorId="unefm-tucacas"
@@ -164,7 +205,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={unefmCall.deployRegions}
       offerLabel={unefmCall.offerLabel}
       offerText={unefmCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="unefm-tucacas"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <RescuerCallCard
       anchorId="acarigua-transporte"
@@ -184,7 +235,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={acariguaCall.deployRegions}
       offerLabel={acariguaCall.offerLabel}
       offerText={acariguaCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="acarigua-transporte"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <RescuerCallCard
       anchorId="carreras-gratis-acopio"
@@ -204,7 +265,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={cargoCall.deployRegions}
       offerLabel={cargoCall.offerLabel}
       offerText={cargoCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="carreras-gratis-acopio"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <RescuerCallCard
       anchorId="lara-transporte"
@@ -224,7 +295,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={laraCall.deployRegions}
       offerLabel={laraCall.offerLabel}
       offerText={laraCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="lara-transporte"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <RescuerCallCard
       anchorId="rescatistas"
@@ -244,7 +325,17 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       deployRegions={rescuerCall.deployRegions}
       offerLabel={rescuerCall.offerLabel}
       offerText={rescuerCall.offerText}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="rescatistas"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </RescuerCallCard>
 
     <div class="mb-6">
       <h2 class="text-lg font-semibold text-ink">{rescuerCall.formTitle}</h2>

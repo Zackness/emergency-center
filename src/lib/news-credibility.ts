@@ -55,6 +55,31 @@ function sortNews(
   }
 }
 
+function normalizeUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    parsed.hash = "";
+    parsed.searchParams.sort();
+    return parsed.toString().replace(/\/$/, "").toLowerCase();
+  } catch {
+    return url.trim().replace(/\/$/, "").toLowerCase();
+  }
+}
+
+function mergeSeedNews<T extends { id: string; source_url: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const merged: T[] = [];
+
+  for (const item of items) {
+    const keys = [item.id, normalizeUrl(item.source_url)];
+    if (keys.some((key) => seen.has(key))) continue;
+    keys.forEach((key) => seen.add(key));
+    merged.push(item);
+  }
+
+  return merged;
+}
+
 export async function fetchNewsFeed(
   query: NewsFeedQuery = {}
 ): Promise<NewsItemWithCredibility[]> {
@@ -76,12 +101,16 @@ export async function fetchNewsFeed(
     orderBy: { publishedAt: "desc" },
   });
 
-  const ids = rows.map((row) => row.id);
+  const base = mergeSeedNews([
+    ...rows.map(mapNewsItem),
+    ...SEED_NEWS,
+  ]);
+  const ids = base.map((item) => item.id);
   const credibilityMap = await fetchCommunityFeedbackBatch("news", ids, voterToken);
 
-  const items = rows.map((row) => ({
-    ...mapNewsItem(row),
-    credibility: (credibilityMap[row.id] ?? emptyStats()) as NewsCredibilityStats,
+  const items = base.map((item) => ({
+    ...item,
+    credibility: (credibilityMap[item.id] ?? emptyStats()) as NewsCredibilityStats,
   }));
 
   return sortNews(items, query.sort);

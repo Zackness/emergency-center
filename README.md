@@ -1,6 +1,17 @@
 # Emergency Center
 
-Hub central de información y ayuda durante emergencias nacionales en Venezuela. Creado por **StartupVen**.
+Hub central de información y ayuda durante emergencias nacionales en Venezuela. Creado por **[StartupVen](https://startupven.com)**.
+
+> **Software libre** — código abierto bajo licencia MIT.  
+> Repositorio: [github.com/Zackness/emergency-center](https://github.com/Zackness/emergency-center)
+
+## Contribuir
+
+1. Clona el repositorio y copia `.env.example` a `.env`.
+2. Rellena tus propias credenciales de Supabase (nunca subas `.env` a git).
+3. `npm install` → `npm run dev`
+
+Los secretos (`DATABASE_URL`, `SUPABASE_SECRET_KEY`, etc.) viven solo en tu `.env` local o en las variables de entorno del hosting — **no** en el repositorio público.
 
 ## Stack
 

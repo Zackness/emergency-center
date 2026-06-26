@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import RoadmapFeatureCard from "@/components/ui/RoadmapFeatureCard.astro";
 import FeatureSuggestionForm from "@/components/forms/FeatureSuggestionForm";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getRoadmapFeaturesByStatus } from "@/data/roadmap-features";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
@@ -16,6 +17,7 @@ if (!isValidLocale(lang)) return Astro.redirect("/es/roadmap");
 
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 
 const inProgress = getRoadmapFeaturesByStatus("in_progress");
 const planned = getRoadmapFeaturesByStatus("planned");
@@ -34,6 +36,8 @@ const formLabels = {
     eyebrow={t("roadmap.eyebrow")}
     title={t("roadmap.title")}
     subtitle={t("roadmap.subtitle")}
+    imageSrc="/images/headers/informacion-recursos.svg"
+    imageAlt=""
   />
 
   <div class="container-app pb-16 space-y-16 -mt-4">
@@ -52,7 +56,17 @@ const formLabels = {
             statusLabels={statusLabels}
             categoryLabels={categoryLabels}
             viewLabel={t("roadmap.viewFeature")}
-          />
+          >
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId={`roadmap-${feature.id}`}
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </RoadmapFeatureCard>
         ))
       }
     </div>
@@ -73,7 +87,17 @@ const formLabels = {
             statusLabels={statusLabels}
             categoryLabels={categoryLabels}
             viewLabel={t("roadmap.viewFeature")}
-          />
+          >
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId={`roadmap-${feature.id}`}
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </RoadmapFeatureCard>
         ))
       }
     </div>
@@ -93,7 +117,17 @@ const formLabels = {
             statusLabels={statusLabels}
             categoryLabels={categoryLabels}
             viewLabel={t("roadmap.viewFeature")}
-          />
+          >
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId={`roadmap-${feature.id}`}
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </RoadmapFeatureCard>
         ))
       }
     </div>

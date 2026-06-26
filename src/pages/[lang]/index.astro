@@ -4,6 +4,7 @@ import SiteFootprints from "@/components/home/SiteFootprints.astro";
 import StatCard from "@/components/ui/StatCard.astro";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { buildSearchIndex } from "@/lib/search";
@@ -23,6 +24,7 @@ if (!isValidLocale(lang)) return Astro.redirect("/es");
 
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const searchIndex = await buildSearchIndex(locale);
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 ---
@@ -31,7 +33,7 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
   <section class="relative overflow-hidden border-b border-border">
     <div class="absolute inset-0 bg-gradient-to-br from-accent-muted/40 via-surface to-surface dark:from-accent-muted/20" />
     <div class="absolute inset-0 bg-grid opacity-60" aria-hidden="true" />
-    <div class="container-app relative py-16 sm:py-24">
+    <div class="container-app relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(360px,520px)] lg:items-center">
       <div class="max-w-3xl animate-slide-up">
         <span class="badge-emergency mb-4 inline-flex items-center gap-2">
           <span class="relative flex h-2 w-2">
@@ -69,6 +71,29 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
               categories: categoryLabels,
             }}
           />
+        </div>
+      </div>
+      <div class="relative hidden lg:block" aria-hidden="true">
+        <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-emergency/25 via-accent/10 to-transparent blur-2xl"></div>
+        <div class="relative overflow-hidden rounded-[2rem] border border-white/60 bg-surface shadow-soft">
+          <img
+            src="/images/headers/emergencia-sismica.svg"
+            alt=""
+            class="h-[430px] w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent"></div>
+          <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-4 text-white backdrop-blur">
+            <p class="text-sm font-semibold">
+              {locale === "es" ? "Respuesta ciudadana en tiempo real" : "Real-time citizen response"}
+            </p>
+            <p class="mt-1 text-xs text-white/80">
+              {locale === "es"
+                ? "Mapa, refugios, ayuda y verificación comunitaria en un solo lugar."
+                : "Map, shelters, aid and community verification in one place."}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -146,28 +171,76 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
       <div class="mt-10">
         <h3 class="font-semibold text-ink mb-4">{t("home.external.title")}</h3>
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <a href="https://venapp.com" target="_blank" rel="noopener noreferrer" class="card-interactive group flex flex-col text-sm">
-            <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.venapp")}</span>
-            <span class="badge-verified mt-2 w-fit">{t("common.verified")}</span>
-          </a>
-          <a href={`/${locale}/recursos#bitchat`} class="card-interactive group flex flex-col text-sm border-success/30 bg-success-muted/30">
-            <span class="font-medium text-ink group-hover:text-success transition-colors">{t("home.external.bitchat")}</span>
-            <span class="badge bg-success-muted text-success mt-2 w-fit">
-              {locale === "es" ? "Sin internet" : "No internet"}
-            </span>
-          </a>
-          <a href="https://www.cruzrojavenezolana.org.ve" target="_blank" rel="noopener noreferrer" class="card-interactive group flex flex-col text-sm">
-            <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.redCross")}</span>
-          </a>
-          <a href="https://www.inameh.gob.ve" target="_blank" rel="noopener noreferrer" class="card-interactive group flex flex-col text-sm">
-            <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.civilProtection")}</span>
-          </a>
+          <article class="card-interactive group flex flex-col text-sm" id="home-venapp">
+            <a href="https://venapp.com" target="_blank" rel="noopener noreferrer" class="flex flex-col flex-1">
+              <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.venapp")}</span>
+              <span class="badge-verified mt-2 w-fit">{t("common.verified")}</span>
+            </a>
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId="home-venapp"
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </article>
+          <article class="card-interactive group flex flex-col text-sm border-success/30 bg-success-muted/30" id="home-bitchat">
+            <a href={`/${locale}/recursos#bitchat`} class="flex flex-col flex-1">
+              <span class="font-medium text-ink group-hover:text-success transition-colors">{t("home.external.bitchat")}</span>
+              <span class="badge bg-success-muted text-success mt-2 w-fit">
+                {locale === "es" ? "Sin internet" : "No internet"}
+              </span>
+            </a>
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId="home-bitchat"
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </article>
+          <article class="card-interactive group flex flex-col text-sm" id="home-red-cross">
+            <a href="https://www.cruzrojavenezolana.org.ve" target="_blank" rel="noopener noreferrer" class="flex flex-col flex-1">
+              <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.redCross")}</span>
+            </a>
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId="home-red-cross"
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </article>
+          <article class="card-interactive group flex flex-col text-sm" id="home-inameh">
+            <a href="https://www.inameh.gob.ve" target="_blank" rel="noopener noreferrer" class="flex flex-col flex-1">
+              <span class="font-medium text-ink group-hover:text-accent transition-colors">{t("home.external.civilProtection")}</span>
+            </a>
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId="home-inameh"
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </article>
         </div>
       </div>
     </div>
   </section>
 
   <section class="container-app py-16">
-    <AlliedPlatforms locale={locale} />
+    <AlliedPlatforms
+      locale={locale}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+    />
   </section>
 </BaseLayout>

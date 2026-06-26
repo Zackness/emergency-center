@@ -3,19 +3,51 @@ interface Props {
   title: string;
   subtitle?: string;
   eyebrow?: string;
+  imageSrc?: string;
+  imageAlt?: string;
   class?: string;
 }
 
-const { title, subtitle, eyebrow, class: className } = Astro.props;
+const { title, subtitle, eyebrow, imageSrc, imageAlt = "", class: className } = Astro.props;
 ---
 
 <section class:list={["relative overflow-hidden border-b border-border", className]}>
-  <div class="absolute inset-0 bg-gradient-to-b from-surface-muted/60 to-surface" aria-hidden="true"></div>
-  <div class="absolute inset-0 bg-grid opacity-40" aria-hidden="true"></div>
+  {
+    imageSrc ? (
+      <>
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-ink/10" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-grid opacity-20 mix-blend-screen" aria-hidden="true"></div>
+      </>
+    ) : (
+      <>
+        <div class="absolute inset-0 bg-gradient-to-b from-surface-muted/60 to-surface" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-grid opacity-40" aria-hidden="true"></div>
+      </>
+    )
+  }
   <div class="container-app relative py-12 sm:py-16">
-    {eyebrow && <span class="eyebrow mb-3 animate-fade-in">{eyebrow}</span>}
-    <h1 class="section-title animate-fade-in">{title}</h1>
-    {subtitle && <p class="section-subtitle animate-slide-up">{subtitle}</p>}
+    <div class={imageSrc ? "max-w-3xl" : undefined}>
+      {eyebrow && (
+        <span class:list={[imageSrc ? "mb-3 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white/25 backdrop-blur" : "eyebrow mb-3 animate-fade-in"]}>
+          {eyebrow}
+        </span>
+      )}
+      <h1 class:list={[imageSrc ? "text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-5xl" : "section-title animate-fade-in"]}>
+        {title}
+      </h1>
+      {subtitle && (
+        <p class:list={[imageSrc ? "mt-4 max-w-2xl text-base text-white/85 sm:text-lg" : "section-subtitle animate-slide-up"]}>
+          {subtitle}
+        </p>
+      )}
+    </div>
   </div>
 </section>
 <div class="container-app">

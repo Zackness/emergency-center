@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ url }) => {
       search,
       severity: severity && severity !== "all" ? severity : undefined,
       state: state && state !== "all" ? state : undefined,
-      limit: limit ? Number(limit) : 100,
+      limit: limit ? Number(limit) : 10000,
       offset: offset ? Number(offset) : 0,
     });
 

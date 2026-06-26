@@ -19,6 +19,13 @@ export const SITE_FOOTPRINT_GROUPS: FootprintGroupId[] = [
 
 export const SITE_FOOTPRINTS: SiteFootprintDef[] = [
   {
+    path: "",
+    icon: "home",
+    group: "info",
+    titleKey: "nav.home",
+    descKey: "meta.tagline",
+  },
+  {
     path: "/centros-ayuda",
     icon: "map-pin",
     group: "help",
@@ -138,7 +145,7 @@ export function resolveSiteFootprints(
   t: (key: string) => string
 ): ResolvedSiteFootprint[] {
   return SITE_FOOTPRINTS.map((def) => ({
-    href: `/${locale}${def.path}`,
+    href: def.path ? `/${locale}${def.path}` : `/${locale}`,
     title: t(def.titleKey),
     description: t(def.descKey),
     icon: def.icon,

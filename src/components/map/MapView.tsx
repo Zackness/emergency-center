@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { MapLocation } from "@/types";
+import { dedupeUrlList } from "@/lib/damage-map/normalize";
 
 const defaultIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -162,6 +163,26 @@ export default function MapView({
             <Popup>
               <strong>{loc.name}</strong>
               {loc.address && <p className="text-sm mt-1">{loc.address}</p>}
+              {loc.type === "damage" && loc.image_urls && loc.image_urls.length > 0 && (
+                <div className="mt-2 flex max-w-[220px] gap-1.5 overflow-x-auto">
+                  {dedupeUrlList(loc.image_urls).map((src, index) => (
+                    <a
+                      key={`${src}-${index}`}
+                      href={src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0"
+                    >
+                      <img
+                        src={src}
+                        alt=""
+                        className="h-16 w-20 rounded-md object-cover"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              )}
             </Popup>
           </Marker>
         ))}

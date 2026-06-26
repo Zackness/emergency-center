@@ -46,3 +46,26 @@ export function normalizeSearchText(value: string): string {
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "");
 }
+
+/** Une main_photo_url + media_urls sin duplicados ni vacíos. */
+export function dedupeImageUrls(
+  mainPhotoUrl: string | null | undefined,
+  mediaUrls: string[] | null | undefined
+): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const url of [mainPhotoUrl, ...(mediaUrls ?? [])]) {
+    const trimmed = url?.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    result.push(trimmed);
+  }
+
+  return result;
+}
+
+/** Elimina URLs vacías o repetidas preservando el orden. */
+export function dedupeUrlList(urls: string[] | null | undefined): string[] {
+  return dedupeImageUrls(null, urls);
+}

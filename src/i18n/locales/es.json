@@ -334,6 +334,7 @@
       "loadMore": "Cargar más edificios",
       "verified": "Verificado",
       "directions": "Cómo llegar",
+      "photosCount": "{count} fotos",
       "filterSeverity": "Nivel de daño",
       "filterState": "Estado",
       "filterAll": "Todos"

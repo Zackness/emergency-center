@@ -4,6 +4,7 @@ import PageHeader from "@/components/ui/PageHeader.astro";
 import ExternalLinkCard from "@/components/ui/ExternalLinkCard.astro";
 import PetVetAidCard from "@/components/ui/PetVetAidCard.astro";
 import SocialRegistryCard from "@/components/ui/SocialRegistryCard.astro";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getPetVeterinaryAid } from "@/data/pet-veterinary-aid";
 import { getSocialRegistries } from "@/data/social-registries";
 import { isValidLocale, type Locale } from "@/i18n/config";
@@ -19,6 +20,7 @@ if (!isValidLocale(lang)) return Astro.redirect("/es/mascotas");
 
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const petLinks = await fetchExternalLinks("pets");
 const leguauRegistry = getSocialRegistries("pets").find((r) => r.slug === "academia-leguau");
 const vetcity = getPetVeterinaryAid("vetcity-maracay")[0];
@@ -39,12 +41,14 @@ const vetcityWhatsappUrl = `https://wa.me/${vetcity.phone_intl}?text=${encodeURI
 
 const fallbackPlatforms = [
   {
+    id: "pet-huellascan",
     title: t("pets.platforms.huellascan.name"),
     description: t("pets.platforms.huellascan.desc"),
     url: "https://www.huellascan.com/terremoto",
     verified: false,
   },
   {
+    id: "pet-mascotas-perdidas-venezuela",
     title: locale === "es" ? "Mascotas Perdidas Venezuela" : "Lost Pets Venezuela",
     description:
       locale === "es"
@@ -58,6 +62,7 @@ const fallbackPlatforms = [
 const platforms =
   petLinks.length > 0
     ? petLinks.map((link) => ({
+        id: link.id,
         title: link.title,
         description: link.description ?? "",
         url: link.url,
@@ -67,7 +72,7 @@ const platforms =
 ---
 
 <BaseLayout locale={locale} title={t("pets.title")}>
-  <PageHeader title={t("pets.title")} subtitle={t("pets.subtitle")}>
+  <PageHeader title={t("pets.title")} subtitle={t("pets.subtitle")} imageSrc="/images/headers/salud-rescate.svg" imageAlt="">
     <div class="rounded-2xl border border-border bg-surface-muted p-4 mb-8 text-sm text-ink-secondary">
       {t("pets.disclaimer")}
     </div>
@@ -90,7 +95,17 @@ const platforms =
           fieldsLabel={leguau.fieldsLabel}
           fields={leguau.fields}
           notWebsiteNote={leguau.notWebsiteNote}
-        />
+        >
+          <CommunityFeedback
+            client:visible
+            contentType="external_link"
+            contentId="academia-leguau"
+            locale={locale}
+            labels={feedbackLabels}
+            confidenceLabels={confidenceLabels}
+            compact
+          />
+        </SocialRegistryCard>
       )
     }
 
@@ -111,7 +126,17 @@ const platforms =
       phone={vetcity.phone}
       whatsappLabel={vetcityCopy.whatsappLabel}
       whatsappUrl={vetcityWhatsappUrl}
-    />
+    >
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="vetcity-maracay"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </PetVetAidCard>
 
     <h2 class="text-lg font-semibold text-ink mb-4 mt-2">{t("pets.otherPlatforms")}</h2>
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -123,7 +148,17 @@ const platforms =
             url={platform.url}
             verified={platform.verified}
             verifiedLabel={t("common.verified")}
-          />
+          >
+            <CommunityFeedback
+              client:visible
+              contentType="external_link"
+              contentId={platform.id}
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+          </ExternalLinkCard>
         ))
       }
     </div>

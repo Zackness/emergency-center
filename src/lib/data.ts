@@ -114,8 +114,17 @@ export async function fetchNews() {
       where: { isActive: true },
       orderBy: { publishedAt: "desc" },
     });
-    if (!rows.length) return SEED_NEWS;
-    return rows.map(mapNewsItem);
+    const dbItems = rows.map(mapNewsItem);
+    const seen = new Set<string>();
+    return [...dbItems, ...SEED_NEWS]
+      .filter((item) => {
+        const key = item.source_url.trim().replace(/\/$/, "").toLowerCase();
+        if (seen.has(item.id) || seen.has(key)) return false;
+        seen.add(item.id);
+        seen.add(key);
+        return true;
+      })
+      .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
   } catch {
     return SEED_NEWS;
   }
@@ -298,12 +307,18 @@ export interface MissingPersonsQuery {
 }
 
 export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
-  if (!isDatabaseConfigured()) return SEED_MISSING_PERSONS;
-  try {
-    const page = Math.max(1, query.page ?? 1);
-    const limit = Math.min(100, Math.max(1, query.limit ?? 24));
-    const skip = (page - 1) * limit;
+  const page = Math.max(1, query.page ?? 1);
+  const limit = Math.min(100, Math.max(1, query.limit ?? 24));
+  const skip = (page - 1) * limit;
 
+  const fetchLive = async () => {
+    const { fetchMissingPersonsLive } = await import("@/lib/missing-persons/live-feed");
+    return (await fetchMissingPersonsLive({ ...query, page, limit })).items;
+  };
+
+  if (!isDatabaseConfigured()) return fetchLive();
+
+  try {
     const where = {
       isActive: true,
       verificationStatus: { notIn: ["found", "deceased"] as ("found" | "deceased")[] },
@@ -331,17 +346,27 @@ export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
         },
       },
     });
-    if (!rows.length && !query.q && !query.state && page === 1) return SEED_MISSING_PERSONS;
+
+    if (!rows.length && !query.q && !query.state && page === 1) {
+      return fetchLive();
+    }
+
     return rows.map(mapMissingPersonWithSources);
   } catch {
-    return SEED_MISSING_PERSONS;
+    return fetchLive();
   }
 }
 
 export async function countMissingPersons(query: Pick<MissingPersonsQuery, "q" | "state"> = {}) {
-  if (!isDatabaseConfigured()) return SEED_MISSING_PERSONS.length;
+  const countLive = async () => {
+    const { fetchMissingPersonsLive } = await import("@/lib/missing-persons/live-feed");
+    return (await fetchMissingPersonsLive({ ...query, page: 1, limit: 1 })).total;
+  };
+
+  if (!isDatabaseConfigured()) return countLive();
+
   try {
-    return await prisma.missingPerson.count({
+    const count = await prisma.missingPerson.count({
       where: {
         isActive: true,
         verificationStatus: { notIn: ["found", "deceased"] },
@@ -357,28 +382,32 @@ export async function countMissingPersons(query: Pick<MissingPersonsQuery, "q" |
           : {}),
       },
     });
+
+    if (count === 0 && !query.q && !query.state) {
+      return countLive();
+    }
+
+    return count;
   } catch {
-    return 0;
+    return countLive();
   }
 }
 
 export async function fetchMissingPersonsStats() {
-  if (!isDatabaseConfigured()) {
-    return {
-      unique_active: 0,
-      total_external_records: 0,
-      sources: [] as { slug: string; name: string; records: number; platform_count: number | null }[],
-    };
-  }
+  const fetchLiveStats = async () => {
+    const { fetchMissingPersonsLiveStats } = await import("@/lib/missing-persons/live-feed");
+    return fetchMissingPersonsLiveStats();
+  };
+
+  if (!isDatabaseConfigured()) return fetchLiveStats();
+
   try {
     const { getMissingPersonsStats } = await import("@/lib/missing-persons/sync");
-    return await getMissingPersonsStats(prisma);
+    const stats = await getMissingPersonsStats(prisma);
+    if (stats.unique_active > 0) return stats;
+    return fetchLiveStats();
   } catch {
-    return {
-      unique_active: 0,
-      total_external_records: 0,
-      sources: [],
-    };
+    return fetchLiveStats();
   }
 }
 

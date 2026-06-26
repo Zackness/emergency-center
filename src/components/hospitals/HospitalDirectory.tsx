@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import MapView from "@/components/map/MapView";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { Hospital, MapLocation } from "@/types";
+import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 
 const PAGE_SIZE = 40;
 
@@ -29,6 +31,8 @@ interface HospitalDirectoryProps {
     noResults: string;
     loadMore: string;
   };
+  feedbackLabels: Record<string, string>;
+  confidenceLabels: Record<CommunityConfidenceLevel, string>;
 }
 
 const STATUS_BADGE: Record<string, string> = {
@@ -43,6 +47,8 @@ export default function HospitalDirectory({
   locale,
   states,
   labels,
+  feedbackLabels,
+  confidenceLabels,
 }: HospitalDirectoryProps) {
   const [query, setQuery] = useState("");
   const [stateFilter, setStateFilter] = useState("");
@@ -186,6 +192,14 @@ export default function HospitalDirectory({
                   {labels.directions}
                 </a>
               </div>
+              <CommunityFeedback
+                contentType="hospital"
+                contentId={hospital.id}
+                locale={locale}
+                labels={feedbackLabels}
+                confidenceLabels={confidenceLabels}
+                compact
+              />
             </article>
           ))}
           {hasMore && (

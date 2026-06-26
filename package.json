@@ -17,6 +17,7 @@
     "db:migrate": "prisma migrate dev",
     "sync:missing": "tsx --tsconfig tsconfig.json scripts/sync-missing-persons.ts",
     "sync:damage": "tsx --tsconfig tsconfig.json scripts/sync-damage-map.ts",
+    "fetch:damage": "tsx scripts/fetch-damage-map.ts",
     "sync:hospitals": "tsx --tsconfig tsconfig.json scripts/sync-hospitals.ts",
     "fetch:hospitals": "tsx scripts/fetch-venezuela-hospitals.ts",
     "fetch:hospitals:google": "tsx scripts/fetch-google-hospitals.ts"

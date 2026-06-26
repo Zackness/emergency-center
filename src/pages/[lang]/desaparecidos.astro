@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import ExternalSourceCard from "@/components/ui/ExternalSourceCard.astro";
 import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
 import MissingPersonRegistry from "@/components/registry/MissingPersonRegistry";
 import MissingPersonForm from "@/components/forms/MissingPersonForm";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { fetchExternalSources, fetchMissingPersonsStats } from "@/lib/data";
@@ -12,7 +12,6 @@ import { OFFICIAL_EARTHQUAKE_STATS } from "@/data/official-earthquake-stats";
 import { RED_CROSS_FAMILY_CONTACT } from "@/data/red-cross-family-contact";
 import { VENEVISION_MISSING_LINE } from "@/data/venevision-missing-line";
 import { VENEZUELA_STATES } from "@/data/seed";
-import type { ExternalSourceStatus } from "@/types";
 
 export function getStaticPaths() {
   return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
@@ -27,16 +26,11 @@ const { t, dict } = useTranslations(locale);
 const externalSources = await fetchExternalSources();
 const stats = await fetchMissingPersonsStats();
 
-function statusLabel(status: ExternalSourceStatus) {
-  return t(`missing.sourceStatus.${status}`);
-}
-
 const formLabels = {
   ...dict.missing.form,
   submit: t("common.submit"),
 };
 
-const registrationTypeLabel = t("missing.aggregator.registrationType");
 const registryLabels = {
   searchPlaceholder: t("missing.registry.searchPlaceholder"),
   stateFilter: t("missing.registry.stateFilter"),
@@ -61,7 +55,7 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
 ---
 
 <BaseLayout locale={locale} title={t("missing.title")}>
-  <PageHeader title={t("missing.title")} subtitle={t("missing.subtitle")}>
+  <PageHeader title={t("missing.title")} subtitle={t("missing.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
   </PageHeader>
 
   <div class="container-app pb-16 space-y-16 -mt-4">
@@ -88,6 +82,15 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         </div>
       </div>
       <p class="text-xs text-ink-muted max-w-3xl mb-6">{t("missing.registry.statsDedupNote")}</p>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="missing-persons-registry-stats"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
       <MissingPersonRegistry
         client:load
         locale={locale}
@@ -118,6 +121,15 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
             {t("missing.redCross.generalLine")}: {RED_CROSS_FAMILY_CONTACT.generalLine}
           </a>
         </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="cruz-roja-contacto-familiar"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
       </div>
     </section>
 
@@ -145,6 +157,15 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
             {t("missing.venevision.whatsapp")} →
           </a>
         </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="venevision-missing-line"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
       </div>
     </section>
 
@@ -165,6 +186,15 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
             @academialeguau →
           </a>
         </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="missing-pets-crosslink"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
       </div>
     </section>
 
@@ -201,49 +231,24 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
           {official.source}
         </a>
       </p>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="official-earthquake-stats"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
     </section>
 
     <section>
-      <div class="mb-6">
-        <h2 class="text-xl font-semibold text-ink">{t("missing.external.title")}</h2>
-        <p class="mt-1 text-sm text-ink-secondary">{t("missing.aggregator.subtitle")}</p>
-      </div>
-      <div class="rounded-2xl border border-warning/30 bg-warning-muted/40 p-4 mb-4 text-sm text-ink-secondary max-w-4xl">
-        {t("missing.aggregator.noSumWarning")}
-      </div>
-      <div class="rounded-2xl border border-zinc-200 bg-surface-muted p-4 mb-6 text-sm text-ink-secondary max-w-4xl">
-        {t("missing.aggregator.disclaimer")}
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {
-          externalSources.map((source) => (
-            <ExternalSourceCard
-              name={source.name}
-              description={source.description}
-              url={source.url}
-              registrationType={source.registration_type}
-              registrationTypeLabel={registrationTypeLabel}
-              approximateCount={source.approximate_count}
-              countPending={source.count_pending}
-              countLocated={source.count_located}
-              lastUpdated={source.last_updated_at}
-              lastUpdatedLabel={t("common.lastUpdated")}
-              status={source.status}
-              statusLabel={statusLabel(source.status)}
-              externalSourceLabel={t("missing.aggregator.externalSource")}
-              visitLabel={t("missing.external.visit")}
-              verified={source.is_verified}
-              verifiedLabel={t("common.verified")}
-              countLabel={t("missing.aggregator.approximateCount")}
-              countPendingLabel={t("missing.aggregator.countPending")}
-              countLocatedLabel={t("missing.aggregator.countLocated")}
-            />
-          ))
-        }
-      </div>
+      <AlliedPlatforms
+        locale={locale}
+        feedbackLabels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+      />
     </section>
-
-    <AlliedPlatforms locale={locale} />
 
     <section>
       <div class="mb-6">

@@ -16,7 +16,8 @@ const { lang } = Astro.params;
 if (!isValidLocale(lang)) return Astro.redirect("/es/hospitales");
 
 const locale = lang as Locale;
-const { t } = useTranslations(locale);
+const { t, dict } = useTranslations(locale);
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const hospitals = await fetchHospitals();
 
 const statesInData = [...new Set(hospitals.map((h) => h.state))].sort((a, b) =>
@@ -54,7 +55,7 @@ const directoryLabels = {
 ---
 
 <BaseLayout locale={locale} title={t("hospitals.title")}>
-  <PageHeader title={t("hospitals.title")} subtitle={t("hospitals.subtitle")}>
+  <PageHeader title={t("hospitals.title")} subtitle={t("hospitals.subtitle")} imageSrc="/images/headers/salud-rescate.svg" imageAlt="">
     <div class="rounded-2xl border border-border bg-surface-muted p-4 mb-8 text-sm text-ink-secondary max-w-3xl">
       {t("hospitals.socialFallback")}
     </div>
@@ -65,6 +66,8 @@ const directoryLabels = {
       locale={locale}
       states={filterStates}
       labels={directoryLabels}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
     />
   </PageHeader>
 </BaseLayout>

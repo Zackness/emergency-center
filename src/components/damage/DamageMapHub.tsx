@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import MapView from "@/components/map/MapView";
 import DamageReportForm from "@/components/forms/DamageReportForm";
+import DamageReportGallery from "@/components/damage/DamageReportGallery";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { DamageReport, DamageSeverity, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
@@ -71,49 +72,39 @@ export default function DamageMapHub({
   const [items, setItems] = useState<DamageReport[]>([]);
   const [stats, setStats] = useState<DamageMapStats | null>(null);
   const [total, setTotal] = useState(0);
-  const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const pageSize = 40;
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedSearch(search.trim()), 300);
     return () => window.clearTimeout(timer);
   }, [search]);
 
-  const fetchPage = useCallback(
-    async (nextOffset: number, append: boolean) => {
-      const params = new URLSearchParams({
-        limit: String(pageSize),
-        offset: String(nextOffset),
-      });
-      if (debouncedSearch) params.set("search", debouncedSearch);
-      if (severity !== "all") params.set("severity", severity);
-      if (stateFilter !== "all") params.set("state", stateFilter);
+  const fetchReports = useCallback(async () => {
+    const params = new URLSearchParams({ limit: "10000", offset: "0" });
+    if (debouncedSearch) params.set("search", debouncedSearch);
+    if (severity !== "all") params.set("severity", severity);
+    if (stateFilter !== "all") params.set("state", stateFilter);
 
-      const response = await fetch(`/api/damage-reports?${params.toString()}`);
-      if (!response.ok) {
-        const body = await response.json().catch(() => ({}));
-        throw new Error(body.error ?? "Error loading damage reports");
-      }
-      const data = await response.json();
-      setStats(data.stats);
-      setTotal(data.total);
-      setItems((prev) => (append ? [...prev, ...data.items] : data.items));
-      setOffset(nextOffset + data.items.length);
-    },
-    [debouncedSearch, severity, stateFilter]
-  );
+    const response = await fetch(`/api/damage-reports?${params.toString()}`);
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new Error(body.error ?? "Error loading damage reports");
+    }
+    const data = await response.json();
+    setStats(data.stats);
+    setTotal(data.total);
+    setItems(data.items);
+  }, [debouncedSearch, severity, stateFilter]);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError(null);
     setSelectedId(null);
-    fetchPage(0, false)
+    fetchReports()
       .catch((err: Error) => {
         if (!cancelled) setError(err.message);
       })
@@ -123,7 +114,7 @@ export default function DamageMapHub({
     return () => {
       cancelled = true;
     };
-  }, [fetchPage, refreshKey]);
+  }, [fetchReports, refreshKey]);
 
   const mapLocations: MapLocation[] = useMemo(
     () =>
@@ -135,44 +126,35 @@ export default function DamageMapHub({
         type: "damage" as const,
         address: report.address ?? `${report.city}, ${report.state}`,
         severity: report.severity,
+        image_urls: report.image_urls,
       })),
     [items]
   );
 
-  const loadMore = async () => {
-    setLoadingMore(true);
-    try {
-      await fetchPage(offset, true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error");
-    } finally {
-      setLoadingMore(false);
-    }
-  };
-
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white shadow-soft">
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M3 12h4l2-7 4 14 2-7h6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-ink">{labels.hubTitle}</h1>
-            <p className="text-xs font-medium uppercase tracking-widest text-ink-secondary">
+      <div className="relative overflow-hidden rounded-[2rem] border border-border bg-ink shadow-soft">
+        <img
+          src="/images/headers/emergencia-sismica.svg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/50 to-ink/10" />
+        <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 sm:p-8 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{labels.hubTitle}</h1>
+            <p className="mt-3 text-sm font-medium uppercase tracking-widest text-white/75">
               {labels.hubRegion}
             </p>
           </div>
+          <a
+            href="#ayuda-danos"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur hover:bg-white/25"
+          >
+            <HelpCircle className="h-4 w-4" />
+            {labels.help}
+          </a>
         </div>
-        <a
-          href="#ayuda-danos"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-ink-secondary hover:bg-surface-muted"
-        >
-          <HelpCircle className="h-4 w-4" />
-          {labels.help}
-        </a>
       </div>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
@@ -297,17 +279,26 @@ export default function DamageMapHub({
       </div>
 
       <section>
-        <div className="mb-3 flex flex-wrap items-center gap-4 text-sm">
-          <span className="font-medium text-ink">{labels.legend}:</span>
-          {(Object.keys(SEVERITY_COLORS) as DamageSeverity[]).map((key) => (
-            <span key={key} className="inline-flex items-center gap-2">
-              <span
-                className="h-3.5 w-3.5 rounded-full"
-                style={{ background: SEVERITY_COLORS[key] }}
-              />
-              {severityLabels[key]}
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-4 text-sm">
+            <span className="font-medium text-ink">{labels.legend}:</span>
+            {(Object.keys(SEVERITY_COLORS) as DamageSeverity[]).map((key) => (
+              <span key={key} className="inline-flex items-center gap-2">
+                <span
+                  className="h-3.5 w-3.5 rounded-full"
+                  style={{ background: SEVERITY_COLORS[key] }}
+                />
+                {severityLabels[key]}
+              </span>
+            ))}
+          </div>
+          {!loading && total > 0 && (
+            <span className="text-sm text-ink-secondary">
+              {locale === "es"
+                ? `${items.length} marcadores en el mapa`
+                : `${items.length} markers on map`}
             </span>
-          ))}
+          )}
         </div>
         {loading ? (
           <div className="flex h-[520px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary">
@@ -325,10 +316,24 @@ export default function DamageMapHub({
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold text-ink">{labels.listTitle}</h2>
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <h2 className="text-xl font-semibold text-ink">{labels.listTitle}</h2>
+          {!loading && total > 0 && (
+            <span className="text-sm text-ink-secondary">
+              {locale === "es"
+                ? `Mostrando ${items.length} de ${total}`
+                : `Showing ${items.length} of ${total}`}
+            </span>
+          )}
+        </div>
         {error && (
           <p className="mt-3 rounded-2xl border border-emergency/30 bg-emergency-muted/40 p-4 text-sm text-emergency">
             {error}
+          </p>
+        )}
+        {loading && (
+          <p className="mt-3 rounded-2xl border border-border bg-surface-muted p-6 text-sm text-ink-secondary">
+            {labels.loading}
           </p>
         )}
         {!loading && items.length === 0 && !error && (
@@ -336,68 +341,64 @@ export default function DamageMapHub({
             {labels.empty}
           </p>
         )}
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {items.map((report) => (
             <article
               key={report.id}
               id={report.id}
-              className={`card cursor-pointer transition ${
+              className={`card flex cursor-pointer flex-col overflow-hidden p-0 transition ${
                 selectedId === report.id ? "ring-2 ring-accent" : "hover:border-accent/40"
               }`}
-              onClick={() => setSelectedId(report.id)}
+              onClick={() => setSelectedId((current) => (current === report.id ? null : report.id))}
             >
-              <div className="flex flex-wrap items-start gap-4">
-                {report.image_urls?.[0] && (
-                  <img
-                    src={report.image_urls[0]}
-                    alt=""
-                    className="h-20 w-28 rounded-xl object-cover"
-                    loading="lazy"
-                  />
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-ink">{report.title}</h3>
-                    <span className={`badge text-xs ${SEVERITY_STYLES[report.severity]}`}>
-                      {severityLabels[report.severity]}
-                    </span>
-                    {report.is_verified && (
-                      <span className="badge-verified">{labels.verified}</span>
-                    )}
-                  </div>
-                  <p className="mt-2 text-sm text-ink-secondary">
-                    {report.city}, {report.state}
-                    {report.address ? ` — ${report.address}` : ""}
-                    {report.zone ? ` · ${report.zone}` : ""}
-                  </p>
-                  {report.description && (
-                    <p className="mt-2 text-sm text-ink-secondary">{report.description}</p>
+              <DamageReportGallery
+                imageUrls={report.image_urls}
+                title={report.title}
+                locale={locale}
+                expanded={selectedId === report.id}
+                photosLabel={labels.photosCount}
+                variant="grid"
+              />
+              <div className="flex flex-1 flex-col p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="line-clamp-2 font-semibold text-ink">{report.title}</h3>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <span className={`badge text-xs ${SEVERITY_STYLES[report.severity]}`}>
+                    {severityLabels[report.severity]}
+                  </span>
+                  {report.is_verified && (
+                    <span className="badge-verified text-xs">{labels.verified}</span>
                   )}
-                  <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
+                </div>
+                <p className="mt-2 line-clamp-2 flex-1 text-sm text-ink-secondary">
+                  {report.city}, {report.state}
+                  {report.address ? ` — ${report.address}` : ""}
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-border pt-3 text-xs">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${report.latitude},${report.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {labels.directions}
+                  </a>
+                  {report.source_url && (
                     <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${report.latitude},${report.longitude}`}
+                      href={report.source_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-accent hover:underline"
+                      className="text-ink-secondary hover:underline"
                       onClick={(event) => event.stopPropagation()}
                     >
-                      {labels.directions}
+                      {labels.source}
                     </a>
-                    {report.source_url && (
-                      <a
-                        href={report.source_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-ink-secondary hover:underline"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        {labels.source}: {report.source_name ?? report.source_url}
-                      </a>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-              <div onClick={(event) => event.stopPropagation()}>
+              <div className="px-4 pb-4" onClick={(event) => event.stopPropagation()}>
                 <CommunityFeedback
                   contentType="damage_report"
                   contentId={report.id}
@@ -410,18 +411,6 @@ export default function DamageMapHub({
             </article>
           ))}
         </div>
-        {items.length < total && (
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={loadMore}
-              disabled={loadingMore}
-              className="rounded-xl border border-border bg-surface px-5 py-2.5 text-sm font-medium text-ink hover:bg-surface-muted disabled:opacity-60"
-            >
-              {loadingMore ? labels.loadingMore : labels.loadMore}
-            </button>
-          </div>
-        )}
       </section>
 
       <section id="reportar">

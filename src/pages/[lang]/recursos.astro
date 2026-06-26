@@ -84,7 +84,7 @@ const guides = [
 ---
 
 <BaseLayout locale={locale} title={t("resources.title")}>
-  <PageHeader title={t("resources.title")} subtitle={t("resources.subtitle")}>
+  <PageHeader title={t("resources.title")} subtitle={t("resources.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
     <section class="mb-16" id="herramientas-offline">
       <div class="mb-6">
         <h2 class="text-xl font-semibold text-ink">{t("resources.offlineTools.title")}</h2>
@@ -105,7 +105,17 @@ const guides = [
                 offlineLabel={t("resources.offlineTools.offlineBadge")}
                 featuresLabel={t("resources.offlineTools.features")}
                 tipsLabel={t("resources.offlineTools.tips")}
-              />
+              >
+                <CommunityFeedback
+                  client:visible
+                  contentType="external_link"
+                  contentId={tool.id}
+                  locale={locale}
+                  labels={feedbackLabels}
+                  confidenceLabels={confidenceLabels}
+                  compact
+                />
+              </OfflineToolCard>
             </div>
           ))
         }
