@@ -1,8 +1,935 @@
 {
   "source": "https://www.huellascan.com/terremoto",
-  "fetched_at": "2026-06-26T15:16:54.204Z",
-  "count": 1268,
+  "fetched_at": "2026-06-26T21:12:03.828Z",
+  "count": 1370,
   "items": [
+    {
+      "externalId": "1466",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Caracas",
+      "distinctive_marks": "Lo encontraron",
+      "contact_phone": "6389798",
+      "photo_url": null
+    },
+    {
+      "externalId": "1465",
+      "name": "desconocido (perrita poodle blanca)",
+      "status": "lost",
+      "location": "rescatada cerca colegio de Ingenieros",
+      "distinctive_marks": "pario 3 perritos, uno murio",
+      "contact_phone": "+58 414-9043597 y 0412 1587493",
+      "photo_url": null
+    },
+    {
+      "externalId": "1464",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Parque residencial los caobos, sótano 4",
+      "distinctive_marks": "Un gatito que nos encontramos en la búsqueda del nuestro es cariñoso y se ve cuidado no sabemos si está perdido o es de alguien pero dejo esta información por si acaso",
+      "contact_phone": "04129850205",
+      "photo_url": null
+    },
+    {
+      "externalId": "1463",
+      "name": "desconocido",
+      "status": "lost",
+      "location": "vista por la plaza la campiña",
+      "distinctive_marks": "color marron claro, hocico negro",
+      "contact_phone": "se desconoce",
+      "photo_url": null
+    },
+    {
+      "externalId": "1462",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Av lamas",
+      "distinctive_marks": null,
+      "contact_phone": "04227070213",
+      "photo_url": null
+    },
+    {
+      "externalId": "1461",
+      "name": "Simba",
+      "status": "lost",
+      "location": "MAMERA 3 VEREDA 3",
+      "distinctive_marks": "No tenía collar puesto pero tiene lagañas marcadas",
+      "contact_phone": "04127769564",
+      "photo_url": null
+    },
+    {
+      "externalId": "1460",
+      "name": "Trufa",
+      "status": "lost",
+      "location": "San Juan, El Paraíso, Capuchinos",
+      "distinctive_marks": "Gato negro, con la cola peluda, mancha en el paladar, E en la oreja",
+      "contact_phone": "04125812319",
+      "photo_url": null
+    },
+    {
+      "externalId": "1459",
+      "name": "desconocido",
+      "status": "lost",
+      "location": "residencias jurel, la guaira",
+      "distinctive_marks": "color marron, orejas negras y patas blancas, NO se conoce la ubicacion",
+      "contact_phone": "sin numero",
+      "photo_url": null
+    },
+    {
+      "externalId": "1458",
+      "name": "Lupita",
+      "status": "lost",
+      "location": "avenida andrés bello de los palos grandes edificio San Bosco",
+      "distinctive_marks": "es blanca con manchas negras y tiene una mancha negra en forma de corazón en el lomo",
+      "contact_phone": "04122419554",
+      "photo_url": null
+    },
+    {
+      "externalId": "1457",
+      "name": "Baguira",
+      "status": "lost",
+      "location": "El la urbina, urbanización William lara",
+      "distinctive_marks": "Gata negra, ojos verdes y un lunar en el pecho un poco blanquesino",
+      "contact_phone": "04241265657 y 04242819179",
+      "photo_url": null
+    },
+    {
+      "externalId": "1456",
+      "name": "desconocido",
+      "status": "lost",
+      "location": "avenida los pinos",
+      "distinctive_marks": "gato negro peludo, cola peluda",
+      "contact_phone": "04124058712",
+      "photo_url": null
+    },
+    {
+      "externalId": "1455",
+      "name": "Poe",
+      "status": "lost",
+      "location": "Parque residencial los Caobos",
+      "distinctive_marks": "Gato negro de ojos verdes un poco canoso es un gatito ya mayor",
+      "contact_phone": "04129850205",
+      "photo_url": null
+    },
+    {
+      "externalId": "1454",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "La floresta",
+      "distinctive_marks": "Perrita marroncita claro con blanco, tiene collar negro",
+      "contact_phone": "No hay",
+      "photo_url": null
+    },
+    {
+      "externalId": "1453",
+      "name": "NELLA",
+      "status": "lost",
+      "location": "La guaira",
+      "distinctive_marks": "No tiene",
+      "contact_phone": "04143966780",
+      "photo_url": null
+    },
+    {
+      "externalId": "1452",
+      "name": "Duke",
+      "status": "lost",
+      "location": "Caribe, Edf Carballeda Suites",
+      "distinctive_marks": "Macho esterilizado, grande y",
+      "contact_phone": "0426-2463075",
+      "photo_url": null
+    },
+    {
+      "externalId": "1451",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "La Campiña, plaza PDVSA",
+      "distinctive_marks": "Boca negra, marroncita",
+      "contact_phone": "04124759098",
+      "photo_url": null
+    },
+    {
+      "externalId": "1450",
+      "name": "NELLA",
+      "status": "lost",
+      "location": "La guaira costa dorada",
+      "distinctive_marks": "Bull doc francés",
+      "contact_phone": "04143966780",
+      "photo_url": null
+    },
+    {
+      "externalId": "1448",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Los Jardines, Calle 11",
+      "distinctive_marks": "Sin nada",
+      "contact_phone": "04142149084",
+      "photo_url": null
+    },
+    {
+      "externalId": "1447",
+      "name": "Enzo",
+      "status": "lost",
+      "location": "La guaira, Caraballeda urb tamarindo edif Altamira",
+      "distinctive_marks": "Es mestizo, color caramelo, tiene una pequeña manchita blanca en la nariz",
+      "contact_phone": "04123869328 \\/ 04123134521 \\/ 04129006941",
+      "photo_url": null
+    },
+    {
+      "externalId": "1446",
+      "name": "Luke",
+      "status": "lost",
+      "location": "La Guaira, Caribe- lLos corales",
+      "distinctive_marks": "Aprox 5 años, color champán con blanco y un collar azulito",
+      "contact_phone": "04242334306",
+      "photo_url": null
+    },
+    {
+      "externalId": "1445",
+      "name": "zenitsu",
+      "status": "found",
+      "location": "av andres bello, edificio siko",
+      "distinctive_marks": "apareció",
+      "contact_phone": "04241528749",
+      "photo_url": null
+    },
+    {
+      "externalId": "1444",
+      "name": "Marrie",
+      "status": "lost",
+      "location": "Opp 26 D, los cocos, La Guaira",
+      "distinctive_marks": "Es gris con rallas y es bastante peludita (es hembra)",
+      "contact_phone": "04228181396",
+      "photo_url": null
+    },
+    {
+      "externalId": "1443",
+      "name": "Lupita",
+      "status": "found",
+      "location": "Maracay residencias canta claro",
+      "distinctive_marks": "Collar azul, rayado con blanco",
+      "contact_phone": "04243538704",
+      "photo_url": null
+    },
+    {
+      "externalId": "1442",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Los Corales - La Guaira",
+      "distinctive_marks": "Sin collar, pelaje gris\\/beige claro y pestañas largas",
+      "contact_phone": "04243443383",
+      "photo_url": null
+    },
+    {
+      "externalId": "1441",
+      "name": "Thabita",
+      "status": "found",
+      "location": "Maracay residencias canta claro",
+      "distinctive_marks": "Collar rosado,  blanca con manchita negra en la cabeza",
+      "contact_phone": "04243538704",
+      "photo_url": null
+    },
+    {
+      "externalId": "1440",
+      "name": "Tito",
+      "status": "found",
+      "location": "Maracay residencias canta claro",
+      "distinctive_marks": "Collar azul, rayado con blanco",
+      "contact_phone": "04243538704",
+      "photo_url": null
+    },
+    {
+      "externalId": "1439",
+      "name": "Loki",
+      "status": "lost",
+      "location": "Catia la mar la guaira",
+      "distinctive_marks": "Pelaje amarillo y un poco orejón  no tienen collar",
+      "contact_phone": "+58 424-9073186",
+      "photo_url": null
+    },
+    {
+      "externalId": "1438",
+      "name": "Zeus",
+      "status": "lost",
+      "location": "Perdido en la Urbina",
+      "distinctive_marks": "Negro pecho blanco collar azul es cachorro",
+      "contact_phone": "04142596552",
+      "photo_url": null
+    },
+    {
+      "externalId": "1437",
+      "name": "Luke",
+      "status": "lost",
+      "location": "Residencia vistamar Caraballeda",
+      "distinctive_marks": "Tenía su collar",
+      "contact_phone": "04242145100",
+      "photo_url": null
+    },
+    {
+      "externalId": "1436",
+      "name": "Marley y luke",
+      "status": "lost",
+      "location": "Residencia vistaMar Caraballeda",
+      "distinctive_marks": "Tiene collares con sus nombres",
+      "contact_phone": "04242145100 Andreina",
+      "photo_url": null
+    },
+    {
+      "externalId": "1435",
+      "name": "Perro desorientado",
+      "status": "lost",
+      "location": "Plaza capuchinos San Marrin Caracas",
+      "distinctive_marks": null,
+      "contact_phone": "04241735024",
+      "photo_url": null
+    },
+    {
+      "externalId": "1434",
+      "name": "Kira isis y dakota",
+      "status": "lost",
+      "location": "Residencias tamiami los corales estado la guaira",
+      "distinctive_marks": "No tenian collar estaban juntas en el apto ayudenme a ubicarlas tuvieron que haberlas sacado por que mis bebes eran 5 y llegaron a 2 los cuales estan conmigo a ellas no pudieron rescatarlas en ese momento y hoy ya no estaban alli ayuda",
+      "contact_phone": "04122813620",
+      "photo_url": null
+    },
+    {
+      "externalId": "1433",
+      "name": "Cachito",
+      "status": "lost",
+      "location": "Av Caroni los símbolos",
+      "distinctive_marks": "Responde a cachito patas cortas gris atigrado",
+      "contact_phone": "04128092856",
+      "photo_url": null
+    },
+    {
+      "externalId": "1432",
+      "name": "Desorientado",
+      "status": "found",
+      "location": "Plaza capuchinos San Marrin Caracas",
+      "distinctive_marks": null,
+      "contact_phone": "04241735024",
+      "photo_url": null
+    },
+    {
+      "externalId": "1431",
+      "name": "Luna María Porras",
+      "status": "lost",
+      "location": "Sector, La Tomita II, Caraballeda",
+      "distinctive_marks": "Punta de orejas y cola negra",
+      "contact_phone": "04122949518",
+      "photo_url": null
+    },
+    {
+      "externalId": "1430",
+      "name": "Kitty",
+      "status": "lost",
+      "location": "Recidencias el jurel Catia la mar la guaira",
+      "distinctive_marks": null,
+      "contact_phone": "04267165833",
+      "photo_url": null
+    },
+    {
+      "externalId": "1429",
+      "name": "Kira",
+      "status": "lost",
+      "location": "Recidencias el jurel Catia la mar la guaira",
+      "distinctive_marks": null,
+      "contact_phone": "04267165833",
+      "photo_url": null
+    },
+    {
+      "externalId": "1428",
+      "name": "Kira y kitty",
+      "status": "lost",
+      "location": "Recidencial jurel Catia la mar la Guaira",
+      "distinctive_marks": null,
+      "contact_phone": "04267165833",
+      "photo_url": null
+    },
+    {
+      "externalId": "1427",
+      "name": "Pol",
+      "status": "lost",
+      "location": "Catia la mar Suma torre L12 por donde esta el colegio matea Bolivar me dijeron que todavía permanece en el mismo lugar",
+      "distinctive_marks": "Azul",
+      "contact_phone": "04242689417",
+      "photo_url": null
+    },
+    {
+      "externalId": "1426",
+      "name": "Angel",
+      "status": "lost",
+      "location": "Playa grande, cerca del hotel Marriott",
+      "distinctive_marks": "Gris con ojos azules\\/grises",
+      "contact_phone": "04120759962",
+      "photo_url": null
+    },
+    {
+      "externalId": "1425",
+      "name": "Matilde",
+      "status": "lost",
+      "location": "Playa grande, cerca de hotel marriott",
+      "distinctive_marks": "Blanca, manchas marrones y negras, ojos verdes",
+      "contact_phone": "04120759962",
+      "photo_url": null
+    },
+    {
+      "externalId": "1424",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Pérez Bonalde. Detrás del hospital Elias Toro. Frente a Llenatodo",
+      "distinctive_marks": "Blanco con negro",
+      "contact_phone": "04129864017",
+      "photo_url": null
+    },
+    {
+      "externalId": "1423",
+      "name": "Belinda",
+      "status": "lost",
+      "location": "Playa grande, cerca del hotel marriott",
+      "distinctive_marks": "Ojos verdes, blanca, manchas marrones y negras",
+      "contact_phone": "04120759962",
+      "photo_url": null
+    },
+    {
+      "externalId": "1421",
+      "name": "Chechi",
+      "status": "lost",
+      "location": "Playa grande, cerca del hotel Marriott",
+      "distinctive_marks": "Mancha blanca en el lomo y ojos verdes\\/amarillos",
+      "contact_phone": "04120759962",
+      "photo_url": null
+    },
+    {
+      "externalId": "1420",
+      "name": "Moka",
+      "status": "found",
+      "location": "Playa vasito",
+      "distinctive_marks": "Es color marrón con patas blancas y pecho blanco",
+      "contact_phone": "04140320055",
+      "photo_url": null
+    },
+    {
+      "externalId": "1419",
+      "name": "Gata adulta",
+      "status": "lost",
+      "location": "En el centro de Caracas, bajando del colegio la Salle tienda honda",
+      "distinctive_marks": "Recientemente esterilizada todavía no tiene pelo en la cicatriz",
+      "contact_phone": "04242708180",
+      "photo_url": null
+    },
+    {
+      "externalId": "1418",
+      "name": "Gata adulta",
+      "status": "found",
+      "location": "En el centro de Caracas, bajando del colegio la Salle tienda honda",
+      "distinctive_marks": "Recientemente esterilizada todavía no tiene pelo en la cicatriz",
+      "contact_phone": "04242708180",
+      "photo_url": null
+    },
+    {
+      "externalId": "1417",
+      "name": "Blanca",
+      "status": "lost",
+      "location": "Las Torres, Municipio Libertador, cerca de La Pastora",
+      "distinctive_marks": "Collar Rosado",
+      "contact_phone": "+58 412-2373410",
+      "photo_url": null
+    },
+    {
+      "externalId": "1416",
+      "name": "Theo",
+      "status": "lost",
+      "location": "Caribe la guaira",
+      "distinctive_marks": null,
+      "contact_phone": "1783642",
+      "photo_url": null
+    },
+    {
+      "externalId": "1415",
+      "name": "Dulce",
+      "status": "lost",
+      "location": "Barrio San Blas, la chicharronera",
+      "distinctive_marks": null,
+      "contact_phone": "04164014304",
+      "photo_url": null
+    },
+    {
+      "externalId": "1414",
+      "name": "Coco",
+      "status": "lost",
+      "location": "Caribe la guaira",
+      "distinctive_marks": "Completamente negra",
+      "contact_phone": "1783642",
+      "photo_url": null
+    },
+    {
+      "externalId": "1413",
+      "name": "Samira",
+      "status": "lost",
+      "location": "Caribe la guaira",
+      "distinctive_marks": "Manchas blancas de bajo de la boca y también en las patas",
+      "contact_phone": "1783642",
+      "photo_url": null
+    },
+    {
+      "externalId": "1412",
+      "name": "Luna Isabel",
+      "status": "lost",
+      "location": "Petare\\/Nazareno",
+      "distinctive_marks": "Tiene una mancha amarilla en la nunca",
+      "contact_phone": "04125226282",
+      "photo_url": null
+    },
+    {
+      "externalId": "1411",
+      "name": "Honey",
+      "status": "lost",
+      "location": "Edificio Central park, El marqués Avenida Rómulo Gallegos",
+      "distinctive_marks": "Tiene una \\\"E\\\" de esterilizada en su orejita izquierda",
+      "contact_phone": "04122109062",
+      "photo_url": null
+    },
+    {
+      "externalId": "1410",
+      "name": "Luna Isabel",
+      "status": "lost",
+      "location": "Petare\\/Nazareno",
+      "distinctive_marks": "Tiene una mancha amarilla en la nuca",
+      "contact_phone": "04125226282 \\/ 04241272474 \\/ 04129101525",
+      "photo_url": null
+    },
+    {
+      "externalId": "1409",
+      "name": "Nina",
+      "status": "lost",
+      "location": "Playa Grande, zona de la iglesia nuestra señora de la misericordia",
+      "distinctive_marks": "Sin collar",
+      "contact_phone": "04241310115",
+      "photo_url": null
+    },
+    {
+      "externalId": "1408",
+      "name": "Ternura",
+      "status": "found",
+      "location": "Encontrada en tulipán",
+      "distinctive_marks": null,
+      "contact_phone": "04124020475",
+      "photo_url": null
+    },
+    {
+      "externalId": "1407",
+      "name": "Nina",
+      "status": "lost",
+      "location": "Tanaguarena",
+      "distinctive_marks": "Arnés azul",
+      "contact_phone": "04147929743 \\/\\/ 04147622181",
+      "photo_url": null
+    },
+    {
+      "externalId": "1406",
+      "name": "Cocotom",
+      "status": "lost",
+      "location": "El caribe la Guaira",
+      "distinctive_marks": "Su cola es más oscura que su cuerpo",
+      "contact_phone": "+58 414-2193319",
+      "photo_url": null
+    },
+    {
+      "externalId": "1405",
+      "name": "Blanca",
+      "status": "lost",
+      "location": "Mecedores",
+      "distinctive_marks": "No tiene",
+      "contact_phone": "04122373410",
+      "photo_url": null
+    },
+    {
+      "externalId": "1404",
+      "name": "Eva",
+      "status": "lost",
+      "location": "Zona los Chaguaramos",
+      "distinctive_marks": "Pañuelo azul estampado mancha en la espalda parecida a un corazón",
+      "contact_phone": "04120172134",
+      "photo_url": null
+    },
+    {
+      "externalId": "1403",
+      "name": "puchurro",
+      "status": "lost",
+      "location": "el tablón nueva casarapa, Guarenas",
+      "distinctive_marks": "blanco con gris con manchas marrones",
+      "contact_phone": "04141287686-04241722907",
+      "photo_url": null
+    },
+    {
+      "externalId": "1402",
+      "name": "Mía",
+      "status": "lost",
+      "location": "Caribe, al frente de la panadería k-rol",
+      "distinctive_marks": "No tiene collar, se asusta mucho",
+      "contact_phone": "0424-1703422",
+      "photo_url": null
+    },
+    {
+      "externalId": "1401",
+      "name": "Akiro",
+      "status": "lost",
+      "location": "La lucha catia la mar",
+      "distinctive_marks": "Nada",
+      "contact_phone": "04241831375",
+      "photo_url": null
+    },
+    {
+      "externalId": "1400",
+      "name": "Simba",
+      "status": "lost",
+      "location": "La lucha caria la mar",
+      "distinctive_marks": "Collar",
+      "contact_phone": "04241831375",
+      "photo_url": null
+    },
+    {
+      "externalId": "1399",
+      "name": "Akiro",
+      "status": "lost",
+      "location": "Perdido en la guaira",
+      "distinctive_marks": "No",
+      "contact_phone": "04241831375",
+      "photo_url": null
+    },
+    {
+      "externalId": "1398",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Fuerte Tiuna. Lo tendrán en Charallave",
+      "distinctive_marks": "Pug con collar rojo",
+      "contact_phone": "04141354158\\/04125581214",
+      "photo_url": null
+    },
+    {
+      "externalId": "1397",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "Bellas Artes, misión vivienda al lado del metro",
+      "distinctive_marks": "Collar rosado de pescado",
+      "contact_phone": "+58 412-7060656",
+      "photo_url": null
+    },
+    {
+      "externalId": "1396",
+      "name": "Marios",
+      "status": "lost",
+      "location": "En la guaira",
+      "distinctive_marks": "Manchas negras y no tiene colar",
+      "contact_phone": "04123566789",
+      "photo_url": null
+    },
+    {
+      "externalId": "1395",
+      "name": "Kiara",
+      "status": "lost",
+      "location": "Urb. Altamira, san Joaquín -Edo. Carabobo",
+      "distinctive_marks": "Siamés con collar morado",
+      "contact_phone": "04123554835",
+      "photo_url": null
+    },
+    {
+      "externalId": "1394",
+      "name": "test",
+      "status": "lost",
+      "location": "test",
+      "distinctive_marks": "test",
+      "contact_phone": "test",
+      "photo_url": null
+    },
+    {
+      "externalId": "1393",
+      "name": "MAGGIE",
+      "status": "lost",
+      "location": "Guarenas frente al luta, por donde esta el colegio MENCA I",
+      "distinctive_marks": "Tiene una placa como en la imagen",
+      "contact_phone": "04123138532",
+      "photo_url": null
+    },
+    {
+      "externalId": "1392",
+      "name": "Ceviche",
+      "status": "lost",
+      "location": "Res Vallarta, Cátia la mar",
+      "distinctive_marks": null,
+      "contact_phone": "+58 4244903356",
+      "photo_url": null
+    },
+    {
+      "externalId": "1391",
+      "name": "Mango",
+      "status": "lost",
+      "location": "Res Vallarta, Cátia la mar",
+      "distinctive_marks": null,
+      "contact_phone": "+58 4244903356",
+      "photo_url": null
+    },
+    {
+      "externalId": "1390",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "resguardada en El Encantado",
+      "distinctive_marks": "Collar fucsia, marrón en patas y cabeza cuerpo pelaje negro",
+      "contact_phone": "04241599766",
+      "photo_url": null
+    },
+    {
+      "externalId": "1389",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "Av Andrés Bello frente supermercado RioVida",
+      "distinctive_marks": "Sin collar",
+      "contact_phone": "04143891501",
+      "photo_url": null
+    },
+    {
+      "externalId": "1388",
+      "name": "Sisco",
+      "status": "lost",
+      "location": "Petare",
+      "distinctive_marks": "Pañoleta negra con puntos blancos grandes y collar negro con placa dorada",
+      "contact_phone": "04242345808",
+      "photo_url": null
+    },
+    {
+      "externalId": "1387",
+      "name": "Neko",
+      "status": "lost",
+      "location": "Petare, el nazareno, calle mara",
+      "distinctive_marks": null,
+      "contact_phone": "04120133771",
+      "photo_url": null
+    },
+    {
+      "externalId": "1386",
+      "name": "Maxi",
+      "status": "lost",
+      "location": "Playa grande",
+      "distinctive_marks": "Collar rojo con identificación y nombre",
+      "contact_phone": "0412-6327759\\/ 0412-1804803",
+      "photo_url": null
+    },
+    {
+      "externalId": "1385",
+      "name": "Ghost",
+      "status": "lost",
+      "location": "Residencias Caribe, Estado la Guaira",
+      "distinctive_marks": "tiene un collar con forma de hueso con su nombre, en la parte de atrás de la hebilla están los números de contacto de la dueña",
+      "contact_phone": "+58 424-7353917",
+      "photo_url": null
+    },
+    {
+      "externalId": "1384",
+      "name": "Toddy wan Kenobi",
+      "status": "lost",
+      "location": "Vista alegre, calle 11",
+      "distinctive_marks": "Manchas atigradas, ojos azules",
+      "contact_phone": "04242367650",
+      "photo_url": null
+    },
+    {
+      "externalId": "1383",
+      "name": "Eros garbanzo",
+      "status": "lost",
+      "location": "Playa grande, Luisa Cáceres de arismendi, Catia la mar",
+      "distinctive_marks": "Está castrado, tiene sus bolitas pequeñas y un pequeño tatuaje en su orejita",
+      "contact_phone": "04241225611",
+      "photo_url": null
+    },
+    {
+      "externalId": "1382",
+      "name": "Brown",
+      "status": "found",
+      "location": "Avenida Fuerzas Armadas al lado del Mercado de Las Flores",
+      "distinctive_marks": null,
+      "contact_phone": "04242881455",
+      "photo_url": null
+    },
+    {
+      "externalId": "1381",
+      "name": "Estrellita",
+      "status": "lost",
+      "location": "La Guaira",
+      "distinctive_marks": "Doodle alta tiene el pelaje corto",
+      "contact_phone": "04242400940",
+      "photo_url": null
+    },
+    {
+      "externalId": "1380",
+      "name": "Teddy",
+      "status": "lost",
+      "location": "Se perdió en Las aguitas-Los guayos",
+      "distinctive_marks": "Sin collar, pequeño color marrón, peludo, un ojito ciego (azul) el otro ojito si marronsito",
+      "contact_phone": "04123693208",
+      "photo_url": null
+    },
+    {
+      "externalId": "1378",
+      "name": "Harley",
+      "status": "lost",
+      "location": "Suma torre i12 apt 1",
+      "distinctive_marks": "Verde",
+      "contact_phone": "0424 2328198",
+      "photo_url": null
+    },
+    {
+      "externalId": "1377",
+      "name": "Ragnar",
+      "status": "lost",
+      "location": "Playa grande, catia la mar",
+      "distinctive_marks": null,
+      "contact_phone": "04122725957",
+      "photo_url": null
+    },
+    {
+      "externalId": "1376",
+      "name": "Mireya",
+      "status": "lost",
+      "location": "La Guaira",
+      "distinctive_marks": "Collar gris con la placa identificada con el nombre de Mireya",
+      "contact_phone": "04127292934",
+      "photo_url": null
+    },
+    {
+      "externalId": "1375",
+      "name": "Noah",
+      "status": "lost",
+      "location": "San José de cotiza, caracas",
+      "distinctive_marks": "Tiene un número 25 tatuado en una de sus orejas",
+      "contact_phone": "+58 412-6954640",
+      "photo_url": null
+    },
+    {
+      "externalId": "1374",
+      "name": "Noha",
+      "status": "lost",
+      "location": "San José de cotiza, caracas",
+      "distinctive_marks": null,
+      "contact_phone": "+58 412-6954640",
+      "photo_url": null
+    },
+    {
+      "externalId": "1373",
+      "name": "Marley",
+      "status": "found",
+      "location": "La Guaira, Caribe-Los corales",
+      "distinctive_marks": "Coño champán, 5 años aprox",
+      "contact_phone": "04242334306",
+      "photo_url": null
+    },
+    {
+      "externalId": "1372",
+      "name": "Kira Valentina",
+      "status": "lost",
+      "location": "Catia la mar, urb. Hugo chavez Playa grande",
+      "distinctive_marks": "color blanco, orejas marrones y lunar en la barriga, recién afeitada",
+      "contact_phone": "04142633804",
+      "photo_url": null
+    },
+    {
+      "externalId": "1371",
+      "name": "Nala",
+      "status": "lost",
+      "location": "Macuto, detrás de Kuto Motors por la bajada de Galipan",
+      "distinctive_marks": "Tiene la cola corta, es tímida y pequeña",
+      "contact_phone": "04241779699",
+      "photo_url": null
+    },
+    {
+      "externalId": "1370",
+      "name": "Eva",
+      "status": "lost",
+      "location": "Edificio Edipsos",
+      "distinctive_marks": "Una siamés. Perdida por la avenida Francisco Solano López.",
+      "contact_phone": "04166714018",
+      "photo_url": null
+    },
+    {
+      "externalId": "1369",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "Plaza la Candelaria",
+      "distinctive_marks": "Perrita marrón perdida en la plaza",
+      "contact_phone": "000",
+      "photo_url": null
+    },
+    {
+      "externalId": "1368",
+      "name": "Chiqui",
+      "status": "found",
+      "location": "Fuerte tiuna torre A-15",
+      "distinctive_marks": "No tiene collar",
+      "contact_phone": "4125880194",
+      "photo_url": null
+    },
+    {
+      "externalId": "1367",
+      "name": "Canela",
+      "status": "lost",
+      "location": "Edificio Costa Azul caraballeda",
+      "distinctive_marks": "Es una perrita gris muy cariñosa. Se le vio por última vez en el edificio Costa Azul subiendo los campos de golf de caribe, segunda cuadra a mano izquierda.",
+      "contact_phone": "04242336555",
+      "photo_url": null
+    },
+    {
+      "externalId": "1366",
+      "name": "Brown",
+      "status": "lost",
+      "location": "Avenida Fuerzas Armadas al lado del Mercado de Las Flores",
+      "distinctive_marks": null,
+      "contact_phone": "04242881455",
+      "photo_url": null
+    },
+    {
+      "externalId": "1365",
+      "name": "Ghost",
+      "status": "lost",
+      "location": "Residencias Caribe, Tanaguarenas La Guaira",
+      "distinctive_marks": "Husky Blanco, quedó atrapado en la torre A Residencias Caribe",
+      "contact_phone": "04247353917",
+      "photo_url": null
+    },
+    {
+      "externalId": "1364",
+      "name": "Kenzo",
+      "status": "lost",
+      "location": "Residencias Oasis, Av. Agustín \\u00c1lvarez Zerpa detrás del C. C. Hiper Jumbo",
+      "distinctive_marks": "Pelaje blanco con manchitas marrón al rededor del hocico y ojos",
+      "contact_phone": "04243140634",
+      "photo_url": null
+    },
+    {
+      "externalId": "1363",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Encontrada en Fuerte tiuna Alcabala 3 en medio de la calle",
+      "distinctive_marks": "Tiene collar rojo",
+      "contact_phone": "04241116566",
+      "photo_url": null
+    },
+    {
+      "externalId": "1362",
+      "name": "Lolita bizcocha",
+      "status": "lost",
+      "location": "Los palos grandes 1era avenida",
+      "distinctive_marks": "autigrada marron. vizca",
+      "contact_phone": "04122251673",
+      "photo_url": null
+    },
+    {
+      "externalId": "1361",
+      "name": "Nucyta",
+      "status": "lost",
+      "location": "Urb Los Molinos, av san Martin, por las funeraria Escorial y Previsabel",
+      "distinctive_marks": "Es una carey, con un pelaje grisaceo y mechas rojas, tienes en su boquita una division de cuatro colores negro, blanco, gris y marron.",
+      "contact_phone": "04241942182",
+      "photo_url": null
+    },
     {
       "externalId": "1360",
       "name": "Duquesa",
@@ -3844,15 +4771,6 @@
       "location": "Urb. Carlos Bonilla, independencia Yaracuy, detrás del centro de prensa",
       "distinctive_marks": "Señal característica más importante no tiene cola y dónde debería estar la cola tiene una mancha negra",
       "contact_phone": "04121500353",
-      "photo_url": null
-    },
-    {
-      "externalId": "911",
-      "name": "Se llama duquesa, una gata de dos años",
-      "status": "lost",
-      "location": "Segunda transversal de los palos grandes Altamira, municipio Chacao",
-      "distinctive_marks": "Tiene un collar rosado, clarito, que tiene una franja fosforescente que se ilumina si le alumbras con Flash",
-      "contact_phone": "0412-5757960",
       "photo_url": null
     },
     {
