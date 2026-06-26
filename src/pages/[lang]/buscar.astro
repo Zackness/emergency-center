@@ -4,7 +4,6 @@ import PageHeader from "@/components/ui/PageHeader.astro";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
-import { buildSearchIndex } from "@/lib/search";
 import type { SearchResultType } from "@/types/search";
 
 export function getStaticPaths() {
@@ -16,7 +15,6 @@ if (!isValidLocale(lang)) return Astro.redirect("/es/buscar");
 
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
-const searchIndex = await buildSearchIndex(locale);
 const initialQuery = Astro.url.searchParams.get("q") ?? "";
 
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
@@ -24,16 +22,11 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
 
 <BaseLayout locale={locale} title={t("search.title")}>
   <PageHeader title={t("search.title")} subtitle={t("search.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
-    <script
-      id="search-index-data"
-      type="application/json"
-      set:html={JSON.stringify(searchIndex)}
-    />
     <GlobalSearch
       client:load
       locale={locale}
-      index={searchIndex}
       initialQuery={initialQuery}
+      primary
       labels={{
         placeholder: t("search.placeholder"),
         noResults: t("search.noResults"),

@@ -35,4 +35,17 @@ export const DONATION_NEED_CATEGORIES = [
       "lidocaine",
     ],
   },
+  {
+    id: "3d-printing",
+    items: ["pla-filament", "petg-filament", "abs-filament"],
+  },
 ] as const;
+
+/** Colectivo que imprime férulas en 3D y solicita donaciones de filamento. */
+export const SCAYTALLER_3D_DONATION = {
+  id: "scaytaller-filament",
+  anchor: "donacion-filamento-3d",
+  instagramUrl: "https://www.instagram.com/scaytaller",
+  instagramHandle: "@scaytaller",
+  phone: "0412-0521777",
+} as const;

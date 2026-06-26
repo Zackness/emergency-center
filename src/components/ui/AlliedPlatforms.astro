@@ -1,18 +1,14 @@
 ---
-import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { ALLIED_PLATFORMS, type AlliedPlatformColor } from "@/data/allied-platforms";
 import type { Locale } from "@/i18n/config";
-import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 
 interface Props {
   locale: Locale;
   title?: string;
   subtitle?: string;
-  feedbackLabels?: Record<string, string>;
-  confidenceLabels?: Record<CommunityConfidenceLevel, string>;
 }
 
-const { locale, title, subtitle, feedbackLabels, confidenceLabels } = Astro.props;
+const { locale, title, subtitle } = Astro.props;
 
 const heading = title ?? (locale === "es" ? "Plataformas aliadas" : "Allied platforms");
 const sub =
@@ -27,9 +23,6 @@ const dotColor: Record<AlliedPlatformColor, string> = {
   red: "bg-emergency",
 };
 
-function platformContentId(domain: string) {
-  return `allied-${domain.replace(/\./g, "-")}`;
-}
 ---
 
 <section>
@@ -73,19 +66,6 @@ function platformContentId(domain: string) {
                 <path d="M7 17 17 7" />
               </svg>
             </a>
-            {
-              feedbackLabels && confidenceLabels && (
-                <CommunityFeedback
-                  client:visible
-                  contentType="external_link"
-                  contentId={platformContentId(platform.domain)}
-                  locale={locale}
-                  labels={feedbackLabels}
-                  confidenceLabels={confidenceLabels}
-                  compact
-                />
-              )
-            }
           </div>
         </li>
       ))

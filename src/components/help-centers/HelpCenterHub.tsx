@@ -375,14 +375,6 @@ export default function HelpCenterHub({
             {labels.thirdPartyCta}
           </a>
         </div>
-        <CommunityFeedback
-          contentType="external_link"
-          contentId="allied-centroacopio-site"
-          locale={locale}
-          labels={feedbackLabels}
-          confidenceLabels={confidenceLabels}
-          compact
-        />
       </section>
 
       <section

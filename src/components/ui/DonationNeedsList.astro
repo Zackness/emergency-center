@@ -1,6 +1,9 @@
 ---
 import CommunityFeedback from "@/components/community/CommunityFeedback";
-import { DONATION_NEED_CATEGORIES } from "@/data/donation-needs";
+import {
+  DONATION_NEED_CATEGORIES,
+  SCAYTALLER_3D_DONATION,
+} from "@/data/donation-needs";
 import type { Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
@@ -13,6 +16,7 @@ interface Props {
 
 const { locale, feedbackLabels, confidenceLabels } = Astro.props;
 const { t } = useTranslations(locale);
+const phoneHref = `tel:${SCAYTALLER_3D_DONATION.phone.replace(/\D/g, "")}`;
 ---
 
 <section
@@ -57,6 +61,54 @@ const { t } = useTranslations(locale);
       ))
     }
   </div>
+
+  <article
+    id={SCAYTALLER_3D_DONATION.anchor}
+    class="mt-6 rounded-2xl border border-accent/25 bg-accent-muted/30 p-5 sm:p-6"
+  >
+    <h3 class="text-base font-semibold text-ink">
+      {t("helpCenters.needs.scaytaller.title")}
+    </h3>
+    <p class="mt-2 text-sm text-ink-secondary">
+      {t("helpCenters.needs.scaytaller.description")}
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a
+        href={SCAYTALLER_3D_DONATION.instagramUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary text-sm gap-2"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+        </svg>
+        {t("helpCenters.needs.scaytaller.instagram")}: {SCAYTALLER_3D_DONATION.instagramHandle}
+      </a>
+      <a href={phoneHref} class="btn-secondary text-sm gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        {t("helpCenters.needs.scaytaller.phone")}: {SCAYTALLER_3D_DONATION.phone}
+      </a>
+    </div>
+    {
+      feedbackLabels && confidenceLabels && (
+        <div class="mt-4">
+          <CommunityFeedback
+            client:visible
+            contentType="external_link"
+            contentId={SCAYTALLER_3D_DONATION.id}
+            locale={locale}
+            labels={feedbackLabels}
+            confidenceLabels={confidenceLabels}
+            compact
+          />
+        </div>
+      )
+    }
+  </article>
 
   <p class="mt-5 text-xs text-ink-secondary">{t("helpCenters.needs.disclaimer")}</p>
 </section>

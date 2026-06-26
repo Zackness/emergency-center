@@ -144,11 +144,13 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
       priorityLabel={interpretersCall.priorityLabel}
       priorityText={interpretersCall.priorityText}
       joinLabel={interpretersCall.joinLabel}
-      joinUrl={INTERPRETER_VOLUNTEER_GROUP.whatsappGroupUrl}
-      displayPath={INTERPRETER_VOLUNTEER_GROUP.displayPath}
+      joinUrl={INTERPRETER_VOLUNTEER_GROUP.platformUrl}
+      displayPath={INTERPRETER_VOLUNTEER_GROUP.platformDisplayPath}
+      secondaryJoinLabel={interpretersCall.whatsappLabel}
+      secondaryJoinUrl={INTERPRETER_VOLUNTEER_GROUP.whatsappGroupUrl}
+      secondaryDisplayPath={INTERPRETER_VOLUNTEER_GROUP.whatsappDisplayPath}
       shareLabel={interpretersCall.share}
       imageUrl={INTERPRETER_VOLUNTEER_GROUP.imageUrl}
-      linkNote={interpretersCall.linkNote}
     >
       <CommunityFeedback
         client:visible

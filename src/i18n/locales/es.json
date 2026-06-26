@@ -190,7 +190,8 @@
         "iv-solutions": "Soluciones intravenosas",
         "syringes": "Jeringas (inyectadoras)",
         "gloves": "Guantes",
-        "medications": "Medicamentos"
+        "medications": "Medicamentos",
+        "3d-printing": "Impresión 3D"
       },
       "items": {
         "compress-packs": "Paquetes de compresas",
@@ -217,7 +218,16 @@
         "omeprazole": "Omeprazol amp",
         "vitamin-k": "Vitamina K amp",
         "tranexamic-acid": "Ácido tranexámico amp",
-        "lidocaine": "Lidocaína"
+        "lidocaine": "Lidocaína",
+        "pla-filament": "Filamento PLA",
+        "petg-filament": "Filamento PETG",
+        "abs-filament": "Filamento ABS u otros"
+      },
+      "scaytaller": {
+        "title": "Donación de filamento para férulas 3D",
+        "description": "El colectivo @scaytaller imprime férulas en 3D para lesionados y solicita donaciones de filamento para seguir produciendo. Escríbeles por Instagram o llama para coordinar la entrega.",
+        "instagram": "Instagram",
+        "phone": "Teléfono"
       }
     },
     "filters": {
@@ -838,11 +848,11 @@
     "interpretersCall": {
       "badge": "Para los de idiomas",
       "title": "Se buscan intérpretes para ayuda médica internacional",
-      "body": "Se está buscando intérpretes para apoyar con la ayuda médica que viene del exterior. Si estás en capacidad, únete al grupo de WhatsApp donde se dará más información.",
+      "body": "Plataforma aliada que conecta intérpretes con brigadas de rescate internacionales. Regístrate indicando tus idiomas, ubicación y disponibilidad. También hay un grupo de WhatsApp para coordinación adicional.",
       "priorityLabel": "¿Quién puede sumarse?",
       "priorityText": "Intérpretes y profesionales de todas las áreas — no solo medicina e ingeniería",
-      "joinLabel": "Unirse al grupo",
-      "linkNote": "El enlace del flyer aparece truncado; si el botón no abre el grupo, pide el enlace completo a quien compartió la convocatoria.",
+      "joinLabel": "Registrarse como intérprete",
+      "whatsappLabel": "Grupo de WhatsApp",
       "share": "Difunde con personas bilingües o multilingües que puedan apoyar la coordinación."
     },
     "form": {

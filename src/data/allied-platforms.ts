@@ -51,6 +51,24 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     color: "blue",
   },
   {
+    domain: "interp-aid.lovable.app",
+    url: "https://interp-aid.lovable.app/",
+    description: {
+      es: "Red de intérpretes voluntarios: conecta traductores con brigadas de rescate internacionales.",
+      en: "Volunteer interpreter network: connects translators with international rescue brigades.",
+    },
+    color: "blue",
+  },
+  {
+    domain: "primeros-auxilios-psicologicos-ve.netlify.app",
+    url: "https://primeros-auxilios-psicologicos-ve.netlify.app/",
+    description: {
+      es: "Protocolo de Primeros Auxilios Psicológicos (PAP): guía clínica para acompañar en crisis tras el terremoto.",
+      en: "Psychological First Aid (PFA) protocol: clinical guide for crisis support after the earthquake.",
+    },
+    color: "blue",
+  },
+  {
     domain: "terremotovenezuela.app",
     url: "https://terremotovenezuela.app",
     description: {

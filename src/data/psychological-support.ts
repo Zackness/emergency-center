@@ -12,6 +12,17 @@ export interface PsychologicalSupportResource {
 
 export const PSYCHOLOGICAL_SUPPORT_RESOURCES: PsychologicalSupportResource[] = [
   {
+    id: "pap-gilmer-pinto",
+    name: "Protocolo PAP — Red de Apoyo Psicoemocional",
+    description: {
+      es: "Guía clínica de primeros auxilios psicológicos para usar mientras acompañas a alguien tras el terremoto. Incluye pasos del protocolo, respiración 4-4-6 y ejercicios de enraizamiento. ByGilmerPinto®.",
+      en: "Clinical psychological first aid guide to use while supporting someone after the earthquake. Includes protocol steps, 4-4-6 breathing and grounding exercises. ByGilmerPinto®.",
+    },
+    website_url: "https://primeros-auxilios-psicologicos-ve.netlify.app/",
+    is_verified: false,
+    sort_order: 0,
+  },
+  {
     id: "fceunimet",
     name: "FCE UNIMET — Psicólogos egresados",
     description: {

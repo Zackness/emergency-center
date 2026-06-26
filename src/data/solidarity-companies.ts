@@ -1,3 +1,5 @@
+import { SCAYTALLER_3D_DONATION } from "@/data/donation-needs";
+
 export type SolidarityResource =
   | "water"
   | "food"
@@ -167,6 +169,26 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     phone: "0412-9099254",
     is_verified: true,
     sort_order: 7,
+  },
+  {
+    id: "scaytaller",
+    slug: "scaytaller",
+    name: "@scaytaller",
+    resources: ["medicine", "machinery"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Coordinación nacional por Instagram y teléfono",
+      en: "Nationwide coordination via Instagram and phone",
+    },
+    description: {
+      es: "Colectivo de impresión 3D que fabrica férulas para lesionados tras el terremoto. Solicitan donaciones de filamento (PLA, PETG, ABS) para seguir produciendo. Coordina entregas por Instagram @scaytaller o al teléfono indicado. También listado en «¿Qué donar?» en Centros de ayuda.",
+      en: "3D printing collective manufacturing splints for injured people after the earthquake. They request filament donations (PLA, PETG, ABS) to keep producing. Coordinate delivery via Instagram @scaytaller or the phone number listed. Also under «What to donate?» in Help centers.",
+    },
+    instagram_url: SCAYTALLER_3D_DONATION.instagramUrl,
+    phone: SCAYTALLER_3D_DONATION.phone,
+    is_verified: false,
+    sort_order: 8,
   },
   {
     id: "mi-odontologo-favorito",

@@ -152,20 +152,21 @@ const STATIC_PAGES: Record<
       href: "/es/centros-ayuda#que-donar",
       title: "¿Qué donar? — Insumos médicos necesarios",
       description: "Lista de insumos médicos: compresas, gasas, jeringas, soluciones, suturas, guantes, captopril, nifedipino, ketoprofeno, adrenalina y más.",
-      keywords: "donar comprar insumos médicos compresas gasas jeringas ringer dextrosa yodopovidona captopril nifedipino ketoprofeno dexametasona adrenalina lidocaína sutura guantes",
+      keywords: "donar comprar insumos médicos compresas gasas jeringas ringer dextrosa yodopovidona captopril nifedipino ketoprofeno dexametasona adrenalina lidocaína sutura guantes filamento 3d férulas",
     },
     {
-      href: "/es/hospitales",
-      title: "Hospitales en Venezuela — ingresos hospitalarios",
+      href: "/es/centros-ayuda#donacion-filamento-3d",
+      title: "Donación de filamento para férulas 3D — @scaytaller",
       description:
-        "Busca por nombre o cédula si un familiar está ingresado en un hospital o centro de salud.",
-      keywords: "hospitalesenvenezuela ingresados pacientes hospital familiar cédula lista digital",
+        "Colectivo @scaytaller solicita donaciones de filamento PLA, PETG o ABS para imprimir férulas en 3D para lesionados. Instagram @scaytaller · Tel: 0412-0521777.",
+      keywords: "filamento 3d impresión férulas scaytaller pla petg abs donar maker",
     },
     {
       href: "/es/hospitales",
-      title: "Hospitales",
-      description: "Directorio nacional de hospitales en Venezuela con búsqueda, filtros y mapa.",
-      keywords: "salud emergencia médico urgencias",
+      title: "Hospitales en Venezuela",
+      description:
+        "Directorio nacional de hospitales. Busca por nombre o cédula si un familiar está ingresado en un centro de salud.",
+      keywords: "hospitalesenvenezuela ingresados pacientes hospital familiar cédula lista digital salud emergencia médico urgencias",
     },
     {
       href: "/es/refugios",
@@ -197,6 +198,20 @@ const STATIC_PAGES: Record<
       description:
         "Ingenieros civiles y estructurales: regístrate como voluntario. Ciudadanos: reporta edificios dañados para priorizar inspecciones.",
       keywords: "ingenieros por venezuela habitable ingeniero civil estructural voluntario inspección edificio dañado cabreracg",
+    },
+    {
+      href: "https://interp-aid.lovable.app/",
+      title: "Red de Voluntarios Intérpretes — interp-aid",
+      description:
+        "Registro de intérpretes para apoyar brigadas de rescate internacionales. Indica idiomas, ubicación y disponibilidad.",
+      keywords: "intérprete traductor idiomas brigada rescate internacional interp-aid voluntario coordinación humanitaria",
+    },
+    {
+      href: "/es/voluntarios#interpretes-idiomas",
+      title: "Intérpretes para ayuda internacional",
+      description:
+        "Plataforma aliada interp-aid y grupo WhatsApp para intérpretes que apoyan ayuda médica y rescate del exterior.",
+      keywords: "interp-aid intérprete idiomas traductor whatsapp brigadas rescate internacional",
     },
     {
       href: "/es/danos#ingenieros-por-venezuela",
@@ -301,6 +316,13 @@ const STATIC_PAGES: Record<
       keywords: "mof odontólogo favorito acopio insumos médicos barquisimeto",
     },
     {
+      href: "/es/empresas#scaytaller",
+      title: "@scaytaller — Férulas 3D y donación de filamento",
+      description:
+        "Colectivo de impresión 3D que fabrica férulas para lesionados. Solicitan filamento PLA, PETG o ABS. Instagram @scaytaller · Tel: 0412-0521777.",
+      keywords: "scaytaller filamento 3d impresión férulas pla petg abs donar empresas solidarias",
+    },
+    {
       href: "/es/recursos",
       title: "Recursos y guías",
       description: "Qué hacer antes, durante y después de una emergencia",
@@ -310,7 +332,20 @@ const STATIC_PAGES: Record<
       href: "/es/recursos#apoyo-psicologico",
       title: "Apoyo psicológico — @fceunimet y líneas de contención",
       description: "Primeros auxilios psicológicos, contención emocional e intervención en crisis para personas afectadas.",
-      keywords: "fceunimet psicólogos psicologos apoyo psicológico salud mental ansiedad pánico estrés crisis lapsi federación psicólogos rehabilitarte",
+      keywords: "fceunimet psicólogos psicologos apoyo psicológico salud mental ansiedad pánico estrés crisis lapsi federación psicólogos rehabilitarte pap gilmer pinto",
+    },
+    {
+      href: "https://primeros-auxilios-psicologicos-ve.netlify.app/",
+      title: "Protocolo PAP — Primeros Auxilios Psicológicos",
+      description:
+        "Guía interactiva para acompañar en crisis tras el terremoto: pasos del protocolo, respiración 4-4-6 y ejercicios de enraizamiento. Red de Apoyo Psicoemocional Venezuela.",
+      keywords: "pap primeros auxilios psicológicos gilmer pinto crisis ansiedad respiración mindfulness enraizamiento salud mental terremoto netlify",
+    },
+    {
+      href: "/es/recursos#pap-gilmer-pinto",
+      title: "Protocolo PAP — guía de apoyo psicoemocional",
+      description: "Plataforma aliada con protocolo clínico de primeros auxilios psicológicos para usar durante el acompañamiento.",
+      keywords: "pap protocolo primeros auxilios psicológicos gilmer pinto apoyo psicoemocional crisis terremoto",
     },
     {
       href: "/es/roadmap",
@@ -349,20 +384,21 @@ const STATIC_PAGES: Record<
       href: "/en/centros-ayuda#que-donar",
       title: "What to donate — Medical supplies needed",
       description: "Medical supplies list: compress packs, gauze, syringes, solutions, sutures, gloves, captopril, nifedipine, ketoprofen, adrenaline and more.",
-      keywords: "donate buy medical supplies compress gauze syringes ringer dextrose povidone captopril nifedipine ketoprofen dexamethasone adrenaline lidocaine suture gloves",
+      keywords: "donate buy medical supplies compress gauze syringes ringer dextrose povidone captopril nifedipine ketoprofen dexamethasone adrenaline lidocaine suture gloves filament 3d splints",
     },
     {
-      href: "/en/hospitales",
-      title: "Hospitales en Venezuela — hospital admissions",
+      href: "/en/centros-ayuda#donacion-filamento-3d",
+      title: "Filament donations for 3D splints — @scaytaller",
       description:
-        "Search by name or ID if a relative is admitted to a hospital or health center.",
-      keywords: "hospitalesenvenezuela admitted patients hospital relative id digital list",
+        "The @scaytaller collective requests PLA, PETG or ABS filament donations to 3D-print splints for injured people. Instagram @scaytaller · Tel: 0412-0521777.",
+      keywords: "filament 3d printing splints scaytaller pla petg abs donate maker",
     },
     {
       href: "/en/hospitales",
-      title: "Hospitals",
-      description: "National directory of hospitals in Venezuela with search, filters and map.",
-      keywords: "health emergency medical urgent care",
+      title: "Hospitals in Venezuela",
+      description:
+        "National hospital directory. Search by name or ID if a relative is admitted to a health center.",
+      keywords: "hospitalesenvenezuela admitted patients hospital relative id digital list health emergency medical urgent care",
     },
     {
       href: "/en/refugios",
@@ -394,6 +430,20 @@ const STATIC_PAGES: Record<
       description:
         "Civil and structural engineers: register as a volunteer. Citizens: report damaged buildings to prioritize inspections.",
       keywords: "ingenieros por venezuela habitable engineer civil structural volunteer inspection damaged building cabreracg",
+    },
+    {
+      href: "https://interp-aid.lovable.app/",
+      title: "Volunteer Interpreter Network — interp-aid",
+      description:
+        "Interpreter registry to support international rescue brigades. List your languages, location and availability.",
+      keywords: "interpreter translator languages rescue brigade international interp-aid volunteer humanitarian coordination",
+    },
+    {
+      href: "/en/voluntarios#interpretes-idiomas",
+      title: "Interpreters for international aid",
+      description:
+        "Allied interp-aid platform and WhatsApp group for interpreters supporting medical aid and rescue from abroad.",
+      keywords: "interp-aid interpreter languages translator whatsapp international rescue brigades",
     },
     {
       href: "/en/danos#ingenieros-por-venezuela",
@@ -498,6 +548,13 @@ const STATIC_PAGES: Record<
       keywords: "mof dentist collection medical supplies barquisimeto",
     },
     {
+      href: "/en/empresas#scaytaller",
+      title: "@scaytaller — 3D splints and filament donations",
+      description:
+        "3D printing collective manufacturing splints for injured people. They request PLA, PETG or ABS filament. Instagram @scaytaller · Tel: 0412-0521777.",
+      keywords: "scaytaller filament 3d printing splints pla petg abs donate solidarity companies",
+    },
+    {
       href: "/en/recursos",
       title: "Resources and guides",
       description: "What to do before, during and after an emergency",
@@ -507,7 +564,20 @@ const STATIC_PAGES: Record<
       href: "/en/recursos#apoyo-psicologico",
       title: "Psychological support — @fceunimet and crisis lines",
       description: "Psychological first aid, emotional containment and crisis intervention for affected people.",
-      keywords: "fceunimet psychologists psychological support mental health anxiety panic stress crisis lapsi federation psychologists rehabilitarte",
+      keywords: "fceunimet psychologists psychological support mental health anxiety panic stress crisis lapsi federation psychologists rehabilitarte pap gilmer pinto",
+    },
+    {
+      href: "https://primeros-auxilios-psicologicos-ve.netlify.app/",
+      title: "PFA Protocol — Psychological First Aid",
+      description:
+        "Interactive guide for crisis support after the earthquake: protocol steps, 4-4-6 breathing and grounding exercises. Venezuela Psychoemotional Support Network.",
+      keywords: "pfa psychological first aid gilmer pinto crisis anxiety breathing mindfulness grounding mental health earthquake netlify",
+    },
+    {
+      href: "/en/recursos#pap-gilmer-pinto",
+      title: "PFA protocol — psychoemotional support guide",
+      description: "Allied platform with a clinical psychological first aid protocol to use during accompaniment.",
+      keywords: "pfa protocol psychological first aid gilmer pinto psychoemotional support crisis earthquake",
     },
     {
       href: "/en/roadmap",
@@ -618,7 +688,6 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
           agency.website ?? undefined,
           agency.social_links[0]?.handle ?? undefined
         ),
-        external: Boolean(agency.website || agency.social_links.length),
       })
     );
   }
@@ -716,10 +785,10 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     );
   }
 
-  for (const page of STATIC_PAGES[locale]) {
+  for (const [i, page] of STATIC_PAGES[locale].entries()) {
     index.push(
       item({
-        id: `pg-${page.href}`,
+        id: `pg-${page.href}-${i}`,
         type: "page",
         title: page.title,
         description: page.description,
@@ -797,12 +866,13 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
           : "Interpreters for international medical aid",
       description:
         locale === "es"
-          ? "Se buscan intérpretes para apoyar ayuda médica del exterior. Grupo WhatsApp. Todas las profesiones bienvenidas."
-          : "Interpreters sought to support medical aid from abroad. WhatsApp group. All professions welcome.",
+          ? "Plataforma aliada interp-aid para registrar intérpretes que apoyan brigadas internacionales. También grupo WhatsApp."
+          : "Allied interp-aid platform to register interpreters supporting international brigades. WhatsApp group too.",
       href: `${prefix}/voluntarios#interpretes-idiomas`,
       extra: joinParts(
-        INTERPRETER_VOLUNTEER_GROUP.displayPath,
-        "intérprete idiomas traductor ayuda médica internacional whatsapp voluntario"
+        INTERPRETER_VOLUNTEER_GROUP.platformDisplayPath,
+        INTERPRETER_VOLUNTEER_GROUP.whatsappDisplayPath,
+        "intérprete idiomas traductor ayuda médica internacional interp-aid whatsapp voluntario"
       ),
       external: true,
     })

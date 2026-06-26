@@ -22,6 +22,7 @@ import { CHANGAN_ACOPIO_CENTERS } from "@/data/changan-acopio";
 import { FOTON_ACOPIO_CENTERS } from "@/data/foton-acopio";
 import { RDELBUFALO_ACOPIO_CENTERS } from "@/data/rdelbufalo-acopio-activos";
 import { G3_LOGISTICA_ACOPIO_CENTERS } from "@/data/g3-logistica-acopio";
+import { SCAYTALLER_3D_DONATION } from "@/data/donation-needs";
 
 // Seed data used when Supabase is not configured or returns empty results
 
@@ -1317,6 +1318,32 @@ export const SEED_EXTERNAL_LINKS: ExternalLink[] = [
     sort_order: 2,
     created_at: "2026-06-26T16:00:00Z",
   },
+  {
+    id: "9",
+    title: "Red de Voluntarios Intérpretes",
+    description:
+      "Plataforma de coordinación humanitaria que conecta intérpretes voluntarios con brigadas de rescate internacionales en Venezuela.",
+    url: "https://interp-aid.lovable.app/",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 3,
+    created_at: "2026-06-26T18:00:00Z",
+  },
+  {
+    id: "10",
+    title: "Protocolo de Primeros Auxilios Psicológicos (PAP)",
+    description:
+      "Guía clínica de acompañamiento e intervención temprana en crisis para profesionales y voluntarios que apoyan a personas afectadas por el terremoto.",
+    url: "https://primeros-auxilios-psicologicos-ve.netlify.app/",
+    category: "tools",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 2,
+    created_at: "2026-06-26T20:00:00Z",
+  },
 ];
 
 export const SEED_NEWS: NewsItem[] = [
@@ -1561,6 +1588,13 @@ export const SEED_EMERGENCY_NUMBERS: EmergencyNumber[] = [
     label_en: "Venevisión — Missing persons",
     number: "0414-3109169",
     sort_order: 6,
+  },
+  {
+    id: "7",
+    label_es: "Férulas 3D — @scaytaller",
+    label_en: "3D splints — @scaytaller",
+    number: SCAYTALLER_3D_DONATION.phone,
+    sort_order: 7,
   },
 ];
 

@@ -280,14 +280,6 @@ export default function DamageMapHub({
             {engineersPlatformLabels.reportCta}
           </a>
         </div>
-        <CommunityFeedback
-          contentType="external_link"
-          contentId="allied-habitable-lovable"
-          locale={locale}
-          labels={feedbackLabels}
-          confidenceLabels={confidenceLabels}
-          compact
-        />
       </section>
 
       <PriorityRescueSitesPanel

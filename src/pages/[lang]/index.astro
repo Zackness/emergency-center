@@ -7,7 +7,6 @@ import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
-import { buildSearchIndex } from "@/lib/search";
 import {
   SEED_HELP_CENTERS,
   SEED_HOSPITALS,
@@ -26,7 +25,6 @@ if (!isValidLocale(lang)) return Astro.redirect("/es");
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
-const searchIndex = await buildSearchIndex(locale);
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 ---
 
@@ -61,15 +59,10 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
           </a>
         </div>
         <div class="relative z-10 mt-10">
-          <script
-            id="search-index-data"
-            type="application/json"
-            set:html={JSON.stringify(searchIndex)}
-          />
           <GlobalSearch
             client:load
             locale={locale}
-            index={searchIndex}
+            primary
             labels={{
               placeholder: t("search.placeholder"),
               noResults: t("search.noResults"),
@@ -248,10 +241,6 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
   </section>
 
   <section class="container-app py-16">
-    <AlliedPlatforms
-      locale={locale}
-      feedbackLabels={feedbackLabels}
-      confidenceLabels={confidenceLabels}
-    />
+    <AlliedPlatforms locale={locale} />
   </section>
 </BaseLayout>

@@ -190,7 +190,8 @@
         "iv-solutions": "IV solutions",
         "syringes": "Syringes",
         "gloves": "Gloves",
-        "medications": "Medications"
+        "medications": "Medications",
+        "3d-printing": "3D printing"
       },
       "items": {
         "compress-packs": "Compress packs",
@@ -217,7 +218,16 @@
         "omeprazole": "Omeprazole amp",
         "vitamin-k": "Vitamin K amp",
         "tranexamic-acid": "Tranexamic acid amp",
-        "lidocaine": "Lidocaine"
+        "lidocaine": "Lidocaine",
+        "pla-filament": "PLA filament",
+        "petg-filament": "PETG filament",
+        "abs-filament": "ABS or other filament"
+      },
+      "scaytaller": {
+        "title": "Filament donations for 3D-printed splints",
+        "description": "The @scaytaller collective 3D-prints splints for injured people and is requesting filament donations to keep producing. Contact them on Instagram or by phone to coordinate delivery.",
+        "instagram": "Instagram",
+        "phone": "Phone"
       }
     },
     "filters": {
@@ -838,11 +848,11 @@
     "interpretersCall": {
       "badge": "For language speakers",
       "title": "Interpreters needed for international medical aid",
-      "body": "Interpreters are being sought to support medical aid coming from abroad. If you are able, join the WhatsApp group for more information.",
+      "body": "Allied platform connecting interpreters with international rescue brigades. Register with your languages, location and availability. There is also a WhatsApp group for additional coordination.",
       "priorityLabel": "Who can join",
       "priorityText": "Interpreters and professionals from all fields — not only medicine and engineering",
-      "joinLabel": "Join the group",
-      "linkNote": "The link on the flyer appears truncated; if the button does not open the group, ask whoever shared the call for the full link.",
+      "joinLabel": "Register as interpreter",
+      "whatsappLabel": "WhatsApp group",
       "share": "Share with bilingual or multilingual people who can support coordination."
     },
     "form": {
