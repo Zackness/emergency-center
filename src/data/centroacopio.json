@@ -1,7 +1,41 @@
 {
   "source": "https://centroacopio.site",
-  "fetched_at": "2026-06-26T15:37:29.855Z",
+  "fetched_at": "2026-06-26T21:04:07.288Z",
   "centers": [
+    {
+      "id": "e0ced64f-4d27-40fe-b6e5-cdff6281716b",
+      "createdAt": "2026-06-26T17:46:32.540Z",
+      "centerName": "Yummy",
+      "city": "Caracas",
+      "sector": "Chacao",
+      "address": "Cubo negro, Centro Banaven, Altamira",
+      "description": "Centro de acopio",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Midazolam",
+        "Fentanilo",
+        "Diazepam Buretas",
+        "Soluciones 100ml",
+        "macrogoteros",
+        "Microgoteros",
+        "Sondas Foley"
+      ]
+    },
+    {
+      "id": "146b13b5-8c0e-4e9a-b976-36f6e970e226",
+      "createdAt": "2026-06-26T17:41:45.574Z",
+      "centerName": "Rotaract",
+      "city": "Caracas",
+      "sector": "Chacao",
+      "address": "Clínica CCCT, Avenida La Estancia con calle Ernesto Blohm, urb Chuao",
+      "description": "Centro de acopio",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Insumos médicos"
+      ]
+    },
     {
       "id": "f5fdfad4-5d49-4be5-8cd3-646374de87c9",
       "createdAt": "2026-06-25T20:21:52.283Z",
@@ -48,6 +82,1111 @@
         "Enlatados",
         "Alimentos no perecederos",
         "Equipo de Rescate"
+      ]
+    },
+    {
+      "id": "fa8dbad9-9750-4436-ab64-c22143cb636d",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-26T11:38:04.157363+00:00",
+      "kind": "partido",
+      "centerName": "Comando Venezuela",
+      "city": "Maracay",
+      "sector": "Aragua",
+      "address": "Av. 19 de Abril, C.C. La Capilla, piso 1, local 21",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "113ebc4c-efcc-4869-82f8-0520e2623694",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "partido",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Cumana",
+      "sector": "Sucre",
+      "address": "Casa Vente; Av. Humbolt, frente a la Escuela Corazon de Jesus",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "d3a3ecc6-6064-4b53-9ea2-d351e3577eb3",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Carlos Arvelo",
+      "sector": "Carabobo",
+      "address": "Calle Ricaurte entre la Calle Ambrosio Plaza y Calle Urdaneta Numero de la Casa 11_64",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "8cfd173e-ad47-44a6-92ae-f148c3418bc3",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Montalban",
+      "sector": "Carabobo",
+      "address": "Frente La Casa de la Cultura, Montalban",
+      "description": "",
+      "attentionStart": "3:00pm a 6:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "8aea802d-3b33-41fb-a15a-a400debf5a21",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "partido",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Bejuma",
+      "sector": "Carabobo",
+      "address": "Av. Los Fundadores entre Calles Miranda y Vargas, a 50 mtrs del Politico Los Fundadores (Sede Vente Bejuma)\\",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "72c4a43f-e625-4336-b33c-ed3fd3f5b2cc",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "partido",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Miranda",
+      "sector": "Carabobo",
+      "address": "Calle Sucre entre Plaza y Cordoba. Galpon de Los Pinto sede de Vente Miranda.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "c34acd3b-b276-49e0-9ea5-7b853218e5bf",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Distrito Capital",
+      "sector": "Distrito Capital",
+      "address": "Terrazas del Club Hipico",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "97b65854-78b4-40d5-a774-4b12c5828901",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Carabobo",
+      "sector": "Carabobo",
+      "address": "Edificio Talislandia, mezzanina, Avenida Monse;or Adams, El Vi;edo",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "9f589a05-d92e-44bb-9822-453cb25e484d",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Bolívar",
+      "sector": "Bolívar",
+      "address": "Esquina de Banesco, Avenida Republica, municipio Angostura del Orinoco",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "82076566-8a3c-43a1-ac2c-3e8920eaea8f",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Barquisimeto",
+      "sector": "Lara",
+      "address": "Tatas Food. Carrera 15 entre calles 13a Y 13b,",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "09c3853d-b2ab-4b1d-b819-ed3d2b119fff",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Miranda",
+      "sector": "Miranda",
+      "address": "Quitan el Bejucal, Cuarta avenida de Altamia, entre novena y decima transversal",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "e072f6af-8be4-4425-a2fe-4eef93af17c0",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Monagas",
+      "sector": "Monagas",
+      "address": "Calle 6, antigua Bermudez, casa N 11, antiguo restaurante El Oeste, Maturin",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "c39bb3fe-67b0-4927-9675-86e082fcd290",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "universidad",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Táchira",
+      "sector": "Táchira",
+      "address": "Nucleo Tachira de la Universidad de Los Andes (ULA)",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "8ce5a3e4-ea94-445f-b3a4-c081fbf4318b",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "partido",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Zulia",
+      "sector": "Zulia",
+      "address": "Sede regional de Un Nuevo Tiempo (UNT Zulia0",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "b8d04c71-34ea-42e6-a48f-cd35da1c4fa3",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Zulia",
+      "sector": "Zulia",
+      "address": "Calle 70 con Av 15A Y 15B N 15A-39 (Calle paralela a Nebabrica)",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "3bdc9b19-39db-48d1-a4c3-7929b54fc7f7",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Punto Fijo",
+      "sector": "Falcón",
+      "address": "Sector Centro, calle Paez entre Brasil y Peru, frente a la primera casa de Punto Fijo",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "1f448f5b-c3c6-4279-8953-d323dbc8fc81",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Maracay",
+      "sector": "Aragua",
+      "address": "Avenida 19 de Abril. Cento Comercial La Capilla. Piso 1, local 21.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "df476e1d-fadd-4535-be64-52f598181b3c",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Barquisimeto",
+      "sector": "Lara",
+      "address": "Av. Venezuela entre Av, Los Leones y Av. Bracamonte",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "ae682f51-73f0-4d8f-b514-4e52f87fab88",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Miranda",
+      "sector": "Miranda",
+      "address": "Cuarta avenida de Altamira, entre novena y décima transversal; quinta El Bejucal.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "cc2bc7cd-3dae-45f8-aece-aa6653baab17",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Aragua",
+      "sector": "Aragua",
+      "address": "Avenida 19 de abril. Centro Comercial La Capilla. Piso 1, local 21.",
+      "description": "",
+      "attentionStart": "9:00am A 4:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "a6ae45e5-1629-471e-94fe-5ad161a158da",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Valencia",
+      "sector": "Carabobo",
+      "address": "Avenida Monseñor Adams, El Viñedo. Edificio Talislandia, mezzanina.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "e10a5858-a874-433e-b25a-f2ce9faea3e4",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "iglesia",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Distrito Capital",
+      "sector": "Distrito Capital",
+      "address": "IGLESIA LA PAZ EN MONTALBÁN I. MUNICIPIO LIBERTADOR.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "e4fb4cd6-0752-48d8-808e-accbd964d586",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Miranda",
+      "sector": "Miranda",
+      "address": "Avenida Chama, Residencias Las Colinas. Colinas de Bello Monte",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "f69297de-4f00-49ee-bcc0-93391cd5a31e",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Nueva Esparta",
+      "sector": "Nueva Esparta",
+      "address": "Casa Azul, avenida 31 de Julio, Sector El Tirano (Antiguo Pollo Sport)",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "1581ce4d-ccc6-4b58-9b19-414133c5532a",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Bolívar",
+      "sector": "Bolívar",
+      "address": "Centro Comercial Biblos. Primer piso, Local 71 C.",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "2f6baa47-0fd3-42f0-8a1a-7953b747d2a1",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Aragua",
+      "sector": "Aragua",
+      "address": "Paseo de la Libertad, Avenida Las Delicias, frente al Centro Medico de Maracay",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "83696eaf-3905-4521-82eb-0062da76c9f9",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "universidad",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Naguanagua",
+      "sector": "Carabobo",
+      "address": "SEMAFORO DE LA AV. UNIVERSIDAD C/C AV 190.",
+      "description": "",
+      "attentionStart": "JUEVES 25 Y VIERNES 26 DE JUNIO. 3:00pm a 6:30pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "a7b72aff-4b19-4f30-899d-21d4700f7b85",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Juan Jose Mora",
+      "sector": "Carabobo",
+      "address": "Antigua Panaderia Mora-Pan, Av. Falcon, Diagonal a Multimax, Moron",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "ea3ce9e8-cff3-4f15-b819-82857d1f3003",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Guacara",
+      "sector": "Carabobo",
+      "address": "Ferreteria Construguacara Carretera Nacional Guacara, Via San Joaquin, Al lado de la Funeraria Laya",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "11a4df31-013c-4624-8ce7-3550523fac8b",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "San Joaquin",
+      "sector": "Carabobo",
+      "address": "Plaxa Las Panelas Sector La Indina",
+      "description": "",
+      "attentionStart": "4:00pm a 6:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "8e1d1900-c177-4d77-aff4-925b81c035a8",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "civil",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Los Guayos",
+      "sector": "Carabobo",
+      "address": "Elevado La Vivienda Los Guayos",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "4f6884e8-1602-4a54-861c-ccc3f9bae555",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "partido",
+      "centerName": "Terremotovenezuela.com",
+      "city": "Diego Ibarra",
+      "sector": "Carabobo",
+      "address": "AV. Carabobo Antigua Sede de Vente Diego Ibarra (cerca del Liceo Anibal Paradisi)",
+      "description": "",
+      "attentionStart": "3:00pm a 6:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "c340f561-7a79-4b31-8a0c-b5c8e0d46161",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "iglesia",
+      "centerName": "Terremotovenezuela.com",
+      "city": "San Diego",
+      "sector": "Carabobo",
+      "address": "Frente a la Iglesia La Esperalda",
+      "description": "",
+      "attentionStart": "4:00pm a 6:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "b3d92688-cefc-4fd5-9a6b-dd394fa29ec5",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T19:24:12.239812+00:00",
+      "kind": "iglesia",
+      "centerName": "Terremotovenezuela.com",
+      "city": "San Diego",
+      "sector": "Carabobo",
+      "address": "Frente a la Iglesia Pueblo de San Diego",
+      "description": "",
+      "attentionStart": "4:00pm a 6:00pm",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "medicinas",
+        "Higiene",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "882b6442-0b35-4036-92b9-8a84421f7d47",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "iglesia",
+      "centerName": "Iglesia San Bernardino de Siena",
+      "city": "Caracas",
+      "sector": "Distrito Capital",
+      "address": "Iglesia San Bernardino de Siena, Parroquia San Bernardino",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Ropa",
+        "Mantas"
+      ]
+    },
+    {
+      "id": "8bf3b24c-0c6b-46fd-ac35-09408df7844c",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "iglesia",
+      "centerName": "Cáritas Venezuela",
+      "city": "Caracas",
+      "sector": "Distrito Capital",
+      "address": "Sedes parroquiales (consultar)",
+      "description": "Contacto: caritasvenezuela.org",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Higiene"
+      ]
+    },
+    {
+      "id": "d31590f7-954a-4cf0-8f21-1dfe0ea31c13",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Comando ConVzla",
+      "city": "Caracas",
+      "sector": "Miranda",
+      "address": "4ª avenida de Altamira, entre 9ª y 10ª transversal, quinta El Bejucal",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Mantas"
+      ]
+    },
+    {
+      "id": "0d649b26-d73c-412e-b3de-3d8e08a68f6d",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Comando Venezuela",
+      "city": "Maracay",
+      "sector": "Aragua",
+      "address": "Av. 19 de Abril, C.C. La Capilla, piso 1, local 21",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "d846ccfa-43d1-4cd0-96a3-d1cabfe39259",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Voluntad Popular",
+      "city": "Maracay",
+      "sector": "Aragua",
+      "address": "Paseo de la Libertad, av. Las Delicias, frente al Centro Médico de Maracay",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "e713efc6-08c5-479d-bb09-18a81a760d7c",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Operación Todos con Venezuela",
+      "city": "Valencia",
+      "sector": "Carabobo",
+      "address": "Av. Monseñor Adams, El Viñedo, edificio Talislandia, mezzanina",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Mantas"
+      ]
+    },
+    {
+      "id": "b4c526d5-49e3-4680-a107-d7076e65f816",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "civil",
+      "centerName": "Tatas Food",
+      "city": "Barquisimeto",
+      "sector": "Lara",
+      "address": "Tatas Food, carrera 15 entre calles 13A y 13B",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "64d3710f-9573-4374-9594-984c54fe27b8",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "iglesia",
+      "centerName": "Cáritas Barquisimeto",
+      "city": "Barquisimeto",
+      "sector": "Lara",
+      "address": "Carrera 18, entre calles 34 y 35",
+      "description": "Contacto: 0251-4468402",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Higiene"
+      ]
+    },
+    {
+      "id": "6361b37d-8144-4895-91cb-d1b453d8427f",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "universidad",
+      "centerName": "Universidad de Los Andes",
+      "city": "San Cristóbal",
+      "sector": "Táchira",
+      "address": "Núcleo Táchira de la ULA",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "a4be189e-e514-49ce-80d8-e619c8895e98",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Un Nuevo Tiempo",
+      "city": "Maracaibo",
+      "sector": "Zulia",
+      "address": "Sede regional UNT Zulia",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "254c4b22-db2f-4cc6-8b02-33ffd656c4a2",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Vente Zulia",
+      "city": "Maracaibo",
+      "sector": "Zulia",
+      "address": "Calle 70 con Av. 15A y 15B, N° 15A-39",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "10acab3e-3e1a-4545-8296-a0b0bbb5bc09",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "partido",
+      "centerName": "Voluntad Popular",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Calle 6, antigua Bermúdez, casa N.º 11 (antiguo restaurante El Oeste)",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "fe491f66-157d-4f76-897e-a8ca27b84d58",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "civil",
+      "centerName": "Fundación Social Bolívar",
+      "city": "Ciudad Guayana",
+      "sector": "Bolívar",
+      "address": "Av. Guayana, sector Unare, cerca de la Iglesia Santa Teresa de Jesús, detrás del Hospital Uyapar",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Mantas",
+        "Higiene"
+      ]
+    },
+    {
+      "id": "aa52b3a5-e7df-4839-833f-7324d58dd9a9",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "universidad",
+      "centerName": "UCAB Guayana",
+      "city": "Ciudad Guayana",
+      "sector": "Bolívar",
+      "address": "UCAB Guayana, Casa del Estudiante",
+      "description": "Contacto: 0424-9147305",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa",
+        "Higiene",
+        "Mantas"
+      ]
+    },
+    {
+      "id": "307d62a9-1fab-4cec-b666-8cf72629a50f",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "iglesia",
+      "centerName": "Iglesia La Paz",
+      "city": "Caracas",
+      "sector": "Distrito Capital",
+      "address": "Iglesia La Paz, Montalbán 1, Municipio Libertador",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Ropa",
+        "Mantas"
+      ]
+    },
+    {
+      "id": "e3bc47cd-9bc8-4e46-a05a-5098712a58bb",
+      "source": "ayudavenezuela.app",
+      "createdAt": "2026-06-25T17:52:30.859889+00:00",
+      "kind": "apartidista",
+      "centerName": "Rotaract Caracas",
+      "city": "Caracas",
+      "sector": "Distrito Capital",
+      "address": "Terrazas del Club Hípico",
+      "description": "",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-farmapaz-en-todas-las-sucursales-farmapaz",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.286Z",
+      "kind": "community",
+      "centerName": "Farmapaz",
+      "city": "Venezuela",
+      "sector": "Venezuela",
+      "address": "En todas las sucursales Farmapaz",
+      "description": "Fuente original: Farmapaz — Unidos por Venezuela",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Ropa",
+        "Alimentos no perecederos",
+        "Insumos para bebés"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-operacion-todos-con-vzla-av-principal-de-boqueron-frente-a-la-panaderia-escorpion-pan",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.287Z",
+      "kind": "community",
+      "centerName": "Operación Todos con VZLA",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Av. principal de Boquerón, frente a la panadería Escorpión Pan",
+      "description": "Fuente original: Operación Todos con VZLA",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua potable",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa y abrigos"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-operacion-todos-con-vzla-sede-vente-monagas-calle-carvajal-casa-n-90-sector-la-manga-diagonal-a-p",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.287Z",
+      "kind": "community",
+      "centerName": "Operación Todos con VZLA — Sede Vente Monagas",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Calle Carvajal, casa N.º 90, sector La Manga. Diagonal a Perozo Motors",
+      "description": "Fuente original: Operación Todos con VZLA",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua potable",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa y abrigos"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-operacion-todos-con-vzla-av-principal-la-pica-casa-de-la-sra-irma-frente-a-la-licoreria",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.287Z",
+      "kind": "community",
+      "centerName": "Operación Todos con VZLA",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Av. Principal La Pica, casa de la Sra. Irma, frente a la licorería",
+      "description": "Fuente original: Operación Todos con VZLA",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua potable",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa y abrigos"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-operacion-todos-con-vzla-calle-chimborazo-sur-a-100-m-de-la-parada-de-los-26",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.287Z",
+      "kind": "community",
+      "centerName": "Operación Todos con VZLA",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Calle Chimborazo Sur, a 100 m de la parada de los 26",
+      "description": "Fuente original: Operación Todos con VZLA",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua potable",
+        "Alimentos no perecederos",
+        "Insumos médicos",
+        "Ropa y abrigos"
+      ]
+    },
+    {
+      "id": "terremotovenezuela-app-estudiantes-de-la-universidad-de-oriente-nucleo-monagas-entrada-de-la-udo-monagas-campus-los-guar",
+      "source": "terremotovenezuela.app",
+      "createdAt": "2026-06-26T21:04:07.287Z",
+      "kind": "community",
+      "centerName": "Estudiantes de la Universidad de Oriente — Núcleo Monagas",
+      "city": "Maturín",
+      "sector": "Monagas",
+      "address": "Entrada de la UDO Monagas, Campus Los Guaritos",
+      "description": "Fuente original: UDO Monagas / AIPA / Fundación Lirio Mayero",
+      "attentionStart": "Lunes a viernes, 9:00 a.m. a 12:00 p.m.",
+      "attentionEnd": "",
+      "requiredSupplies": [
+        "Agua potable",
+        "Alimentos no perecederos y enlatados",
+        "Medicamentos básicos y de primeros auxilios",
+        "Productos de higiene personal",
+        "Ropa y zapatos en buen estado",
+        "📞 0412-0984394 📞 0424-9068784 📞 0424-9570080"
       ]
     }
   ],

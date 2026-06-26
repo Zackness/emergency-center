@@ -5,7 +5,7 @@
  */
 import { readFile } from "node:fs/promises";
 import {
-  centroacopioMarker,
+  extractHelpCenterMarker,
   fetchAllCentroacopioCenters,
   mapCenterToHelpCenter,
   type CentroacopioCenter,
@@ -19,7 +19,6 @@ import {
 } from "@/lib/supabase/rest-admin";
 
 const SNAPSHOT = new URL("../src/data/centroacopio.json", import.meta.url);
-const MARKER_RE = /\[\[centroacopio:([^\]]+)\]\]/;
 
 interface HelpCenterRow {
   id: string;
@@ -90,8 +89,8 @@ async function main() {
   const byNameAddress = new Map<string, HelpCenterRow>();
 
   for (const row of existing) {
-    const match = row.description?.match(MARKER_RE);
-    if (match) byMarker.set(match[1], row);
+    const marker = extractHelpCenterMarker(row.description);
+    if (marker) byMarker.set(`${marker.source}:${marker.id}`, row);
     byNameAddress.set(normalizeKey(row.name, row.address), row);
   }
 
@@ -100,10 +99,10 @@ async function main() {
 
   for (const row of rows) {
     const mapped = mapCenterToHelpCenter(row);
-    const marker = centroacopioMarker(row.id);
     const payload = toRestPayload(mapped);
+    const source = row.source?.trim() || "centroacopio.site";
 
-    const byId = byMarker.get(row.id);
+    const byId = byMarker.get(`${source}:${row.id}`);
     if (byId) {
       if (dryRun) {
         console.log(`  [dry-run] actualizaría: ${mapped.name}`);

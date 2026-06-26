@@ -13,8 +13,9 @@ const data = snapshot as CentroacopioSnapshot;
 function centerToHelpCenter(row: CentroacopioCenter): HelpCenter {
   const mapped = mapCenterToHelpCenter(row);
   const now = row.createdAt || new Date().toISOString();
+  const source = row.source?.trim() || "centroacopio.site";
   return {
-    id: `centroacopio-${row.id}`,
+    id: `${source.replace(/[^a-z0-9]+/gi, "-")}-${row.id}`,
     name: mapped.name,
     description: mapped.description,
     type: mapped.type,

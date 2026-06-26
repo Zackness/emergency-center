@@ -1,5 +1,6 @@
 import type { HelpCenter } from "@/types";
 import {
+  extractHelpCenterMarker,
   fetchAllCentroacopioCenters,
   fetchAllCentroacopioDeliveries,
   mapCenterToHelpCenter,
@@ -24,13 +25,12 @@ const MEMORY_TTL_MS = 5 * 60 * 1000;
 let centersCache: { at: number; items: HelpCenter[] } | null = null;
 let deliveriesCache: { at: number; items: CentroacopioDeliveryView[] } | null = null;
 
-const MARKER_RE = /\[\[centroacopio:([^\]]+)\]\]/;
-
 function centroacopioRowToHelpCenter(row: CentroacopioCenter): HelpCenter {
   const mapped = mapCenterToHelpCenter(row);
   const now = row.createdAt || new Date().toISOString();
+  const source = row.source?.trim() || "centroacopio.site";
   return {
-    id: `centroacopio-${row.id}`,
+    id: `${source.replace(/[^a-z0-9]+/gi, "-")}-${row.id}`,
     name: mapped.name,
     description: mapped.description,
     type: mapped.type,
@@ -51,9 +51,7 @@ function centroacopioRowToHelpCenter(row: CentroacopioCenter): HelpCenter {
 }
 
 function extractCentroacopioId(description: string | null | undefined): string | null {
-  if (!description) return null;
-  const match = description.match(MARKER_RE);
-  return match?.[1] ?? null;
+  return extractHelpCenterMarker(description)?.id ?? null;
 }
 
 /** Fusiona catálogo local/BD con registros scrapeados de centroacopio.site. */
@@ -75,7 +73,8 @@ export function mergeHelpCenters(
   const merged = [...baseCenters];
 
   for (const scraped of scrapedCenters) {
-    const externalId = scraped.id.replace(/^centroacopio-/, "");
+    const externalId = extractCentroacopioId(scraped.description);
+    if (!externalId) continue;
     if (syncedIds.has(externalId)) continue;
 
     const key = `${scraped.name.trim().toLowerCase()}|${scraped.address.trim().toLowerCase()}`;
