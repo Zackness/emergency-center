@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "bash scripts/run-build.sh",
+    "build": "prisma generate && astro build",
+    "build:local": "bash scripts/run-build.sh",
     "build:astro": "prisma generate && astro build",
     "preview": "astro preview",
     "astro": "astro",

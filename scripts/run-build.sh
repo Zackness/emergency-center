@@ -8,8 +8,12 @@ if [[ -x "$FNM_BIN" ]]; then
   eval "$("$FNM_BIN" env --shell bash)"
   "$FNM_BIN" use 20
 else
-  echo "fnm no encontrado en ${FNM_BIN}" >&2
-  exit 1
+  NODE_MAJOR="$(node -p "Number(process.versions.node.split('.')[0])")"
+  if (( NODE_MAJOR < 20 )); then
+    echo "Se requiere Node >= 20. Instala fnm o actualiza Node (actual: $(node -v))." >&2
+    exit 1
+  fi
+  echo "fnm no encontrado; usando Node del sistema: $(node -v)"
 fi
 
 echo "Node: $(node -v)"
