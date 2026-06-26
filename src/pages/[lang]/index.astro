@@ -31,9 +31,11 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
 ---
 
 <BaseLayout locale={locale}>
-  <section class="relative overflow-hidden border-b border-border">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-muted/40 via-surface to-surface dark:from-accent-muted/20" />
-    <div class="absolute inset-0 bg-grid opacity-60" aria-hidden="true" />
+  <section class="relative border-b border-border">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div class="absolute inset-0 bg-gradient-to-br from-accent-muted/40 via-surface to-surface dark:from-accent-muted/20" />
+      <div class="absolute inset-0 bg-grid opacity-60" />
+    </div>
     <div class="container-app relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(360px,520px)] lg:items-center">
       <div class="max-w-3xl animate-slide-up">
         <span class="badge-emergency mb-4 inline-flex items-center gap-2">
@@ -58,7 +60,12 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
             {t("home.banner.secondary")}
           </a>
         </div>
-        <div class="mt-10">
+        <div class="relative z-10 mt-10">
+          <script
+            id="search-index-data"
+            type="application/json"
+            set:html={JSON.stringify(searchIndex)}
+          />
           <GlobalSearch
             client:load
             locale={locale}

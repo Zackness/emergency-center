@@ -24,6 +24,11 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
 
 <BaseLayout locale={locale} title={t("search.title")}>
   <PageHeader title={t("search.title")} subtitle={t("search.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
+    <script
+      id="search-index-data"
+      type="application/json"
+      set:html={JSON.stringify(searchIndex)}
+    />
     <GlobalSearch
       client:load
       locale={locale}

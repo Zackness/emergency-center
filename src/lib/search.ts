@@ -963,10 +963,17 @@ export function searchIndex(
     .split(/\s+/)
     .filter((t) => t.length >= 2);
 
-  if (!tokens.length) return [];
+  const searchTokens =
+    tokens.length > 0
+      ? tokens
+      : trimmed.length >= 2
+        ? [normalize(trimmed)]
+        : [];
+
+  if (!searchTokens.length) return [];
 
   return index
-    .map((entry) => ({ entry, score: scoreItem(entry, tokens) }))
+    .map((entry) => ({ entry, score: scoreItem(entry, searchTokens) }))
     .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
