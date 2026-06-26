@@ -21,19 +21,24 @@ const DAMAGE_COLORS: Record<string, string> = {
   evacuated: "#eab308",
 };
 
-function damageIcon(severity?: string) {
+function damageIcon(severity?: string, priority?: boolean) {
   const color = DAMAGE_COLORS[severity ?? "damaged"] ?? DAMAGE_COLORS.damaged;
+  const size = priority ? 22 : 18;
+  const border = priority ? "4px solid #fef2f2" : "3px solid #fff";
+  const ring = priority ? "0 0 0 2px #dc2626" : "0 1px 4px rgba(0,0,0,0.4)";
   return L.divIcon({
     className: "damage-marker",
-    html: `<span style="display:block;width:18px;height:18px;border-radius:50%;background:${color};border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);"></span>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
+    html: `<span style="display:block;width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${ring};"></span>`,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -10],
   });
 }
 
 function iconForLocation(loc: MapLocation) {
-  if (loc.type === "damage") return damageIcon(loc.severity);
+  if (loc.type === "damage") {
+    return damageIcon(loc.severity, loc.id.startsWith("priority-"));
+  }
   return defaultIcon;
 }
 

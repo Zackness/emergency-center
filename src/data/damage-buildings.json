@@ -1,8 +1,58 @@
 {
   "source": "https://terremotovenezuela.com/",
-  "fetched_at": "2026-06-26T13:07:13.665Z",
+  "fetched_at": "2026-06-26T15:16:56.933Z",
   "count": 564,
   "items": [
+    {
+      "externalId": "315b4f10-0ff8-4fc1-b4b9-8aff0a56431d",
+      "title": "Edificio El Porvenir",
+      "address": "G36H+J7M, Caracas 1010, Distrito Capital, Venezuela",
+      "city": "Caracas",
+      "zone": "Libertador",
+      "state": "Distrito Capital",
+      "latitude": 10.5115784,
+      "longitude": -66.9218408,
+      "severity": "collapsed",
+      "imageUrls": [
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/c7b0ffe8-00c1-42be-aa4e-9590f49e29f1.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/d91d52b7-977d-48a4-a21d-294faecfa583.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/65789a2b-2074-4e93-b9a8-fcdeb12f513b.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/99c5a7a7-b4b3-454f-a303-088ce41d396d.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/95a3cff4-9d3e-4558-9d17-120c5d8c83d7.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/a2fc0889-3883-4bd9-a903-67c9513bee06.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/b7653526-e89c-4101-8ed7-07dec4c769fb.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/a4f0f21f-0cce-4dae-8ebd-0aa5aa5a63d7.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/bac2cd30-312f-4f13-b010-91f8e537da85.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/3e948252-b345-44d7-b9b5-831e6a56835d.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/3eb4d9b0-cc9e-4885-aad9-80997c921fa9.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/fbd3602e-135b-4e21-944f-9179d6abd92f.jpg"
+      ],
+      "isVerified": true,
+      "sourceSyncedAt": "2026-06-26T15:02:28.566899+00:00",
+      "sourceUrl": "https://terremotovenezuela.com/"
+    },
+    {
+      "externalId": "a806afd1-c32a-46a2-b6dc-338958ce6665",
+      "title": "Residencias Belair",
+      "address": "Calle Charaima c/c Los Apamates, Urb. Tanaguarenas",
+      "city": "La Guaira",
+      "zone": "Macuto",
+      "state": "La Guaira",
+      "latitude": 10.6024787,
+      "longitude": -66.9313444,
+      "severity": "collapsed",
+      "imageUrls": [
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/209acb66-e8be-4e79-b599-2c683eb7b3da.jpeg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/2a1d7c61-cbd6-4cd6-be98-bfd42190103b.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/be0e91e9-7117-4deb-b78c-43e1984ef6fb.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/a3f88ffc-6a75-4bf4-883b-686bb84a2b1f.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/4ff4b6ed-2f14-43cb-aa5d-778b7934a8ad.jpg",
+        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/fd106663-f48e-4d4f-b8ae-1f892b9b28a3.jpg"
+      ],
+      "isVerified": true,
+      "sourceSyncedAt": "2026-06-26T15:02:13.898533+00:00",
+      "sourceUrl": "https://terremotovenezuela.com/"
+    },
     {
       "externalId": "ed0a04fa-b68a-4aec-9cd6-f1d5a9465080",
       "title": "Residencias Centro Caracas",
@@ -508,26 +558,6 @@
       ],
       "isVerified": true,
       "sourceSyncedAt": "2026-06-26T01:17:16.907387+00:00",
-      "sourceUrl": "https://terremotovenezuela.com/"
-    },
-    {
-      "externalId": "315b4f10-0ff8-4fc1-b4b9-8aff0a56431d",
-      "title": "Edificio El Porvenir",
-      "address": "G36H+J7M, Caracas 1010, Distrito Capital, Venezuela",
-      "city": "Caracas",
-      "zone": "Libertador",
-      "state": "Distrito Capital",
-      "latitude": 10.5115784,
-      "longitude": -66.9218408,
-      "severity": "evacuated",
-      "imageUrls": [
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/c7b0ffe8-00c1-42be-aa4e-9590f49e29f1.jpg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/d91d52b7-977d-48a4-a21d-294faecfa583.jpg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/65789a2b-2074-4e93-b9a8-fcdeb12f513b.jpg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/99c5a7a7-b4b3-454f-a303-088ce41d396d.jpg"
-      ],
-      "isVerified": true,
-      "sourceSyncedAt": "2026-06-26T01:17:13.461+00:00",
       "sourceUrl": "https://terremotovenezuela.com/"
     },
     {
@@ -4880,26 +4910,6 @@
       ],
       "isVerified": true,
       "sourceSyncedAt": "2026-06-25T21:29:56.563609+00:00",
-      "sourceUrl": "https://terremotovenezuela.com/"
-    },
-    {
-      "externalId": "a806afd1-c32a-46a2-b6dc-338958ce6665",
-      "title": "Residencias Belair",
-      "address": "Calle Charaima c/c Los Apamates, Urb. Tanaguarenas",
-      "city": "La Guaira",
-      "zone": "Macuto",
-      "state": "La Guaira",
-      "latitude": 10.6024787,
-      "longitude": -66.9313444,
-      "severity": "collapsed",
-      "imageUrls": [
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/209acb66-e8be-4e79-b599-2c683eb7b3da.jpeg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/2a1d7c61-cbd6-4cd6-be98-bfd42190103b.jpg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/be0e91e9-7117-4deb-b78c-43e1984ef6fb.jpg",
-        "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/a3f88ffc-6a75-4bf4-883b-686bb84a2b1f.jpg"
-      ],
-      "isVerified": true,
-      "sourceSyncedAt": "2026-06-25T21:29:48.474197+00:00",
       "sourceUrl": "https://terremotovenezuela.com/"
     },
     {

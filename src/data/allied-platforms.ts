@@ -15,6 +15,24 @@ export interface AlliedPlatform {
  */
 export const ALLIED_PLATFORMS: AlliedPlatform[] = [
   {
+    domain: "hospitalesenvenezuela.com",
+    url: "https://hospitalesenvenezuela.com",
+    description: {
+      es: "Busca por nombre o cédula si un familiar está ingresado en un hospital.",
+      en: "Search by name or ID if a relative is admitted to a hospital.",
+    },
+    color: "blue",
+  },
+  {
+    domain: "centroacopio.site",
+    url: "https://centroacopio.site/",
+    description: {
+      es: "Red nacional de centros de acopio y voluntarios de delivery gratuito.",
+      en: "National network of collection centers and free delivery volunteers.",
+    },
+    color: "yellow",
+  },
+  {
     domain: "terremotovenezuela.com",
     url: "https://terremotovenezuela.com",
     description: {
@@ -22,6 +40,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
       en: "Damage map: community-reported affected buildings.",
     },
     color: "red",
+  },
+  {
+    domain: "habitable.lovable.app",
+    url: "https://habitable.lovable.app/",
+    description: {
+      es: "Ingenieros por Venezuela: registro de ingenieros voluntarios e inspección de edificios dañados.",
+      en: "Ingenieros por Venezuela: volunteer engineer registration and damaged building inspections.",
+    },
+    color: "blue",
   },
   {
     domain: "terremotovenezuela.app",

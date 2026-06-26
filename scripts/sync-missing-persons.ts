@@ -1,6 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
- * Importa registros de plataformas externas y los deduplica en la BD.
+ * Importa registros de plataformas externas y los deduplica en la BD vía REST.
+ * No requiere DATABASE_URL (puerto 6543); usa HTTPS como sync:hospitals.
  *
  * Fuentes con API pública:
  * - Venezuela Te Busca, Encuéntralos, Terremoto Venezuela App
@@ -12,11 +13,11 @@
  *   npm run sync:missing -- --limit=500
  *   npm run sync:missing -- --source=venezuela-te-busca
  */
-import { PrismaClient } from "@prisma/client";
-import { syncMissingPersons, getMissingPersonsStats } from "@/lib/missing-persons/sync";
+import {
+  getMissingPersonsStatsRest,
+  syncMissingPersonsRest,
+} from "@/lib/missing-persons/sync-rest";
 import { assertSafeDatabaseTarget } from "@/lib/db-guard";
-
-const prisma = new PrismaClient();
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -55,17 +56,11 @@ function parseArgs() {
 async function main() {
   assertSafeDatabaseTarget("sync:missing");
 
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl || databaseUrl.includes("your-password")) {
-    console.error("DATABASE_URL no configurada. Edita .env antes de sincronizar.");
-    process.exit(1);
-  }
-
   const options = parseArgs();
-  console.log("Sincronizando desaparecidos…", options);
+  console.log("Sincronizando desaparecidos (REST)…", options);
 
-  const results = await syncMissingPersons(prisma, options);
-  const stats = await getMissingPersonsStats(prisma);
+  const results = await syncMissingPersonsRest(options);
+  const stats = await getMissingPersonsStatsRest();
 
   console.log("\nResultados por fuente:");
   for (const r of results) {
@@ -85,10 +80,7 @@ async function main() {
   }
 }
 
-main()
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
-
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

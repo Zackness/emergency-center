@@ -20,6 +20,7 @@ export async function buildPersonIndex(prisma: PrismaClient): Promise<PersonInde
       fullName: true,
       age: true,
       contactPhone: true,
+      nationalId: true,
     },
   });
 
@@ -28,7 +29,7 @@ export async function buildPersonIndex(prisma: PrismaClient): Promise<PersonInde
       fullName: person.fullName,
       age: person.age,
       contactPhone: person.contactPhone,
-      nationalId: null,
+      nationalId: person.nationalId,
     });
   }
 

@@ -33,6 +33,9 @@ const hubLabels = {
   reportSubtitle: t("damage.reportSubtitle"),
 };
 
+const priorityRescueLabels = dict.damage.priorityRescue;
+const engineersPlatformLabels = dict.damage.engineersPlatform;
+
 const formLabels = {
   ...dict.damage.form,
   submit: t("common.submit"),
@@ -52,6 +55,8 @@ const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedba
       states={VENEZUELA_STATES}
       feedbackLabels={feedbackLabels}
       confidenceLabels={confidenceLabels}
+      priorityRescueLabels={priorityRescueLabels}
+      engineersPlatformLabels={engineersPlatformLabels}
     />
   </div>
 </BaseLayout>

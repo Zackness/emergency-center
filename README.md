@@ -126,6 +126,54 @@ supabase/migrations/  # RLS, triggers, realtime
 | `PUBLIC_SITE_URL` | Opcional | Dominio final (`https://tu-dominio.com`). Si no está, usa `VERCEL_URL` |
 | `TERREMOTO_VZLA_SUPABASE_KEY` | Opcional | Mapa de daños externo |
 
+## Sincronización de datos externos
+
+Script maestro que descarga y actualiza **todas** las fuentes con API pública:
+
+```bash
+# Desde la raíz del proyecto (Node 20+)
+npm run sync:all
+
+# O con el wrapper bash (activa fnm/nvm 20)
+bash scripts/sync-all.sh
+```
+
+| Paso | Comando interno | Qué actualiza |
+|------|-----------------|---------------|
+| Mascotas | `fetch:pets` | HuellasCAN → `src/data/missing-pets.json` |
+| Daños JSON | `fetch:damage` | terremotovenezuela.com → `src/data/damage-buildings.json` |
+| Acopios JSON | `fetch:centroacopio` | centroacopio.site → `src/data/centroacopio.json` |
+| Desaparecidos | `sync:missing` | Venezuela Te Busca, Encuéntralos, Terremoto App, Venezuela Reporta, Desaparecidos Terremoto → BD |
+| Daños BD | `sync:damage` | Edificios → tabla `damage_reports` (alimenta `/es/danos`) |
+| Acopios BD | `sync:help-centers` | centroacopio.site → tabla `help_centers` |
+| Hospitales | `sync:hospitals` | Catálogo nacional → tabla `hospitals` |
+
+Opciones útiles:
+
+```bash
+npm run sync:all -- --fetch-only      # solo descargar JSON (sin tocar BD)
+npm run sync:all -- --sync-only        # solo escribir en BD (usa JSON ya descargado)
+npm run sync:all -- --skip-missing     # omitir desaparecidos (puede tardar mucho)
+npm run sync:all -- --skip-hospitals   # omitir hospitales
+npm run sync:all -- --dry-run          # simular import de acopios
+```
+
+Variables necesarias en `.env` para sync completo: `PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY` (acopios, daños, hospitales), `TERREMOTO_VZLA_SUPABASE_KEY`, `SYNC_SECRET` + `PUBLIC_SITE_URL` (desaparecidos vía sitio en Vercel). `DATABASE_URL` solo hace falta para `sync:missing` local o desarrollo con Prisma.
+
+**Nota:** Si el pooler Postgres (`:6543`) está bloqueado en tu red, los scripts de acopios/daños/hospitales usan **API REST HTTPS** y no necesitan `DATABASE_URL`. Desaparecidos se sincroniza con `npm run sync:missing:remote` contra tu deploy en Vercel.
+
+Comandos individuales: `npm run fetch:centroacopio`, `npm run sync:help-centers`, `npm run fetch:damage`, `npm run sync:damage`, etc.
+
+**Mapa de daños** (`/es/danos`): el sitio lee desde la tabla `damage_reports`. Tras `fetch:damage` + `sync:damage`, los puntos del mapa se actualizan en producción.
+
+```bash
+CONFIRM_PRODUCTION_DB=1 npm run fetch:damage
+CONFIRM_PRODUCTION_DB=1 npm run sync:damage -- --from-file
+# o en un solo paso (sync:all ya encadena fetch → sync con --from-file)
+```
+
+**Nota:** hospitalesenvenezuela.com y VenApp no exponen API pública de scraping; se enlazan como plataformas aliadas.
+
 5. En **Supabase → Authentication → URL Configuration**, añade:
    - Site URL: tu dominio de Vercel o `PUBLIC_SITE_URL`
    - Redirect URLs: `https://tu-dominio.com/api/auth/callback`, `https://*.vercel.app/api/auth/callback`

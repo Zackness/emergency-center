@@ -7,6 +7,8 @@ import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getSolidarityCompanies } from "@/data/solidarity-companies";
 import { isValidLocale, type Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
+import { fetchHelpCenters } from "@/lib/data";
+import { resolveHelpCenterHref } from "@/lib/help-centers";
 import { VENEZUELA_STATES } from "@/data/seed";
 
 export function getStaticPaths() {
@@ -19,6 +21,7 @@ if (!isValidLocale(lang)) return Astro.redirect("/es/empresas");
 const locale = lang as Locale;
 const { t, dict } = useTranslations(locale);
 const companies = getSolidarityCompanies();
+const helpCenters = await fetchHelpCenters();
 const resourceLabels = dict.companies.resourceTypes as Record<string, string>;
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 
@@ -58,7 +61,7 @@ const formLabels = {
               phoneLabel={t("companies.directory.phone")}
               helpCenterHref={
                 company.help_center_id
-                  ? `/${locale}/centros-ayuda#${company.help_center_id}`
+                  ? resolveHelpCenterHref(locale, company.help_center_id, helpCenters)
                   : undefined
               }
               helpCenterLabel={t("companies.directory.viewHelpCenter")}

@@ -130,10 +130,36 @@ const STATIC_PAGES: Record<
       keywords: "donar acopio ayuda solidaridad vamos app donaciones viajes gratis encomienda gasas jeringas guantes catéter ibuprofeno vendas suturas",
     },
     {
+      href: "/es/centros-ayuda#acopio-activos-rdelbufalo",
+      title: "Centros de acopio activos en Venezuela",
+      description: "Puntos activos del 25 de junio en Caracas, Aragua, Carabobo, Andes, Anzoátegui, Guayana y Barquisimeto. Fuente @rdelbufalo.",
+      keywords: "acopio activo mormón bejucal la capilla talislandia ula cecosesola ucab rdelbufalo quinta bejucal",
+    },
+    {
+      href: "/es/centros-ayuda#acopio-g3-caritas",
+      title: "G3 Logística y Cáritas — Dónde donar",
+      description: "Centros de acopio G3 en Caracas, Valencia y Barquisimeto; sede Cáritas Montalbán (Av. Teherán).",
+      keywords: "g3 logística caritas montalbán teherán maploca cortijos lourdes san diego barquisimeto donar",
+    },
+    {
+      href: "https://centroacopio.site/",
+      title: "Centros de Acopio Venezuela — centroacopio.site",
+      description:
+        "Red nacional de centros de acopio y voluntarios de delivery gratuito. Registra o consulta puntos de ayuda en zonas afectadas.",
+      keywords: "centroacopio acopio delivery gratis motorizado transporte donaciones unidos por venezuela",
+    },
+    {
       href: "/es/centros-ayuda#que-donar",
       title: "¿Qué donar? — Insumos médicos necesarios",
       description: "Lista de insumos médicos: compresas, gasas, jeringas, soluciones, suturas, guantes, captopril, nifedipino, ketoprofeno, adrenalina y más.",
       keywords: "donar comprar insumos médicos compresas gasas jeringas ringer dextrosa yodopovidona captopril nifedipino ketoprofeno dexametasona adrenalina lidocaína sutura guantes",
+    },
+    {
+      href: "/es/hospitales",
+      title: "Hospitales en Venezuela — ingresos hospitalarios",
+      description:
+        "Busca por nombre o cédula si un familiar está ingresado en un hospital o centro de salud.",
+      keywords: "hospitalesenvenezuela ingresados pacientes hospital familiar cédula lista digital",
     },
     {
       href: "/es/hospitales",
@@ -158,6 +184,25 @@ const STATIC_PAGES: Record<
       title: "Mapa de daños",
       description: "Mapa de edificios dañados en Venezuela con búsqueda, filtros y reportes ciudadanos.",
       keywords: "daños mapa edificios desplomado dañado evacuado estructuras terremoto reportar terremotovenezuela",
+    },
+    {
+      href: "/es/danos#sitios-prioritarios-rescate",
+      title: "Sitios prioritarios de búsqueda y rescate",
+      description: "13 estructuras críticas en Caraballeda, La Guaira, Caracas, Aragua y Falcón con coordenadas GPS. Fuente @rdelbufalo.",
+      keywords: "rescate búsqueda caraballeda tahiti gabarra catia la mar maiquetía san judas tadeo turmero tucacas rdelbufalo",
+    },
+    {
+      href: "https://habitable.lovable.app/",
+      title: "Ingenieros por Venezuela — inspección de edificios",
+      description:
+        "Ingenieros civiles y estructurales: regístrate como voluntario. Ciudadanos: reporta edificios dañados para priorizar inspecciones.",
+      keywords: "ingenieros por venezuela habitable ingeniero civil estructural voluntario inspección edificio dañado cabreracg",
+    },
+    {
+      href: "/es/danos#ingenieros-por-venezuela",
+      title: "Ingenieros por Venezuela — mapa de daños",
+      description: "Plataforma aliada para registro de ingenieros voluntarios y reporte de edificios dañados.",
+      keywords: "ingenieros habitable lovable inspección estructural daños edificio",
     },
     {
       href: "/es/organismos",
@@ -244,6 +289,12 @@ const STATIC_PAGES: Record<
       keywords: "farmatodo acopio donaciones farmacia 0800 medicinas",
     },
     {
+      href: "/es/empresas#foton-venezuela",
+      title: "FOTON Venezuela — Concesionarios como centros de acopio",
+      description: "Red nacional de concesionarios y showrooms FOTON habilitados para recibir donaciones.",
+      keywords: "foton fotonvzla concesionarios acopio camiones valencia caracas barquisimeto maracaibo",
+    },
+    {
       href: "/es/empresas#mi-odontologo-favorito",
       title: "Mi Odontólogo Favorito — Acopio de insumos médicos",
       description: "10 sedes en Lara y regiones como centros de acopio; destino Tucacas, Falcón.",
@@ -276,10 +327,36 @@ const STATIC_PAGES: Record<
       keywords: "donate collection aid solidarity vamos app donations free rides delivery gauze syringes gloves catheter ibuprofen bandages sutures",
     },
     {
+      href: "/en/centros-ayuda#acopio-activos-rdelbufalo",
+      title: "Active collection centers in Venezuela",
+      description: "Active drop-off points from June 25 in Caracas, Aragua, Carabobo, Andes, Anzoátegui, Guayana and Barquisimeto. Source @rdelbufalo.",
+      keywords: "active collection mormon bejucal la capilla talislandia ula cecosesola ucab rdelbufalo",
+    },
+    {
+      href: "/en/centros-ayuda#acopio-g3-caritas",
+      title: "G3 Logística and Caritas — Where to donate",
+      description: "G3 collection centers in Caracas, Valencia and Barquisimeto; Caritas Montalbán HQ (Av. Teherán).",
+      keywords: "g3 logistica caritas montalban teheran maploca cortijos lourdes san diego barquisimeto donate",
+    },
+    {
+      href: "https://centroacopio.site/",
+      title: "Centros de Acopio Venezuela — centroacopio.site",
+      description:
+        "National network of collection centers and free delivery volunteers. Register or look up aid points in affected areas.",
+      keywords: "centroacopio collection center free delivery transport donations unidos por venezuela",
+    },
+    {
       href: "/en/centros-ayuda#que-donar",
       title: "What to donate — Medical supplies needed",
       description: "Medical supplies list: compress packs, gauze, syringes, solutions, sutures, gloves, captopril, nifedipine, ketoprofen, adrenaline and more.",
       keywords: "donate buy medical supplies compress gauze syringes ringer dextrose povidone captopril nifedipine ketoprofen dexamethasone adrenaline lidocaine suture gloves",
+    },
+    {
+      href: "/en/hospitales",
+      title: "Hospitales en Venezuela — hospital admissions",
+      description:
+        "Search by name or ID if a relative is admitted to a hospital or health center.",
+      keywords: "hospitalesenvenezuela admitted patients hospital relative id digital list",
     },
     {
       href: "/en/hospitales",
@@ -304,6 +381,25 @@ const STATIC_PAGES: Record<
       title: "Damage map",
       description: "Map of damaged buildings in Venezuela with search, filters and community reports.",
       keywords: "damage map buildings collapsed damaged evacuated structures earthquake report terremotovenezuela",
+    },
+    {
+      href: "/en/danos#sitios-prioritarios-rescate",
+      title: "Priority search and rescue sites",
+      description: "13 critical structures in Caraballeda, La Guaira, Caracas, Aragua and Falcón with GPS coordinates. Source @rdelbufalo.",
+      keywords: "rescue search caraballeda tahiti gabarra catia la mar maiquetia san judas tadeo turmero tucacas rdelbufalo",
+    },
+    {
+      href: "https://habitable.lovable.app/",
+      title: "Ingenieros por Venezuela — building inspections",
+      description:
+        "Civil and structural engineers: register as a volunteer. Citizens: report damaged buildings to prioritize inspections.",
+      keywords: "ingenieros por venezuela habitable engineer civil structural volunteer inspection damaged building cabreracg",
+    },
+    {
+      href: "/en/danos#ingenieros-por-venezuela",
+      title: "Ingenieros por Venezuela — damage map",
+      description: "Allied platform for volunteer engineer registration and damaged building reports.",
+      keywords: "engineers habitable lovable structural inspection damage building",
     },
     {
       href: "/en/organismos",
@@ -390,6 +486,12 @@ const STATIC_PAGES: Record<
       keywords: "farmatodo collection donations pharmacy medicine",
     },
     {
+      href: "/en/empresas#foton-venezuela",
+      title: "FOTON Venezuela — Dealerships as collection centers",
+      description: "Nationwide network of official FOTON dealerships and showrooms accepting donations.",
+      keywords: "foton fotonvzla dealerships collection trucks valencia caracas barquisimeto maracaibo",
+    },
+    {
       href: "/en/empresas#mi-odontologo-favorito",
       title: "Mi Odontólogo Favorito — Medical supply collection",
       description: "10 branches in Lara and regions as collection centers; bound for Tucacas, Falcón.",
@@ -426,6 +528,7 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     missingLinks,
     petLinks,
     toolLinks,
+    officialLinks,
     news,
     externalSources,
     missingPersons,
@@ -437,12 +540,13 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     fetchExternalLinks("missing"),
     fetchExternalLinks("pets"),
     fetchExternalLinks("tools"),
+    fetchExternalLinks("official"),
     fetchNews(),
     fetchExternalSources(),
     fetchMissingPersons(),
   ]);
 
-  const allExternalLinks = [...missingLinks, ...petLinks, ...toolLinks];
+  const allExternalLinks = [...missingLinks, ...petLinks, ...toolLinks, ...officialLinks];
 
   const index: SearchIndexItem[] = [];
   const indexedExternalUrls = new Set<string>();

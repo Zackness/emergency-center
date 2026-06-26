@@ -1,0 +1,86 @@
+{
+  "source": "https://centroacopio.site",
+  "fetched_at": "2026-06-26T15:37:29.855Z",
+  "centers": [
+    {
+      "id": "f5fdfad4-5d49-4be5-8cd3-646374de87c9",
+      "createdAt": "2026-06-25T20:21:52.283Z",
+      "centerName": "RicardoTeran.Net",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Centro / Catedral)",
+      "address": "Carrera 25, entre calles 20 y 19. Edif. Lenke",
+      "description": "El equipo de RicardoTeran.Net abre sus puertas para ayudar a quienes lo necesitan, liderado por Ricardo Teran y Genesis Castillo junto a su equipo.",
+      "attentionStart": "08:00",
+      "attentionEnd": "18:00",
+      "requiredSupplies": [
+        "Alimentos no perecederos",
+        "Medicina",
+        "Agua potable",
+        "Ropa en buen estado",
+        "Pañales para niños y adultos",
+        "Productos de aseo personal"
+      ]
+    },
+    {
+      "id": "db45840f-495f-4772-b582-6f03798d46ac",
+      "createdAt": "2026-06-25T20:10:16.379Z",
+      "centerName": "Torre Changan",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Este / Santa Rosa)",
+      "address": "Av. Bracamonte entre Av. Libertador y Av. Venezuela, Zona Este",
+      "description": "Centro de Acopio -  04144000196",
+      "attentionStart": "",
+      "attentionEnd": "",
+      "requiredSupplies": []
+    },
+    {
+      "id": "56b6b96f-4f77-482e-aa30-ab861cda5190",
+      "createdAt": "2026-06-25T19:50:27.143Z",
+      "centerName": "Weest Food and Bar",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Oeste / La Carucieña / Pavia)",
+      "address": "Calle 52 entre carreras 14 y 15",
+      "description": "Centro de Acopio",
+      "attentionStart": "08:00",
+      "attentionEnd": "18:00",
+      "requiredSupplies": [
+        "Agua",
+        "Enlatados",
+        "Alimentos no perecederos",
+        "Equipo de Rescate"
+      ]
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "8cb31e3c-b846-4998-9e64-4f6611507c1e",
+      "createdAt": "2026-06-26T02:25:21.118Z",
+      "name": "Isaias Alvarado",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Oeste / La Carucieña / Pavia)",
+      "nearbyAddress": "Oeste 5 de julio",
+      "transportType": "carro",
+      "phone": "04127295534"
+    },
+    {
+      "id": "06b3edbe-3f43-45b6-881d-271c6b9d5e6d",
+      "createdAt": "2026-06-25T19:45:45.095Z",
+      "name": "Marielis Peraza",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Centro / Catedral)",
+      "nearbyAddress": "Todo Centro y Este",
+      "transportType": "moto",
+      "phone": "04121752071"
+    },
+    {
+      "id": "3a9e4988-85df-4410-b6b6-3f64be05a5bc",
+      "createdAt": "2026-06-25T18:59:00.705Z",
+      "name": "Diego Sottile",
+      "city": "Barquisimeto",
+      "sector": "Centro",
+      "nearbyAddress": "Todo Centro y Este",
+      "transportType": "moto",
+      "phone": "04145084988"
+    }
+  ]
+}

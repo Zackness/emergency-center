@@ -28,8 +28,8 @@ VALUES (
   '0424-5839025',
   'Por confirmar',
   ARRAY['water', 'food', 'medicine', 'hygiene', 'clothing', 'blankets'],
-  '/images/help-centers/fundacion-bel-torre-bel.jpg',
-  ARRAY['/images/help-centers/fundacion-bel-torre-bel.jpg'],
+  NULL,
+  ARRAY[]::text[],
   true,
   true
 )

@@ -1,25 +1,54 @@
 #!/usr/bin/env npx tsx
 /**
- * Importa edificios desde terremotovenezuela.com y los guarda deduplicados en la BD.
+ * Importa edificios del mapa de daños a Supabase vía API REST (HTTPS).
+ * No requiere DATABASE_URL / pooler :6543.
  *
  * Uso:
  *   npm run sync:damage
+ *   npm run sync:damage -- --from-file   # usa src/data/damage-buildings.json
  */
-import { PrismaClient } from "@prisma/client";
-import { syncDamageBuildings } from "@/lib/damage-map/sync";
+import { readFile } from "node:fs/promises";
+import {
+  syncDamageBuildingsRest,
+  syncDamageBuildingsRestLive,
+} from "@/lib/damage-map/sync-rest";
+import type { ImportedBuilding } from "@/lib/damage-map/types";
 import { assertSafeDatabaseTarget } from "@/lib/db-guard";
 
-const prisma = new PrismaClient();
+const SNAPSHOT = new URL("../src/data/damage-buildings.json", import.meta.url);
 
-async function main() {
-  assertSafeDatabaseTarget("sync:damage");
-  const result = await syncDamageBuildings(prisma);
-  console.log("Sync de mapa de daños completado:", result);
+function loadEnv() {
+  try {
+    (process as unknown as { loadEnvFile?: (path?: string) => void }).loadEnvFile?.(".env");
+  } catch {
+    /* ya cargado */
+  }
 }
 
-main()
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+async function loadFromFile(): Promise<ImportedBuilding[]> {
+  const raw = await readFile(SNAPSHOT, "utf8");
+  const data = JSON.parse(raw) as { items: ImportedBuilding[]; fetched_at?: string };
+  console.log(
+    `Snapshot local: ${data.items?.length ?? 0} edificios` +
+      (data.fetched_at ? ` (descargado ${data.fetched_at})` : "")
+  );
+  return data.items ?? [];
+}
+
+async function main() {
+  loadEnv();
+  assertSafeDatabaseTarget("sync:damage");
+
+  const fromFile = process.argv.includes("--from-file");
+  const result = fromFile
+    ? await syncDamageBuildingsRest(await loadFromFile())
+    : await syncDamageBuildingsRestLive();
+
+  console.log("\nSync mapa de daños completado (REST):");
+  console.log(`  recibidos=${result.fetched} nuevos=${result.created} actualizados=${result.updated}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

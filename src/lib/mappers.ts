@@ -222,6 +222,7 @@ export function mapMissingPersonWithSources(
   return {
     id: row.id,
     full_name: row.fullName,
+    national_id: row.nationalId,
     age: row.age,
     gender: row.gender,
     state: row.state,

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
+import { formatNationalIdDisplay } from "@/lib/missing-persons/normalize";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 import type { MissingPersonWithSources } from "@/types";
 
@@ -14,6 +15,7 @@ interface RegistryLabels {
   loading: string;
   sources: string;
   lastSeen: string;
+  nationalId: string;
   verification: Record<string, string>;
 }
 
@@ -96,6 +98,11 @@ function PersonCard({
             <span className="text-ink-secondary font-normal">, {person.age}</span>
           )}
         </h3>
+        {person.national_id && (
+          <p className="mt-1 text-sm font-medium text-ink">
+            {labels.nationalId}: {formatNationalIdDisplay(person.national_id)}
+          </p>
+        )}
         <p className="mt-1 text-sm text-ink-secondary">
           {labels.lastSeen}: {person.city}, {person.state}
           {person.last_seen_location && ` — ${person.last_seen_location}`}

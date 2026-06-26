@@ -277,6 +277,81 @@
       "successOwn": "Centro registrado. Redirigiendo al panel…",
       "successThirdParty": "Centro reportado. Aparecerá en el listado para verificación comunitaria.",
       "submitError": "No se pudo enviar el registro. Intenta de nuevo."
+    },
+    "hub": {
+      "heroBadge": "Terremoto 24 de junio · Emergencia nacional",
+      "heroTitle": "Red de centros de acopio y apoyo solidario",
+      "heroSubtitle": "Registra y consulta puntos de ayuda, centros de atención y voluntarios de delivery gratuito en tiempo real en las zonas afectadas de Venezuela.",
+      "hashtag": "#UnidosPorVenezuela",
+      "criticalTitle": "Aviso de cooperación crítico",
+      "criticalBody": "Para optimizar la logística, es indispensable comunicarse directamente con el centro antes de trasladar cualquier insumo. Así garantizas llevar lo que realmente se necesita hoy y que el sitio esté activo recibiendo donaciones.",
+      "portals": {
+        "centers": {
+          "title": "Centros de acopio",
+          "description": "Consulta o registra locaciones activas que consolidan agua, alimentos no perecederos, medicamentos y ropa para las comunidades.",
+          "viewCta": "Visualizar centros",
+          "registerCta": "Registrar nuevo centro"
+        },
+        "delivery": {
+          "title": "Delivery gratis",
+          "description": "Consulta o súmate a la red de camionetas, carros y motorizados voluntarios que transportan ayuda humanitaria sin costo hacia los puntos críticos.",
+          "viewCta": "Visualizar deliveries",
+          "registerCta": "Registrarse como transporte"
+        }
+      },
+      "zonesTitle": "Zonas activas",
+      "directoryTitle": "Directorio civil de ayuda",
+      "directorySubtitle": "Filtra por ciudad y sector para localizar ayuda disponible de inmediato.",
+      "tabs": {
+        "centers": "Centros de acopio",
+        "delivery": "Voluntarios delivery"
+      },
+      "filterCity": "Ciudad de emergencia",
+      "filterSector": "Sector / municipio",
+      "allCities": "Todas las ciudades venezolanas",
+      "allSectors": "Todos los sectores",
+      "searchSector": "Buscar por ciudad o sector",
+      "clearFilters": "Limpiar filtros",
+      "noResults": "No hay centros registrados que coincidan con los filtros aplicados.",
+      "showing": "Mostrando",
+      "of": "de",
+      "verified": "Verificado",
+      "deliveryTabIntro": "Red de transporte solidario para llevar donaciones a los puntos críticos. Confirma disponibilidad con el voluntario antes de coordinar el traslado.",
+      "deliveryTransportCta": "Ver opciones de transporte",
+      "deliveryRegisterCta": "Ofrecer mi vehículo",
+      "centroacopioBadge": "centroacopio.site",
+      "deliveryNoResults": "No hay voluntarios de delivery que coincidan con los filtros. Revisa centroacopio.site o ofrece tu vehículo.",
+      "deliveryVehicle": "Vehículo",
+      "deliveryCoverage": "Cobertura",
+      "alliedPlatform": {
+        "eyebrow": "Plataforma aliada",
+        "title": "Centros de Acopio Venezuela",
+        "description": "centroacopio.site concentra registros comunitarios de acopios y motorizados en varias ciudades. Úsala para complementar este directorio o registrar allí si ya participas en esa red.",
+        "cta": "Ir a centroacopio.site",
+        "note": "Los datos se sincronizan de forma independiente; verifica siempre con el centro antes de trasladar insumos."
+      },
+      "panelCta": "Panel de coordinador",
+      "thirdPartyCta": "Reportar de terceros"
+    },
+    "activeAcopio": {
+      "title": "Centros de acopio activos en Venezuela",
+      "subtitle": "Listado comunitario del 25 de junio de 2026 con puntos verificados en varias regiones. Consulta qué llevar y la sede más cercana antes de trasladar donaciones.",
+      "whatToBring": "Qué llevar",
+      "source": "Fuente",
+      "points": "Puntos",
+      "virtualNote": "Atención virtual — sin punto físico de acopio",
+      "directions": "Cómo llegar",
+      "viewOnMap": "Ver en directorio",
+      "disclaimer": "Confirma con el centro que sigue activo y qué insumos prioriza hoy. La información proviene de @rdelbufalo y puede cambiar."
+    },
+    "g3Caritas": {
+      "title": "Dónde donar — G3 Logística y Cáritas",
+      "subtitle": "Puntos de acopio para insumos, materiales y donaciones en Caracas, Valencia y Barquisimeto (G3), más la sede Montalbán de Cáritas Venezuela.",
+      "source": "Fuente",
+      "caritasTitle": "Cáritas Venezuela — Sede Montalbán",
+      "directions": "Cómo llegar",
+      "viewInDirectory": "Ver en directorio",
+      "disclaimer": "G3 Logística: lun–vie 9:00–12:00 y 14:00–15:30. Confirma horario y disponibilidad antes de trasladar donaciones."
     }
   },
   "hospitals": {
@@ -297,6 +372,13 @@
       "filterAll": "Todos",
       "empty": "No hay hospitales que coincidan con tu búsqueda.",
       "loadMore": "Cargar más hospitales"
+    },
+    "admissionsRegistry": {
+      "eyebrow": "¿Busca a un familiar ingresado?",
+      "title": "Hospitales en Venezuela",
+      "description": "Esta plataforma aliada digitaliza las listas de personas que ingresan a hospitales y centros de salud. Busca por nombre completo o cédula para saber si está registrada y en qué centro. Por privacidad no muestra el estado de salud: llama al hospital para confirmar.",
+      "cta": "Buscar en hospitalesenvenezuela.com",
+      "note": "Si la persona no aparece en ningún hospital, puede estar desaparecida — revisa también el registro de desaparecidos."
     }
   },
   "shelters": {
@@ -338,6 +420,25 @@
       "filterSeverity": "Nivel de daño",
       "filterState": "Estado",
       "filterAll": "Todos"
+    },
+    "engineersPlatform": {
+      "eyebrow": "Plataforma aliada",
+      "title": "Ingenieros por Venezuela",
+      "subtitle": "Iniciativa independiente de respuesta civil al terremoto del 24 de junio de 2026. Ingenieros civiles y estructurales pueden registrarse como voluntarios; ciudadanos pueden reportar edificios dañados para priorizar inspecciones.",
+      "engineerCta": "Soy ingeniero voluntario",
+      "reportCta": "Reportar edificio dañado",
+      "note": "Iniciativa independiente • contacto@cabreracg.com"
+    },
+    "priorityRescue": {
+      "title": "Sitios prioritarios de búsqueda y rescate",
+      "subtitle": "Listado de estructuras críticas y zonas con víctimas reportadas tras los sismos del 24 de junio de 2026. Coordenadas GPS para equipos de rescate.",
+      "structures": "Estructuras críticas",
+      "zones": "Zonas geográficas",
+      "victims": "Víctimas reportadas",
+      "source": "Fuente",
+      "priorityBadge": "Prioridad rescate",
+      "directions": "Cómo llegar",
+      "disclaimer": "Información compartida por la comunidad (@rdelbufalo / Terremoto Venezuela). Verifica con autoridades y equipos oficiales antes de desplegarte. En emergencia, llama al 171."
     },
     "form": {
       "notice": "Reporta solo información que conozcas. No publiques datos sensibles. Verifica antes de difundir.",
@@ -434,16 +535,22 @@
       "description": "Este registro es para personas desaparecidas. Si perdiste a tu perro o gato en el terremoto, Academia Leguau recibe reportes por Instagram y WhatsApp (no es una web).",
       "cta": "Ver registro de mascotas"
     },
+    "hospitalsCrosslink": {
+      "title": "¿Buscas a alguien ingresado en un hospital?",
+      "description": "Hospitales en Venezuela digitaliza las listas de pacientes ingresados en centros de salud. Busca por nombre o cédula para saber en qué hospital está registrada la persona.",
+      "cta": "Buscar en hospitalesenvenezuela.com"
+    },
     "backup": {
       "title": "Registro de respaldo",
       "subtitle": "Antes de registrar aquí, verifica si la persona ya está en las plataformas principales."
     },
     "registry": {
       "title": "Registro unificado sin duplicados",
-      "subtitle": "Consolidamos registros de Venezuela Te Busca, Encuéntralos y reportes propios. La misma persona aparece una sola vez con enlaces a cada fuente.",
+      "subtitle": "Consolidamos registros de Venezuela Te Busca, Encuéntralos y reportes propios. La misma persona aparece una sola vez con enlaces a cada fuente. La cédula de identidad ayuda a evitar duplicados.",
       "sources": "Fuentes asociadas",
       "lastSeen": "Última ubicación conocida",
-      "searchPlaceholder": "Buscar por nombre o ubicación…",
+      "nationalId": "Cédula de identidad",
+      "searchPlaceholder": "Buscar por nombre, cédula o ubicación…",
       "stateFilter": "Filtrar por estado",
       "allStates": "Todos los estados",
       "showing": "Mostrando",
@@ -468,6 +575,9 @@
     },
     "form": {
       "fullName": "Nombre completo de la persona desaparecida",
+      "nationalId": "Cédula de identidad (CI)",
+      "nationalIdPlaceholder": "Ej: V-12.345.678",
+      "nationalIdHint": "Opcional pero recomendada: nos permite identificar a la misma persona entre plataformas y evitar duplicados.",
       "age": "Edad (opcional)",
       "gender": "Género (opcional)",
       "state": "Estado",

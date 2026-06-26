@@ -42,6 +42,7 @@ const registryLabels = {
   loading: t("missing.registry.loading"),
   sources: t("missing.registry.sources"),
   lastSeen: t("missing.registry.lastSeen"),
+  nationalId: t("missing.registry.nationalId"),
   verification: dict.missing.verification as Record<string, string>,
 };
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
@@ -161,6 +162,35 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
           client:visible
           contentType="external_link"
           contentId="venevision-missing-line"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </div>
+    </section>
+
+    <section class="max-w-3xl mb-8" id="hospitales-ingresados">
+      <div class="rounded-2xl border border-success/30 bg-success-muted/25 p-5">
+        <h2 class="text-lg font-semibold text-ink">{t("missing.hospitalsCrosslink.title")}</h2>
+        <p class="mt-2 text-sm text-ink-secondary">{t("missing.hospitalsCrosslink.description")}</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a
+            href="https://hospitalesenvenezuela.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            {t("missing.hospitalsCrosslink.cta")}
+          </a>
+          <a href={`/${locale}/hospitales`} class="btn-secondary text-sm">
+            {locale === "es" ? "Directorio de hospitales" : "Hospital directory"} →
+          </a>
+        </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="hospitales-en-venezuela-crosslink"
           locale={locale}
           labels={feedbackLabels}
           confidenceLabels={confidenceLabels}

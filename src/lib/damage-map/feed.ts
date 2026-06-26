@@ -5,6 +5,7 @@ import { fetchExternalBuildings } from "./adapter";
 import { LOCAL_DAMAGE_BUILDINGS } from "@/data/damage-buildings";
 import { dedupeUrlList, normalizeSearchText } from "./normalize";
 import { proxiedDamageMediaUrls } from "./media-proxy";
+import { mergePriorityRescueSites } from "./merge-priority";
 
 let memoryCache: { at: number; items: DamageReport[] } | null = null;
 const MEMORY_TTL_MS = 5 * 60 * 1000;
@@ -58,7 +59,7 @@ function matchesQuery(report: DamageReport, query: DamageMapQuery): boolean {
   if (query.search?.trim()) {
     const needle = normalizeSearchText(query.search.trim());
     const haystack = normalizeSearchText(
-      [report.title, report.address, report.city, report.state, report.zone]
+      [report.title, report.address, report.city, report.state, report.zone, report.description]
         .filter(Boolean)
         .join(" ")
     );
@@ -87,7 +88,7 @@ export async function queryDamageReports(
   query: DamageMapQuery,
   fetchFromDb: () => Promise<DamageReport[]>
 ): Promise<{ items: DamageReport[]; total: number; stats: DamageMapStats }> {
-  const all = await fetchFromDb();
+  const all = mergePriorityRescueSites(await fetchFromDb());
   const filtered = all.filter((report) => matchesQuery(report, query));
   const offset = query.offset ?? 0;
   const limit = query.limit ?? 50;

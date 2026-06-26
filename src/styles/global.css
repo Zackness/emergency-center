@@ -121,7 +121,28 @@
   }
 
   .input {
-    @apply w-full rounded-xl border border-border bg-surface-elevated px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+    @apply w-full rounded-xl border border-border bg-surface-elevated px-4 py-2.5 text-base sm:text-sm text-ink placeholder:text-ink-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+    color: rgb(var(--ink));
+    caret-color: rgb(var(--ink));
+    -webkit-text-fill-color: rgb(var(--ink));
+  }
+
+  .input:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+
+  textarea.input {
+    @apply resize-y;
+  }
+
+  input.input:-webkit-autofill,
+  input.input:-webkit-autofill:hover,
+  input.input:-webkit-autofill:focus,
+  textarea.input:-webkit-autofill,
+  select.input:-webkit-autofill {
+    -webkit-text-fill-color: rgb(var(--ink));
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--surface-elevated)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--surface-elevated)) inset;
   }
 
   .label {

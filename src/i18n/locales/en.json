@@ -277,6 +277,81 @@
       "successOwn": "Center registered. Redirecting to panel…",
       "successThirdParty": "Center reported. It will appear in the list for community verification.",
       "submitError": "Could not submit registration. Please try again."
+    },
+    "hub": {
+      "heroBadge": "June 24 earthquake · National emergency",
+      "heroTitle": "Collection center and solidarity support network",
+      "heroSubtitle": "Register and look up aid points, care centers and free delivery volunteers in real time across affected areas of Venezuela.",
+      "hashtag": "#UnidosPorVenezuela",
+      "criticalTitle": "Critical cooperation notice",
+      "criticalBody": "To optimize logistics, you must contact the center directly before moving any supplies. This ensures you bring what is actually needed today and that the site is active and receiving donations.",
+      "portals": {
+        "centers": {
+          "title": "Collection centers",
+          "description": "Browse or register active locations consolidating water, non-perishable food, medicine and clothing for communities.",
+          "viewCta": "View centers",
+          "registerCta": "Register new center"
+        },
+        "delivery": {
+          "title": "Free delivery",
+          "description": "Browse or join the network of vans, cars and volunteer motorcyclists who transport humanitarian aid at no cost to critical points.",
+          "viewCta": "View deliveries",
+          "registerCta": "Register as transport"
+        }
+      },
+      "zonesTitle": "Active zones",
+      "directoryTitle": "Civil aid directory",
+      "directorySubtitle": "Filter by city and sector to find available aid immediately.",
+      "tabs": {
+        "centers": "Collection centers",
+        "delivery": "Delivery volunteers"
+      },
+      "filterCity": "Emergency city",
+      "filterSector": "Sector / municipality",
+      "allCities": "All Venezuelan cities",
+      "allSectors": "All sectors",
+      "searchSector": "Search by city or sector",
+      "clearFilters": "Clear filters",
+      "noResults": "No centers match the applied filters.",
+      "showing": "Showing",
+      "of": "of",
+      "verified": "Verified",
+      "deliveryTabIntro": "Solidarity transport network to carry donations to critical points. Confirm availability with the volunteer before coordinating the trip.",
+      "deliveryTransportCta": "See transport options",
+      "deliveryRegisterCta": "Offer my vehicle",
+      "centroacopioBadge": "centroacopio.site",
+      "deliveryNoResults": "No delivery volunteers match the filters. Check centroacopio.site or offer your vehicle.",
+      "deliveryVehicle": "Vehicle",
+      "deliveryCoverage": "Coverage area",
+      "alliedPlatform": {
+        "eyebrow": "Allied platform",
+        "title": "Centros de Acopio Venezuela",
+        "description": "centroacopio.site hosts community registrations of collection centers and drivers across several cities. Use it to complement this directory or register there if you already participate in that network.",
+        "cta": "Go to centroacopio.site",
+        "note": "Data syncs independently; always verify with the center before moving supplies."
+      },
+      "panelCta": "Coordinator panel",
+      "thirdPartyCta": "Report third-party center"
+    },
+    "activeAcopio": {
+      "title": "Active collection centers in Venezuela",
+      "subtitle": "Community list from June 25, 2026 with verified drop-off points across several regions. Check what to bring and the nearest site before transporting donations.",
+      "whatToBring": "What to bring",
+      "source": "Source",
+      "points": "Points",
+      "virtualNote": "Virtual support — no physical drop-off site",
+      "directions": "Directions",
+      "viewOnMap": "View in directory",
+      "disclaimer": "Confirm with the center that it is still active and what supplies are prioritized today. Information from @rdelbufalo and may change."
+    },
+    "g3Caritas": {
+      "title": "Where to donate — G3 Logística and Caritas",
+      "subtitle": "Drop-off points for supplies, materials and donations in Caracas, Valencia and Barquisimeto (G3), plus the Caritas Venezuela Montalbán headquarters.",
+      "source": "Source",
+      "caritasTitle": "Caritas Venezuela — Montalbán headquarters",
+      "directions": "Directions",
+      "viewInDirectory": "View in directory",
+      "disclaimer": "G3 Logística: Mon–Fri 9:00 AM–12:00 PM and 2:00–3:30 PM. Confirm hours and availability before bringing donations."
     }
   },
   "hospitals": {
@@ -297,6 +372,13 @@
       "filterAll": "All",
       "empty": "No hospitals match your search.",
       "loadMore": "Load more hospitals"
+    },
+    "admissionsRegistry": {
+      "eyebrow": "Looking for a relative who was admitted?",
+      "title": "Hospitales en Venezuela",
+      "description": "This allied platform digitizes lists of people admitted to hospitals and health centers. Search by full name or national ID to see if they are registered and at which facility. For privacy it does not show clinical status — call the hospital to confirm.",
+      "cta": "Search on hospitalesenvenezuela.com",
+      "note": "If the person is not listed at any hospital, they may be missing — also check the missing persons registry."
     }
   },
   "shelters": {
@@ -338,6 +420,25 @@
       "filterSeverity": "Damage level",
       "filterState": "State",
       "filterAll": "All"
+    },
+    "engineersPlatform": {
+      "eyebrow": "Allied platform",
+      "title": "Ingenieros por Venezuela",
+      "subtitle": "Independent civil response initiative after the June 24, 2026 earthquake. Civil and structural engineers can register as volunteers; citizens can report damaged buildings to prioritize inspections.",
+      "engineerCta": "I'm a volunteer engineer",
+      "reportCta": "Report damaged building",
+      "note": "Independent initiative • contacto@cabreracg.com"
+    },
+    "priorityRescue": {
+      "title": "Priority search and rescue sites",
+      "subtitle": "Critical structures and zones with reported victims after the June 24, 2026 earthquakes. GPS coordinates for rescue teams.",
+      "structures": "Critical structures",
+      "zones": "Geographic zones",
+      "victims": "Reported victims",
+      "source": "Source",
+      "priorityBadge": "Rescue priority",
+      "directions": "Directions",
+      "disclaimer": "Community-shared information (@rdelbufalo / Terremoto Venezuela). Verify with authorities and official teams before deploying. In an emergency, call 171."
     },
     "form": {
       "notice": "Only report information you know. Do not post sensitive data. Verify before sharing.",
@@ -434,16 +535,22 @@
       "description": "This section is for missing people. If you lost your dog or cat in the earthquake, Academia Leguau accepts reports via Instagram and WhatsApp (not a website).",
       "cta": "Go to pet registry"
     },
+    "hospitalsCrosslink": {
+      "title": "Looking for someone admitted to a hospital?",
+      "description": "Hospitales en Venezuela digitizes admission lists from health centers. Search by name or ID to find which hospital has registered the person.",
+      "cta": "Search on hospitalesenvenezuela.com"
+    },
     "backup": {
       "title": "Backup registration",
       "subtitle": "Before registering here, check if the person is already listed on the main platforms."
     },
     "registry": {
       "title": "Deduplicated unified registry",
-      "subtitle": "We consolidate records from Venezuela Te Busca, Encuéntralos and our own reports. Each person appears once with links to every source.",
+      "subtitle": "We consolidate records from Venezuela Te Busca, Encuéntralos and our own reports. Each person appears once with links to every source. National ID helps prevent duplicates.",
       "sources": "Associated sources",
       "lastSeen": "Last known location",
-      "searchPlaceholder": "Search by name or location…",
+      "nationalId": "National ID",
+      "searchPlaceholder": "Search by name, ID or location…",
       "stateFilter": "Filter by state",
       "allStates": "All states",
       "showing": "Showing",
@@ -468,6 +575,9 @@
     },
     "form": {
       "fullName": "Full name of missing person",
+      "nationalId": "National ID (cédula)",
+      "nationalIdPlaceholder": "E.g. V-12.345.678",
+      "nationalIdHint": "Optional but recommended: helps us match the same person across platforms and avoid duplicates.",
       "age": "Age (optional)",
       "gender": "Gender (optional)",
       "state": "State",

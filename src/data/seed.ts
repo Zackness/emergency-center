@@ -18,6 +18,10 @@ import {
 } from "@/data/official-social";
 import { CALIPSO_VOLUNTEER_LODGING } from "@/data/volunteer-lodging";
 import { VENEZUELA_HOSPITALS } from "@/data/hospitals-venezuela";
+import { CHANGAN_ACOPIO_CENTERS } from "@/data/changan-acopio";
+import { FOTON_ACOPIO_CENTERS } from "@/data/foton-acopio";
+import { RDELBUFALO_ACOPIO_CENTERS } from "@/data/rdelbufalo-acopio-activos";
+import { G3_LOGISTICA_ACOPIO_CENTERS } from "@/data/g3-logistica-acopio";
 
 // Seed data used when Supabase is not configured or returns empty results
 
@@ -59,13 +63,14 @@ const VERITAS_UCLA_FLYER = "/images/help-centers/veritas-ucla-centro-acopio.png"
 export const SEED_HELP_CENTERS: HelpCenter[] = [
   {
     id: "1",
-    name: "Cáritas Nacional — Montalbán",
+    name: "Cáritas Venezuela — Sede Montalbán",
     description:
-      "Centro de acopio de la Conferencia Episcopal Venezolana y Cáritas de Venezuela. Campaña de emergencia para recibir agua potable, alimentos no perecederos, medicinas esenciales y bienes de primera necesidad. Actualizaciones oficiales: @caritasdevzla.",
+      "Centro de acopio de la Conferencia Episcopal Venezolana y Cáritas de Venezuela. Recibe insumos, materiales y donaciones para familias afectadas. Av. Teherán, frente a Urb. Juan Pablo II. Actualizaciones oficiales: @caritasdevzla. También referenciado por @rdelbufalo.",
     type: "church",
     state: "Distrito Capital",
     city: "Caracas",
-    address: "Montalbán, Municipio Libertador",
+    address:
+      "Av. Teherán, a 200 m de la UCAB, frente a Urb. Juan Pablo II. Sede CEV, Montalbán, Caracas",
     latitude: 10.4961,
     longitude: -66.8983,
     phone: null,
@@ -544,7 +549,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     email: null,
     schedule: "Por confirmar",
     accepts: ["water", "food", "medicine", "hygiene", "clothing", "blankets"],
-    image_urls: ["/images/help-centers/fundacion-bel-torre-bel.jpg"],
+    image_urls: [],
     is_verified: true,
     is_active: true,
     created_at: "2026-06-26T00:00:00Z",
@@ -1019,6 +1024,10 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     created_at: "2026-06-26T00:00:00Z",
     updated_at: "2026-06-26T00:00:00Z",
   },
+  ...CHANGAN_ACOPIO_CENTERS,
+  ...FOTON_ACOPIO_CENTERS,
+  ...RDELBUFALO_ACOPIO_CENTERS,
+  ...G3_LOGISTICA_ACOPIO_CENTERS,
 ];
 
 export const SEED_HOSPITALS: Hospital[] = VENEZUELA_HOSPITALS;
@@ -1282,9 +1291,48 @@ export const SEED_EXTERNAL_LINKS: ExternalLink[] = [
     sort_order: 1,
     created_at: "2026-06-26T00:00:00Z",
   },
+  {
+    id: "7",
+    title: "Hospitales en Venezuela",
+    description:
+      "Plataforma comunitaria que digitaliza listas de personas ingresadas en hospitales y centros de salud. Busca por nombre completo o cédula; confirma en qué centro está (sin mostrar estado clínico).",
+    url: "https://hospitalesenvenezuela.com",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 1,
+    created_at: "2026-06-26T14:30:00Z",
+  },
+  {
+    id: "8",
+    title: "Centros de Acopio Venezuela",
+    description:
+      "Plataforma ciudadana para registrar y consultar centros de acopio, puntos de ayuda y voluntarios de delivery gratuito en zonas afectadas.",
+    url: "https://centroacopio.site/",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 2,
+    created_at: "2026-06-26T16:00:00Z",
+  },
 ];
 
 export const SEED_NEWS: NewsItem[] = [
+  {
+    id: "news-jyp-worldvision-venezuela-20260626",
+    title: "JYP Entertainment dona 300 millones de won a World Vision para la emergencia en Venezuela",
+    summary:
+      "La disquera surcoreana JYP Entertainment (Twice, Stray Kids) entregó 300 millones de won (unos 3 millones de dólares) a World Vision para apoyar la respuesta al terremoto del 24 de junio. Los fondos financiarán alimentos, agua potable, artículos de primera necesidad y apoyo psicosocial para niños y residentes afectados.",
+    source: "Newsis (Naver Entertainment)",
+    source_url: "https://m.entertain.naver.com/home/article/003/0014031178",
+    published_at: "2026-06-26T09:00:00Z",
+    locale: "both",
+    is_verified: true,
+    is_active: true,
+    created_at: "2026-06-26T09:00:00Z",
+  },
   {
     id: "news-ap-balance-rescate-20260626",
     title: "AP: rescates, cierre del aeropuerto y búsqueda de familiares tras los sismos",

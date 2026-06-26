@@ -275,6 +275,7 @@ export interface MissingPersonSourceLink {
 export interface MissingPerson {
   id: string;
   full_name: string;
+  national_id: string | null;
   age: number | null;
   gender: string | null;
   state: string;
@@ -298,6 +299,7 @@ export interface MissingPersonWithSources extends MissingPerson {
 
 export interface MissingPersonRegistration {
   full_name: string;
+  national_id: string | null;
   age: number | null;
   gender: string | null;
   state: string;

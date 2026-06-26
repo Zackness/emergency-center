@@ -9,6 +9,12 @@ interface Props {
 }
 
 const { title, subtitle, eyebrow, imageSrc, imageAlt = "", class: className } = Astro.props;
+
+let slotHtml = "";
+if (Astro.slots.has("default")) {
+  slotHtml = String(await Astro.slots.render("default") ?? "");
+}
+const hasSlotContent = slotHtml.trim().length > 0;
 ---
 
 <section class:list={["relative overflow-hidden border-b border-border", className]}>
@@ -50,8 +56,10 @@ const { title, subtitle, eyebrow, imageSrc, imageAlt = "", class: className } = 
     </div>
   </div>
 </section>
-<div class="container-app">
-  <div class="py-8 sm:py-10">
-    <slot />
-  </div>
-</div>
+{
+  hasSlotContent && (
+    <div class="container-app">
+      <div class="py-8 sm:py-10" set:html={slotHtml} />
+    </div>
+  )
+}

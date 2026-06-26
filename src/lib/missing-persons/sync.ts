@@ -126,6 +126,7 @@ async function processRecord(
           photoUrl: record.photoUrl ?? undefined,
           description: record.description ?? undefined,
           lastSeenLocation: record.lastSeenLocation ?? undefined,
+          nationalId: record.nationalId ?? undefined,
         },
       });
       await upsertRecord(prisma, record, sourceId, existing.missingPersonId);
@@ -140,6 +141,7 @@ async function processRecord(
     const person = await prisma.missingPerson.create({
       data: {
         fullName: record.fullName,
+        nationalId: record.nationalId,
         age: record.age,
         gender: record.gender,
         state: record.state,
@@ -166,6 +168,7 @@ async function processRecord(
       photoUrl: record.photoUrl ?? undefined,
       description: record.description ?? undefined,
       lastSeenLocation: record.lastSeenLocation ?? undefined,
+      nationalId: record.nationalId ?? undefined,
     },
   });
 

@@ -1,8 +1,593 @@
 {
   "source": "https://www.huellascan.com/terremoto",
-  "fetched_at": "2026-06-26T13:17:54.139Z",
-  "count": 1203,
+  "fetched_at": "2026-06-26T15:16:54.204Z",
+  "count": 1268,
   "items": [
+    {
+      "externalId": "1360",
+      "name": "Duquesa",
+      "status": "lost",
+      "location": "San Juan",
+      "distinctive_marks": "El pecho es blanco",
+      "contact_phone": "04127702999",
+      "photo_url": null
+    },
+    {
+      "externalId": "1359",
+      "name": "Paco",
+      "status": "lost",
+      "location": "Playa grande",
+      "distinctive_marks": "Tiene una plaquita con su nombre, es muy asustadizo y peludito",
+      "contact_phone": "+58 424-2595657",
+      "photo_url": null
+    },
+    {
+      "externalId": "1358",
+      "name": "Estrella",
+      "status": "lost",
+      "location": "Guarataro, la Guaira",
+      "distinctive_marks": "se parece a un collie, tiene dos lunares cerca de la nariz",
+      "contact_phone": "04149033091",
+      "photo_url": null
+    },
+    {
+      "externalId": "1357",
+      "name": "Carita",
+      "status": "lost",
+      "location": "Guarenas",
+      "distinctive_marks": "Collar rojo deshilachado, orejas negras cola negra",
+      "contact_phone": "04241219260",
+      "photo_url": null
+    },
+    {
+      "externalId": "1356",
+      "name": "Desconocidos",
+      "status": "lost",
+      "location": "Cataño",
+      "distinctive_marks": "Leash de alambre cortados y collares muy grandes (anchos) para su tamaño",
+      "contact_phone": "7879048966",
+      "photo_url": null
+    },
+    {
+      "externalId": "1355",
+      "name": "Ragnar",
+      "status": "lost",
+      "location": "Sector Marina Grande",
+      "distinctive_marks": "Totalmente negro, es enorme e inofensivo ! Muy asustadizo",
+      "contact_phone": "04247540022",
+      "photo_url": null
+    },
+    {
+      "externalId": "1354",
+      "name": "Sushi",
+      "status": "lost",
+      "location": "Av principal el cuartel al lado del seguro social continente \\/ Catia",
+      "distinctive_marks": "Tiene dos pelones en el lomo y la oreja derecha tiene un roto",
+      "contact_phone": "04129385808 \\/ 04141269771 \\/04122028105",
+      "photo_url": null
+    },
+    {
+      "externalId": "1353",
+      "name": "Benito",
+      "status": "lost",
+      "location": "Menca bloque 49 piso 4 apto 04-03",
+      "distinctive_marks": "Tiene un tatuaje en la oreja con la letra E, tiene un collar AZUL",
+      "contact_phone": "04241547993",
+      "photo_url": null
+    },
+    {
+      "externalId": "1352",
+      "name": "Velita",
+      "status": "lost",
+      "location": "Entre km 5 y km 7 del Junquito",
+      "distinctive_marks": null,
+      "contact_phone": "04242056239\\/04241502427\\/04241836167",
+      "photo_url": null
+    },
+    {
+      "externalId": "1351",
+      "name": "Ruby",
+      "status": "lost",
+      "location": "Parque Caraballeda",
+      "distinctive_marks": null,
+      "contact_phone": "04242554012",
+      "photo_url": null
+    },
+    {
+      "externalId": "1350",
+      "name": "Coco",
+      "status": "lost",
+      "location": "Bloques del ingenio, Guatire, Edo. Miranda",
+      "distinctive_marks": "Gato Siamés, macho, tamaño grande",
+      "contact_phone": "04129261898",
+      "photo_url": null
+    },
+    {
+      "externalId": "1349",
+      "name": "Silvestre",
+      "status": "lost",
+      "location": "el paraiso, por el unicasa",
+      "distinctive_marks": "Gato blanco y negro",
+      "contact_phone": "04123681127",
+      "photo_url": null
+    },
+    {
+      "externalId": "1348",
+      "name": "Kronos",
+      "status": "lost",
+      "location": "el paraiso, por el unicasa",
+      "distinctive_marks": "Gato negro",
+      "contact_phone": "04123681127",
+      "photo_url": null
+    },
+    {
+      "externalId": "1347",
+      "name": "Cleo",
+      "status": "lost",
+      "location": "Playa Grande, Edificio El Jurel",
+      "distinctive_marks": "Siames, cara y patas muy oscuras, ojos azules contextura alargada. Muy nerviosa debe estar escondida aún en el Piso 4",
+      "contact_phone": "04242183020",
+      "photo_url": null
+    },
+    {
+      "externalId": "1346",
+      "name": "Responde por michu",
+      "status": "lost",
+      "location": "La florida, por venevision",
+      "distinctive_marks": "Collar azul",
+      "contact_phone": "04122146266",
+      "photo_url": null
+    },
+    {
+      "externalId": "1345",
+      "name": "Jiro",
+      "status": "found",
+      "location": "Guatire, La Rosa, Urb. La Meseta",
+      "distinctive_marks": null,
+      "contact_phone": "--",
+      "photo_url": null
+    },
+    {
+      "externalId": "1344",
+      "name": "Amina",
+      "status": "lost",
+      "location": "Residencia malecon, catia la mar, la guaira",
+      "distinctive_marks": "No tiene collar, es una schnauzer mini gris",
+      "contact_phone": "04126169731",
+      "photo_url": null
+    },
+    {
+      "externalId": "1343",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Maracay",
+      "distinctive_marks": "Perrito gris con pelito rizado",
+      "contact_phone": "04128926887",
+      "photo_url": null
+    },
+    {
+      "externalId": "1342",
+      "name": "Caraota",
+      "status": "lost",
+      "location": "Ppal mirador del este, Petare.",
+      "distinctive_marks": "Collar fucsia, raya blanca en el estómago, una cicatriz en un su pata trasera",
+      "contact_phone": "04242570889",
+      "photo_url": null
+    },
+    {
+      "externalId": "1341",
+      "name": "Chimichurri Nala",
+      "status": "lost",
+      "location": "En el edificio 2 de la llovizna, playa grande, catia la mar",
+      "distinctive_marks": "Tiene la marca de esterilizado en una de sus orejas",
+      "contact_phone": "04142704169",
+      "photo_url": null
+    },
+    {
+      "externalId": "1340",
+      "name": "Nieves Sofia Ballestero",
+      "status": "lost",
+      "location": "En caricuao ud2",
+      "distinctive_marks": "Tiene un pañuelo azul y tiene en su costado una mancha marrón clara",
+      "contact_phone": "0412-6398420",
+      "photo_url": null
+    },
+    {
+      "externalId": "1339",
+      "name": "Michu",
+      "status": "lost",
+      "location": "Av. Intercomunal del Valle Residencias Mariscal Ayacucho Torre B",
+      "distinctive_marks": "Collar rojo es una Calico",
+      "contact_phone": "04128299666",
+      "photo_url": null
+    },
+    {
+      "externalId": "1338",
+      "name": "Lulú",
+      "status": "lost",
+      "location": "Residencias Los Mangos, Calle Ricaurte, Maracay 2103, Aragua",
+      "distinctive_marks": "Llevaba una franelita blanca bordada y un pañal. Fue vista la última vez por la ortopedia Wilson.",
+      "contact_phone": "0424 3049713",
+      "photo_url": null
+    },
+    {
+      "externalId": "1337",
+      "name": "Chimicurri Nala",
+      "status": "lost",
+      "location": "En la torre 2 de la llovizna, playa grande,catia la mar",
+      "distinctive_marks": null,
+      "contact_phone": "04142704169",
+      "photo_url": null
+    },
+    {
+      "externalId": "1336",
+      "name": "Porfirio",
+      "status": "lost",
+      "location": "Barquisimeto carrera 18 calle 50",
+      "distinctive_marks": "Tiene un huequito en la punta de oreja izquierda y maulla raro",
+      "contact_phone": "0424-5452848",
+      "photo_url": null
+    },
+    {
+      "externalId": "1335",
+      "name": "Chiqui",
+      "status": "lost",
+      "location": "Fuerte tiuna torre A-15",
+      "distinctive_marks": "No tiene collar",
+      "contact_phone": "4125880194",
+      "photo_url": null
+    },
+    {
+      "externalId": "1334",
+      "name": "Catira",
+      "status": "lost",
+      "location": "Se encontró en el edificio Hansa, Av este 2 entre Av sur 19. La Candelaria",
+      "distinctive_marks": "Gata naranja con rayas y mancha blanca en el pecho y patas traseras, ojos verdes y grandes, collar rosado con un moño.",
+      "contact_phone": "0141701347",
+      "photo_url": null
+    },
+    {
+      "externalId": "1333",
+      "name": "Kira Valentina",
+      "status": "lost",
+      "location": "La guaira, catia la mar urbanización Hugo Chávez playa grande",
+      "distinctive_marks": "Color blanco con orejas beigue tienes nunal en la barriga y está recién afeitada",
+      "contact_phone": "04142633804",
+      "photo_url": null
+    },
+    {
+      "externalId": "1332",
+      "name": "Catira",
+      "status": "found",
+      "location": "Se encontró en el edificio Hansa, Av este 2 entre Av sur 19. La Candelaria",
+      "distinctive_marks": "Gata naranja con rayas y mancha blanca en el pecho y patas traseras, ojos verdes y grandes, collar rosado con un moño.",
+      "contact_phone": "0141701347",
+      "photo_url": null
+    },
+    {
+      "externalId": "1331",
+      "name": "Jerry",
+      "status": "lost",
+      "location": "Resd. Puerto Escondido en Catia La Mar",
+      "distinctive_marks": null,
+      "contact_phone": "0412-9958153",
+      "photo_url": null
+    },
+    {
+      "externalId": "1330",
+      "name": "Kitty",
+      "status": "lost",
+      "location": "Edificio El Jurel playa grande la guaira",
+      "distinctive_marks": "No tiene esta la gata esta esterilizada",
+      "contact_phone": "04167109411",
+      "photo_url": null
+    },
+    {
+      "externalId": "1329",
+      "name": "Se desconoce",
+      "status": "found",
+      "location": "Cerca de colegio la Gran Colombia(prado de Ma)",
+      "distinctive_marks": "No tiene collar,está desorientado",
+      "contact_phone": "04129302038",
+      "photo_url": null
+    },
+    {
+      "externalId": "1328",
+      "name": "Kira",
+      "status": "lost",
+      "location": "Edificio el Jurel playa grande la guaira",
+      "distinctive_marks": "No tiene collar no sabemos si esta herida",
+      "contact_phone": "04167109411",
+      "photo_url": null
+    },
+    {
+      "externalId": "1327",
+      "name": "Chino",
+      "status": "found",
+      "location": "Adonde mí vecina",
+      "distinctive_marks": "Collar verde",
+      "contact_phone": "04123930752",
+      "photo_url": null
+    },
+    {
+      "externalId": "1326",
+      "name": "Chino",
+      "status": "found",
+      "location": "Adonde mí vecina",
+      "distinctive_marks": "Collar verde",
+      "contact_phone": "04123930752",
+      "photo_url": null
+    },
+    {
+      "externalId": "1325",
+      "name": "Fifi",
+      "status": "lost",
+      "location": "La candelaria",
+      "distinctive_marks": "Collar rojo con una estrella",
+      "contact_phone": "04142176070",
+      "photo_url": null
+    },
+    {
+      "externalId": "1324",
+      "name": "Doki",
+      "status": "lost",
+      "location": "Agua viva cabudare",
+      "distinctive_marks": "No tenia",
+      "contact_phone": "04245223142",
+      "photo_url": null
+    },
+    {
+      "externalId": "1323",
+      "name": "Michu purulay",
+      "status": "lost",
+      "location": "San Martin calle Ezequiel Zamora casa n 06",
+      "distinctive_marks": "Tiene la colita pelada está esterilizado",
+      "contact_phone": "04122121281",
+      "photo_url": null
+    },
+    {
+      "externalId": "1322",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Sede vicepresidenta, centro de Caracas",
+      "distinctive_marks": "Perrito gris con blanco",
+      "contact_phone": "04149064550",
+      "photo_url": null
+    },
+    {
+      "externalId": "1321",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Pb res parque Carabobo, plaza. Parque carabobo",
+      "distinctive_marks": "Poodle blanco",
+      "contact_phone": "04241496489",
+      "photo_url": null
+    },
+    {
+      "externalId": "1320",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "El paraíso",
+      "distinctive_marks": "Gata negra",
+      "contact_phone": "04124058712",
+      "photo_url": null
+    },
+    {
+      "externalId": "1319",
+      "name": "Duquesa",
+      "status": "lost",
+      "location": "San Juan",
+      "distinctive_marks": "Tiene un bigote negro en la nariz",
+      "contact_phone": "04127702999",
+      "photo_url": null
+    },
+    {
+      "externalId": "1318",
+      "name": "Hera",
+      "status": "found",
+      "location": "En santa fe sur",
+      "distinctive_marks": null,
+      "contact_phone": "04241740385",
+      "photo_url": null
+    },
+    {
+      "externalId": "1317",
+      "name": "NALA",
+      "status": "lost",
+      "location": "FRAILES DE CATIA",
+      "distinctive_marks": "Tiene un ojo Verde y el otro marrón con azul, pelaje blanco y negro",
+      "contact_phone": "0424-1770359",
+      "photo_url": null
+    },
+    {
+      "externalId": "1316",
+      "name": "JADE",
+      "status": "lost",
+      "location": "CATIA CALLE CHILE- Cerca del Boulevard y AV Sucre",
+      "distinctive_marks": "Pelaje Blanco-Vainilla Tamaño Mediano-Grande, Mancha distintiva rosada en la nariz",
+      "contact_phone": "0412-0251011",
+      "photo_url": null
+    },
+    {
+      "externalId": "1315",
+      "name": "Domino",
+      "status": "lost",
+      "location": "El Macaro Turmero",
+      "distinctive_marks": "Pastas delanteras una blanca y una negra",
+      "contact_phone": "0416 2311244",
+      "photo_url": null
+    },
+    {
+      "externalId": "1314",
+      "name": "Eva",
+      "status": "lost",
+      "location": "Los Chaguaramos",
+      "distinctive_marks": "Pañoleta en el cuello y un corazón gris en la espalda",
+      "contact_phone": "04144904069",
+      "photo_url": null
+    },
+    {
+      "externalId": "1313",
+      "name": "Lunita",
+      "status": "lost",
+      "location": "Tanaguarenas, edificio plaza golf, la Guaira",
+      "distinctive_marks": "Blanca con ojos verdes, con una mancha en una orejita y la cola negra, todo el lomo es blanco sin manchas, tiene unas manchitas en la nariz",
+      "contact_phone": "04241543697",
+      "photo_url": null
+    },
+    {
+      "externalId": "1312",
+      "name": "Doki",
+      "status": "lost",
+      "location": "Agua viva, parroquia agua viva, Edo Lara",
+      "distinctive_marks": "Color negro con machan marrón, orejas largas, cola larga",
+      "contact_phone": "04265545923",
+      "photo_url": null
+    },
+    {
+      "externalId": "1311",
+      "name": "TOBY",
+      "status": "lost",
+      "location": "Residencia Bahía Mar La Guaira",
+      "distinctive_marks": "Collar negro",
+      "contact_phone": "+584128752848",
+      "photo_url": null
+    },
+    {
+      "externalId": "1310",
+      "name": "Escot",
+      "status": "found",
+      "location": "Catia la mar Nautilius",
+      "distinctive_marks": "Sin collar",
+      "contact_phone": "04122373881",
+      "photo_url": null
+    },
+    {
+      "externalId": "1309",
+      "name": "TOBY",
+      "status": "lost",
+      "location": "Residencia Bahía Mar La Guaira",
+      "distinctive_marks": "Collar negro",
+      "contact_phone": "+584128752848",
+      "photo_url": null
+    },
+    {
+      "externalId": "1308",
+      "name": "Luna",
+      "status": "found",
+      "location": "Los bloques de artigas",
+      "distinctive_marks": "Blanca con una mancha negra en la cabeza con forma de luna",
+      "contact_phone": "04124636357",
+      "photo_url": null
+    },
+    {
+      "externalId": "1307",
+      "name": "Loki",
+      "status": "found",
+      "location": "Altavista calle el refugio catia gato negro",
+      "distinctive_marks": "Macho, sin collar, color gris humo, ojos amarillos verdosos, mediano,  no es arisco pero estaba muy asustado",
+      "contact_phone": "04140216432",
+      "photo_url": null
+    },
+    {
+      "externalId": "1306",
+      "name": "Panchito",
+      "status": "lost",
+      "location": "Maiquetía, el rincón 13 de febrero",
+      "distinctive_marks": "Es un gato blanco con orejas y cola marrones... Es muy cariñoso... Si lo encuentran hay dos números de contacto solo por Whatsapp ya que no hay señal: 04242930356 y 04143986678",
+      "contact_phone": "04242930356",
+      "photo_url": null
+    },
+    {
+      "externalId": "1305",
+      "name": "Panchito",
+      "status": "lost",
+      "location": "Maiquetía el rincón 13 de febrero",
+      "distinctive_marks": "Es un gato blanco, con orejas y cola marrón, es muy cariñoso y dócil... Tiene ojos azules",
+      "contact_phone": "04143986678",
+      "photo_url": null
+    },
+    {
+      "externalId": "1304",
+      "name": "Desconocido",
+      "status": "found",
+      "location": "Sábana grande cerca de la Poma avenida los jabillos",
+      "distinctive_marks": "Collar gris o blanco con huellitas, dócil, pelaje marrón negro creemos que está herido.",
+      "contact_phone": "04168314619",
+      "photo_url": null
+    },
+    {
+      "externalId": "1303",
+      "name": "LUNA",
+      "status": "found",
+      "location": "El Paraiso. Calle la Guayanita. Cerca del Hospital Pérez Carreño. Funeria La Central. Misión vivienda del puente de los leones",
+      "distinctive_marks": "Es una siamesa atigrada. Parece una leona. No tiene collar.",
+      "contact_phone": "04127243469",
+      "photo_url": null
+    },
+    {
+      "externalId": "1302",
+      "name": "Desconocido",
+      "status": "lost",
+      "location": "Sábana grande cerca de la Poma, avenida los jabillos.",
+      "distinctive_marks": "Collar blanco\\/gris con huellitas. Pelaje marrón y negro. Es dócil y parece herido.",
+      "contact_phone": "04168314619",
+      "photo_url": null
+    },
+    {
+      "externalId": "1301",
+      "name": "Dobby",
+      "status": "lost",
+      "location": "En maracay La coromot, fue visto en caña de Azucar",
+      "distinctive_marks": "Blanco con manchas marrones, no es agresivo al contrario es miedoso",
+      "contact_phone": "04243133849",
+      "photo_url": null
+    },
+    {
+      "externalId": "1300",
+      "name": "Lucero",
+      "status": "lost",
+      "location": "Vistamar Morillo lancero",
+      "distinctive_marks": "Es barrigona",
+      "contact_phone": "04124199953 04125009369",
+      "photo_url": null
+    },
+    {
+      "externalId": "1299",
+      "name": "Cristal",
+      "status": "lost",
+      "location": "Macuto cerca del hotel Edwards",
+      "distinctive_marks": "Tres colores blanco,amarillo y gris",
+      "contact_phone": "0412-2102786",
+      "photo_url": null
+    },
+    {
+      "externalId": "1298",
+      "name": "desconocido",
+      "status": "lost",
+      "location": "Av Santiago de chile urb los caobos",
+      "distinctive_marks": "es de manchas y tiene un collar rojo",
+      "contact_phone": "04166375205",
+      "photo_url": null
+    },
+    {
+      "externalId": "1297",
+      "name": "Luna es una gata blanca con manchas negras pequeñas",
+      "status": "lost",
+      "location": "caricuao ud 2 terraza 4 zona B central",
+      "distinctive_marks": "marca de esterilización y en una de las patas traseras una mancha negra en forma de corazon",
+      "contact_phone": "04164126021",
+      "photo_url": null
+    },
+    {
+      "externalId": "1296",
+      "name": "Doki",
+      "status": "lost",
+      "location": "Cerca de la estación de bomberos de la Hoyada",
+      "distinctive_marks": "Sin collar",
+      "contact_phone": "04122207296",
+      "photo_url": null
+    },
     {
       "externalId": "1295",
       "name": "CHICHITA",

@@ -28,6 +28,7 @@ export default function MissingPersonForm({
 
     const payload = {
       full_name: formData.get("full_name") as string,
+      national_id: (formData.get("national_id") as string) || null,
       age: (formData.get("age") as string) || null,
       gender: (formData.get("gender") as string) || null,
       state: formData.get("state") as string,
@@ -101,6 +102,20 @@ export default function MissingPersonForm({
         <div className="sm:col-span-2">
           <label className="label" htmlFor="full_name">{labels.fullName}</label>
           <input className="input" id="full_name" name="full_name" required />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="label" htmlFor="national_id">{labels.nationalId}</label>
+          <input
+            className="input"
+            id="national_id"
+            name="national_id"
+            inputMode="numeric"
+            autoComplete="off"
+            placeholder={labels.nationalIdPlaceholder}
+          />
+          {labels.nationalIdHint && (
+            <p className="mt-1 text-xs text-ink-muted">{labels.nationalIdHint}</p>
+          )}
         </div>
         <div>
           <label className="label" htmlFor="age">{labels.age}</label>

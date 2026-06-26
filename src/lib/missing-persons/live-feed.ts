@@ -53,6 +53,7 @@ function importedToPerson(
   return {
     id: personId,
     full_name: record.fullName,
+    national_id: record.nationalId,
     age: record.age,
     gender: record.gender,
     state: record.state,
@@ -152,6 +153,7 @@ function matchesQuery(person: MissingPersonWithSources, query: MissingPersonsLiv
     const needle = query.q.trim().toLowerCase();
     const haystack = [
       person.full_name,
+      person.national_id,
       person.city,
       person.state,
       person.last_seen_location,

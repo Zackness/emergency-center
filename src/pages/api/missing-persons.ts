@@ -67,6 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const result = await createMissingPerson({
       full_name: body.full_name,
+      national_id: body.national_id ?? null,
       age: body.age ? Number(body.age) : null,
       gender: body.gender ?? null,
       state: body.state,

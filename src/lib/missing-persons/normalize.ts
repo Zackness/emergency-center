@@ -27,6 +27,14 @@ export function normalizeNationalId(id: string | null | undefined): string | nul
   return digits || null;
 }
 
+/** Formato legible para mostrar CI venezolana (solo dígitos almacenados). */
+export function formatNationalIdDisplay(id: string | null | undefined): string | null {
+  const digits = normalizeNationalId(id);
+  if (!digits) return null;
+  if (digits.length <= 9) return `V-${digits}`;
+  return digits;
+}
+
 export function dedupKeys(record: {
   fullName: string;
   age: number | null;

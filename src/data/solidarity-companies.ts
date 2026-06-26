@@ -283,6 +283,45 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     is_verified: false,
     sort_order: 15,
   },
+  {
+    id: "foton-venezuela",
+    slug: "foton-venezuela",
+    name: "FOTON Venezuela",
+    resources: ["water", "food", "medicine", "machinery"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "15 concesionarios y showrooms en todo el país",
+      en: "15 dealerships and showrooms nationwide",
+    },
+    description: {
+      es: "Todos los concesionarios y showrooms oficiales FOTON a nivel nacional están habilitados como centros de acopio tras el terremoto del 24 de junio. Reciben agua, alimentos, medicinas, ropa, higiene y material de rescate. Consulta la sede más cercana en Centros de ayuda o en fotonvzla.com/concesionarios.",
+      en: "All official FOTON dealerships and showrooms nationwide are enabled as collection centers after the June 24 earthquake. They accept water, food, medicine, clothing, hygiene items and rescue supplies. Find the nearest branch under Help centers or at fotonvzla.com/concesionarios.",
+    },
+    website_url: "https://fotonvzla.com/concesionarios/",
+    instagram_url: "https://www.instagram.com/fotonvzla/",
+    phone: "+58 424-5599441",
+    is_verified: true,
+    sort_order: 16,
+  },
+  {
+    id: "g3-logistica",
+    slug: "g3-logistica",
+    name: "G3 Logística",
+    resources: ["water", "food", "medicine", "transport"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Caracas, Valencia y Barquisimeto",
+      en: "Caracas, Valencia and Barquisimeto",
+    },
+    description: {
+      es: "Centros de acopio habilitados para recibir insumos, materiales y donaciones tras el terremoto. Horario lun–vie 9:00–12:00 y 14:00–15:30 en las tres sedes.",
+      en: "Collection centers enabled to receive supplies, materials and donations after the earthquake. Hours Mon–Fri 9:00 AM–12:00 PM and 2:00–3:30 PM at all three branches.",
+    },
+    is_verified: true,
+    sort_order: 17,
+  },
 ];
 
 export function getSolidarityCompanies() {

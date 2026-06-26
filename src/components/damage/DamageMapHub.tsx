@@ -13,6 +13,7 @@ import {
 import MapView from "@/components/map/MapView";
 import DamageReportForm from "@/components/forms/DamageReportForm";
 import DamageReportGallery from "@/components/damage/DamageReportGallery";
+import PriorityRescueSitesPanel from "@/components/damage/PriorityRescueSitesPanel";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { DamageReport, DamageSeverity, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
@@ -26,6 +27,25 @@ interface DamageMapHubProps {
   states: string[];
   feedbackLabels: Record<string, string>;
   confidenceLabels: Record<CommunityConfidenceLevel, string>;
+  priorityRescueLabels: {
+    title: string;
+    subtitle: string;
+    structures: string;
+    zones: string;
+    victims: string;
+    source: string;
+    priorityBadge: string;
+    directions: string;
+    disclaimer: string;
+  };
+  engineersPlatformLabels: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    engineerCta: string;
+    reportCta: string;
+    note: string;
+  };
 }
 
 const SEVERITY_COLORS: Record<DamageSeverity, string> = {
@@ -39,6 +59,8 @@ const SEVERITY_STYLES: Record<DamageSeverity, string> = {
   damaged: "bg-warning-muted text-warning",
   evacuated: "bg-yellow-100 text-yellow-800",
 };
+
+const ENGINEERS_PLATFORM_URL = "https://habitable.lovable.app/";
 
 function formatRelativeTime(iso: string | null, locale: "es" | "en"): string {
   if (!iso) return locale === "es" ? "Sin datos" : "No data";
@@ -63,6 +85,8 @@ export default function DamageMapHub({
   states,
   feedbackLabels,
   confidenceLabels,
+  priorityRescueLabels,
+  engineersPlatformLabels,
 }: DamageMapHubProps) {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -135,11 +159,14 @@ export default function DamageMapHub({
     <div className="space-y-8">
       <div className="relative overflow-hidden rounded-[2rem] border border-border bg-ink shadow-soft">
         <img
-          src="/images/headers/emergencia-sismica.svg"
+          src="/images/headers/damage-map-header.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/50 to-ink/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
         <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 sm:p-8 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{labels.hubTitle}</h1>
@@ -166,7 +193,8 @@ export default function DamageMapHub({
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder={labels.searchPlaceholder}
-              className="w-full rounded-2xl border border-border bg-surface py-3 pl-11 pr-4 text-sm text-ink shadow-soft outline-none ring-accent/30 focus:ring-2"
+              className="input w-full pl-11"
+              autoComplete="off"
             />
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -190,7 +218,7 @@ export default function DamageMapHub({
                 <select
                   value={severity}
                   onChange={(event) => setSeverity(event.target.value as DamageSeverity | "all")}
-                  className="w-full rounded-xl border border-border bg-surface px-3 py-2"
+                  className="input w-full"
                 >
                   <option value="all">{labels.filterAll}</option>
                   <option value="collapsed">{severityLabels.collapsed}</option>
@@ -203,7 +231,7 @@ export default function DamageMapHub({
                 <select
                   value={stateFilter}
                   onChange={(event) => setStateFilter(event.target.value)}
-                  className="w-full rounded-xl border border-border bg-surface px-3 py-2"
+                  className="input w-full"
                 >
                   <option value="all">{labels.filterAll}</option>
                   {states.map((state) => (
@@ -228,6 +256,45 @@ export default function DamageMapHub({
       >
         {labels.progressBanner}
       </div>
+
+      <section
+        id="ingenieros-por-venezuela"
+        className="card border-accent/30 bg-accent-muted/20 p-5 sm:p-6"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+          {engineersPlatformLabels.eyebrow}
+        </p>
+        <h2 className="mt-1 text-xl font-bold text-ink">{engineersPlatformLabels.title}</h2>
+        <p className="mt-2 text-sm text-ink-secondary">{engineersPlatformLabels.subtitle}</p>
+        <p className="mt-2 text-xs text-ink-muted">{engineersPlatformLabels.note}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a href={ENGINEERS_PLATFORM_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+            {engineersPlatformLabels.engineerCta}
+          </a>
+          <a
+            href={ENGINEERS_PLATFORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+          >
+            {engineersPlatformLabels.reportCta}
+          </a>
+        </div>
+        <CommunityFeedback
+          contentType="external_link"
+          contentId="allied-habitable-lovable"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </section>
+
+      <PriorityRescueSitesPanel
+        locale={locale}
+        labels={priorityRescueLabels}
+        severityLabels={severityLabels}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div className="card flex items-center gap-4">
@@ -366,13 +433,18 @@ export default function DamageMapHub({
                   <span className={`badge text-xs ${SEVERITY_STYLES[report.severity]}`}>
                     {severityLabels[report.severity]}
                   </span>
+                  {report.id.startsWith("priority-") && (
+                    <span className="badge bg-emergency text-white text-xs">
+                      {priorityRescueLabels.priorityBadge}
+                    </span>
+                  )}
                   {report.is_verified && (
                     <span className="badge-verified text-xs">{labels.verified}</span>
                   )}
                 </div>
                 <p className="mt-2 line-clamp-2 flex-1 text-sm text-ink-secondary">
-                  {report.city}, {report.state}
-                  {report.address ? ` — ${report.address}` : ""}
+                  {report.description || `${report.city}, ${report.state}`}
+                  {report.address && !report.description ? ` — ${report.address}` : ""}
                 </p>
                 <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-border pt-3 text-xs">
                   <a

@@ -479,6 +479,7 @@ model ExternalSource {
 model MissingPerson {
   id                 String                          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   fullName           String                          @map("full_name")
+  nationalId         String?                         @map("national_id")
   age                Int?
   gender             String?
   state              String
@@ -503,6 +504,7 @@ model MissingPerson {
 
   @@index([verificationStatus])
   @@index([state])
+  @@index([nationalId])
   @@map("missing_persons")
 }
 

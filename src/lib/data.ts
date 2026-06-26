@@ -23,6 +23,7 @@ import {
   mapShelter,
 } from "@/lib/mappers";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
+import { normalizeNationalId } from "@/lib/missing-persons/normalize";
 import type {
   CreateMissingPersonResult,
   DamageReport,
@@ -45,16 +46,24 @@ async function loadDamageReportsLiveFallback(seedOnError = false): Promise<Damag
 }
 
 export async function fetchHelpCenters() {
-  if (!isDatabaseConfigured()) return SEED_HELP_CENTERS;
+  if (!isDatabaseConfigured()) {
+    const { mergeHelpCenters } = await import("@/lib/help-centers/feed");
+    const { LOCAL_CENTROACOPIO_CENTERS } = await import("@/data/centroacopio-local");
+    return mergeHelpCenters(SEED_HELP_CENTERS, LOCAL_CENTROACOPIO_CENTERS);
+  }
   try {
     const rows = await prisma.helpCenter.findMany({
       where: { isActive: true },
       orderBy: { name: "asc" },
     });
-    if (!rows.length) return SEED_HELP_CENTERS;
-    return rows.map(mapHelpCenter);
+    const mapped = rows.length ? rows.map(mapHelpCenter) : SEED_HELP_CENTERS;
+    const { mergeHelpCenters } = await import("@/lib/help-centers/feed");
+    const { LOCAL_CENTROACOPIO_CENTERS } = await import("@/data/centroacopio-local");
+    return mergeHelpCenters(mapped, LOCAL_CENTROACOPIO_CENTERS);
   } catch {
-    return SEED_HELP_CENTERS;
+    const { mergeHelpCenters } = await import("@/lib/help-centers/feed");
+    const { LOCAL_CENTROACOPIO_CENTERS } = await import("@/data/centroacopio-local");
+    return mergeHelpCenters(SEED_HELP_CENTERS, LOCAL_CENTROACOPIO_CENTERS);
   }
 }
 
@@ -320,6 +329,19 @@ export interface MissingPersonsQuery {
   limit?: number;
 }
 
+function buildMissingPersonSearchOr(q: string): Prisma.MissingPersonWhereInput[] {
+  const clauses: Prisma.MissingPersonWhereInput[] = [
+    { fullName: { contains: q, mode: "insensitive" } },
+    { city: { contains: q, mode: "insensitive" } },
+    { lastSeenLocation: { contains: q, mode: "insensitive" } },
+  ];
+  const cedula = normalizeNationalId(q);
+  if (cedula) {
+    clauses.push({ nationalId: { contains: cedula } });
+  }
+  return clauses;
+}
+
 export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(100, Math.max(1, query.limit ?? 24));
@@ -339,11 +361,7 @@ export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
       ...(query.state ? { state: query.state } : {}),
       ...(query.q
         ? {
-            OR: [
-              { fullName: { contains: query.q, mode: "insensitive" as const } },
-              { city: { contains: query.q, mode: "insensitive" as const } },
-              { lastSeenLocation: { contains: query.q, mode: "insensitive" as const } },
-            ],
+            OR: buildMissingPersonSearchOr(query.q),
           }
         : {}),
     };
@@ -387,11 +405,7 @@ export async function countMissingPersons(query: Pick<MissingPersonsQuery, "q" |
         ...(query.state ? { state: query.state } : {}),
         ...(query.q
           ? {
-              OR: [
-                { fullName: { contains: query.q, mode: "insensitive" } },
-                { city: { contains: query.q, mode: "insensitive" } },
-                { lastSeenLocation: { contains: query.q, mode: "insensitive" } },
-              ],
+              OR: buildMissingPersonSearchOr(query.q),
             }
           : {}),
       },
@@ -434,12 +448,15 @@ export async function createMissingPerson(
 
   const { findDuplicatePerson } = await import("@/lib/missing-persons/dedup");
 
+  const nationalId = normalizeNationalId(data.national_id);
+
   const existingId = await findDuplicatePerson(
     prisma,
     {
       fullName: data.full_name,
       age: data.age,
       contactPhone: data.contact_phone,
+      nationalId,
     },
     {
       sourceSlug: data.external_source_slug ?? undefined,
@@ -467,6 +484,7 @@ export async function createMissingPerson(
     const created = await tx.missingPerson.create({
       data: {
         fullName: data.full_name,
+        nationalId,
         age: data.age,
         gender: data.gender,
         state: data.state,
