@@ -149,6 +149,26 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     sort_order: 6,
   },
   {
+    id: "academia-cecilio-acosta",
+    slug: "academia-cecilio-acosta",
+    name: "Academia Cecilio Acosta",
+    resources: ["water", "food", "medicine"],
+    state: "Lara",
+    city: "Carora",
+    coverage: {
+      es: "Carora, municipio Torres — Lara y zonas vecinas",
+      en: "Carora, Torres municipality — Lara and neighboring areas",
+    },
+    description: {
+      es: "Institución educativa que habilitó sus instalaciones como centro de acopio tras el terremoto del 24 de junio. Recibe agua potable, alimentos no perecederos, medicinas, ropa, artículos de higiene y cobijas para familias afectadas en Lara y zonas vecinas. Horario: lun–dom 8:00–18:00.",
+      en: "Educational institution that opened its facilities as a collection center after the June 24 earthquake. They accept drinking water, non-perishable food, medicine, clothing, hygiene items and blankets for families affected in Lara and neighboring areas. Hours: Mon–Sun 8:00 AM–6:00 PM.",
+    },
+    help_center_id: "5",
+    phone: "0412-9099254",
+    is_verified: true,
+    sort_order: 7,
+  },
+  {
     id: "mi-odontologo-favorito",
     slug: "mi-odontologo-favorito",
     name: "Mi Odontólogo Favorito (MOF)",

@@ -21,11 +21,11 @@ const { t } = useTranslations(locale);
         class="mt-0.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-accent sm:mt-0"
         aria-hidden="true"
       ></span>
-      <span>{t("common.devNotice.message")}</span>
+      <span class="line-clamp-3 sm:line-clamp-none">{t("common.devNotice.message")}</span>
     </p>
     <a
       href={`/${locale}/roadmap`}
-      class="shrink-0 text-xs font-medium text-accent hover:underline sm:ml-4"
+      class="inline-flex min-h-11 shrink-0 items-center text-sm font-medium text-accent hover:underline sm:ml-4"
     >
       {t("common.devNotice.roadmapLink")} →
     </a>

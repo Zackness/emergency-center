@@ -50,7 +50,7 @@
   }
 
   body {
-    @apply bg-surface text-ink font-sans;
+    @apply bg-surface text-ink font-sans overflow-x-clip;
   }
 
   ::selection {
@@ -101,7 +101,7 @@
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-ink-secondary transition-colors hover:bg-surface-muted hover:text-ink;
+    @apply inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-ink-secondary transition-colors hover:bg-surface-muted hover:text-ink;
   }
 
   .badge {
@@ -187,4 +187,13 @@
 .leaflet-container {
   @apply z-0 rounded-2xl;
   font-family: inherit;
+  touch-action: none;
+}
+
+.leaflet-grab {
+  cursor: grab;
+}
+
+.leaflet-dragging .leaflet-grab {
+  cursor: grabbing;
 }

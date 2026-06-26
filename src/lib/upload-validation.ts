@@ -8,7 +8,7 @@ const ALLOWED_IMAGE_TYPES = new Set([
 const MAX_IMAGE_MB = 8;
 
 export function validateImageFile(file: File): { ok: true } | { ok: false; error: string } {
-  if (!file.type.startsWith("image/") && !ALLOWED_IMAGE_TYPES.has(file.type)) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
     return { ok: false, error: "Solo se permiten imágenes (JPEG, PNG, WebP, GIF)." };
   }
 

@@ -69,7 +69,7 @@ export default function ImageUploadField({
           id={id}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif"
-          className="input max-w-xs"
+          className="input w-full sm:max-w-xs"
           disabled={uploading}
           onChange={(e) => void handleFile(e.target.files?.[0])}
         />

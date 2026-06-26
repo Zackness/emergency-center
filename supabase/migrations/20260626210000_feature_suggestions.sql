@@ -19,8 +19,7 @@ CREATE INDEX idx_feature_suggestions_created ON feature_suggestions(created_at D
 
 ALTER TABLE feature_suggestions ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can suggest feature" ON feature_suggestions
-  FOR INSERT WITH CHECK (true);
+-- Escrituras públicas deshabilitadas en REST; usar APIs del servidor.
 
 CREATE POLICY "Admin read feature suggestions" ON feature_suggestions
   FOR SELECT USING (is_admin());

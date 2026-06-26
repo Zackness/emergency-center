@@ -1,13 +1,10 @@
 import type { ImportedBuilding } from "./types";
+import { getTerremotoVzlaConfig, DAMAGE_MAP_EXTERNAL_SOURCE } from "./adapter-config";
 import { dedupeImageUrls, inferState, mapExternalDamageLevel } from "./normalize";
+import { proxiedDamageMediaUrls } from "./media-proxy";
 
-export const DAMAGE_MAP_EXTERNAL_SOURCE = "terremotovenezuela" as const;
+export { DAMAGE_MAP_EXTERNAL_SOURCE };
 
-const DEFAULT_SUPABASE_URL = "https://jckifxsdlnsvbztxydes.supabase.co";
-// Clave publicable (anon, solo lectura) del SPA público de terremotovenezuela.com.
-// Está embebida en el cliente del sitio aliado y protegida por RLS; sirve como
-// valor por defecto para que el mapa funcione sin configuración adicional.
-const DEFAULT_SUPABASE_KEY = "sb_publishable_i7iEDrCVZcSt0k3RGFrY4g_WrtZBB4w";
 const BUILDINGS_SELECT =
   "id,name,address,city,zone,lat,lng,damage_level,status,main_photo_url,media_urls,last_updated_at,has_missing_persons";
 
@@ -28,22 +25,13 @@ interface ExternalBuildingRow {
 }
 
 function getConfig() {
-  // `import.meta.env` solo existe en el runtime de Vite/Astro; en scripts tsx
-  // o Node puro es undefined, por eso usamos optional chaining + process.env.
-  const env = (import.meta as { env?: Record<string, string | undefined> }).env;
-  const baseUrl =
-    env?.TERREMOTO_VZLA_SUPABASE_URL ??
-    process.env.TERREMOTO_VZLA_SUPABASE_URL ??
-    DEFAULT_SUPABASE_URL;
-  const apiKey =
-    env?.TERREMOTO_VZLA_SUPABASE_KEY ??
-    process.env.TERREMOTO_VZLA_SUPABASE_KEY ??
-    DEFAULT_SUPABASE_KEY;
-  return { baseUrl, apiKey };
+  return getTerremotoVzlaConfig();
 }
 
 function mapRow(row: ExternalBuildingRow): ImportedBuilding {
-  const imageUrls = dedupeImageUrls(row.main_photo_url, row.media_urls);
+  const imageUrls = proxiedDamageMediaUrls(
+    dedupeImageUrls(row.main_photo_url, row.media_urls)
+  );
 
   const city = row.city?.trim() || row.zone?.trim() || "Venezuela";
   const address = row.address?.trim() || null;

@@ -304,7 +304,7 @@ export default function CenterDashboard({ locale, labels }: CenterDashboardProps
 
       {tab === "volunteers" && !loading && (
         <div className="card overflow-x-auto">
-          <table className="w-full text-sm text-left">
+          <table className="w-full min-w-[36rem] text-sm text-left">
             <thead>
               <tr className="border-b border-border text-ink-muted">
                 <th className="py-2 pr-4">Nombre</th>
@@ -333,7 +333,7 @@ export default function CenterDashboard({ locale, labels }: CenterDashboardProps
                     </td>
                     <td className="py-3 pr-4">
                       <span className="badge bg-surface-muted text-ink-secondary">
-                        {labels[v.status as keyof DashboardLabels] ?? v.status}
+                        {(labels[v.status as keyof DashboardLabels] as string) ?? v.status}
                       </span>
                     </td>
                     <td className="py-3">
@@ -528,7 +528,7 @@ export default function CenterDashboard({ locale, labels }: CenterDashboardProps
           </form>
 
           <div className="card overflow-x-auto">
-            <table className="w-full text-sm text-left">
+            <table className="w-full min-w-[36rem] text-sm text-left">
               <thead>
                 <tr className="border-b border-border text-ink-muted">
                   <th className="py-2 pr-4">{labels.itemName}</th>

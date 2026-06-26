@@ -49,7 +49,10 @@ const CARORA_ACOPIO_FLYER = "/images/help-centers/centros-acopio-carora.png";
 const CARORA_ACOPIO_DESC =
   "Centro de acopio en Carora habilitado tras el terremoto. Reciben: agua potable, gasas, alcohol, algodón, jeringas, ropa y comida no perecedera. Horario desde las 10:00 a.m.";
 
-const CARORA_ROTOR_FLYER = "/images/help-centers/carora-plaza-el-rotor-caracas.png";
+const CARORA_ROTOR_FLYER = "/images/help-centers/carora-plaza-rotor-unexpo-colecta.png";
+
+const CARORA_ROTOR_DESC =
+  "Centro de acopio en Plaza El Rotor, Carora, organizado por estudiantes UNEXPO Carora (Politécnico). Colecta de suministros médicos y medicinas: alcohol, gasas, vendas, suturas, jeringas, guantes, catéteres, soluciones y analgésicos básicos. Punto logístico con carros disponibles para trasladar donaciones hacia Caracas.";
 
 const VERITAS_UCLA_FLYER = "/images/help-centers/veritas-ucla-centro-acopio.png";
 
@@ -977,8 +980,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
   {
     id: "46",
     name: "Centro de acopio Carora — Plaza El Rotor",
-    description:
-      "Centro de acopio y punto logístico en Plaza El Rotor, Carora. Hay más carros disponibles para trasladar donaciones hacia Caracas.",
+    description: CARORA_ROTOR_DESC,
     type: "community",
     state: "Lara",
     city: "Carora",
@@ -989,6 +991,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     email: null,
     schedule: "Por confirmar",
     accepts: ["water", "food", "medicine", "hygiene", "clothing", "blankets"],
+    image_url: CARORA_ROTOR_FLYER,
     image_urls: [CARORA_ROTOR_FLYER],
     is_verified: false,
     is_active: true,

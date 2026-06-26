@@ -34,8 +34,9 @@ export const POST: APIRoute = async ({ request }) => {
     const results = await syncMissingPersons(prisma, {
       sourceSlugs: body.sourceSlugs,
       offset: body.offset != null ? Number(body.offset) : undefined,
-      limit: body.limit != null ? Number(body.limit) : 500,
+      limit: body.limit != null ? Number(body.limit) : undefined,
       batchSize: body.batchSize != null ? Number(body.batchSize) : 200,
+      fetchAll: body.fetchAll === true || body.all === true,
     });
 
     return new Response(JSON.stringify({ success: true, results }), {

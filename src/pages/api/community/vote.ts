@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getSessionUser } from "@/lib/auth-center";
+import { VOTE_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 import type { CommunityContentType } from "@/types/community-feedback";
 
 export const prerender = false;
@@ -17,8 +18,14 @@ const VALID_TYPES: CommunityContentType[] = [
 ];
 
 export const POST: APIRoute = async ({ request, cookies }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "community-votes:create",
+    ...VOTE_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { castCommunityVote } = await import("@/lib/community-feedback");
     const user = await getSessionUser(request, cookies);
 

@@ -1,10 +1,17 @@
 import type { APIRoute } from "astro";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "volunteers:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { createVolunteerRegistration } = await import("@/lib/data");
 
     const required = ["name", "city", "state", "profession", "availability", "phone", "email"];

@@ -115,6 +115,22 @@ async function processRecord(
   }
 
   if (await isExternalRecordImported(prisma, sourceId, record.externalId)) {
+    const existing = await prisma.externalRecord.findFirst({
+      where: { sourceId, externalReference: record.externalId },
+      select: { missingPersonId: true },
+    });
+    if (existing?.missingPersonId) {
+      await prisma.missingPerson.update({
+        where: { id: existing.missingPersonId },
+        data: {
+          photoUrl: record.photoUrl ?? undefined,
+          description: record.description ?? undefined,
+          lastSeenLocation: record.lastSeenLocation ?? undefined,
+        },
+      });
+      await upsertRecord(prisma, record, sourceId, existing.missingPersonId);
+      return "updated";
+    }
     return "skipped";
   }
 
@@ -190,12 +206,15 @@ async function syncSource(
   }
 
   const batchSize = options.batchSize ?? 200;
-  const maxRecords = options.limit ?? batchSize;
+  const fetchAll = Boolean(options.fetchAll || options.all);
+  const maxRecords = fetchAll
+    ? options.limit ?? Number.POSITIVE_INFINITY
+    : (options.limit ?? 500);
   let offset = options.offset ?? 0;
-  let remaining = maxRecords;
+  let fetched = 0;
 
-  while (remaining > 0) {
-    const take = Math.min(batchSize, remaining);
+  while (fetched < maxRecords) {
+    const take = Math.min(batchSize, maxRecords - fetched);
     let batch: ImportedMissingRecord[];
 
     try {
@@ -223,7 +242,7 @@ async function syncSource(
     }
 
     offset += batch.length;
-    remaining -= batch.length;
+    fetched += batch.length;
 
     if (batch.length < take) break;
   }

@@ -138,7 +138,7 @@ export default function HospitalDirectory({
         <strong>{hospitals.length}</strong>
       </p>
 
-      <MapView locations={mapLocations} locale={locale} height="420px" zoom={6} />
+      <MapView locations={mapLocations} locale={locale} zoom={6} />
 
       {filtered.length === 0 ? (
         <p className="rounded-2xl border border-border bg-surface-muted p-6 text-sm text-ink-secondary">
@@ -171,7 +171,7 @@ export default function HospitalDirectory({
                       </span>
                     )}
                   </div>
-                  <div className="mt-2 text-sm text-ink-secondary">
+                  <div className="mt-2 text-sm text-ink-secondary break-words">
                     <p>
                       {hospital.city}, {hospital.state} — {hospital.address}
                     </p>
@@ -205,7 +205,7 @@ export default function HospitalDirectory({
           {hasMore && (
             <button
               type="button"
-              className="btn-secondary mx-auto"
+              className="btn-secondary col-span-full mx-auto w-full sm:w-auto"
               onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
             >
               {labels.loadMore}

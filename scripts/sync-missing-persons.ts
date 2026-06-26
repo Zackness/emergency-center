@@ -2,18 +2,19 @@
 /**
  * Importa registros de plataformas externas y los deduplica en la BD.
  *
- * Antes de insertar, comprueba:
- * - Si el ID externo ya fue importado → se omite (skipped).
- * - Si coincide nombre+edad o nombre+teléfono → se vincula al registro existente.
- * - Solo crea personas nuevas cuando no hay coincidencia.
+ * Fuentes con API pública:
+ * - Venezuela Te Busca, Encuéntralos, Terremoto Venezuela App
+ * - Venezuela Reporta (búsqueda por términos)
+ * - Desaparecidos Terremoto (requiere reCAPTCHA en su API; puede fallar)
  *
  * Uso:
- *   npm run sync:missing
- *   npm run sync:missing -- --source=venezuela-te-busca --limit=1000 --offset=0
- *   npm run sync:missing -- --all --batch=200
+ *   npm run sync:missing              # sincroniza TODAS las páginas de cada fuente
+ *   npm run sync:missing -- --limit=500
+ *   npm run sync:missing -- --source=venezuela-te-busca
  */
 import { PrismaClient } from "@prisma/client";
 import { syncMissingPersons, getMissingPersonsStats } from "@/lib/missing-persons/sync";
+import { assertSafeDatabaseTarget } from "@/lib/db-guard";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,7 @@ function parseArgs() {
     offset?: number;
     limit?: number;
     batchSize?: number;
+    fetchAll?: boolean;
     all?: boolean;
   } = {};
 
@@ -36,20 +38,23 @@ function parseArgs() {
       options.limit = Number(arg.replace("--limit=", ""));
     } else if (arg.startsWith("--batch=")) {
       options.batchSize = Number(arg.replace("--batch=", ""));
-    } else if (arg === "--all") {
-      options.all = true;
-      options.limit = 50_000;
+    } else if (arg === "--all" || arg === "--fetch-all") {
+      options.fetchAll = true;
+    } else if (arg === "--quick") {
+      options.limit = 500;
     }
   }
 
-  if (!options.limit && !options.all) {
-    options.limit = 500;
+  if (options.limit == null && !options.fetchAll) {
+    options.fetchAll = true;
   }
 
   return options;
 }
 
 async function main() {
+  assertSafeDatabaseTarget("sync:missing");
+
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl || databaseUrl.includes("your-password")) {
     console.error("DATABASE_URL no configurada. Edita .env antes de sincronizar.");
@@ -86,3 +91,4 @@ main()
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
+

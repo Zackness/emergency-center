@@ -32,8 +32,7 @@ ALTER TABLE damage_reports ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read active damage_reports" ON damage_reports
   FOR SELECT USING (is_active = true);
 
-CREATE POLICY "Anyone can report damage" ON damage_reports
-  FOR INSERT WITH CHECK (true);
+-- Escrituras públicas deshabilitadas en REST; usar APIs del servidor.
 
 CREATE POLICY "Admin manage damage_reports" ON damage_reports
   FOR ALL USING (is_admin()) WITH CHECK (is_admin());

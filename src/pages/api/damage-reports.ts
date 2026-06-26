@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import type { DamageSeverity } from "@/types";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
@@ -13,13 +14,19 @@ export const GET: APIRoute = async ({ url }) => {
     const state = url.searchParams.get("state") ?? undefined;
     const limit = url.searchParams.get("limit");
     const offset = url.searchParams.get("offset");
+    const parsedLimit = Number(limit ?? "500");
+    const parsedOffset = Number(offset ?? "0");
+    const safeLimit = Number.isFinite(parsedLimit)
+      ? Math.min(10000, Math.max(1, parsedLimit))
+      : 10000;
+    const safeOffset = Number.isFinite(parsedOffset) ? Math.max(0, parsedOffset) : 0;
 
     const result = await queryDamageReportsFromDb({
       search,
       severity: severity && severity !== "all" ? severity : undefined,
       state: state && state !== "all" ? state : undefined,
-      limit: limit ? Number(limit) : 10000,
-      offset: offset ? Number(offset) : 0,
+      limit: safeLimit,
+      offset: safeOffset,
     });
 
     return new Response(JSON.stringify(result), {
@@ -35,8 +42,15 @@ export const GET: APIRoute = async ({ url }) => {
   }
 };
 
-export const POST: APIRoute = async ({ request }) => {  try {
-    const body = await request.json();
+export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "damage-reports:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
+  try {
+    const body = await readJsonBody<Record<string, any>>(request);
     const { createDamageReport } = await import("@/lib/data");
 
     const required = ["title", "state", "city", "latitude", "longitude"];

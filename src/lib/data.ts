@@ -25,10 +25,24 @@ import {
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
 import type {
   CreateMissingPersonResult,
+  DamageReport,
   DamageReportRegistration,
   HelpCenterRegistration,
   MissingPersonRegistration,
 } from "@/types";
+
+function isDamageReportDbReady(): boolean {
+  return (
+    isDatabaseConfigured() &&
+    typeof (prisma as { damageReport?: { findMany?: unknown } }).damageReport?.findMany ===
+      "function"
+  );
+}
+
+async function loadDamageReportsLiveFallback(seedOnError = false): Promise<DamageReport[]> {
+  const { fetchDamageReportsLive } = await import("@/lib/damage-map/feed");
+  return fetchDamageReportsLive(async () => (seedOnError ? SEED_DAMAGE_REPORTS : []));
+}
 
 export async function fetchHelpCenters() {
   if (!isDatabaseConfigured()) return SEED_HELP_CENTERS;
@@ -537,9 +551,8 @@ async function linkBackupRecords(personId: string, data: MissingPersonRegistrati
 }
 
 export async function fetchDamageReports() {
-  if (!isDatabaseConfigured()) {
-    const { fetchDamageReportsLive } = await import("@/lib/damage-map/feed");
-    return fetchDamageReportsLive(async () => SEED_DAMAGE_REPORTS);
+  if (!isDamageReportDbReady()) {
+    return loadDamageReportsLiveFallback(true);
   }
   try {
     const rows = await prisma.damageReport.findMany({
@@ -547,13 +560,11 @@ export async function fetchDamageReports() {
       orderBy: [{ sourceSyncedAt: "desc" }, { updatedAt: "desc" }],
     });
     if (rows.length === 0) {
-      const { fetchDamageReportsLive } = await import("@/lib/damage-map/feed");
-      return fetchDamageReportsLive(async () => []);
+      return loadDamageReportsLiveFallback(false);
     }
     return rows.map(mapDamageReport);
   } catch {
-    const { fetchDamageReportsLive } = await import("@/lib/damage-map/feed");
-    return fetchDamageReportsLive(async () => SEED_DAMAGE_REPORTS);
+    return loadDamageReportsLiveFallback(true);
   }
 }
 
@@ -566,9 +577,8 @@ export async function queryDamageReportsFromDb(query: {
 }) {
   const { queryDamageReports } = await import("@/lib/damage-map/feed");
   const fetchFromDb = async () => {
-    const { fetchDamageReportsLive } = await import("@/lib/damage-map/feed");
-    if (!isDatabaseConfigured()) {
-      return fetchDamageReportsLive(async () => SEED_DAMAGE_REPORTS);
+    if (!isDamageReportDbReady()) {
+      return loadDamageReportsLiveFallback(true);
     }
     try {
       const rows = await prisma.damageReport.findMany({
@@ -576,12 +586,12 @@ export async function queryDamageReportsFromDb(query: {
         orderBy: [{ sourceSyncedAt: "desc" }, { updatedAt: "desc" }],
       });
       if (rows.length === 0) {
-        return fetchDamageReportsLive(async () => []);
+        return loadDamageReportsLiveFallback(false);
       }
       return rows.map(mapDamageReport);
     } catch (err) {
       console.error("[damage-map] db query failed, falling back to live:", err);
-      return fetchDamageReportsLive(async () => SEED_DAMAGE_REPORTS);
+      return loadDamageReportsLiveFallback(true);
     }
   };
 

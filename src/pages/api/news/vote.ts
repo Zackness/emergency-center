@@ -1,10 +1,17 @@
 import type { APIRoute } from "astro";
+import { VOTE_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "news-votes:create",
+    ...VOTE_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { castNewsVote } = await import("@/lib/news-credibility");
 
     if (!body.news_id || !body.verdict || !body.voter_token) {

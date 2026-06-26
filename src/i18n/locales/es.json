@@ -127,8 +127,8 @@
     },
     "footprints": {
       "eyebrow": "Mapa del sitio",
-      "title": "Huellas",
-      "subtitle": "Todas las secciones de la plataforma en un solo lugar para acceder rápido.",
+      "title": "Todas las secciones",
+      "subtitle": "Cada módulo de la plataforma en un solo lugar para acceder rápido.",
       "groups": {
         "help": "Ayuda y ubicaciones",
         "people": "Personas y familias",
@@ -505,7 +505,32 @@
   "pets": {
     "title": "Mascotas perdidas",
     "subtitle": "Enlaces a plataformas comunitarias y redes sociales para reportar y buscar mascotas perdidas.",
-    "disclaimer": "Centralizamos recursos existentes. No creamos una base de datos duplicada.",
+    "disclaimer": "Listado unificado desde HuellasCAN (terremoto) más recursos comunitarios. Para reportar una mascota nueva, usa el botón de HuellasCAN arriba.",
+    "registry": {
+      "title": "Registro de mascotas perdidas y encontradas",
+      "subtitle": "Listado sincronizado desde HuellasCAN — Terremoto. Busca por nombre, zona o estado.",
+      "searchPlaceholder": "Buscar por nombre, zona o señas…",
+      "statusFilter": "Estado",
+      "allStatuses": "Todos",
+      "allStates": "Todos los estados",
+      "stateFilter": "Estado",
+      "showing": "Mostrando",
+      "of": "de",
+      "loadMore": "Cargar más",
+      "loading": "Cargando…",
+      "location": "Última ubicación",
+      "marks": "Señas / collar",
+      "contact": "Contacto",
+      "source": "Ver en HuellasCAN",
+      "statsLost": "Perdidas",
+      "statsFound": "Encontradas",
+      "statsTotal": "Total en registro",
+      "lastSynced": "Última sincronización",
+      "status": {
+        "lost": "Perdida",
+        "found": "Encontrada"
+      }
+    },
     "otherPlatforms": "Otras plataformas web",
     "academiaLeguau": {
       "title": "¿Perdiste a tu mascota en el terremoto?",

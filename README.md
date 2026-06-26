@@ -13,6 +13,15 @@ Hub central de información y ayuda durante emergencias nacionales en Venezuela.
 
 Los secretos (`DATABASE_URL`, `SUPABASE_SECRET_KEY`, etc.) viven solo en tu `.env` local o en las variables de entorno del hosting — **no** en el repositorio público.
 
+**Quien clone el repo desde GitHub no puede modificar la base de datos de producción** sin esas credenciales. Además:
+
+- Las políticas RLS en Supabase **no permiten escrituras** con la clave anónima; solo lectura pública.
+- Los formularios (`POST /api/*`) escriben vía el servidor (Prisma) y están **desactivados por defecto** (`ALLOW_PUBLIC_WRITES=false`). Actívalos solo en el hosting de producción si quieres aceptar registros ciudadanos.
+- Los scripts `sync:*`, `admin:create` y `db:push` **bloquean escrituras** si `DATABASE_URL` apunta al proyecto de producción, salvo que exportes `CONFIRM_PRODUCTION_DB=1` de forma explícita.
+- Los archivos `supabase/seed_*.sql` son datos de referencia; **no los ejecutes contra producción** salvo que seas el operador del sitio.
+
+Para desarrollo local, crea **tu propio proyecto** en Supabase y usa sus URLs en `.env`.
+
 ## Stack
 
 - **Astro 5** — rendimiento estático con islas React interactivas
@@ -97,6 +106,33 @@ src/lib/
 └── supabase/         # Solo auth SSR
 supabase/migrations/  # RLS, triggers, realtime
 ```
+
+## Despliegue en Vercel
+
+1. Importa el repositorio en [vercel.com/new](https://vercel.com/new).
+2. Framework: **Astro** (detectado automáticamente). Build: `npm run build`. Output: gestionado por `@astrojs/vercel`.
+3. Node.js **20+** (definido en `package.json` → `engines`).
+4. Configura estas variables de entorno en el proyecto de Vercel:
+
+| Variable | Requerida | Notas |
+|----------|-----------|-------|
+| `PUBLIC_SUPABASE_URL` | Sí | URL del proyecto Supabase |
+| `PUBLIC_SUPABASE_ANON_KEY` | Sí | Clave publicable / anon |
+| `DATABASE_URL` | Sí | Pooler Supabase puerto **6543** (`?pgbouncer=true`) |
+| `DIRECT_URL` | Sí | Conexión directa puerto **5432** (migraciones) |
+| `SUPABASE_SECRET_KEY` | Recomendada | Solo servidor; admin y scripts |
+| `SYNC_SECRET` | Recomendada | Protege `POST /api/*/sync` |
+| `ALLOW_PUBLIC_WRITES` | Opcional | `true` para habilitar formularios ciudadanos |
+| `PUBLIC_SITE_URL` | Opcional | Dominio final (`https://tu-dominio.com`). Si no está, usa `VERCEL_URL` |
+| `TERREMOTO_VZLA_SUPABASE_KEY` | Opcional | Mapa de daños externo |
+
+5. En **Supabase → Authentication → URL Configuration**, añade:
+   - Site URL: tu dominio de Vercel o `PUBLIC_SITE_URL`
+   - Redirect URLs: `https://tu-dominio.com/api/auth/callback`, `https://*.vercel.app/api/auth/callback`
+
+6. Tras el primer deploy, crea el admin con `npm run admin:create` en local (con `.env` de producción y `CONFIRM_PRODUCTION_DB=1`) o promueve el usuario en SQL.
+
+Las páginas estáticas se pre-renderizan; las rutas con `prerender = false` y `/api/*` corren como **Serverless Functions** en `iad1` (US East).
 
 ## API interna
 

@@ -231,10 +231,10 @@ export default function DamageMapHub({
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div className="card flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emergency-muted text-emergency">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emergency-muted text-emergency">
             <AlertCircle className="h-6 w-6" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="text-3xl font-bold tabular-nums text-ink">{stats?.collapsed ?? "—"}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.collapsed}
@@ -242,10 +242,10 @@ export default function DamageMapHub({
           </div>
         </div>
         <div className="card flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-warning-muted text-warning">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-warning-muted text-warning">
             <AlertTriangle className="h-6 w-6" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="text-3xl font-bold tabular-nums text-ink">{stats?.damaged ?? "—"}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.damaged}
@@ -253,10 +253,10 @@ export default function DamageMapHub({
           </div>
         </div>
         <div className="card flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-yellow-700">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-yellow-100 text-yellow-700">
             <Construction className="h-6 w-6" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="text-3xl font-bold tabular-nums text-ink">{stats?.evacuated ?? "—"}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.evacuated}
@@ -264,10 +264,10 @@ export default function DamageMapHub({
           </div>
         </div>
         <div className="card flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink text-white">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-ink text-white">
             <Clock className="h-6 w-6" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="text-2xl font-bold text-ink">
               {formatRelativeTime(stats?.last_synced_at ?? null, locale)}
             </div>
@@ -301,14 +301,13 @@ export default function DamageMapHub({
           )}
         </div>
         {loading ? (
-          <div className="flex h-[520px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary">
+          <div className="flex h-[min(50vh,520px)] min-h-[220px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary sm:h-[400px] lg:h-[520px]">
             {labels.loading}
           </div>
         ) : (
           <MapView
             locations={mapLocations}
             locale={locale}
-            height="520px"
             zoom={7}
             defaultCenter={[10.2, -67]}
           />

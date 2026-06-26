@@ -32,13 +32,16 @@ const error = Astro.url.searchParams.get("error");
         <form method="POST" action="/api/auth/login" class="space-y-4">
           <div>
             <label class="label" for="email">Email</label>
-            <input class="input" type="email" id="email" name="email" required />
+            <input class="input" type="email" id="email" name="email" required autocomplete="username" />
           </div>
           <div>
             <label class="label" for="password">Contraseña</label>
-            <input class="input" type="password" id="password" name="password" required />
+            <input class="input" type="password" id="password" name="password" required autocomplete="current-password" />
           </div>
           <button type="submit" class="btn-primary w-full">Iniciar sesión</button>
+          <p class="text-xs text-ink-muted text-center">
+            ¿Primera vez o olvidaste la clave? Usa recuperación de contraseña desde Supabase Auth o contacta al equipo técnico.
+          </p>
         </form>
       ) : !isAdmin ? (
         <div>

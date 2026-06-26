@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { isBunnyConfigured, uploadToBunny, listBunnyFiles, bunnyDeleteByPublicUrl } from "@/lib/bunny";
+import { UPLOAD_RATE_LIMIT, guardPublicWrite } from "@/lib/api-security";
 import { sanitizeUploadFolder, validateImageFile } from "@/lib/upload-validation";
 
 export const prerender = false;
@@ -7,7 +8,7 @@ export const prerender = false;
 export const GET: APIRoute = async ({ url, request }) => {
   const uploadSecret = import.meta.env.UPLOAD_SECRET ?? process.env.UPLOAD_SECRET;
   const auth = request.headers.get("authorization");
-  if (uploadSecret && auth !== `Bearer ${uploadSecret}`) {
+  if (!uploadSecret || auth !== `Bearer ${uploadSecret}`) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
@@ -38,6 +39,13 @@ export const GET: APIRoute = async ({ url, request }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "uploads:create",
+    ...UPLOAD_RATE_LIMIT,
+    maxBodyBytes: 10 * 1024 * 1024,
+  });
+  if (blocked) return blocked;
+
   if (!isBunnyConfigured()) {
     return new Response(JSON.stringify({ error: "Bunny.net not configured" }), {
       status: 503,

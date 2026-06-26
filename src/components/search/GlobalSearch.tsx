@@ -79,7 +79,7 @@ export default function GlobalSearch({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={labels.placeholder}
-          className={`input w-full pl-11 ${compact ? "pr-4 py-2 text-sm" : "pr-24 py-3 text-base"}`}
+          className={`input w-full pl-11 ${compact ? "pr-4 py-2 text-sm" : "pr-4 py-3 text-base sm:pr-24"}`}
           aria-label={labels.placeholder}
           autoComplete="off"
         />

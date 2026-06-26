@@ -260,9 +260,7 @@ CREATE POLICY "Public read active news_items" ON news_items FOR SELECT USING (is
 CREATE POLICY "Public read active emergency_numbers" ON emergency_numbers FOR SELECT USING (is_active = true);
 CREATE POLICY "Public read active resource_guides" ON resource_guides FOR SELECT USING (is_active = true);
 
--- Registros públicos (insert)
-CREATE POLICY "Anyone can register as volunteer" ON volunteer_registrations FOR INSERT WITH CHECK (true);
-CREATE POLICY "Anyone can register company" ON company_registrations FOR INSERT WITH CHECK (true);
+-- Registros públicos: las escrituras entran por las APIs del servidor.
 
 -- Solo admin puede publicar/modificar contenido
 CREATE POLICY "Admin manage help_centers" ON help_centers FOR ALL USING (is_admin()) WITH CHECK (is_admin());

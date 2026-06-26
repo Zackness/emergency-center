@@ -56,76 +56,94 @@ function PersonCard({
       : "badge-warning";
 
   return (
-    <article className="card">
-      <div className="flex gap-4">
-        {person.photo_url && (
+    <article className="card flex flex-col overflow-hidden p-0">
+      <div className="relative aspect-[4/5] w-full bg-surface-muted">
+        {person.photo_url ? (
           <img
             src={person.photo_url}
-            alt=""
-            className="h-20 w-20 rounded-lg object-cover shrink-0 bg-surface-muted"
+            alt={person.full_name}
+            className="h-full w-full object-cover"
             loading="lazy"
           />
-        )}
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h3 className="font-semibold text-ink text-lg">
-                {person.full_name}
-                {person.age != null && (
-                  <span className="text-ink-secondary font-normal">, {person.age}</span>
-                )}
-              </h3>
-              <p className="mt-1 text-sm text-ink-secondary">
-                {labels.lastSeen}: {person.city}, {person.state}
-                {person.last_seen_location && ` — ${person.last_seen_location}`}
-              </p>
-            </div>
-            <span className={statusClass}>
-              {labels.verification[person.verification_status] ?? person.verification_status}
-            </span>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-ink-muted">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M5.5 20a7 7 0 0 1 13 0" />
+            </svg>
           </div>
+        )}
+        <span className={`${statusClass} absolute right-3 top-3 shadow-sm`}>
+          {labels.verification[person.verification_status] ?? person.verification_status}
+        </span>
+      </div>
 
-          {person.description && (
-            <p className="mt-2 text-sm text-ink-secondary line-clamp-2">{person.description}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-semibold text-ink text-lg">
+          {person.full_name}
+          {person.age != null && (
+            <span className="text-ink-secondary font-normal">, {person.age}</span>
           )}
+        </h3>
+        <p className="mt-1 text-sm text-ink-secondary">
+          {labels.lastSeen}: {person.city}, {person.state}
+          {person.last_seen_location && ` — ${person.last_seen_location}`}
+        </p>
 
-          {person.sources.length > 0 && (
-            <div className="mt-3 border-t border-border pt-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
-                {labels.sources}
-              </p>
-              <ul className="flex flex-wrap gap-2">
-                {person.sources.map((source) => (
-                  <li key={source.id}>
-                    {source.external_url ? (
-                      <a
-                        href={source.external_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-xs text-ink-secondary hover:text-accent"
-                      >
-                        ↗ {source.source_name}
-                      </a>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-xs text-ink-secondary">
-                        ● {source.source_name}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+        {person.description && (
+          <p className="mt-2 text-sm text-ink-secondary line-clamp-2">{person.description}</p>
+        )}
+
+        {person.sources.length > 0 && (
+          <div className="mt-3 border-t border-border pt-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
+              {labels.sources}
+            </p>
+            <ul className="flex flex-wrap gap-2">
+              {person.sources.map((source) => (
+                <li key={source.id}>
+                  {source.external_url ? (
+                    <a
+                      href={source.external_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-xs text-ink-secondary hover:text-accent"
+                    >
+                      ↗ {source.source_name}
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-surface-muted px-2.5 py-1 text-xs text-ink-secondary">
+                      ● {source.source_name}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="mt-auto pt-3">
+          <CommunityFeedback
+            contentType="missing_person"
+            contentId={person.id}
+            locale={locale}
+            labels={feedbackLabels}
+            confidenceLabels={confidenceLabels}
+            compact
+          />
         </div>
       </div>
-      <CommunityFeedback
-        contentType="missing_person"
-        contentId={person.id}
-        locale={locale}
-        labels={feedbackLabels}
-        confidenceLabels={confidenceLabels}
-        compact
-      />
     </article>
   );
 }

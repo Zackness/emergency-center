@@ -127,8 +127,8 @@
     },
     "footprints": {
       "eyebrow": "Site map",
-      "title": "Footprints",
-      "subtitle": "Every section of the platform in one place for quick access.",
+      "title": "All sections",
+      "subtitle": "Every module of the platform in one place for quick access.",
       "groups": {
         "help": "Aid and locations",
         "people": "People and families",
@@ -505,7 +505,32 @@
   "pets": {
     "title": "Lost pets",
     "subtitle": "Links to community platforms and social media to report and search for lost pets.",
-    "disclaimer": "We centralize existing resources. We don't create a duplicate database.",
+    "disclaimer": "Unified listing from HuellasCAN (earthquake) plus community resources. To report a new pet, use the HuellasCAN button above.",
+    "registry": {
+      "title": "Lost and found pets registry",
+      "subtitle": "Synced listing from HuellasCAN — Earthquake. Search by name, area or state.",
+      "searchPlaceholder": "Search by name, area or markings…",
+      "statusFilter": "Status",
+      "allStatuses": "All",
+      "allStates": "All states",
+      "stateFilter": "State",
+      "showing": "Showing",
+      "of": "of",
+      "loadMore": "Load more",
+      "loading": "Loading…",
+      "location": "Last seen",
+      "marks": "Markings / collar",
+      "contact": "Contact",
+      "source": "View on HuellasCAN",
+      "statsLost": "Lost",
+      "statsFound": "Found",
+      "statsTotal": "Total in registry",
+      "lastSynced": "Last sync",
+      "status": {
+        "lost": "Lost",
+        "found": "Found"
+      }
+    },
     "otherPlatforms": "Other web platforms",
     "academiaLeguau": {
       "title": "Did you lose your pet in the earthquake?",

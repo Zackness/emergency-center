@@ -1,5 +1,7 @@
-import { createServerClient, parseCookieHeader } from "@supabase/ssr";
+import { createServerClient, parseCookieHeader, type CookieOptions } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
+
+type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
 export function createClient({
   request,
@@ -16,7 +18,7 @@ export function createClient({
         getAll() {
           return parseCookieHeader(request.headers.get("Cookie") ?? "");
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           cookiesToSet.forEach(({ name, value, options }) =>
             cookies.set(name, value, options)
           );

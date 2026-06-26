@@ -1,11 +1,19 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase/server";
+import { AUTH_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, cookies }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "auth:signup",
+    ...AUTH_RATE_LIMIT,
+    maxBodyBytes: 16 * 1024,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request, 16 * 1024);
     const email = String(body.email ?? "").trim();
     const password = String(body.password ?? "");
     const fullName = String(body.full_name ?? body.fullName ?? "").trim();

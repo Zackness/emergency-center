@@ -96,11 +96,7 @@ CREATE POLICY "Public read active missing_persons" ON missing_persons
 CREATE POLICY "Public read active external_records" ON external_records
   FOR SELECT USING (is_active = true);
 
-CREATE POLICY "Anyone can register missing person" ON missing_persons
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Anyone can link external record" ON external_records
-  FOR INSERT WITH CHECK (true);
+-- Escrituras públicas deshabilitadas en REST; usar APIs del servidor.
 
 CREATE POLICY "Admin manage external_sources" ON external_sources
   FOR ALL USING (is_admin()) WITH CHECK (is_admin());

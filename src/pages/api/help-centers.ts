@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import type { HelpCenterRegistration, HelpCenterType } from "@/types";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
@@ -14,8 +15,14 @@ function badRequest(message: string) {
 }
 
 export const POST: APIRoute = async ({ request, cookies }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "help-centers:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = (await request.json()) as HelpCenterRegistration;
+    const body = await readJsonBody<HelpCenterRegistration>(request);
 
     if (body.registration_type !== "own" && body.registration_type !== "third_party") {
       return badRequest("registration_type must be own or third_party");

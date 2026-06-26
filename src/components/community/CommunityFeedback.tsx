@@ -158,7 +158,7 @@ export default function CommunityFeedback({
         onClick={() => setOpen((value) => !value)}
         className="flex w-full items-center justify-between gap-3 text-left"
       >
-        <span className="inline-flex items-center gap-2 text-sm font-medium text-ink">
+        <span className="inline-flex min-w-0 flex-1 flex-wrap items-center gap-2 text-sm font-medium text-ink">
           <MessageSquare className="h-4 w-4 text-accent" />
           {labels.sectionTitle}
           {stats.total_votes > 0 && (
@@ -172,7 +172,7 @@ export default function CommunityFeedback({
             </span>
           )}
         </span>
-        <ChevronDown className={`h-4 w-4 text-ink-secondary transition ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-4 w-4 shrink-0 text-ink-secondary transition ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
@@ -186,7 +186,7 @@ export default function CommunityFeedback({
           ) : (
             <>
               <div>
-                <div className="mb-2 flex items-center justify-between gap-3 text-sm">
+                <div className="mb-2 flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <span className="font-medium text-ink">{labels.credibilityTitle}</span>
                   {stats.total_votes > 0 ? (
                     <span className="text-ink-secondary">

@@ -66,7 +66,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
   },
   {
     id: "damage-map",
-    status: "done",
+    status: "shipped",
     category: "maps",
     progress: 100,
     title: {

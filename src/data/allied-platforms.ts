@@ -42,6 +42,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     color: "yellow",
   },
   {
+    domain: "huellascan.com",
+    url: "https://www.huellascan.com/terremoto",
+    description: {
+      es: "Mascotas perdidas y encontradas tras el terremoto.",
+      en: "Lost and found pets after the earthquake.",
+    },
+    color: "yellow",
+  },
+  {
     domain: "sismovenezuela.com",
     url: "https://sismovenezuela.com",
     description: {

@@ -4,6 +4,7 @@ import {
   registerImportedRecord,
   type PersonIndex,
 } from "@/lib/missing-persons/dedup";
+import { dedupeSourcesByPlatform } from "@/lib/missing-persons/sources";
 import type { ImportedMissingRecord } from "@/lib/missing-persons/types";
 import type { MissingPersonSourceLink, MissingPersonWithSources } from "@/types";
 
@@ -18,12 +19,18 @@ const SOURCE_LABELS: Record<string, string> = {
   "venezuela-te-busca": "Venezuela Te Busca",
   encuentralos: "Encuéntralos",
   "terremotovenezuela-app": "Terremoto Venezuela",
+  "venezuela-reporta": "Venezuela Reporta",
+  "desaparecidos-terremoto": "Desaparecidos Terremoto",
 };
 
 let memoryCache: { at: number; persons: MissingPersonWithSources[] } | null = null;
 const MEMORY_TTL_MS = 5 * 60 * 1000;
 const MAX_PER_SOURCE = 2_000;
 const BATCH_SIZE = 200;
+
+export function clearMissingPersonsLiveCache() {
+  memoryCache = null;
+}
 
 function sourceLink(record: ImportedMissingRecord): MissingPersonSourceLink {
   return {
@@ -70,7 +77,7 @@ function mergeSource(
   record: ImportedMissingRecord
 ): void {
   const link = sourceLink(record);
-  if (person.sources.some((s) => s.source_slug === link.source_slug && s.external_url === link.external_url)) {
+  if (person.sources.some((s) => s.source_slug === link.source_slug)) {
     return;
   }
   person.sources.push(link);
@@ -129,7 +136,12 @@ async function loadAllFromAdapters(): Promise<MissingPersonWithSources[]> {
     }
   }
 
-  const list = [...persons.values()].sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const list = [...persons.values()]
+    .map((person) => ({
+      ...person,
+      sources: dedupeSourcesByPlatform(person.sources),
+    }))
+    .sort((a, b) => b.created_at.localeCompare(a.created_at));
   memoryCache = { at: now, persons: list };
   return list;
 }

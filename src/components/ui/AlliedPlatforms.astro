@@ -46,14 +46,14 @@ function platformContentId(domain: string) {
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex items-center gap-4 transition-colors hover:bg-surface-muted focus-visible:bg-surface-muted -mx-5 px-5 py-2 rounded-xl"
+              class="group flex flex-col gap-2 transition-colors hover:bg-surface-muted focus-visible:bg-surface-muted -mx-5 rounded-xl px-5 py-2 sm:flex-row sm:items-center sm:gap-4"
             >
               <span class:list={["h-2.5 w-2.5 shrink-0 rounded-full", dotColor[platform.color]]} aria-hidden="true" />
               <span class="min-w-0 flex-1">
                 <span class="font-semibold text-ink transition-colors group-hover:text-accent">
                   {platform.domain}
                 </span>
-                <span class="ml-2 text-sm text-ink-secondary">
+                <span class="block text-sm text-ink-secondary sm:ml-0">
                   — {locale === "es" ? platform.description.es : platform.description.en}
                 </span>
               </span>

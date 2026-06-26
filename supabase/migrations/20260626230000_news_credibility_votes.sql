@@ -19,11 +19,4 @@ ALTER TABLE news_credibility_votes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone can read news votes" ON news_credibility_votes
   FOR SELECT USING (true);
 
-CREATE POLICY "Anyone can vote on news" ON news_credibility_votes
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Anyone can update own news vote" ON news_credibility_votes
-  FOR UPDATE USING (true) WITH CHECK (true);
-
-CREATE POLICY "Anyone can submit community news" ON news_items
-  FOR INSERT WITH CHECK (true);
+-- Escrituras públicas deshabilitadas en REST; usar APIs del servidor.

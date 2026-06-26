@@ -45,12 +45,12 @@ const groupLabels: Record<FootprintGroupId, string> = {
           <ul class="space-y-1.5 text-sm text-ink-secondary">
             {
               PROJECT_CREDITS.map((credit) => (
-                <li>
+                <li class="break-words">
                   <a
                     href={credit.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="hover:text-ink"
+                    class="hover:text-ink break-words"
                   >
                     {credit.name}
                   </a>

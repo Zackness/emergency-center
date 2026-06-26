@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "prisma generate && astro build",
@@ -11,27 +14,30 @@
     "check": "astro check",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push",
+    "db:push": "tsx --tsconfig tsconfig.json scripts/db-push-guard.ts",
     "db:pull": "prisma db pull",
     "db:studio": "prisma studio",
     "db:migrate": "prisma migrate dev",
     "sync:missing": "tsx --tsconfig tsconfig.json scripts/sync-missing-persons.ts",
     "sync:damage": "tsx --tsconfig tsconfig.json scripts/sync-damage-map.ts",
     "fetch:damage": "tsx scripts/fetch-damage-map.ts",
+    "fetch:pets": "tsx scripts/fetch-missing-pets.ts",
+    "admin:create": "tsx --tsconfig tsconfig.json scripts/create-admin.ts",
     "sync:hospitals": "tsx --tsconfig tsconfig.json scripts/sync-hospitals.ts",
     "fetch:hospitals": "tsx scripts/fetch-venezuela-hospitals.ts",
     "fetch:hospitals:google": "tsx scripts/fetch-google-hospitals.ts"
   },
   "dependencies": {
-    "@astrojs/node": "^9.2.2",
     "@astrojs/react": "^4.3.0",
     "@astrojs/tailwind": "^6.0.2",
+    "@astrojs/vercel": "^8.2.0",
     "@prisma/client": "^6.9.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.8",
     "astro": "^5.8.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.511.0",
+    "prisma": "^6.19.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-leaflet": "^5.0.0",
@@ -39,10 +45,10 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.18",
+    "@types/node": "^20.19.43",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
-    "prisma": "^6.19.3",
-    "typescript": "^5.8.3",
-    "tsx": "^4.20.3"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

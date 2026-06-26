@@ -7,10 +7,12 @@
  */
 import { PrismaClient } from "@prisma/client";
 import { syncDamageBuildings } from "@/lib/damage-map/sync";
+import { assertSafeDatabaseTarget } from "@/lib/db-guard";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  assertSafeDatabaseTarget("sync:damage");
   const result = await syncDamageBuildings(prisma);
   console.log("Sync de mapa de daños completado:", result);
 }

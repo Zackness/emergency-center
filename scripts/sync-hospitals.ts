@@ -13,6 +13,7 @@
  *   npm run sync:hospitals -- --dry-run
  */
 import { VENEZUELA_HOSPITALS, HOSPITALS_TOTAL_COUNT } from "@/data/hospitals";
+import { assertSafeDatabaseTarget } from "@/lib/db-guard";
 
 function loadEnv() {
   try {
@@ -36,6 +37,7 @@ const BATCH_SIZE = 500;
 
 async function main() {
   loadEnv();
+  assertSafeDatabaseTarget("sync:hospitals");
 
   const dryRun = process.argv.includes("--dry-run");
   const url = process.env.PUBLIC_SUPABASE_URL;

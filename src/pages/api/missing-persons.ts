@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
@@ -8,8 +9,12 @@ export const GET: APIRoute = async ({ url }) => {
 
     const q = url.searchParams.get("q") ?? undefined;
     const state = url.searchParams.get("state") ?? undefined;
-    const page = Number(url.searchParams.get("page") ?? "1");
-    const limit = Number(url.searchParams.get("limit") ?? "24");
+    const parsedPage = Number(url.searchParams.get("page") ?? "1");
+    const parsedLimit = Number(url.searchParams.get("limit") ?? "24");
+    const page = Number.isFinite(parsedPage) ? Math.max(1, parsedPage) : 1;
+    const limit = Number.isFinite(parsedLimit)
+      ? Math.min(100, Math.max(1, parsedLimit))
+      : 24;
 
     const [items, total] = await Promise.all([
       fetchMissingPersons({ q, state, page, limit }),
@@ -20,8 +25,8 @@ export const GET: APIRoute = async ({ url }) => {
       JSON.stringify({
         items,
         total,
-        page: Math.max(1, page),
-        limit: Math.min(100, Math.max(1, limit)),
+        page,
+        limit,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
@@ -34,8 +39,14 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "missing-persons:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { createMissingPerson } = await import("@/lib/data");
 
     const required = [

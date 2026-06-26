@@ -31,6 +31,10 @@ export interface SyncOptions {
   offset?: number;
   limit?: number;
   batchSize?: number;
+  /** Pagina hasta agotar cada fuente (ignora limit salvo como tope opcional). */
+  fetchAll?: boolean;
+  /** Alias de fetchAll con tope alto. */
+  all?: boolean;
 }
 
 export interface SyncResult {

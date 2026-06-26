@@ -4,6 +4,7 @@ node_modules/
 # build
 dist/
 .astro/
+.vercel/
 
 # env — NUNCA commitear secretos reales (usar .env.example como plantilla)
 .env
@@ -27,8 +28,12 @@ Thumbs.db
 *.swp
 *.swo
 
-# artefactos de scraping de terremotovenezuela.com (no son código del proyecto)
+# artefactos de scraping de terremotovenezuela.com / encuentralos (no son código del proyecto)
 tv-*.js
+enc_main.js
+enc.html
+enc_body.json
+enc_api.json
 
 # temporales / diagnóstico
 scripts/gitdiag.sh

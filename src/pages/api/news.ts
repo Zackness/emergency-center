@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
@@ -30,8 +31,14 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "news:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { createNewsSubmission } = await import("@/lib/news-credibility");
 
     const required = ["title", "summary", "source", "source_url"];

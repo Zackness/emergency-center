@@ -73,7 +73,9 @@ function toHospital(record: HospitalFacilityRecord): Hospital {
   };
 }
 
-export const VENEZUELA_HOSPITALS: Hospital[] = hospitalsData.facilities.map(toHospital);
+export const VENEZUELA_HOSPITALS: Hospital[] = (
+  hospitalsData.facilities as HospitalFacilityRecord[]
+).map(toHospital);
 
 export function getHospitalsCatalog(): Hospital[] {
   return VENEZUELA_HOSPITALS;

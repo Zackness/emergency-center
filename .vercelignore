@@ -1,0 +1,11 @@
+# Artefactos locales — no subir al deploy
+.env
+.env.*
+!.env.example
+node_modules
+.astro
+dist
+*.log
+scripts/probe-*
+scripts/gitdiag.sh
+tmp_extract.py

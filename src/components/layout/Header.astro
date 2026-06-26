@@ -1,9 +1,16 @@
 ---
 import type { Locale } from "@/i18n/config";
-import { getNavItems, useTranslations } from "@/i18n/utils";
+import { useTranslations } from "@/i18n/utils";
 import { switchLocalePath } from "@/i18n/config";
 import { PROJECT_OWNER } from "@/data/credits";
+import {
+  resolveSiteFootprints,
+  groupSiteFootprints,
+  type FootprintGroupId,
+} from "@/data/site-footprints";
+import { getNavIconColor } from "@/lib/nav-icons";
 import Logo from "@/components/ui/Logo.astro";
+import Icon from "@/components/ui/Icon.astro";
 import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 import HeaderSearch from "@/components/search/HeaderSearch.astro";
 
@@ -13,14 +20,23 @@ interface Props {
 
 const { locale } = Astro.props;
 const { t } = useTranslations(locale);
-const navItems = getNavItems(locale);
 const otherLocale = locale === "es" ? "en" : "es";
 const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
+const currentPath = Astro.url.pathname;
+
+const footprints = resolveSiteFootprints(locale, t);
+const menuGroups = groupSiteFootprints(footprints);
+const groupLabels: Record<FootprintGroupId, string> = {
+  help: t("home.footprints.groups.help"),
+  people: t("home.footprints.groups.people"),
+  participate: t("home.footprints.groups.participate"),
+  info: t("home.footprints.groups.info"),
+};
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-lg">
   <div class="container-app">
-    <div class="flex h-16 items-center justify-between gap-4">
+    <div class="flex h-16 min-w-0 items-center justify-between gap-2 sm:gap-4">
       <a href={`/${locale}`} class="flex items-center gap-2.5 shrink-0 group">
         <Logo size={36} class="transition-transform group-hover:scale-105" />
         <div class="hidden sm:block leading-tight">
@@ -38,45 +54,83 @@ const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
         </div>
       </a>
 
-      <div class="hidden md:flex flex-1 justify-center px-4 max-w-xl">
+      <div class="hidden min-w-0 flex-1 justify-center px-2 md:flex md:px-4 max-w-xl">
         <HeaderSearch locale={locale} />
       </div>
 
-      <nav class="hidden lg:flex items-center gap-1 shrink-0" aria-label="Main navigation">
+      <nav class="hidden lg:flex items-center gap-0.5 shrink-0" aria-label="Main navigation">
         {
-          navItems.slice(0, 6).map((item) => (
-            <a
-              href={item.href}
-              aria-current={Astro.url.pathname === item.href ? "page" : undefined}
-              class:list={[
-                "btn-ghost text-xs",
-                Astro.url.pathname === item.href && "!bg-accent-muted !text-accent",
-              ]}
-            >
-              {item.label}
-            </a>
-          ))
-        }
-        <details class="relative group">
-          <summary class="btn-ghost text-xs cursor-pointer list-none">
-            {locale === "es" ? "Más" : "More"} ▾
-          </summary>
-          <div class="absolute right-0 top-full mt-1 w-48 rounded-xl border border-border bg-surface-elevated py-2 shadow-elevated">
-            {
-              navItems.slice(6).map((item) => (
-                <a
-                  href={item.href}
-                  class="block px-4 py-2 text-sm text-ink-secondary hover:bg-surface-muted hover:text-ink"
+          menuGroups.map((group) => {
+            const isActive = group.items.some((item) => item.href === currentPath);
+            return (
+              <div class="group/mega relative">
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  class:list={[
+                    "btn-ghost text-xs gap-1",
+                    isActive && "!bg-accent-muted !text-accent",
+                  ]}
                 >
-                  {item.label}
-                </a>
-              ))
-            }
-          </div>
-        </details>
+                  {groupLabels[group.id]}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="transition-transform duration-200 group-hover/mega:rotate-180"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div class="invisible absolute right-0 top-full z-50 translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100">
+                  <div class="w-[min(32rem,calc(100vw-2rem))] rounded-2xl border border-border bg-surface-elevated p-3 shadow-elevated">
+                    <p class="px-2 pb-2 pt-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                      {groupLabels[group.id]}
+                    </p>
+                    <div class="grid grid-cols-2 gap-1">
+                      {group.items.map((item) => (
+                        <a
+                          href={item.href}
+                          aria-current={item.href === currentPath ? "page" : undefined}
+                          class:list={[
+                            "group/item flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-surface-muted",
+                            item.href === currentPath && "bg-accent-muted/50",
+                          ]}
+                        >
+                          <span
+                            class:list={[
+                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+                              getNavIconColor(item.icon),
+                            ]}
+                          >
+                            <Icon name={item.icon} size={18} />
+                          </span>
+                          <span class="min-w-0">
+                            <span class="block text-sm font-semibold text-ink transition-colors group-hover/item:text-accent">
+                              {item.title}
+                            </span>
+                            <span class="mt-0.5 block text-xs text-ink-muted line-clamp-2">
+                              {item.description}
+                            </span>
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
       </nav>
 
-      <div class="flex items-center gap-2">
+      <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <ThemeToggle locale={locale} />
         <a
           href={switchPath}
@@ -90,7 +144,7 @@ const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
         </a>
         <button
           id="mobile-menu-btn"
-          class="btn-ghost lg:hidden"
+          class="btn-ghost min-h-11 min-w-11 lg:hidden"
           aria-label={t("nav.menu")}
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -104,27 +158,44 @@ const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
 
   <nav
     id="mobile-menu"
-    class="hidden border-t border-border bg-surface-elevated lg:hidden"
+    class="hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-border bg-surface-elevated lg:hidden"
     aria-label="Mobile navigation"
   >
-    <div class="container-app py-4 space-y-1">
-      <div class="px-4 pb-3 md:hidden">
+    <div class="container-app space-y-4 py-4">
+      <div class="md:hidden">
         <HeaderSearch locale={locale} compact={false} />
       </div>
       {
-        navItems.map((item) => (
-          <a
-            href={item.href}
-            aria-current={Astro.url.pathname === item.href ? "page" : undefined}
-            class:list={[
-              "block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
-              Astro.url.pathname === item.href
-                ? "bg-accent-muted text-accent"
-                : "text-ink-secondary hover:bg-surface-muted hover:text-ink",
-            ]}
-          >
-            {item.label}
-          </a>
+        menuGroups.map((group) => (
+          <div>
+            <p class="px-4 pb-1 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              {groupLabels[group.id]}
+            </p>
+            <div class="space-y-0.5">
+              {group.items.map((item) => (
+                <a
+                  href={item.href}
+                  aria-current={item.href === currentPath ? "page" : undefined}
+                  class:list={[
+                    "flex min-h-11 items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors",
+                    item.href === currentPath
+                      ? "bg-accent-muted text-accent"
+                      : "text-ink-secondary hover:bg-surface-muted hover:text-ink",
+                  ]}
+                >
+                  <span
+                    class:list={[
+                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                      getNavIconColor(item.icon),
+                    ]}
+                  >
+                    <Icon name={item.icon} size={16} />
+                  </span>
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
         ))
       }
     </div>
@@ -136,12 +207,25 @@ const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
   const menu = document.getElementById("mobile-menu");
   const iconOpen = document.getElementById("menu-icon-open");
   const iconClose = document.getElementById("menu-icon-close");
+
+  function setMenuOpen(open) {
+    menu?.classList.toggle("hidden", !open);
+    iconOpen?.classList.toggle("hidden", open);
+    iconClose?.classList.toggle("hidden", !open);
+    btn?.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("overflow-hidden", open);
+    if (open) menu?.classList.add("animate-slide-up");
+    else menu?.classList.remove("animate-slide-up");
+  }
+
   btn?.addEventListener("click", () => {
     const willOpen = menu?.classList.contains("hidden");
-    menu?.classList.toggle("hidden");
-    if (willOpen) menu?.classList.add("animate-slide-up");
-    iconOpen?.classList.toggle("hidden", willOpen);
-    iconClose?.classList.toggle("hidden", !willOpen);
-    btn.setAttribute("aria-expanded", String(Boolean(willOpen)));
+    setMenuOpen(Boolean(willOpen));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu && !menu.classList.contains("hidden")) {
+      setMenuOpen(false);
+    }
   });
 </script>

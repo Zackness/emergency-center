@@ -3,7 +3,8 @@ import type { DamageMapQuery, DamageMapStats, ImportedBuilding } from "./types";
 import { DAMAGE_MAP_EXTERNAL_SOURCE } from "./adapter";
 import { fetchExternalBuildings } from "./adapter";
 import { LOCAL_DAMAGE_BUILDINGS } from "@/data/damage-buildings";
-import { dedupeUrlList } from "./normalize";
+import { dedupeUrlList, normalizeSearchText } from "./normalize";
+import { proxiedDamageMediaUrls } from "./media-proxy";
 
 let memoryCache: { at: number; items: DamageReport[] } | null = null;
 const MEMORY_TTL_MS = 5 * 60 * 1000;
@@ -25,7 +26,7 @@ function importedToDamageReport(building: ImportedBuilding): DamageReport {
     reporter_contact: null,
     source_name: "Terremoto Venezuela — Mapa de Daños",
     source_url: building.sourceUrl,
-    image_urls: dedupeUrlList(building.imageUrls),
+    image_urls: proxiedDamageMediaUrls(dedupeUrlList(building.imageUrls)),
     external_reference: building.externalId,
     is_verified: building.isVerified,
     is_active: true,

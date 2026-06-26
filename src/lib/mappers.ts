@@ -21,7 +21,9 @@ import type {
   NewsItem,
   Shelter,
 } from "@/types";
+import { dedupeSourcesByPlatform } from "@/lib/missing-persons/sources";
 import { parseSocialLinks } from "@/types/social";
+import { proxiedDamageMediaUrls } from "@/lib/damage-map/media-proxy";
 
 export function mapHelpCenter(row: HelpCenterRow): HelpCenter {
   return {
@@ -178,7 +180,7 @@ export function mapDamageReport(row: DamageReportRow): DamageReport {
     reporter_contact: row.reporterContact,
     source_name: row.sourceName,
     source_url: row.sourceUrl,
-    image_urls: row.imageUrls,
+    image_urls: proxiedDamageMediaUrls(row.imageUrls),
     external_reference: row.externalReference,
     is_verified: row.isVerified,
     is_active: row.isActive,
@@ -193,15 +195,17 @@ export function mapMissingPersonWithSources(
     externalRecords: (ExternalRecordRow & { source: ExternalSourceRow })[];
   }
 ): MissingPersonWithSources {
-  const sources = row.externalRecords.map((record) => ({
-    id: record.id,
-    source_id: record.sourceId,
-    source_name: record.source.name,
-    source_slug: record.source.slug,
-    external_url: record.externalUrl,
-    display_name: record.displayName,
-    is_external: record.source.slug !== "startupven",
-  }));
+  const sources = dedupeSourcesByPlatform(
+    row.externalRecords.map((record) => ({
+      id: record.id,
+      source_id: record.sourceId,
+      source_name: record.source.name,
+      source_slug: record.source.slug,
+      external_url: record.externalUrl,
+      display_name: record.displayName,
+      is_external: record.source.slug !== "startupven",
+    }))
+  );
 
   if (!sources.some((s) => s.source_slug === "startupven")) {
     sources.push({

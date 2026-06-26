@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getSessionUser } from "@/lib/auth-center";
+import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
 import type { CommunityContentType } from "@/types/community-feedback";
 
@@ -31,6 +32,10 @@ export const GET: APIRoute = async ({ url }) => {
     const contentType = url.searchParams.get("content_type") as CommunityContentType | null;
     const contentId = url.searchParams.get("content_id");
     const limit = url.searchParams.get("limit");
+    const parsedLimit = Number(limit ?? "50");
+    const safeLimit = Number.isFinite(parsedLimit)
+      ? Math.min(100, Math.max(1, parsedLimit))
+      : 50;
 
     if (!contentType || !contentId || !VALID_TYPES.includes(contentType)) {
       return new Response(JSON.stringify({ error: "Invalid content_type or content_id" }), {
@@ -43,7 +48,7 @@ export const GET: APIRoute = async ({ url }) => {
     const feedback = await fetchCommunityFeedback({
       content_type: contentType,
       content_id: contentId,
-      comment_limit: limit ? Number(limit) : 50,
+      comment_limit: safeLimit,
     });
 
     return new Response(
@@ -60,8 +65,14 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 export const POST: APIRoute = async ({ request, cookies }) => {
+  const blocked = guardPublicWrite(request, {
+    namespace: "community-comments:create",
+    ...PUBLIC_FORM_RATE_LIMIT,
+  });
+  if (blocked) return blocked;
+
   try {
-    const body = await request.json();
+    const body = await readJsonBody<Record<string, any>>(request);
     const { createCommunityComment } = await import("@/lib/community-feedback");
     const user = await getSessionUser(request, cookies);
 

@@ -51,17 +51,10 @@ ALTER TABLE community_comments ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone can read community votes" ON community_credibility_votes
   FOR SELECT USING (true);
 
-CREATE POLICY "Anyone can vote" ON community_credibility_votes
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Anyone can update own vote" ON community_credibility_votes
-  FOR UPDATE USING (true) WITH CHECK (true);
-
 CREATE POLICY "Anyone can read active comments" ON community_comments
   FOR SELECT USING (is_active = true);
 
-CREATE POLICY "Anyone can comment" ON community_comments
-  FOR INSERT WITH CHECK (true);
+-- Escrituras públicas deshabilitadas en REST; usar APIs del servidor.
 
 -- Migrar votos de noticias existentes al sistema unificado
 INSERT INTO community_credibility_votes (content_type, content_id, verdict, voter_token, created_at, updated_at)

@@ -1,12 +1,16 @@
 import { defineConfig } from "astro/config";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
+const site =
+  process.env.PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://startupven.com");
+
 export default defineConfig({
-  site: "https://startupven.com",
+  site,
   output: "static",
-  adapter: node({ mode: "standalone" }),
+  adapter: vercel(),
   integrations: [react(), tailwind({ applyBaseStyles: false })],
   vite: {
     ssr: {

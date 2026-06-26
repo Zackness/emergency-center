@@ -72,13 +72,13 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         <p class="mt-1 text-sm text-ink-secondary max-w-3xl">{t("missing.registry.subtitle")}</p>
       </div>
       <div class="grid gap-4 sm:grid-cols-2 max-w-3xl mb-6">
-        <div class="card text-center">
-          <p class="text-2xl font-bold text-ink">{stats.unique_active.toLocaleString()}</p>
-          <p class="mt-1 text-sm text-ink-secondary">{t("missing.registry.statsUnique")}</p>
+        <div class="card flex flex-col items-center justify-center border-accent/30 bg-accent-muted/20 py-8 text-center">
+          <p class="text-5xl font-extrabold tracking-tight text-accent">{stats.unique_active.toLocaleString()}</p>
+          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsUnique")}</p>
         </div>
-        <div class="card text-center">
-          <p class="text-2xl font-bold text-ink">{stats.total_external_records.toLocaleString()}</p>
-          <p class="mt-1 text-sm text-ink-secondary">{t("missing.registry.statsRecords")}</p>
+        <div class="card flex flex-col items-center justify-center py-8 text-center">
+          <p class="text-5xl font-extrabold tracking-tight text-ink">{stats.total_external_records.toLocaleString()}</p>
+          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsRecords")}</p>
         </div>
       </div>
       <p class="text-xs text-ink-muted max-w-3xl mb-6">{t("missing.registry.statsDedupNote")}</p>
@@ -203,7 +203,7 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         <h2 class="text-xl font-semibold text-ink">{t("missing.official.title")}</h2>
         <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.subtitle")}</p>
       </div>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 max-w-5xl">
+      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 max-w-5xl">
         <div class="card text-center">
           <p class="text-2xl font-bold text-ink">{official.fatalities.toLocaleString()}</p>
           <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.fatalities")}</p>

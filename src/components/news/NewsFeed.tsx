@@ -140,7 +140,7 @@ export default function NewsFeed({
                     href={item.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-secondary shrink-0 text-xs"
+                    className="btn-secondary w-full shrink-0 text-center text-xs sm:w-auto"
                   >
                     {labels.readSource} →
                   </a>

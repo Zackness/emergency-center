@@ -90,17 +90,50 @@ function FitToMarkers({
   return null;
 }
 
+/** Habilita zoom con rueda/trackpad y gestos táctiles en todos los mapas. */
+function MapGestures() {
+  const map = useMap();
+
+  useEffect(() => {
+    const container = map.getContainer();
+    container.style.touchAction = "none";
+
+    map.scrollWheelZoom.enable();
+    map.touchZoom.enable();
+    map.dragging.enable();
+    map.doubleClickZoom.enable();
+    map.boxZoom.enable();
+    map.keyboard.enable();
+
+    return () => {
+      map.scrollWheelZoom.disable();
+      map.touchZoom.disable();
+      map.dragging.disable();
+      map.doubleClickZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+    };
+  }, [map]);
+
+  return null;
+}
+
 interface MapViewProps {
   locations: MapLocation[];
   height?: string;
+  className?: string;
   locale?: "es" | "en";
   zoom?: number;
   defaultCenter?: [number, number];
 }
 
+const RESPONSIVE_MAP_HEIGHT =
+  "h-[min(50vh,520px)] min-h-[220px] sm:h-[400px] lg:h-[480px]";
+
 export default function MapView({
   locations,
-  height = "400px",
+  height,
+  className = "",
   locale = "es",
   zoom = 12,
   defaultCenter,
@@ -118,11 +151,18 @@ export default function MapView({
 
   const showPlaceholder = !mounted || (validLocations.length === 0 && !defaultCenter);
 
+  const wrapperClass = `overflow-hidden rounded-2xl border border-border shadow-soft w-full ${
+    height ? "" : RESPONSIVE_MAP_HEIGHT
+  } ${className}`.trim();
+  const wrapperStyle = height ? { height } : undefined;
+
   if (showPlaceholder) {
     return (
       <div
-        className="flex items-center justify-center rounded-2xl border border-border bg-surface-muted text-ink-secondary"
-        style={{ height }}
+        className={`flex items-center justify-center rounded-2xl border border-border bg-surface-muted text-ink-secondary w-full ${
+          height ? "" : RESPONSIVE_MAP_HEIGHT
+        } ${className}`.trim()}
+        style={wrapperStyle}
       >
         {locale === "es" ? "Cargando mapa..." : "Loading map..."}
       </div>
@@ -138,13 +178,21 @@ export default function MapView({
       : (defaultCenter as [number, number]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border shadow-soft" style={{ height }}>
+    <div className={wrapperClass} style={wrapperStyle}>
       <MapContainer
         center={fallbackCenter}
         zoom={zoom}
         style={{ height: "100%", width: "100%" }}
-        scrollWheelZoom={false}
+        scrollWheelZoom
+        touchZoom
+        dragging
+        doubleClickZoom
+        boxZoom
+        keyboard
+        zoomSnap={0.5}
+        zoomDelta={1}
       >
+        <MapGestures />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -1,6 +1,7 @@
 import type { DamageReport } from "@/types";
 import type { ImportedBuilding } from "@/lib/damage-map/types";
 import { dedupeUrlList } from "@/lib/damage-map/normalize";
+import { proxiedDamageMediaUrls } from "@/lib/damage-map/media-proxy";
 import snapshot from "@/data/damage-buildings.json";
 
 function importedToDamageReport(building: ImportedBuilding): DamageReport {
@@ -20,7 +21,7 @@ function importedToDamageReport(building: ImportedBuilding): DamageReport {
     reporter_contact: null,
     source_name: "Terremoto Venezuela — Mapa de Daños",
     source_url: building.sourceUrl,
-    image_urls: dedupeUrlList(building.imageUrls),
+    image_urls: proxiedDamageMediaUrls(dedupeUrlList(building.imageUrls)),
     external_reference: building.externalId,
     is_verified: building.isVerified,
     is_active: true,
