@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import type { HelpCenterRegistration, HelpCenterType } from "@/types";
-import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
+import { PUBLIC_FORM_RATE_LIMIT, guardRequest, readJsonBody } from "@/lib/api-security";
 
 export const prerender = false;
 
@@ -15,7 +15,7 @@ function badRequest(message: string) {
 }
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const blocked = guardPublicWrite(request, {
+  const blocked = guardRequest(request, {
     namespace: "help-centers:create",
     ...PUBLIC_FORM_RATE_LIMIT,
   });
@@ -51,6 +51,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       ACCEPT_KEYS.includes(item as (typeof ACCEPT_KEYS)[number])
     );
     if (!accepts.length) return badRequest("Invalid accepts values");
+
+    const imageUrl = body.image_url?.trim();
+    if (!imageUrl) {
+      return badRequest("Missing field: image_url");
+    }
 
     if (body.registration_type === "third_party") {
       if (!body.reporter_name?.trim()) {
@@ -93,6 +98,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         accepts,
         reporter_name: body.reporter_name?.trim() || null,
         reporter_phone: body.reporter_phone?.trim() || null,
+        image_url: imageUrl,
       },
       ownerUserId
     );
@@ -102,7 +108,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         success: true,
         id: center.id,
         registration_type: body.registration_type,
-        panel_url: body.registration_type === "own" ? "/es/centros-ayuda/panel" : null,
+        panel_url: body.registration_type === "own" ? "/centros-ayuda/panel" : null,
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );

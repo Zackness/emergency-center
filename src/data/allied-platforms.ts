@@ -1,13 +1,6 @@
-export type AlliedPlatformColor = "blue" | "yellow" | "red";
+import type { AlliedPlatform } from "@/types";
 
-export interface AlliedPlatform {
-  /** Dominio mostrado, sin protocolo. */
-  domain: string;
-  url: string;
-  description: { es: string; en: string };
-  /** Color del punto indicador (bandera de Venezuela). */
-  color: AlliedPlatformColor;
-}
+export type { AlliedPlatform, AlliedPlatformColor } from "@/types";
 
 /**
  * Plataformas aliadas de emergencia que consolidan o complementan
@@ -29,6 +22,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     description: {
       es: "Red nacional de centros de acopio y voluntarios de delivery gratuito.",
       en: "National network of collection centers and free delivery volunteers.",
+    },
+    color: "yellow",
+  },
+  {
+    domain: "vzlayuda.com",
+    url: "https://vzlayuda.com",
+    description: {
+      es: "Encuentra o brinda ayuda cerca de ti. Sin cuentas, al instante.",
+      en: "Find or offer help near you. No accounts needed, instantly.",
     },
     color: "yellow",
   },
@@ -83,6 +85,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     description: {
       es: "Busca familiares o amigos desaparecidos.",
       en: "Search for missing family or friends.",
+    },
+    color: "yellow",
+  },
+  {
+    domain: "encuentralos.tecnosoft.dev",
+    url: "https://encuentralos.tecnosoft.dev/",
+    description: {
+      es: "Reporta y busca personas desaparecidas tras el terremoto.",
+      en: "Report and search for missing persons after the earthquake.",
     },
     color: "yellow",
   },

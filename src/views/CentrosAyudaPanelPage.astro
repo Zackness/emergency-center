@@ -1,0 +1,77 @@
+---
+import CoordinatorLayout from "@/layouts/CoordinatorLayout.astro";
+import CoordinatorHub from "@/components/dashboard/CoordinatorHub";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+interface Props {
+  locale: Locale;
+  userEmail: string;
+}
+
+const { locale, userEmail } = Astro.props;
+const { t, dict } = useTranslations(locale);
+
+const hubLabels = {
+  title: t("coordinatorPortal.hub.title"),
+  subtitle: t("coordinatorPortal.hub.subtitle"),
+  search: t("coordinatorPortal.hub.search"),
+  newCenter: t("coordinatorPortal.hub.newCenter"),
+  verified: t("coordinatorPortal.hub.verified"),
+  pending: t("coordinatorPortal.hub.pending"),
+  inactive: t("coordinatorPortal.hub.inactive"),
+  manage: t("coordinatorPortal.hub.manage"),
+  volunteers: t("coordinatorPortal.hub.volunteers"),
+  inventory: t("coordinatorPortal.hub.inventory"),
+  loading: t("common.loading"),
+  registerDialog: {
+    title: t("coordinatorPortal.registerDialog.title"),
+    subtitle: t("coordinatorPortal.registerDialog.subtitle"),
+    mandatorySubtitle: t("coordinatorPortal.registerDialog.mandatorySubtitle"),
+    logout: t("coordinatorPortal.registerDialog.logout"),
+  },
+  form: {
+    centerName: t("helpCenters.register.centerName"),
+    centerType: t("helpCenters.register.centerType"),
+    schedule: t("common.schedule"),
+    scheduleHint: t("helpCenters.register.scheduleHint"),
+    state: t("common.state"),
+    city: t("common.city"),
+    address: t("helpCenters.register.address"),
+    latitude: t("helpCenters.register.latitude"),
+    longitude: t("helpCenters.register.longitude"),
+    useLocation: t("helpCenters.register.useLocation"),
+    phone: t("common.phone"),
+    email: t("common.email"),
+    description: t("helpCenters.register.description"),
+    photo: t("helpCenters.register.photo"),
+    photoHint: t("helpCenters.register.photoHint"),
+    photoRequired: t("helpCenters.register.photoRequired"),
+    accepts: t("helpCenters.filters.accepts"),
+    consent: t("helpCenters.register.consent"),
+    submit: t("common.submit"),
+    submitting: t("helpCenters.register.submitting"),
+    successOwn: t("helpCenters.register.successOwn"),
+    submitError: t("helpCenters.register.submitError"),
+    authRequired: t("helpCenters.register.authRequired"),
+  },
+};
+---
+
+<CoordinatorLayout
+  locale={locale}
+  title={t("coordinatorPortal.hub.title")}
+  description={t("centerDashboard.subtitle")}
+  current="panel"
+  userEmail={userEmail}
+>
+  <CoordinatorHub
+    client:load
+    locale={locale}
+    labels={hubLabels}
+    states={VENEZUELA_STATES}
+    typeLabels={dict.helpCenters.types as Record<string, string>}
+    acceptLabels={dict.helpCenters.accepts as Record<string, string>}
+  />
+</CoordinatorLayout>

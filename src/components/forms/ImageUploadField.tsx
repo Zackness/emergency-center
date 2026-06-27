@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
+import type { Locale } from "@/i18n/config";
 
 interface ImageUploadFieldProps {
   id: string;
   name: string;
   label: string;
   hint?: string;
-  folder: "missing-persons" | "damage-reports" | "help-centers" | "media";
-  locale: "es" | "en";
+  folder: "missing-persons" | "damage-reports" | "help-centers" | "inventory-invoices" | "media";
+  locale: Locale;
   value: string | null;
   onChange: (url: string | null) => void;
 }
@@ -24,6 +25,7 @@ export default function ImageUploadField({
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isEs = locale === "es";
 
   async function handleFile(file: File | undefined) {
     if (!file) return;
@@ -43,7 +45,7 @@ export default function ImageUploadField({
       setError(
         e instanceof Error
           ? e.message
-          : locale === "es"
+          : isEs
             ? "No se pudo subir la imagen"
             : "Could not upload image"
       );
@@ -75,7 +77,7 @@ export default function ImageUploadField({
         />
         {uploading && (
           <span className="text-sm text-ink-secondary">
-            {locale === "es" ? "Subiendo…" : "Uploading…"}
+            {isEs ? "Subiendo…" : "Uploading…"}
           </span>
         )}
         {value && (
@@ -84,7 +86,7 @@ export default function ImageUploadField({
             className="text-sm text-ink-muted hover:text-emergency"
             onClick={() => onChange(null)}
           >
-            {locale === "es" ? "Quitar" : "Remove"}
+            {isEs ? "Quitar" : "Remove"}
           </button>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { SOURCE_ADAPTERS } from "@/lib/missing-persons/adapters";
+import { defaultMissingPersonSyncSlugs } from "@/lib/missing-persons/sync-source-registry";
 import {
   findMatchingPersonId,
   registerImportedRecord,
@@ -97,7 +98,10 @@ async function loadAllFromAdapters(): Promise<MissingPersonWithSources[]> {
   const index: PersonIndex = new Map();
   const persons = new Map<string, MissingPersonWithSources>();
 
-  for (const adapter of SOURCE_ADAPTERS) {
+  const syncSlugs = new Set(defaultMissingPersonSyncSlugs());
+  const adapters = SOURCE_ADAPTERS.filter((adapter) => syncSlugs.has(adapter.slug));
+
+  for (const adapter of adapters) {
     let offset = 0;
     while (offset < MAX_PER_SOURCE) {
       let batch: ImportedMissingRecord[];

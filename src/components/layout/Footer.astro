@@ -1,5 +1,6 @@
 ---
 import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { PROJECT_CREDITS, PROJECT_IS_OPEN_SOURCE, PROJECT_REPOSITORY_URL } from "@/data/credits";
 import {
@@ -123,8 +124,8 @@ const groupLabels: Record<FootprintGroupId, string> = {
       <h3 class="w-full text-xs font-semibold uppercase tracking-wide text-ink-muted sm:w-auto sm:mb-0">
         {t("footer.legalTitle")}
       </h3>
-      <a href={`/${locale}/privacidad`} class="hover:text-ink">{t("footer.privacy")}</a>
-      <a href={`/${locale}/terminos`} class="hover:text-ink">{t("footer.terms")}</a>
+      <a href={localePath(locale, "privacidad")} class="hover:text-ink">{t("footer.privacy")}</a>
+      <a href={localePath(locale, "terminos")} class="hover:text-ink">{t("footer.terms")}</a>
       <a href="/admin" class="hover:text-ink">{t("nav.admin")}</a>
     </div>
 

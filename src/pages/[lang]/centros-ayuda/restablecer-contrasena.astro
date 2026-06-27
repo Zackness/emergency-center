@@ -1,0 +1,18 @@
+---
+export const prerender = false;
+
+import CentrosAyudaResetPasswordPage from "@/views/CentrosAyudaResetPasswordPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
+
+export function getStaticPaths() {
+  return secondaryLocaleStaticPaths();
+}
+
+const locale = resolveSecondaryLocale(Astro, "/centros-ayuda/restablecer-contrasena");
+if (locale instanceof Response) return locale;
+---
+
+<CentrosAyudaResetPasswordPage locale={locale} />

@@ -19,8 +19,21 @@ port = 54323
 [auth]
 enabled = true
 site_url = "http://localhost:4321"
-additional_redirect_urls = ["http://localhost:4321/api/auth/callback"]
+additional_redirect_urls = [
+  "http://localhost:4321/api/auth/callback",
+  "http://localhost:4321/centros-ayuda/restablecer-contrasena",
+  "http://localhost:4321/admin/restablecer",
+  "http://localhost:4321/centros-ayuda/acceso",
+]
 
 [auth.email]
 enable_signup = true
-enable_confirmations = false
+enable_confirmations = true
+
+[auth.email.template.confirmation]
+subject = "Tu código de verificación — Emergency Center"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Restablecer contraseña — Emergency Center"
+content_path = "./supabase/templates/recovery.html"

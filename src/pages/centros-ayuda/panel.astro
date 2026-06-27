@@ -1,0 +1,11 @@
+---
+export const prerender = false;
+
+import CentrosAyudaPanelPage from "@/views/CentrosAyudaPanelPage.astro";
+import { requireCoordinatorSession } from "@/lib/auth-center";
+
+const session = await requireCoordinatorSession(Astro);
+if (session.redirect) return session.redirect;
+---
+
+<CentrosAyudaPanelPage locale="es" userEmail={session.user!.email ?? ""} />

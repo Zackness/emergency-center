@@ -51,17 +51,17 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     href: "/centros-ayuda/panel",
   },
   {
-    id: "bunny-uploads",
-    status: "in_progress",
+    id: "supabase-uploads",
+    status: "done",
     category: "infrastructure",
-    progress: 70,
+    progress: 100,
     title: {
-      es: "Subida de fotos (Bunny.net)",
-      en: "Photo uploads (Bunny.net)",
+      es: "Subida de fotos (Supabase Storage)",
+      en: "Photo uploads (Supabase Storage)",
     },
     description: {
-      es: "Carga de imágenes para reportes de desaparecidos y otros formularios.",
-      en: "Image uploads for missing person reports and other forms.",
+      es: "Carga de imágenes para reportes, centros de acopio e inventario.",
+      en: "Image uploads for reports, help centers, and inventory.",
     },
   },
   {

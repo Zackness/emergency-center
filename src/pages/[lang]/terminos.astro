@@ -1,32 +1,16 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import PageHeader from "@/components/ui/PageHeader.astro";
-import LegalDocument, { type LegalSection } from "@/components/legal/LegalDocument.astro";
-import { isValidLocale, type Locale } from "@/i18n/config";
-import { useTranslations } from "@/i18n/utils";
+import TerminosPage from "@/views/TerminosPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+  return secondaryLocaleStaticPaths();
 }
 
-const { lang } = Astro.params;
-if (!isValidLocale(lang)) return Astro.redirect("/es/terminos");
-
-const locale = lang as Locale;
-const { t, dict } = useTranslations(locale);
-const terms = dict.legal.terms as {
-  title: string;
-  subtitle: string;
-  sections: LegalSection[];
-};
+const locale = resolveSecondaryLocale(Astro, "/terminos");
+if (locale instanceof Response) return locale;
 ---
 
-<BaseLayout locale={locale} title={terms.title}>
-  <PageHeader title={terms.title} subtitle={terms.subtitle} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="" />
-  <LegalDocument
-    updatedLabel={t("legal.updatedLabel")}
-    updatedAt={t("legal.updatedAt")}
-    sections={terms.sections}
-    relatedLinks={[{ href: `/${locale}/privacidad`, label: t("footer.privacy") }]}
-  />
-</BaseLayout>
+<TerminosPage locale={locale} />

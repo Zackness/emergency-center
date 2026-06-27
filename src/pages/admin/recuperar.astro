@@ -1,0 +1,37 @@
+---
+export const prerender = false;
+
+import AdminThemeInit from "@/components/admin/AdminThemeInit.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+import AdminForgotPanel from "@/components/auth/AdminForgotPanel";
+import "@/styles/global.css";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Recuperar contraseña — Admin</title>
+    <AdminThemeInit />
+  </head>
+  <body class="min-h-screen bg-surface text-ink flex items-center justify-center p-4">
+    <div class="absolute right-4 top-4">
+      <ThemeToggle locale="es" />
+    </div>
+    <AdminForgotPanel
+      client:load
+      loginPath="/admin"
+      labels={{
+        title: "Recuperar contraseña",
+        subtitle: "Te enviaremos un enlace a tu correo para restablecer el acceso al panel administrativo.",
+        email: "Correo electrónico",
+        submit: "Enviar enlace",
+        submitting: "Enviando…",
+        sent: "Si el correo está registrado, recibirás un enlace en unos minutos.",
+        error: "No se pudo enviar el enlace. Intenta de nuevo.",
+        backToLogin: "Volver al inicio de sesión",
+      }}
+    />
+  </body>
+</html>

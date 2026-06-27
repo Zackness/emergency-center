@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import type { Locale } from "@/i18n/config";
 import type { HelpCenterType } from "@/types";
+import ImageUploadField from "@/components/forms/ImageUploadField";
 
 type RegistrationMode = "own" | "third_party";
-type AuthTab = "login" | "signup";
 
 const CENTER_TYPES: HelpCenterType[] = [
   "church",
@@ -15,13 +16,14 @@ const CENTER_TYPES: HelpCenterType[] = [
 const ACCEPT_KEYS = ["water", "food", "medicine", "clothing", "hygiene", "blankets"];
 
 interface HelpCenterRegisterHubProps {
-  locale: "es" | "en";
+  locale: Locale;
   states: string[];
   labels: Record<string, string>;
   typeLabels: Record<string, string>;
   acceptLabels: Record<string, string>;
   initialMode?: RegistrationMode;
   panelPath: string;
+  accesoPath: string;
 }
 
 export default function HelpCenterRegisterHub({
@@ -32,18 +34,17 @@ export default function HelpCenterRegisterHub({
   acceptLabels,
   initialMode = "own",
   panelPath,
+  accesoPath,
 }: HelpCenterRegisterHubProps) {
   const [mode, setMode] = useState<RegistrationMode>(initialMode);
-  const [authTab, setAuthTab] = useState<AuthTab>("signup");
   const [sessionEmail, setSessionEmail] = useState<string | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
-  const [authStatus, setAuthStatus] = useState<"idle" | "loading" | "error">("idle");
-  const [authMessage, setAuthMessage] = useState("");
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
   const [submitMessage, setSubmitMessage] = useState("");
   const [selectedAccepts, setSelectedAccepts] = useState<string[]>(["water", "food"]);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const loadSession = useCallback(async () => {
     setSessionLoading(true);
@@ -82,56 +83,16 @@ export default function HelpCenterRegisterHub({
     });
   }
 
-  async function handleAuth(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setAuthStatus("loading");
-    setAuthMessage("");
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const fullName = (formData.get("full_name") as string) || "";
-
-    try {
-      const endpoint = authTab === "signup" ? "/api/auth/signup" : "/api/auth/session-login";
-      const body =
-        authTab === "signup"
-          ? { email, password, full_name: fullName }
-          : { email, password };
-
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const data = (await res.json()) as {
-        error?: string;
-        needs_confirmation?: boolean;
-      };
-
-      if (!res.ok) throw new Error(data.error ?? "auth failed");
-
-      if (data.needs_confirmation) {
-        setAuthStatus("error");
-        setAuthMessage(labels.authConfirmEmail);
-        return;
-      }
-
-      setAuthStatus("idle");
-      await loadSession();
-    } catch (err) {
-      setAuthStatus("error");
-      setAuthMessage(
-        err instanceof Error ? err.message : labels.authError
-      );
-    }
-  }
-
   async function handleCenterSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitStatus("loading");
     setSubmitMessage("");
+
+    if (!imageUrl) {
+      setSubmitStatus("error");
+      setSubmitMessage(labels.photoRequired);
+      return;
+    }
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -154,6 +115,7 @@ export default function HelpCenterRegisterHub({
         mode === "third_party" ? ((formData.get("reporter_name") as string) || null) : null,
       reporter_phone:
         mode === "third_party" ? ((formData.get("reporter_phone") as string) || null) : null,
+      image_url: imageUrl,
     };
 
     try {
@@ -179,6 +141,7 @@ export default function HelpCenterRegisterHub({
       );
       form.reset();
       setSelectedAccepts(["water", "food"]);
+      setImageUrl(null);
 
       if (mode === "own") {
         window.setTimeout(() => {
@@ -242,79 +205,9 @@ export default function HelpCenterRegisterHub({
             <h2 className="text-lg font-semibold text-ink">{labels.authTitle}</h2>
             <p className="mt-1 text-sm text-ink-secondary">{labels.authSubtitle}</p>
           </div>
-
-          <div className="flex gap-2 border-b border-border">
-            <button
-              type="button"
-              className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-                authTab === "signup"
-                  ? "border-accent text-accent"
-                  : "border-transparent text-ink-secondary"
-              }`}
-              onClick={() => setAuthTab("signup")}
-            >
-              {labels.signupTab}
-            </button>
-            <button
-              type="button"
-              className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-                authTab === "login"
-                  ? "border-accent text-accent"
-                  : "border-transparent text-ink-secondary"
-              }`}
-              onClick={() => setAuthTab("login")}
-            >
-              {labels.loginTab}
-            </button>
-          </div>
-
-          <form onSubmit={handleAuth} className="space-y-4">
-            {authTab === "signup" && (
-              <div>
-                <label className="label" htmlFor="full_name">
-                  {labels.fullName}
-                </label>
-                <input className="input" id="full_name" name="full_name" required />
-              </div>
-            )}
-            <div>
-              <label className="label" htmlFor="auth-email">
-                {labels.email}
-              </label>
-              <input
-                className="input"
-                id="auth-email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-              />
-            </div>
-            <div>
-              <label className="label" htmlFor="auth-password">
-                {labels.password}
-              </label>
-              <input
-                className="input"
-                id="auth-password"
-                name="password"
-                type="password"
-                required
-                minLength={8}
-                autoComplete={authTab === "signup" ? "new-password" : "current-password"}
-              />
-            </div>
-            {authMessage && (
-              <p className="text-sm text-emergency">{authMessage}</p>
-            )}
-            <button type="submit" className="btn-primary" disabled={authStatus === "loading"}>
-              {authStatus === "loading"
-                ? labels.submitting
-                : authTab === "signup"
-                  ? labels.signupTab
-                  : labels.loginTab}
-            </button>
-          </form>
+          <a href={accesoPath} className="btn-primary inline-flex">
+            {labels.authCta}
+          </a>
         </div>
       ) : (
         <form onSubmit={handleCenterSubmit} className="card space-y-5">
@@ -336,6 +229,18 @@ export default function HelpCenterRegisterHub({
                 {labels.centerName}
               </label>
               <input className="input" id="hc-name" name="name" required />
+            </div>
+            <div className="sm:col-span-2">
+              <ImageUploadField
+                id="hc-photo"
+                name="image_url"
+                label={labels.photo}
+                hint={labels.photoHint}
+                folder="help-centers"
+                locale={locale}
+                value={imageUrl}
+                onChange={setImageUrl}
+              />
             </div>
             <div>
               <label className="label" htmlFor="hc-type">

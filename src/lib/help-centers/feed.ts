@@ -19,6 +19,7 @@ import {
 } from "@/data/centroacopio-local";
 import { centerMatchesZone } from "@/data/emergency-zones";
 import { normalizeSearchText } from "@/lib/damage-map/normalize";
+import { isPublicHelpCenter } from "@/lib/help-centers/public";
 
 const MEMORY_TTL_MS = 5 * 60 * 1000;
 
@@ -136,7 +137,7 @@ function matchesCenterQuery(center: HelpCenter, query: HelpCentersCatalogQuery):
     );
     if (!haystack.includes(needle)) return false;
   }
-  return center.is_active;
+  return isPublicHelpCenter(center);
 }
 
 function matchesDeliveryQuery(delivery: CentroacopioDeliveryView, query: HelpCentersCatalogQuery): boolean {

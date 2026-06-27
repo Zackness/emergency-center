@@ -20,6 +20,7 @@
     "roadmap": "Roadmap",
     "admin": "Admin",
     "menu": "Menu",
+    "language": "Language",
     "close": "Close"
   },
   "common": {
@@ -35,6 +36,7 @@
     "operational": "Operational",
     "limited": "Limited operation",
     "closed": "Closed",
+    "close": "Close",
     "unknown": "No information",
     "submit": "Submit",
     "loading": "Loading...",
@@ -250,6 +252,16 @@
       "hygiene": "Hygiene",
       "blankets": "Blankets"
     },
+    "staffNeeded": {
+      "medical": "Medical staff",
+      "nursing": "Nursing",
+      "drivers": "Drivers",
+      "logistics": "Logistics / warehouse",
+      "volunteers": "General volunteers",
+      "interpreters": "Interpreters",
+      "rescuers": "Rescue workers",
+      "coordinators": "Coordinators"
+    },
     "register": {
       "title": "Register collection center",
       "subtitle": "Publish your drop-off point or report one you know so more people can donate.",
@@ -273,6 +285,9 @@
       "loggedInAs": "Signed in as:",
       "thirdPartyNotice": "This listing will be pending community verification before showing as confirmed.",
       "centerName": "Collection center name",
+      "photo": "Center photo",
+      "photoHint": "Upload a photo of the front or collection area (JPG, PNG or WebP, max 5 MB).",
+      "photoRequired": "You must upload a center photo to continue.",
       "centerType": "Center type",
       "scheduleHint": "E.g. Mon-Sun 9:00 AM-5:00 PM",
       "address": "Exact address",
@@ -341,7 +356,36 @@
         "note": "Data syncs independently; always verify with the center before moving supplies."
       },
       "panelCta": "Coordinator panel",
-      "thirdPartyCta": "Report third-party center"
+      "thirdPartyCta": "Report third-party center",
+      "details": "View details",
+      "needsSummary": {
+        "criticalTitle": "Urgently needed",
+        "lowTitle": "Low stock",
+        "more": "and {count} more"
+      },
+      "detail": {
+        "title": "Center details",
+        "inventoryTitle": "Available inventory",
+        "invoicesTitle": "Purchase invoices",
+        "itemName": "Supply",
+        "category": "Category",
+        "stock": "Stock",
+        "minimumStock": "Minimum",
+        "needed": "Needed",
+        "urgent": "Urgent — out of stock",
+        "lowStock": "Low stock",
+        "inStock": "Available",
+        "emptyInventory": "This center has not published inventory yet.",
+        "emptyInvoices": "No invoices registered.",
+        "viewInvoice": "View invoice",
+        "loadError": "Could not load center details.",
+        "loading": "Loading inventory…",
+        "close": "Close",
+        "purchase": "Purchase",
+        "donation": "Donation",
+        "staffNeededTitle": "Staff needed",
+        "staffNeededEmpty": "Contact the center for more details."
+      }
     },
     "activeAcopio": {
       "title": "Active collection centers in Venezuela",
@@ -556,7 +600,7 @@
     },
     "registry": {
       "title": "Deduplicated unified registry",
-      "subtitle": "We consolidate records from Venezuela Te Busca, Encuéntralos and our own reports. Each person appears once with links to every source. National ID helps prevent duplicates.",
+      "subtitle": "We consolidate records from allied platforms that register missing persons (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela and Desaparecidos Terremoto). Each person appears once with links to every source. National ID helps prevent duplicates.",
       "sources": "Associated sources",
       "lastSeen": "Last known location",
       "nationalId": "National ID",
@@ -575,6 +619,11 @@
       "active": "Active",
       "down": "Down",
       "unverified": "Unverified"
+    },
+    "sourceRegistration": {
+      "official": "Official",
+      "community": "Community",
+      "form": "Backup form"
     },
     "verification": {
       "unverified": "Unverified",
@@ -596,7 +645,7 @@
       "lastSeenAt": "Approximate date and time",
       "description": "Description (clothing, distinguishing features, etc.)",
       "photo": "Photo (optional)",
-      "photoHint": "Stored on Bunny CDN under startupven-responde/missing-persons. Max 8 MB.",
+      "photoHint": "Stored in Supabase Storage. Max 8 MB.",
       "contactName": "Family contact name",
       "contactPhone": "Contact phone",
       "contactEmail": "Contact email (optional)",
@@ -883,8 +932,74 @@
     "signIn": "Sign in",
     "tabVolunteers": "Volunteers",
     "tabInventory": "Inventory",
+    "tabCenter": "My center",
+    "centerSettings": {
+      "title": "Center details",
+      "name": "Center name",
+      "description": "Description",
+      "state": "State",
+      "city": "City",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "schedule": "Schedule",
+      "accepts": "Accepts donations of",
+      "staffNeeded": "Staff needed",
+      "staffNeededNotes": "Other roles or details",
+      "staffNeededNotesPlaceholder": "E.g. 2 people for night shift, electrician…",
+      "save": "Save changes",
+      "saved": "Changes saved.",
+      "pendingVerification": "Pending verification by the team"
+    },
     "approve": "Approve",
     "deactivate": "Deactivate",
+    "addVolunteer": "Add volunteer",
+    "addVolunteerDialog": {
+      "title": "Add volunteer",
+      "subtitle": "Name, ID number, and phone.",
+      "name": "Full name",
+      "nationalId": "National ID",
+      "nationalIdPlaceholder": "E.g. V-12.345.678",
+      "phone": "Phone",
+      "submit": "Add",
+      "submitting": "Saving…",
+      "success": "Volunteer added.",
+      "error": "Could not add volunteer."
+    },
+    "volunteerTable": {
+      "contact": "Phone",
+      "status": "Status",
+      "actions": "Actions",
+      "empty": "No volunteers registered at this center yet."
+    },
+    "inventory": {
+      "search": "Search supply…",
+      "filterAll": "All categories",
+      "addToInventory": "Add to inventory",
+      "empty": "No supplies registered yet. Use «Add to inventory» to get started.",
+      "noResults": "No supplies match your search.",
+      "needed": "Needed",
+      "urgent": "Urgent",
+      "lowStock": "Low stock",
+      "addDialog": {
+        "title": "Add to inventory",
+        "subtitle": "Create a new supply or add quantity to an existing one.",
+        "modeNew": "Create supply",
+        "modeExisting": "Add to existing",
+        "modeNeed": "Register need",
+        "modeNeedHint": "Register a supply with quantity 0 to show it is urgently needed. It will appear in the public directory with an alert icon.",
+        "sourceDonation": "Donation",
+        "sourcePurchase": "Purchase",
+        "selectItem": "Supply",
+        "quantity": "Quantity to add",
+        "invoicePhoto": "Invoice photo",
+        "invoicePhotoHint": "Upload a photo or screenshot of the purchase invoice (JPG, PNG or WebP).",
+        "submit": "Record intake",
+        "submitting": "Saving…",
+        "success": "Inventory updated successfully.",
+        "error": "Could not record intake. Please try again."
+      }
+    },
     "addItem": "Add supply to inventory",
     "itemName": "Supply name",
     "category": "Category",
@@ -1278,6 +1393,98 @@
       "submitting": "Submitting...",
       "success": "Thank you! Your suggestion was recorded and we'll review it soon.",
       "error": "Could not submit. Please try again later."
+    }
+  },
+  "coordinatorPortal": {
+    "brand": "Coordinator portal",
+    "viewSite": "View public site",
+    "logout": "Sign out",
+    "signIn": "Sign in",
+    "nav": {
+      "label": "Portal navigation",
+      "panel": "My centers",
+      "register": "Register center"
+    },
+    "hub": {
+      "title": "Collection centers",
+      "subtitle": "Select a center to manage volunteers and inventory.",
+      "search": "Search centers…",
+      "newCenter": "New center",
+      "verified": "Verified",
+      "pending": "Pending",
+      "inactive": "Inactive",
+      "manage": "Manage",
+      "volunteers": "Volunteers",
+      "inventory": "Supplies"
+    },
+    "registerDialog": {
+      "title": "Register your collection center",
+      "subtitle": "Complete the form to add another center to your account.",
+      "mandatorySubtitle": "To use the portal you must register at least one collection center. This step is required.",
+      "logout": "Sign out and leave"
+    },
+    "manage": {
+      "back": "All centers",
+      "breadcrumb": "Collection centers"
+    },
+    "switcher": {
+      "allCenters": "My centers",
+      "search": "Search center…",
+      "verified": "Verified",
+      "pending": "Pending"
+    },
+    "centerNav": {
+      "label": "Center administration",
+      "settings": "Settings",
+      "volunteers": "Volunteers",
+      "inventory": "Inventory"
+    },
+    "errors": {
+      "loadFailed": "Could not load data. Check the database connection.",
+      "databaseUnavailable": "Could not connect to the database. Check DATABASE_URL in .env and that your Supabase project is active."
+    },
+    "acceso": {
+      "title": "Portal access",
+      "subtitle": "Sign in or create an account to manage your collection center.",
+      "loginTab": "Sign in",
+      "signupTab": "Create account",
+      "fullName": "Full name",
+      "password": "Password",
+      "authError": "Authentication could not be completed.",
+      "submitting": "Processing…",
+      "forgotPassword": "Forgot your password?",
+      "forgotSubtitle": "We'll email you a link to reset your password.",
+      "forgotSubmit": "Send link",
+      "forgotSent": "If the email is registered, you'll receive a link shortly.",
+      "backToLogin": "Back to sign in",
+      "registerCenterPrompt": "Don't have a center registered yet?",
+      "registerCenterLink": "Register collection center",
+      "goToPortal": "Go to sign in / register"
+    },
+    "otp": {
+      "title": "Verify your email",
+      "subtitle": "Enter the code we sent to {email}.",
+      "code": "Verification code",
+      "verify": "Verify",
+      "resend": "Resend code",
+      "resendSent": "Code resent.",
+      "invalid": "Invalid or expired code.",
+      "close": "Close",
+      "verifiedLogin": "Email verified. Sign in to continue."
+    },
+    "reset": {
+      "title": "Reset password",
+      "subtitle": "Choose a new password for your coordinator account.",
+      "password": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Save password",
+      "submitting": "Saving…",
+      "mismatch": "Passwords do not match.",
+      "success": "Password updated. You can sign in now.",
+      "loginLink": "Go to sign in",
+      "error": "Could not update password.",
+      "sessionRequired": "The link is invalid or expired. Request a new one.",
+      "requestLink": "Request new link"
     }
   }
 }

@@ -90,6 +90,26 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     sort_order: 3,
   },
   {
+    id: "mercado-libre",
+    slug: "mercado-libre",
+    name: "Mercado Libre Venezuela",
+    resources: ["food", "water", "medicine"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — tienda en línea y envíos Mercado Libre",
+      en: "Nationwide — online marketplace and Mercado Libre shipping",
+    },
+    description: {
+      es: "Habilitó el contenedor «Apoyo Venezuela» en su plataforma con publicaciones de insumos, alimentos, medicinas y artículos de primera necesidad para la emergencia sísmica. Consulta ofertas solidarias y vendedores que apoyan desde su tienda en Mercado Libre.",
+      en: "Launched the «Apoyo Venezuela» hub on its platform with listings for supplies, food, medicine and essential items for the earthquake emergency. Browse solidarity offers and sellers supporting from their store on Mercado Libre.",
+    },
+    website_url:
+      "https://listado.mercadolibre.com.ve/_Container_apoyo-venezuela-2",
+    is_verified: true,
+    sort_order: 3.5,
+  },
+  {
     id: "movistar",
     slug: "movistar",
     name: "Movistar Venezuela",

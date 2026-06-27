@@ -1,12 +1,20 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import AdminThemeInit from "@/components/admin/AdminThemeInit.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 import { createClient } from "@/lib/supabase/server";
 import { getProfileRole } from "@/lib/data";
+import "@/styles/global.css";
 
 const supabase = createClient({ request: Astro.request, cookies: Astro.cookies });
-const { data: { user } } = await supabase.auth.getUser();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+const error = Astro.url.searchParams.get("error");
+const next = Astro.url.searchParams.get("next") ?? "/admin";
 
 let isAdmin = false;
 if (user) {
@@ -14,57 +22,118 @@ if (user) {
   isAdmin = role === "admin";
 }
 
-const error = Astro.url.searchParams.get("error");
+const showLogin = !user || !isAdmin;
+const loginError =
+  error === "unauthorized"
+    ? "No tienes permisos de administrador."
+    : error;
 ---
 
-<BaseLayout locale="es" title="Admin" noEmergencyBar>
-  <section class="container-app py-16 max-w-lg mx-auto">
-    <div class="card">
-      <h1 class="text-2xl font-semibold text-ink mb-2">Emergency Center — Admin</h1>
-
-      {error && (
-        <div class="rounded-xl bg-emergency-muted text-emergency p-3 text-sm mb-4">
-          {error}
+{
+  showLogin ? (
+    <html lang="es">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Admin — Emergency Center</title>
+        <AdminThemeInit />
+      </head>
+      <body class="min-h-screen bg-surface text-ink flex items-center justify-center p-4">
+        <div class="absolute right-4 top-4">
+          <ThemeToggle locale="es" />
         </div>
-      )}
-
-      {!user ? (
-        <form method="POST" action="/api/auth/login" class="space-y-4">
-          <div>
-            <label class="label" for="email">Email</label>
-            <input class="input" type="email" id="email" name="email" required autocomplete="username" />
-          </div>
-          <div>
-            <label class="label" for="password">Contraseña</label>
-            <input class="input" type="password" id="password" name="password" required autocomplete="current-password" />
-          </div>
-          <button type="submit" class="btn-primary w-full">Iniciar sesión</button>
-          <p class="text-xs text-ink-muted text-center">
-            ¿Primera vez o olvidaste la clave? Usa recuperación de contraseña desde Supabase Auth o contacta al equipo técnico.
+        <div class="card w-full max-w-md">
+          <h1 class="text-2xl font-semibold text-ink mb-2">Emergency Center — Admin</h1>
+          {loginError && (
+            <div class="rounded-xl bg-emergency-muted text-emergency p-3 text-sm mb-4">
+              {loginError}
+            </div>
+          )}
+          {!user ? (
+            <form method="POST" action="/api/auth/login" class="space-y-4">
+              <input type="hidden" name="next" value={next} />
+              <div>
+                <label class="label" for="email">
+                  Email
+                </label>
+                <input
+                  class="input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  autocomplete="username"
+                />
+              </div>
+              <div>
+                <label class="label" for="password">
+                  Contraseña
+                </label>
+                <input
+                  class="input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  autocomplete="current-password"
+                />
+              </div>
+              <button type="submit" class="btn-primary w-full">
+                Iniciar sesión
+              </button>
+              <p class="text-center text-sm">
+                <a href="/admin/recuperar" class="text-accent hover:underline">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </p>
+            </form>
+          ) : (
+            <div>
+              <p class="text-sm text-ink-secondary mb-4">
+                La cuenta <strong>{user.email}</strong> no tiene permisos de administrador.
+              </p>
+              <form method="POST" action="/api/auth/logout">
+                <button type="submit" class="btn-secondary">Cerrar sesión</button>
+              </form>
+            </div>
+          )}
+          <p class="mt-4 text-xs text-ink-muted text-center">
+            ¿Coordinas un centro de acopio?{" "}
+            <a href="/centros-ayuda/acceso" class="text-accent hover:underline">
+              Portal de coordinadores
+            </a>
           </p>
-        </form>
-      ) : !isAdmin ? (
-        <div>
-          <p class="text-ink-secondary mb-4">No tienes permisos de administrador.</p>
-          <form method="POST" action="/api/auth/logout">
-            <button type="submit" class="btn-secondary">Cerrar sesión</button>
-          </form>
         </div>
-      ) : (
-        <div class="space-y-4">
-          <p class="text-sm text-ink-secondary">
-            Sesión activa: <strong>{user.email}</strong>
+      </body>
+    </html>
+  ) : (
+    <AdminLayout
+      title="Panel administrativo"
+      description="Gestiona la plataforma de emergencia: centros de acopio, aliados y coordinación."
+      current="dashboard"
+      userEmail={user!.email ?? ""}
+    >
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="/admin/centros-acopio" class="card-interactive block p-6">
+          <h2 class="text-lg font-semibold text-ink">Centros de acopio</h2>
+          <p class="mt-2 text-sm text-ink-secondary">
+            Verifica centros registrados, asigna coordinadores y controla su visibilidad.
           </p>
-          <div class="grid gap-2">
-            <a href="/es/centros-ayuda/panel" class="btn-secondary text-center">Panel centros de acopio</a>
-            <a href="/es/noticias" class="btn-secondary text-center">Gestionar noticias</a>
-            <a href="/es/danos" class="btn-secondary text-center">Ver mapa de daños</a>
-          </div>
-          <form method="POST" action="/api/auth/logout">
-            <button type="submit" class="btn-ghost text-emergency">Cerrar sesión</button>
-          </form>
-        </div>
-      )}
-    </div>
-  </section>
-</BaseLayout>
+        </a>
+        <a href="/admin/plataformas-aliadas" class="card-interactive block p-6">
+          <h2 class="text-lg font-semibold text-ink">Plataformas aliadas</h2>
+          <p class="mt-2 text-sm text-ink-secondary">
+            Registra y edita enlaces a iniciativas ciudadanas aliadas.
+          </p>
+        </a>
+        <a href="/centros-ayuda/panel" class="card-interactive block p-6">
+          <h2 class="text-lg font-semibold text-ink">Portal coordinadores</h2>
+          <p class="mt-2 text-sm text-ink-secondary">
+            Panel donde los dueños de centros gestionan voluntarios e inventario.
+          </p>
+        </a>
+      </div>
+    </AdminLayout>
+  )
+}

@@ -1,0 +1,63 @@
+---
+export const prerender = false;
+
+import AdminThemeInit from "@/components/admin/AdminThemeInit.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
+import { createClient } from "@/lib/supabase/server";
+import "@/styles/global.css";
+
+const supabase = createClient({ request: Astro.request, cookies: Astro.cookies });
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+const error = Astro.url.searchParams.get("error");
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Restablecer contraseña — Admin</title>
+    <AdminThemeInit />
+  </head>
+  <body class="min-h-screen bg-surface text-ink flex items-center justify-center p-4">
+    <div class="absolute right-4 top-4">
+      <ThemeToggle locale="es" />
+    </div>
+    {
+      !user ? (
+        <div class="card w-full max-w-md space-y-4">
+          <h1 class="text-2xl font-semibold text-ink">Restablecer contraseña</h1>
+          <p class="text-sm text-emergency">
+            {error
+              ? decodeURIComponent(error)
+              : "El enlace no es válido o expiró. Solicita uno nuevo desde la página de recuperación."}
+          </p>
+          <a href="/admin/recuperar" class="btn-primary inline-flex">
+            Solicitar nuevo enlace
+          </a>
+        </div>
+      ) : (
+        <ResetPasswordForm
+          client:load
+          loginPath="/admin"
+          labels={{
+            title: "Nueva contraseña",
+            subtitle: "Elige una contraseña segura para tu cuenta de administrador.",
+            password: "Nueva contraseña",
+            confirmPassword: "Confirmar contraseña",
+            submit: "Guardar contraseña",
+            submitting: "Guardando…",
+            mismatch: "Las contraseñas no coinciden.",
+            success: "Contraseña actualizada. Ya puedes iniciar sesión.",
+            loginLink: "Ir al inicio de sesión",
+            error: "No se pudo actualizar la contraseña.",
+          }}
+        />
+      )
+    }
+  </body>
+</html>

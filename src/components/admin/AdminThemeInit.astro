@@ -1,0 +1,22 @@
+<meta
+  name="theme-color"
+  content="#fafafa"
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content="#09090b"
+  media="(prefers-color-scheme: dark)"
+/>
+
+<script is:inline>
+  (() => {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored === "dark" || (!stored && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  })();
+</script>

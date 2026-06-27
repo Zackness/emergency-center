@@ -7,6 +7,7 @@ interface Props {
   url: string;
   registrationType: SourceRegistrationType;
   registrationTypeLabel: string;
+  registrationTypeDisplay?: string;
   approximateCount?: number | null;
   countPending?: number | null;
   countLocated?: number | null;
@@ -29,6 +30,7 @@ const {
   url,
   registrationType,
   registrationTypeLabel,
+  registrationTypeDisplay,
   approximateCount,
   countPending,
   countLocated,
@@ -77,7 +79,7 @@ const locale = Astro.url.pathname.startsWith("/en") ? "en" : "es";
       <dl class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
         <div>
           <dt class="text-ink-muted">{registrationTypeLabel}</dt>
-          <dd class="font-medium text-ink capitalize">{registrationType.replace("_", " ")}</dd>
+          <dd class="font-medium text-ink capitalize">{registrationTypeDisplay ?? registrationType.replace("_", " ")}</dd>
         </div>
         {approximateCount != null && countLabel && (
           <div>

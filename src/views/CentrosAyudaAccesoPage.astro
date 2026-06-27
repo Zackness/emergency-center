@@ -1,0 +1,61 @@
+---
+import CoordinatorLayout from "@/layouts/CoordinatorLayout.astro";
+import CoordinatorAuthPanel from "@/components/auth/CoordinatorAuthPanel";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
+import { resolvePostLoginPath } from "@/lib/auth-center";
+import { useTranslations } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t } = useTranslations(locale);
+
+const nextPath = resolvePostLoginPath(Astro.url, locale);
+const registerPath = localePath(locale, "centros-ayuda/registrar");
+
+const authLabels = {
+  portalTitle: t("coordinatorPortal.acceso.title"),
+  portalSubtitle: t("coordinatorPortal.acceso.subtitle"),
+  loginTab: t("coordinatorPortal.acceso.loginTab"),
+  signupTab: t("coordinatorPortal.acceso.signupTab"),
+  fullName: t("coordinatorPortal.acceso.fullName"),
+  email: t("common.email"),
+  password: t("coordinatorPortal.acceso.password"),
+  authError: t("coordinatorPortal.acceso.authError"),
+  submitting: t("coordinatorPortal.acceso.submitting"),
+  forgotPassword: t("coordinatorPortal.acceso.forgotPassword"),
+  forgotSubtitle: t("coordinatorPortal.acceso.forgotSubtitle"),
+  forgotSubmit: t("coordinatorPortal.acceso.forgotSubmit"),
+  forgotSent: t("coordinatorPortal.acceso.forgotSent"),
+  backToLogin: t("coordinatorPortal.acceso.backToLogin"),
+  registerCenterPrompt: t("coordinatorPortal.acceso.registerCenterPrompt"),
+  registerCenterLink: t("coordinatorPortal.acceso.registerCenterLink"),
+  otpTitle: t("coordinatorPortal.otp.title"),
+  otpSubtitle: t("coordinatorPortal.otp.subtitle"),
+  otpCode: t("coordinatorPortal.otp.code"),
+  otpVerify: t("coordinatorPortal.otp.verify"),
+  otpResend: t("coordinatorPortal.otp.resend"),
+  otpResendSent: t("coordinatorPortal.otp.resendSent"),
+  otpInvalid: t("coordinatorPortal.otp.invalid"),
+  otpClose: t("coordinatorPortal.otp.close"),
+  otpVerifiedLogin: t("coordinatorPortal.otp.verifiedLogin"),
+};
+---
+
+<CoordinatorLayout
+  locale={locale}
+  title={t("coordinatorPortal.acceso.title")}
+  description={t("coordinatorPortal.acceso.subtitle")}
+  current="acceso"
+>
+  <CoordinatorAuthPanel
+    client:load
+    locale={locale}
+    labels={authLabels}
+    nextPath={nextPath}
+    registerPath={registerPath}
+  />
+</CoordinatorLayout>

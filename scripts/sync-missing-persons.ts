@@ -1,15 +1,19 @@
 #!/usr/bin/env npx tsx
 /**
- * Importa registros de plataformas externas y los deduplica en la BD vía REST.
- * No requiere DATABASE_URL (puerto 6543); usa HTTPS como sync:hospitals.
+ * Importa registros de plataformas aliadas que registran desaparecidos (landing page).
  *
- * Fuentes con API pública:
- * - Venezuela Te Busca, Encuéntralos, Terremoto Venezuela App
- * - Venezuela Reporta (búsqueda por términos)
- * - Desaparecidos Terremoto (requiere reCAPTCHA en su API; puede fallar)
+ * Requiere en .env:
+ *   PUBLIC_SUPABASE_URL
+ *   SUPABASE_SECRET_KEY
+ *
+ * Si tu .env apunta a producción, el guard bloqueará hasta que confirmes:
+ *   CONFIRM_PRODUCTION_DB=1 npm run sync:missing
+ *
+ * Alternativa remota (sin escribir desde tu PC):
+ *   npm run sync:missing:remote
  *
  * Uso:
- *   npm run sync:missing              # sincroniza TODAS las páginas de cada fuente
+ *   npm run sync:missing
  *   npm run sync:missing -- --limit=500
  *   npm run sync:missing -- --source=venezuela-te-busca
  */
@@ -17,7 +21,28 @@ import {
   getMissingPersonsStatsRest,
   syncMissingPersonsRest,
 } from "@/lib/missing-persons/sync-rest";
+import { resolveMissingPersonSyncSlugsAsync } from "@/lib/missing-persons/sync-source-registry";
 import { assertSafeDatabaseTarget } from "@/lib/db-guard";
+
+function loadEnv() {
+  try {
+    (process as unknown as { loadEnvFile?: (path?: string) => void }).loadEnvFile?.(".env");
+  } catch {
+    /* ya cargado */
+  }
+}
+
+function assertSyncEnv() {
+  const missing: string[] = [];
+  if (!process.env.PUBLIC_SUPABASE_URL?.trim()) missing.push("PUBLIC_SUPABASE_URL");
+  if (!process.env.SUPABASE_SECRET_KEY?.trim()) missing.push("SUPABASE_SECRET_KEY");
+
+  if (missing.length) {
+    console.error("Faltan variables en .env:", missing.join(", "));
+    console.error("Copia .env.example y completa las claves de tu proyecto Supabase.");
+    process.exit(1);
+  }
+}
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -54,10 +79,20 @@ function parseArgs() {
 }
 
 async function main() {
+  loadEnv();
+  assertSyncEnv();
   assertSafeDatabaseTarget("sync:missing");
 
   const options = parseArgs();
+  const slugs = await resolveMissingPersonSyncSlugsAsync(options.sourceSlugs);
+
+  if (!slugs.length) {
+    console.error("No hay fuentes de sync configuradas. Revisa sync-source-registry.ts");
+    process.exit(1);
+  }
+
   console.log("Sincronizando desaparecidos (REST)…", options);
+  console.log("Fuentes aliadas de desaparecidos:", slugs.join(", "));
 
   const results = await syncMissingPersonsRest(options);
   const stats = await getMissingPersonsStatsRest();
@@ -81,6 +116,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(err);
+  console.error("\nSync falló:");
+  console.error(err instanceof Error ? err.message : err);
   process.exit(1);
 });

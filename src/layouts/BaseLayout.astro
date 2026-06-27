@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer.astro";
 import EmergencyBar from "@/components/layout/EmergencyBar.astro";
 import DevNoticeBar from "@/components/layout/DevNoticeBar.astro";
 import type { Locale } from "@/i18n/config";
+import { locales, localePath, ogLocaleTag } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { buildSearchIndex } from "@/lib/search";
 import type { SearchResultType } from "@/types/search";
@@ -70,13 +71,17 @@ const searchLabels = {
     <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content={locale === "es" ? "es_VE" : "en_US"} />
+    <meta property="og:locale" content={ogLocaleTag(locale)} />
 
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="alternate" hreflang="es" href={`${Astro.site}es/`} />
-    <link rel="alternate" hreflang="en" href={`${Astro.site}en/`} />
+    {
+      locales.map((loc) => (
+        <link rel="alternate" hreflang={loc} href={new URL(localePath(loc), Astro.site)} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath("es"), Astro.site)} />
 
     <title>{pageTitle}</title>
   </head>
@@ -93,6 +98,11 @@ const searchLabels = {
       <slot />
     </main>
     <Footer locale={locale} />
+    {
+      import.meta.env.PROD && (
+        <script is:inline defer src="/_vercel/insights/script.js" />
+      )
+    }
     <script is:inline define:vars={{ isProd: import.meta.env.PROD }}>
       if ("serviceWorker" in navigator) {
         if (isProd) {

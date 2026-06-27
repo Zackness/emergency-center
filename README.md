@@ -16,7 +16,7 @@ Los secretos (`DATABASE_URL`, `SUPABASE_SECRET_KEY`, etc.) viven solo en tu `.en
 **Quien clone el repo desde GitHub no puede modificar la base de datos de producción** sin esas credenciales. Además:
 
 - Las políticas RLS en Supabase **no permiten escrituras** con la clave anónima; solo lectura pública.
-- Los formularios (`POST /api/*`) escriben vía el servidor (Prisma) y están **desactivados por defecto** (`ALLOW_PUBLIC_WRITES=false`). Actívalos solo en el hosting de producción si quieres aceptar registros ciudadanos.
+- Los formularios ciudadanos (`POST /api/volunteers`, daños, noticias, etc.) requieren `ALLOW_PUBLIC_WRITES=true` en las variables de entorno del servidor. El **registro y login de coordinadores** de centros de acopio no depende de esa variable.
 - Los scripts `sync:*`, `admin:create` y `db:push` **bloquean escrituras** si `DATABASE_URL` apunta al proyecto de producción, salvo que exportes `CONFIRM_PRODUCTION_DB=1` de forma explícita.
 - Los archivos `supabase/seed_*.sql` son datos de referencia; **no los ejecutes contra producción** salvo que seas el operador del sitio.
 
@@ -122,7 +122,7 @@ supabase/migrations/  # RLS, triggers, realtime
 | `DIRECT_URL` | Sí | Conexión directa puerto **5432** (migraciones) |
 | `SUPABASE_SECRET_KEY` | Recomendada | Solo servidor; admin y scripts |
 | `SYNC_SECRET` | Recomendada | Protege `POST /api/*/sync` |
-| `ALLOW_PUBLIC_WRITES` | Opcional | `true` para habilitar formularios ciudadanos |
+| `ALLOW_PUBLIC_WRITES` | Sí (producción) | `true` para que los formularios ciudadanos guarden en la BD |
 | `PUBLIC_SITE_URL` | Opcional | Dominio final (`https://tu-dominio.com`). Si no está, usa `VERCEL_URL` |
 | `TERREMOTO_VZLA_SUPABASE_KEY` | Opcional | Mapa de daños externo |
 

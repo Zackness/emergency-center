@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 import type { SearchIndexItem, SearchResultType } from "@/types/search";
 import { groupResults, searchIndex } from "@/lib/search";
 
 const SEARCH_INDEX_SCRIPT_ID = "search-index-data";
 
 interface GlobalSearchProps {
-  locale: "es" | "en";
+  locale: Locale;
   index?: SearchIndexItem[];
   initialQuery?: string;
   labels: {
@@ -103,7 +105,7 @@ export default function GlobalSearch({
     e.preventDefault();
     const q = query.trim();
     if (!q) return;
-    window.location.href = `/${locale}/buscar?q=${encodeURIComponent(q)}`;
+    window.location.href = `${localePath(locale, "buscar")}?q=${encodeURIComponent(q)}`;
   }
 
   const showResults = query.trim().length >= 2;

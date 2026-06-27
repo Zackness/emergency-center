@@ -1,8 +1,11 @@
 import type { Locale } from "./config";
+import { localePath } from "./config";
 import es from "./locales/es.json";
 import en from "./locales/en.json";
+import pt from "./locales/pt.json";
+import it from "./locales/it.json";
 
-const dictionaries = { es, en } as const;
+const dictionaries = { es, en, pt, it } as const;
 
 export type TranslationKey = keyof typeof es;
 export type NestedKey<T> = T extends object
@@ -35,64 +38,64 @@ export function useTranslations(locale: Locale) {
 export function getNavItems(locale: Locale) {
   const { t } = useTranslations(locale);
   return [
-    { href: `/${locale}`, label: t("nav.home"), icon: "home" },
+    { href: localePath(locale), label: t("nav.home"), icon: "home" },
     {
-      href: `/${locale}/centros-ayuda`,
+      href: localePath(locale, "centros-ayuda"),
       label: t("nav.helpCenters"),
       icon: "map-pin",
     },
     {
-      href: `/${locale}/hospitales`,
+      href: localePath(locale, "hospitales"),
       label: t("nav.hospitals"),
       icon: "hospital",
     },
     {
-      href: `/${locale}/refugios`,
+      href: localePath(locale, "refugios"),
       label: t("nav.shelters"),
       icon: "tent",
     },
     {
-      href: `/${locale}/danos`,
+      href: localePath(locale, "danos"),
       label: t("nav.damage"),
       icon: "alert-triangle",
     },
     {
-      href: `/${locale}/organismos`,
+      href: localePath(locale, "organismos"),
       label: t("nav.agencies"),
       icon: "building",
     },
     {
-      href: `/${locale}/desaparecidos`,
+      href: localePath(locale, "desaparecidos"),
       label: t("nav.missing"),
       icon: "users",
     },
     {
-      href: `/${locale}/mascotas`,
+      href: localePath(locale, "mascotas"),
       label: t("nav.pets"),
       icon: "paw",
     },
     {
-      href: `/${locale}/noticias`,
+      href: localePath(locale, "noticias"),
       label: t("nav.news"),
       icon: "newspaper",
     },
     {
-      href: `/${locale}/voluntarios`,
+      href: localePath(locale, "voluntarios"),
       label: t("nav.volunteers"),
       icon: "heart-handshake",
     },
     {
-      href: `/${locale}/empresas`,
+      href: localePath(locale, "empresas"),
       label: t("nav.companies"),
       icon: "briefcase",
     },
     {
-      href: `/${locale}/recursos`,
+      href: localePath(locale, "recursos"),
       label: t("nav.resources"),
       icon: "book-open",
     },
     {
-      href: `/${locale}/roadmap`,
+      href: localePath(locale, "roadmap"),
       label: t("nav.roadmap"),
       icon: "sparkles",
     },

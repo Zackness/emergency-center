@@ -134,15 +134,24 @@ export function rejectIfPublicWritesDisabled(): Response | null {
   return jsonError("Public submissions are disabled", 503);
 }
 
+export function guardRequest(
+  request: Request,
+  options: RateLimitOptions & { maxBodyBytes?: number }
+): Response | null {
+  return (
+    rejectCrossOrigin(request) ||
+    rejectLargeRequest(request, options.maxBodyBytes ?? DEFAULT_JSON_BODY_LIMIT) ||
+    rateLimit(request, options)
+  );
+}
+
 export function guardPublicWrite(
   request: Request,
   options: RateLimitOptions & { maxBodyBytes?: number }
 ): Response | null {
   return (
     rejectIfPublicWritesDisabled() ||
-    rejectCrossOrigin(request) ||
-    rejectLargeRequest(request, options.maxBodyBytes ?? DEFAULT_JSON_BODY_LIMIT) ||
-    rateLimit(request, options)
+    guardRequest(request, options)
   );
 }
 

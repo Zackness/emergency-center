@@ -1,11 +1,11 @@
 import type { APIRoute } from "astro";
-import { AUTH_RATE_LIMIT, guardPublicWrite } from "@/lib/api-security";
+import { AUTH_RATE_LIMIT, guardRequest } from "@/lib/api-security";
 
 export const prerender = false;
 import { createClient } from "@/lib/supabase/server";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
-  const blocked = guardPublicWrite(request, {
+  const blocked = guardRequest(request, {
     namespace: "auth:login",
     ...AUTH_RATE_LIMIT,
     maxBodyBytes: 16 * 1024,

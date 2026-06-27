@@ -1,0 +1,29 @@
+---
+export const prerender = false;
+
+import CentrosAyudaPanelCenterPage from "@/views/CentrosAyudaPanelCenterPage.astro";
+import {
+  centerSectionPath,
+  DEFAULT_CENTER_SECTION,
+  isCenterSection,
+  resolveCenterManagePage,
+} from "@/lib/center-manage-page";
+
+const { id, section: sectionParam } = Astro.params;
+const ctx = await resolveCenterManagePage(Astro, "es", id);
+if (ctx.redirect) return ctx.redirect;
+
+if (!isCenterSection(sectionParam)) {
+  return Astro.redirect(centerSectionPath("es", ctx.centerId, DEFAULT_CENTER_SECTION));
+}
+
+const section = sectionParam;
+---
+
+<CentrosAyudaPanelCenterPage
+  locale="es"
+  centerId={ctx.centerId}
+  userEmail={ctx.user.email ?? ""}
+  centerName={ctx.centerName}
+  section={section}
+/>

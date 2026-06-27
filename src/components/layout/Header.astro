@@ -1,7 +1,7 @@
 ---
 import type { Locale } from "@/i18n/config";
+import { localePath, locales, localeCodes, switchLocalePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
-import { switchLocalePath } from "@/i18n/config";
 import { PROJECT_OWNER } from "@/data/credits";
 import {
   resolveSiteFootprints,
@@ -30,8 +30,6 @@ interface Props {
 
 const { locale, searchLabels } = Astro.props;
 const { t } = useTranslations(locale);
-const otherLocale = locale === "es" ? "en" : "es";
-const switchPath = switchLocalePath(Astro.url.pathname, otherLocale);
 const currentPath = Astro.url.pathname;
 
 const footprints = resolveSiteFootprints(locale, t);
@@ -47,7 +45,7 @@ const groupLabels: Record<FootprintGroupId, string> = {
 <header class="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-lg">
   <div class="container-app">
     <div class="flex h-16 min-w-0 items-center justify-between gap-2 sm:gap-4">
-      <a href={`/${locale}`} class="flex items-center gap-2.5 shrink-0 group">
+      <a href={localePath(locale)} class="flex items-center gap-2.5 shrink-0 group">
         <Logo size={36} class="transition-transform group-hover:scale-105" />
         <div class="hidden sm:block leading-tight">
           <span class="font-semibold text-ink">Emergency Center</span>
@@ -148,7 +146,7 @@ const groupLabels: Record<FootprintGroupId, string> = {
 
       <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <a
-          href={`/${locale}/buscar`}
+          href={localePath(locale, "buscar")}
           class="btn-ghost min-h-11 min-w-11 md:hidden"
           aria-label={t("search.title")}
         >
@@ -158,14 +156,39 @@ const groupLabels: Record<FootprintGroupId, string> = {
           </svg>
         </a>
         <ThemeToggle locale={locale} />
-        <a
-          href={switchPath}
-          class="btn-ghost text-xs font-medium uppercase"
-          aria-label={locale === "es" ? "Switch to English" : "Cambiar a español"}
-        >
-          {otherLocale}
-        </a>
-        <a href={`/${locale}/voluntarios`} class="btn-primary hidden sm:inline-flex text-xs">
+        <div class="relative group/lang">
+          <button
+            type="button"
+            class="btn-ghost text-xs font-medium uppercase gap-1"
+            aria-haspopup="true"
+            aria-label={t("nav.language")}
+          >
+            {localeCodes[locale]}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <div class="invisible absolute right-0 top-full z-50 min-w-[9rem] translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover/lang:visible group-hover/lang:translate-y-0 group-hover/lang:opacity-100 group-focus-within/lang:visible group-focus-within/lang:translate-y-0 group-focus-within/lang:opacity-100">
+            <div class="rounded-xl border border-border bg-surface-elevated p-1 shadow-elevated">
+              {
+                locales.map((loc) => (
+                  <a
+                    href={switchLocalePath(currentPath, loc)}
+                    hreflang={loc}
+                    class:list={[
+                      "block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-surface-muted",
+                      loc === locale ? "bg-accent-muted text-accent font-semibold" : "text-ink-secondary",
+                    ]}
+                    aria-current={loc === locale ? "true" : undefined}
+                  >
+                    {localeCodes[loc]}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <a href={localePath(locale, "voluntarios")} class="btn-primary hidden sm:inline-flex text-xs">
           {t("common.volunteer")}
         </a>
         <button

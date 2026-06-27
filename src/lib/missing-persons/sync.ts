@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@prisma/client";
 import { SEED_EXTERNAL_SOURCES } from "@/data/external-sources";
-import { getAdapter, SOURCE_ADAPTERS } from "@/lib/missing-persons/adapters";
+import { getAdapter } from "@/lib/missing-persons/adapters";
+import { resolveMissingPersonSyncSlugsAsync } from "@/lib/missing-persons/sync-source-registry";
 import {
   buildPersonIndex,
   findImportedMatch,
@@ -250,18 +251,10 @@ async function syncSource(
     if (batch.length < take) break;
   }
 
-  const uniqueCount = await prisma.missingPerson.count({
-    where: {
-      isActive: true,
-      verificationStatus: { notIn: ["found", "deceased"] },
-    },
-  });
-
   await prisma.externalSource.update({
     where: { id: source.id },
     data: {
       lastUpdatedAt: new Date(),
-      approximateCount: result.fetched > 0 ? uniqueCount : source.approximateCount,
     },
   });
 
@@ -274,10 +267,7 @@ export async function syncMissingPersons(
 ): Promise<SyncResult[]> {
   await ensureExternalSources(prisma);
 
-  const slugs =
-    options.sourceSlugs?.length
-      ? options.sourceSlugs
-      : SOURCE_ADAPTERS.map((a) => a.slug);
+  const slugs = await resolveMissingPersonSyncSlugsAsync(options.sourceSlugs);
 
   const index = await buildPersonIndex(prisma);
   const results: SyncResult[] = [];

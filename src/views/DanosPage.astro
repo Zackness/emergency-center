@@ -1,0 +1,59 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DamageMapHub from "@/components/damage/DamageMapHub";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { VENEZUELA_STATES } from "@/data/seed";
+import type { DamageSeverity } from "@/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t, dict } = useTranslations(locale);
+
+const severityLabels = Object.fromEntries(
+  (["collapsed", "damaged", "evacuated"] as DamageSeverity[]).map((key) => [
+    key,
+    t(`damage.severityLabels.${key}`),
+  ])
+) as Record<DamageSeverity, string>;
+
+const hubLabels = {
+  ...dict.damage.hub,
+  legend: t("damage.legend"),
+  listTitle: t("damage.listTitle"),
+  empty: t("damage.empty"),
+  source: t("damage.source"),
+  reportTitle: t("damage.reportTitle"),
+  reportSubtitle: t("damage.reportSubtitle"),
+};
+
+const priorityRescueLabels = dict.damage.priorityRescue;
+const engineersPlatformLabels = dict.damage.engineersPlatform;
+
+const formLabels = {
+  ...dict.damage.form,
+  submit: t("common.submit"),
+};
+
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+---
+
+<BaseLayout locale={locale} title={t("damage.title")}>
+  <div class="container-app py-10 md:py-14">
+    <DamageMapHub
+      client:only="react"
+      locale={locale}
+      labels={hubLabels}
+      severityLabels={severityLabels}
+      formLabels={formLabels}
+      states={VENEZUELA_STATES}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+      priorityRescueLabels={priorityRescueLabels}
+      engineersPlatformLabels={engineersPlatformLabels}
+    />
+  </div>
+</BaseLayout>

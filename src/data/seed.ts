@@ -19,6 +19,7 @@ import {
 import { CALIPSO_VOLUNTEER_LODGING } from "@/data/volunteer-lodging";
 import { VENEZUELA_HOSPITALS } from "@/data/hospitals-venezuela";
 import { CHANGAN_ACOPIO_CENTERS } from "@/data/changan-acopio";
+import { CARORA_ACOPIO_EXTRA_CENTERS } from "@/data/carora-acopio-extra";
 import { FOTON_ACOPIO_CENTERS } from "@/data/foton-acopio";
 import { RDELBUFALO_ACOPIO_CENTERS } from "@/data/rdelbufalo-acopio-activos";
 import { G3_LOGISTICA_ACOPIO_CENTERS } from "@/data/g3-logistica-acopio";
@@ -958,7 +959,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     schedule: "Desde las 10:00 a.m.",
     accepts: ["water", "food", "medicine", "hygiene", "clothing"],
     image_urls: [CARORA_ACOPIO_FLYER],
-    is_verified: false,
+    is_verified: true,
     is_active: true,
     created_at: "2026-06-26T00:00:00Z",
     updated_at: "2026-06-26T00:00:00Z",
@@ -970,7 +971,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     type: "community",
     state: "Lara",
     city: "Carora",
-    address: "Frente al grupo escolar Ramón Pompilio Oropeza, Carora",
+    address: "Av. Francisco de Miranda, frente al grupo escolar Ramón Pompilio Oropeza, Carora",
     latitude: 10.1725,
     longitude: -70.0605,
     phone: null,
@@ -978,7 +979,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     schedule: "Desde las 10:00 a.m.",
     accepts: ["water", "food", "medicine", "hygiene", "clothing"],
     image_urls: [CARORA_ACOPIO_FLYER],
-    is_verified: false,
+    is_verified: true,
     is_active: true,
     created_at: "2026-06-26T00:00:00Z",
     updated_at: "2026-06-26T00:00:00Z",
@@ -1025,6 +1026,7 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     created_at: "2026-06-26T00:00:00Z",
     updated_at: "2026-06-26T00:00:00Z",
   },
+  ...CARORA_ACOPIO_EXTRA_CENTERS,
   ...CHANGAN_ACOPIO_CENTERS,
   ...FOTON_ACOPIO_CENTERS,
   ...RDELBUFALO_ACOPIO_CENTERS,
@@ -1343,6 +1345,19 @@ export const SEED_EXTERNAL_LINKS: ExternalLink[] = [
     is_active: true,
     sort_order: 2,
     created_at: "2026-06-26T20:00:00Z",
+  },
+  {
+    id: "11",
+    title: "VZLA Ayuda",
+    description:
+      "Encuentra o brinda ayuda cerca de ti. Sin cuentas, al instante. Coordinación solidaria ante la emergencia.",
+    url: "https://vzlayuda.com",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 4,
+    created_at: "2026-06-26T21:00:00Z",
   },
 ];
 

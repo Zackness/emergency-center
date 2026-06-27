@@ -133,6 +133,13 @@ enum InventoryMovementType {
   @@map("inventory_movement_type")
 }
 
+enum InventoryInboundSource {
+  donation
+  purchase
+
+  @@map("inventory_inbound_source")
+}
+
 enum FeatureSuggestionStatus {
   pending
   reviewed
@@ -140,6 +147,14 @@ enum FeatureSuggestionStatus {
   rejected
 
   @@map("feature_suggestion_status")
+}
+
+enum AlliedPlatformColor {
+  blue
+  yellow
+  red
+
+  @@map("allied_platform_color")
 }
 
 enum NewsVoteVerdict {
@@ -183,6 +198,7 @@ model Profile {
   shelters       Shelter[]
   agencies       Agency[]
   externalLinks   ExternalLink[]
+  alliedPlatforms AlliedPlatform[]
   newsItems       NewsItem[]
   missingPersons  MissingPerson[]
   damageReports   DamageReport[]
@@ -208,6 +224,8 @@ model HelpCenter {
   email       String?
   schedule    String?
   accepts     String[]       @default([])
+  staffNeeded String[]       @default([]) @map("staff_needed")
+  staffNeededNotes String?   @map("staff_needed_notes")
   imageUrl    String?        @map("image_url")
   imageUrls   String[]       @default([]) @map("image_urls")
   isVerified  Boolean        @default(false) @map("is_verified")
@@ -349,6 +367,25 @@ model ExternalLink {
   @@map("external_links")
 }
 
+model AlliedPlatform {
+  id            String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  domain        String
+  url           String
+  descriptionEs String               @map("description_es")
+  descriptionEn String               @map("description_en")
+  color         AlliedPlatformColor  @default(blue)
+  sortOrder     Int                  @default(0) @map("sort_order")
+  isActive      Boolean              @default(true) @map("is_active")
+  createdById   String?              @map("created_by") @db.Uuid
+  createdAt     DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime             @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  createdBy Profile? @relation(fields: [createdById], references: [id])
+
+  @@index([isActive, sortOrder])
+  @@map("allied_platforms")
+}
+
 model NewsItem {
   id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title       String
@@ -398,6 +435,7 @@ model EmergencyNumber {
 model VolunteerRegistration {
   id           String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String
+  nationalId   String?                     @map("national_id")
   city         String
   state        String
   profession   String
@@ -418,6 +456,7 @@ model VolunteerRegistration {
 
   @@index([helpCenterId])
   @@index([status])
+  @@index([nationalId])
   @@map("volunteer_registrations")
 }
 
@@ -592,6 +631,8 @@ model InventoryMovement {
   donorName    String?               @map("donor_name")
   destination  String?
   notes        String?
+  sourceType   InventoryInboundSource? @map("source_type")
+  invoiceUrl   String?               @map("invoice_url")
   recordedById String?               @map("recorded_by") @db.Uuid
   createdAt    DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
 

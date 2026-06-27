@@ -1,5 +1,6 @@
 import { SEED_HELP_CENTERS } from "@/data/seed";
 import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 import type { HelpCenter } from "@/types";
 
 const PLACEHOLDER = "/images/help-centers/placeholder.svg";
@@ -19,5 +20,5 @@ export function resolveHelpCenterHref(
   const seed = SEED_HELP_CENTERS.find((c) => c.id === seedId);
   if (!seed) return undefined;
   const live = centers.find((c) => c.name === seed.name);
-  return `/${locale}/centros-ayuda#${live?.id ?? seedId}`;
+  return `${localePath(locale, "centros-ayuda")}#${live?.id ?? seedId}`;
 }

@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 import { SEED_EMERGENCY_NUMBERS } from "@/data/seed";
 import { getOfflineTools } from "@/data/offline-tools";
 import {
@@ -22,6 +23,7 @@ import {
   fetchNews,
   fetchShelters,
 } from "@/lib/data";
+import { fetchAlliedPlatforms } from "@/lib/allied-platforms/service";
 import type { SearchIndexItem, SearchResultType } from "@/types/search";
 
 function normalize(text: string): string {
@@ -116,6 +118,68 @@ const RESOURCE_GUIDES: Record<
       ],
     },
   ],
+  pt: [
+    {
+      phase: "before",
+      title: "Preparação para terremotos",
+      items: [
+        "zonas seguras",
+        "kit de emergência água comida remédios documentos",
+        "ponto de encontro familiar",
+        "rotas de evacuação",
+      ],
+    },
+    {
+      phase: "during",
+      title: "Durante um terremoto",
+      items: [
+        "abaixar cobrir segurar",
+        "não usar elevadores",
+        "afastar-se de fios elétricos",
+      ],
+    },
+    {
+      phase: "after",
+      title: "Depois do terremoto",
+      items: [
+        "feridos emergência 171",
+        "não reentrar em prédios danificados",
+        "máscara contra poeira",
+        "fontes oficiais VenApp",
+      ],
+    },
+  ],
+  it: [
+    {
+      phase: "before",
+      title: "Preparazione ai terremoti",
+      items: [
+        "zone sicure",
+        "kit di emergenza acqua cibo medicine documenti",
+        "punto di ritrovo familiare",
+        "percorsi di evacuazione",
+      ],
+    },
+    {
+      phase: "during",
+      title: "Durante un terremoto",
+      items: [
+        "abbassarsi coprirsi tenersi",
+        "non usare ascensori",
+        "allontanarsi da cavi elettrici",
+      ],
+    },
+    {
+      phase: "after",
+      title: "Dopo il terremoto",
+      items: [
+        "feriti emergenza 171",
+        "non rientrare in edifici danneggiati",
+        "mascherina antipolvere",
+        "fonti ufficiali VenApp",
+      ],
+    },
+  ],
 };
 
 const STATIC_PAGES: Record<
@@ -147,6 +211,13 @@ const STATIC_PAGES: Record<
       description:
         "Red nacional de centros de acopio y voluntarios de delivery gratuito. Registra o consulta puntos de ayuda en zonas afectadas.",
       keywords: "centroacopio acopio delivery gratis motorizado transporte donaciones unidos por venezuela",
+    },
+    {
+      href: "https://vzlayuda.com",
+      title: "VZLA Ayuda — encuentra o brinda ayuda",
+      description:
+        "Encuentra o brinda ayuda cerca de ti. Sin cuentas, al instante. Plataforma aliada de coordinación solidaria.",
+      keywords: "vzlayuda ayuda venezuela necesito ayuda quiero ayudar solidaridad emergencia terremoto",
     },
     {
       href: "/es/centros-ayuda#que-donar",
@@ -264,8 +335,16 @@ const STATIC_PAGES: Record<
     {
       href: "/es/empresas",
       title: "Empresas solidarias",
-      description: "Vamos App, Yummy, Farmatodo, Cáritas Venezuela, MOF y más organizaciones con transporte gratis, ayuda humanitaria o centros de acopio",
-      keywords: "empresa solidaria yummy farmatodo caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov",
+      description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Cáritas Venezuela, MOF y más organizaciones con transporte gratis, ayuda humanitaria o centros de acopio",
+      keywords: "empresa solidaria yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov",
+    },
+    {
+      href: "/es/empresas#mercado-libre",
+      title: "Mercado Libre — Apoyo Venezuela",
+      description:
+        "Contenedor en Mercado Libre con publicaciones de insumos, alimentos, medicinas y artículos de primera necesidad para la emergencia sísmica.",
+      keywords:
+        "mercado libre mercadolibre apoyo venezuela tienda en línea marketplace donaciones insumos alimentos medicinas emergencia terremoto",
     },
     {
       href: "/es/empresas#caritas-venezuela",
@@ -379,6 +458,13 @@ const STATIC_PAGES: Record<
       description:
         "National network of collection centers and free delivery volunteers. Register or look up aid points in affected areas.",
       keywords: "centroacopio collection center free delivery transport donations unidos por venezuela",
+    },
+    {
+      href: "https://vzlayuda.com",
+      title: "VZLA Ayuda — find or offer help",
+      description:
+        "Find or offer help near you. No accounts needed, instantly. Allied solidarity coordination platform.",
+      keywords: "vzlayuda venezuela help need help offer help solidarity emergency earthquake",
     },
     {
       href: "/en/centros-ayuda#que-donar",
@@ -496,8 +582,16 @@ const STATIC_PAGES: Record<
     {
       href: "/en/empresas",
       title: "Solidarity companies",
-      description: "Vamos App, Yummy, Farmatodo, Caritas Venezuela, MOF and more organizations with free transport, humanitarian aid or collection centers",
-      keywords: "solidarity company yummy farmatodo caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov",
+      description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Caritas Venezuela, MOF and more organizations with free transport, humanitarian aid or collection centers",
+      keywords: "solidarity company yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov",
+    },
+    {
+      href: "/en/empresas#mercado-libre",
+      title: "Mercado Libre — Apoyo Venezuela",
+      description:
+        "Mercado Libre hub with listings for supplies, food, medicine and essential items for the earthquake emergency.",
+      keywords:
+        "mercado libre mercadolibre apoyo venezuela online marketplace donations supplies food medicine emergency earthquake",
     },
     {
       href: "/en/empresas#caritas-venezuela",
@@ -588,8 +682,26 @@ const STATIC_PAGES: Record<
   ],
 };
 
+function normalizeStaticHref(locale: Locale, href: string): string {
+  if (/^https?:\/\//i.test(href)) return href;
+  const [pathPart, ...hashParts] = href.split("#");
+  const hash = hashParts.length ? `#${hashParts.join("#")}` : "";
+  const subpath = (pathPart ?? "")
+    .replace(/^\/(es|en|pt|it)(?=\/|$)/, "")
+    .replace(/^\//, "");
+  return `${localePath(locale, subpath)}${hash}`;
+}
+
+function getStaticPagesForLocale(locale: Locale) {
+  const source = locale === "es" ? STATIC_PAGES.es : STATIC_PAGES.en;
+  return source.map((page) => ({
+    ...page,
+    href: normalizeStaticHref(locale, page.href),
+  }));
+}
+
 export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[]> {
-  const prefix = `/${locale}`;
+  const prefix = localePath(locale).replace(/\/$/, "");
   const [
     helpCenters,
     hospitals,
@@ -602,6 +714,7 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     news,
     externalSources,
     missingPersons,
+    alliedPlatforms,
   ] = await Promise.all([
     fetchHelpCenters(),
     fetchHospitals(),
@@ -614,6 +727,7 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     fetchNews(),
     fetchExternalSources(),
     fetchMissingPersons(),
+    fetchAlliedPlatforms(),
   ]);
 
   const allExternalLinks = [...missingLinks, ...petLinks, ...toolLinks, ...officialLinks];
@@ -785,7 +899,7 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     );
   }
 
-  for (const [i, page] of STATIC_PAGES[locale].entries()) {
+  for (const [i, page] of getStaticPagesForLocale(locale).entries()) {
     index.push(
       item({
         id: `pg-${page.href}-${i}`,
@@ -1007,6 +1121,22 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
       extra: joinParts(VENEVISION_MISSING_LINE.phone, "venevision televisión whatsapp"),
     })
   );
+
+  for (const platform of alliedPlatforms) {
+    const description =
+      locale === "es" ? platform.description.es : platform.description.en;
+    index.push(
+      item({
+        id: `allied-${platform.domain.replace(/\./g, "-")}`,
+        type: "external_link",
+        title: platform.domain,
+        description,
+        href: platform.url,
+        extra: joinParts(platform.domain, description, "plataforma aliada allied platform"),
+        external: true,
+      })
+    );
+  }
 
   return index;
 }

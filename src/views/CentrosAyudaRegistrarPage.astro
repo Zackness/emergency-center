@@ -1,0 +1,84 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import HelpCenterRegisterHub from "@/components/forms/HelpCenterRegisterHub";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { resolvePanelPath } from "@/i18n/page-locale";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t, dict } = useTranslations(locale);
+const initialMode = Astro.url.searchParams.get("mode") === "third_party" ? "third_party" : "own";
+const panelPath = resolvePanelPath(locale, Astro.url.searchParams.get("next"));
+const accesoPath = localePath(locale, "centros-ayuda/acceso");
+const registerPath = localePath(locale, "centros-ayuda/registrar");
+const accesoWithNext = `${accesoPath}?next=${encodeURIComponent(registerPath)}`;
+
+const labels = {
+  modeOwnTitle: t("helpCenters.register.modeOwnTitle"),
+  modeOwnDesc: t("helpCenters.register.modeOwnDesc"),
+  modeThirdTitle: t("helpCenters.register.modeThirdTitle"),
+  modeThirdDesc: t("helpCenters.register.modeThirdDesc"),
+  modeOwnNotice: t("helpCenters.register.modeOwnNotice"),
+  authTitle: t("helpCenters.register.authTitle"),
+  authSubtitle: t("helpCenters.register.authSubtitle"),
+  authCta: t("coordinatorPortal.acceso.goToPortal"),
+  authRequired: t("helpCenters.register.authRequired"),
+  loggedInAs: t("helpCenters.register.loggedInAs"),
+  thirdPartyNotice: t("helpCenters.register.thirdPartyNotice"),
+  centerName: t("helpCenters.register.centerName"),
+  centerType: t("helpCenters.register.centerType"),
+  schedule: t("common.schedule"),
+  scheduleHint: t("helpCenters.register.scheduleHint"),
+  state: t("common.state"),
+  city: t("common.city"),
+  address: t("helpCenters.register.address"),
+  latitude: t("helpCenters.register.latitude"),
+  longitude: t("helpCenters.register.longitude"),
+  useLocation: t("helpCenters.register.useLocation"),
+  phone: t("common.phone"),
+  description: t("helpCenters.register.description"),
+  photo: t("helpCenters.register.photo"),
+  photoHint: t("helpCenters.register.photoHint"),
+  photoRequired: t("helpCenters.register.photoRequired"),
+  accepts: t("helpCenters.filters.accepts"),
+  reporterName: t("helpCenters.register.reporterName"),
+  reporterPhone: t("helpCenters.register.reporterPhone"),
+  consent: t("helpCenters.register.consent"),
+  submit: t("common.submit"),
+  submitting: t("helpCenters.register.submitting"),
+  successOwn: t("helpCenters.register.successOwn"),
+  successThirdParty: t("helpCenters.register.successThirdParty"),
+  submitError: t("helpCenters.register.submitError"),
+};
+
+const typeLabels = dict.helpCenters.types as Record<string, string>;
+const acceptLabels = dict.helpCenters.accepts as Record<string, string>;
+---
+
+<BaseLayout locale={locale} title={t("helpCenters.register.title")}>
+  <PageHeader
+    title={t("helpCenters.register.title")}
+    subtitle={t("helpCenters.register.subtitle")}
+    imageSrc="/images/headers/ayuda-comunitaria.svg"
+    imageAlt=""
+  >
+    <HelpCenterRegisterHub
+      client:load
+      locale={locale}
+      states={VENEZUELA_STATES}
+      labels={labels}
+      typeLabels={typeLabels}
+      acceptLabels={acceptLabels}
+      initialMode={initialMode}
+      panelPath={panelPath}
+      accesoPath={accesoWithNext}
+    />
+  </PageHeader>
+</BaseLayout>

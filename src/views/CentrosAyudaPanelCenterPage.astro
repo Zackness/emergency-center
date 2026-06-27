@@ -1,0 +1,167 @@
+---
+import CoordinatorLayout from "@/layouts/CoordinatorLayout.astro";
+import CenterManageView from "@/components/dashboard/CenterManageView";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import type { CenterSection } from "@/lib/center-manage-page";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+interface Props {
+  locale: Locale;
+  centerId: string;
+  userEmail: string;
+  centerName: string;
+  section: CenterSection;
+}
+
+const { locale, centerId, userEmail, centerName, section } = Astro.props;
+const { t, dict } = useTranslations(locale);
+const panelPath = localePath(locale, "centros-ayuda/panel");
+
+const sectionTitles: Record<CenterSection, string> = {
+  centro: t("coordinatorPortal.centerNav.settings"),
+  voluntarios: t("coordinatorPortal.centerNav.volunteers"),
+  inventario: t("coordinatorPortal.centerNav.inventory"),
+};
+
+const manageLabels = {
+  tabVolunteers: t("centerDashboard.tabVolunteers"),
+  tabInventory: t("centerDashboard.tabInventory"),
+  tabCenter: t("centerDashboard.tabCenter"),
+  centerSettings: {
+    title: t("centerDashboard.centerSettings.title"),
+    name: t("centerDashboard.centerSettings.name"),
+    description: t("centerDashboard.centerSettings.description"),
+    state: t("centerDashboard.centerSettings.state"),
+    city: t("centerDashboard.centerSettings.city"),
+    address: t("centerDashboard.centerSettings.address"),
+    phone: t("centerDashboard.centerSettings.phone"),
+    email: t("centerDashboard.centerSettings.email"),
+    schedule: t("centerDashboard.centerSettings.schedule"),
+    accepts: t("centerDashboard.centerSettings.accepts"),
+    staffNeeded: t("centerDashboard.centerSettings.staffNeeded"),
+    staffNeededNotes: t("centerDashboard.centerSettings.staffNeededNotes"),
+    staffNeededNotesPlaceholder: t("centerDashboard.centerSettings.staffNeededNotesPlaceholder"),
+    save: t("centerDashboard.centerSettings.save"),
+    loading: t("common.loading"),
+    saved: t("centerDashboard.centerSettings.saved"),
+    verified: t("common.verified"),
+    pendingVerification: t("centerDashboard.centerSettings.pendingVerification"),
+  },
+  pending: t("centerDashboard.status.pending"),
+  active: t("centerDashboard.status.active"),
+  inactive: t("centerDashboard.status.inactive"),
+  approve: t("centerDashboard.approve"),
+  deactivate: t("centerDashboard.deactivate"),
+  volunteersPending: t("centerDashboard.stats.pendingVolunteers"),
+  volunteersActive: t("centerDashboard.stats.activeVolunteers"),
+  itemsCount: t("centerDashboard.stats.items"),
+  lowStock: t("centerDashboard.stats.lowStock"),
+  addItem: t("centerDashboard.addItem"),
+  itemName: t("centerDashboard.itemName"),
+  category: t("centerDashboard.category"),
+  unit: t("centerDashboard.unit"),
+  quantity: t("centerDashboard.quantity"),
+  minimumStock: t("centerDashboard.minimumStock"),
+  recordInbound: t("centerDashboard.recordInbound"),
+  recordOutbound: t("centerDashboard.recordOutbound"),
+  donor: t("centerDashboard.donor"),
+  destination: t("centerDashboard.destination"),
+  notes: t("centerDashboard.notes"),
+  save: t("common.submit"),
+  loading: t("common.loading"),
+  loadFailed: t("coordinatorPortal.errors.loadFailed"),
+  addVolunteer: t("centerDashboard.addVolunteer"),
+  addVolunteerDialog: {
+    title: t("centerDashboard.addVolunteerDialog.title"),
+    subtitle: t("centerDashboard.addVolunteerDialog.subtitle"),
+    form: {
+      name: t("centerDashboard.addVolunteerDialog.name"),
+      nationalId: t("centerDashboard.addVolunteerDialog.nationalId"),
+      nationalIdPlaceholder: t("centerDashboard.addVolunteerDialog.nationalIdPlaceholder"),
+      phone: t("centerDashboard.addVolunteerDialog.phone"),
+      submit: t("centerDashboard.addVolunteerDialog.submit"),
+      submitting: t("centerDashboard.addVolunteerDialog.submitting"),
+      success: t("centerDashboard.addVolunteerDialog.success"),
+      error: t("centerDashboard.addVolunteerDialog.error"),
+      close: t("common.close"),
+    },
+  },
+  volunteerTable: {
+    name: t("volunteers.form.name"),
+    nationalId: t("centerDashboard.addVolunteerDialog.nationalId"),
+    contact: t("centerDashboard.volunteerTable.contact"),
+    status: t("centerDashboard.volunteerTable.status"),
+    actions: t("centerDashboard.volunteerTable.actions"),
+    empty: t("centerDashboard.volunteerTable.empty"),
+  },
+  inventory: {
+    search: t("centerDashboard.inventory.search"),
+    filterAll: t("centerDashboard.inventory.filterAll"),
+    addToInventory: t("centerDashboard.inventory.addToInventory"),
+    itemName: t("centerDashboard.itemName"),
+    category: t("centerDashboard.category"),
+    stock: t("centerDashboard.stock"),
+    minimumStock: t("centerDashboard.minimumStock"),
+    empty: t("centerDashboard.inventory.empty"),
+    noResults: t("centerDashboard.inventory.noResults"),
+    needed: t("centerDashboard.inventory.needed"),
+    urgent: t("centerDashboard.inventory.urgent"),
+    lowStock: t("centerDashboard.inventory.lowStock"),
+    addDialog: {
+      title: t("centerDashboard.inventory.addDialog.title"),
+      subtitle: t("centerDashboard.inventory.addDialog.subtitle"),
+      modeNew: t("centerDashboard.inventory.addDialog.modeNew"),
+      modeExisting: t("centerDashboard.inventory.addDialog.modeExisting"),
+      modeNeed: t("centerDashboard.inventory.addDialog.modeNeed"),
+      modeNeedHint: t("centerDashboard.inventory.addDialog.modeNeedHint"),
+      sourceDonation: t("centerDashboard.inventory.addDialog.sourceDonation"),
+      sourcePurchase: t("centerDashboard.inventory.addDialog.sourcePurchase"),
+      itemName: t("centerDashboard.itemName"),
+      category: t("centerDashboard.category"),
+      unit: t("centerDashboard.unit"),
+      minimumStock: t("centerDashboard.minimumStock"),
+      selectItem: t("centerDashboard.inventory.addDialog.selectItem"),
+      quantity: t("centerDashboard.inventory.addDialog.quantity"),
+      donor: t("centerDashboard.donor"),
+      invoicePhoto: t("centerDashboard.inventory.addDialog.invoicePhoto"),
+      invoicePhotoHint: t("centerDashboard.inventory.addDialog.invoicePhotoHint"),
+      notes: t("centerDashboard.notes"),
+      submit: t("centerDashboard.inventory.addDialog.submit"),
+      submitting: t("centerDashboard.inventory.addDialog.submitting"),
+      success: t("centerDashboard.inventory.addDialog.success"),
+      error: t("centerDashboard.inventory.addDialog.error"),
+      close: t("common.close"),
+      categories: dict.centerDashboard.categories as Record<string, string>,
+      units: dict.centerDashboard.units as Record<string, string>,
+    },
+    categories: dict.centerDashboard.categories as Record<string, string>,
+    units: dict.centerDashboard.units as Record<string, string>,
+  },
+  categories: dict.centerDashboard.categories as Record<string, string>,
+  units: dict.centerDashboard.units as Record<string, string>,
+  staffNeededLabels: dict.helpCenters.staffNeeded as Record<string, string>,
+};
+---
+
+<CoordinatorLayout
+  locale={locale}
+  title={sectionTitles[section]}
+  description={t("centerDashboard.subtitle")}
+  mode="center"
+  centerId={centerId}
+  centerName={centerName}
+  centerSection={section}
+  userEmail={userEmail}
+>
+  <CenterManageView
+    client:load
+    centerId={centerId}
+    locale={locale}
+    section={section}
+    labels={manageLabels}
+    states={VENEZUELA_STATES}
+    backHref={panelPath}
+  />
+</CoordinatorLayout>

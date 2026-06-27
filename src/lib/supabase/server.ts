@@ -1,5 +1,6 @@
 import { createServerClient, parseCookieHeader, type CookieOptions } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
+import ws from "ws";
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
@@ -23,6 +24,9 @@ export function createClient({
             cookies.set(name, value, options)
           );
         },
+      },
+      realtime: {
+        transport: ws,
       },
     }
   );

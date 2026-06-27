@@ -11,11 +11,16 @@ export default defineConfig({
   site,
   output: "static",
   adapter: vercel(),
+  trailingSlash: "never",
   integrations: [react(), tailwind({ applyBaseStyles: false })],
+  redirects: {
+    "/es": "/",
+    "/es/:path*": "/:path*",
+  },
   vite: {
     ssr: {
       noExternal: ["react-leaflet"],
-      external: ["@prisma/client", ".prisma/client"],
+      external: ["@prisma/client", ".prisma/client", "ws"],
     },
   },
 });

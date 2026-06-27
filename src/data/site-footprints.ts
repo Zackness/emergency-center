@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 
 export type FootprintGroupId = "help" | "people" | "participate" | "info";
 
@@ -145,7 +146,7 @@ export function resolveSiteFootprints(
   t: (key: string) => string
 ): ResolvedSiteFootprint[] {
   return SITE_FOOTPRINTS.map((def) => ({
-    href: def.path ? `/${locale}${def.path}` : `/${locale}`,
+    href: localePath(locale, def.path.replace(/^\//, "")),
     title: t(def.titleKey),
     description: t(def.descKey),
     icon: def.icon,

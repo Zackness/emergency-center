@@ -15,10 +15,13 @@ if (import.meta.env.DEV) {
 }
 
 export function isDatabaseConfigured(): boolean {
-  const url = import.meta.env.DATABASE_URL;
+  const url =
+    (typeof process !== "undefined" ? process.env.DATABASE_URL : undefined) ??
+    import.meta.env.DATABASE_URL;
   return Boolean(
     url &&
       !url.includes("your-password") &&
-      !url.includes("[YOUR-PASSWORD]")
+      !url.includes("[YOUR-PASSWORD]") &&
+      !url.includes("[PASSWORD]")
   );
 }

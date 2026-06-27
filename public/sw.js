@@ -1,5 +1,5 @@
 const CACHE_NAME = "emergency-center-v2";
-const PRECACHE = ["/es", "/en", "/manifest.json", "/favicon.svg"];
+const PRECACHE = ["/", "/en", "/manifest.json", "/favicon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

@@ -20,6 +20,7 @@
     "roadmap": "Roadmap",
     "admin": "Admin",
     "menu": "Menú",
+    "language": "Idioma",
     "close": "Cerrar"
   },
   "common": {
@@ -35,6 +36,7 @@
     "operational": "Operativo",
     "limited": "Operación limitada",
     "closed": "Cerrado",
+    "close": "Cerrar",
     "unknown": "Sin información",
     "submit": "Enviar",
     "loading": "Cargando...",
@@ -250,6 +252,16 @@
       "hygiene": "Higiene",
       "blankets": "Mantas"
     },
+    "staffNeeded": {
+      "medical": "Personal médico",
+      "nursing": "Enfermería",
+      "drivers": "Conductores",
+      "logistics": "Logística / bodega",
+      "volunteers": "Voluntarios generales",
+      "interpreters": "Intérpretes",
+      "rescuers": "Rescatistas",
+      "coordinators": "Coordinadores"
+    },
     "register": {
       "title": "Registrar centro de acopio",
       "subtitle": "Publica tu punto de recolección o reporta uno que conozcas para que más personas puedan donar.",
@@ -273,6 +285,9 @@
       "loggedInAs": "Sesión activa:",
       "thirdPartyNotice": "Este registro quedará pendiente de verificación comunitaria antes de mostrarse como confirmado.",
       "centerName": "Nombre del centro de acopio",
+      "photo": "Foto del centro",
+      "photoHint": "Sube una foto del frente o del espacio de acopio (JPG, PNG o WebP, máx. 5 MB).",
+      "photoRequired": "Debes subir una foto del centro para continuar.",
       "centerType": "Tipo de centro",
       "scheduleHint": "Ej. Lun-Dom 9:00-17:00",
       "address": "Dirección exacta",
@@ -341,7 +356,36 @@
         "note": "Los datos se sincronizan de forma independiente; verifica siempre con el centro antes de trasladar insumos."
       },
       "panelCta": "Panel de coordinador",
-      "thirdPartyCta": "Reportar de terceros"
+      "thirdPartyCta": "Reportar de terceros",
+      "details": "Ver detalles",
+      "needsSummary": {
+        "criticalTitle": "Se necesita con urgencia",
+        "lowTitle": "Bajo stock",
+        "more": "y {count} más"
+      },
+      "detail": {
+        "title": "Detalle del centro",
+        "inventoryTitle": "Inventario disponible",
+        "invoicesTitle": "Facturas de compra",
+        "itemName": "Insumo",
+        "category": "Categoría",
+        "stock": "Stock",
+        "minimumStock": "Mínimo",
+        "needed": "Se necesita",
+        "urgent": "Urgente — sin stock",
+        "lowStock": "Bajo stock",
+        "inStock": "Disponible",
+        "emptyInventory": "Este centro aún no publicó su inventario.",
+        "emptyInvoices": "No hay facturas registradas.",
+        "viewInvoice": "Ver factura",
+        "loadError": "No se pudo cargar el detalle del centro.",
+        "loading": "Cargando inventario…",
+        "close": "Cerrar",
+        "purchase": "Compra",
+        "donation": "Donación",
+        "staffNeededTitle": "Personal que hace falta",
+        "staffNeededEmpty": "Consulta con el centro para más detalles."
+      }
     },
     "activeAcopio": {
       "title": "Centros de acopio activos en Venezuela",
@@ -556,7 +600,7 @@
     },
     "registry": {
       "title": "Registro unificado sin duplicados",
-      "subtitle": "Consolidamos registros de Venezuela Te Busca, Encuéntralos y reportes propios. La misma persona aparece una sola vez con enlaces a cada fuente. La cédula de identidad ayuda a evitar duplicados.",
+      "subtitle": "Consolidamos registros de las plataformas aliadas que registran desaparecidos (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela y Desaparecidos Terremoto). La misma persona aparece una sola vez con enlaces a cada fuente. La cédula de identidad ayuda a evitar duplicados.",
       "sources": "Fuentes asociadas",
       "lastSeen": "Última ubicación conocida",
       "nationalId": "Cédula de identidad",
@@ -575,6 +619,11 @@
       "active": "Activo",
       "down": "Caído",
       "unverified": "Sin verificar"
+    },
+    "sourceRegistration": {
+      "official": "Oficial",
+      "community": "Comunitaria",
+      "form": "Formulario de respaldo"
     },
     "verification": {
       "unverified": "No verificado",
@@ -596,7 +645,7 @@
       "lastSeenAt": "Fecha y hora aproximada",
       "description": "Descripción (ropa, señas particulares, etc.)",
       "photo": "Fotografía (opcional)",
-      "photoHint": "Se almacena en Bunny CDN bajo startupven-responde/missing-persons. Máx. 8 MB.",
+      "photoHint": "Se almacena en Supabase Storage. Máx. 8 MB.",
       "contactName": "Nombre del contacto familiar",
       "contactPhone": "Teléfono de contacto",
       "contactEmail": "Correo de contacto (opcional)",
@@ -883,8 +932,74 @@
     "signIn": "Iniciar sesión",
     "tabVolunteers": "Voluntarios",
     "tabInventory": "Inventario",
+    "tabCenter": "Mi centro",
+    "centerSettings": {
+      "title": "Datos del centro",
+      "name": "Nombre del centro",
+      "description": "Descripción",
+      "state": "Estado",
+      "city": "Ciudad",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "email": "Correo",
+      "schedule": "Horario",
+      "accepts": "Acepta donaciones de",
+      "staffNeeded": "Personal que hace falta",
+      "staffNeededNotes": "Otros roles o detalles",
+      "staffNeededNotesPlaceholder": "Ej: 2 personas para turno nocturno, electricista…",
+      "save": "Guardar cambios",
+      "saved": "Cambios guardados.",
+      "pendingVerification": "Pendiente de verificación por el equipo"
+    },
     "approve": "Aprobar",
     "deactivate": "Desactivar",
+    "addVolunteer": "Agregar voluntario",
+    "addVolunteerDialog": {
+      "title": "Agregar voluntario",
+      "subtitle": "Nombre, cédula y teléfono.",
+      "name": "Nombre completo",
+      "nationalId": "Cédula de identidad",
+      "nationalIdPlaceholder": "Ej: V-12.345.678",
+      "phone": "Teléfono",
+      "submit": "Agregar",
+      "submitting": "Guardando…",
+      "success": "Voluntario agregado.",
+      "error": "No se pudo agregar el voluntario."
+    },
+    "volunteerTable": {
+      "contact": "Teléfono",
+      "status": "Estado",
+      "actions": "Acciones",
+      "empty": "Aún no hay voluntarios registrados en este centro."
+    },
+    "inventory": {
+      "search": "Buscar insumo…",
+      "filterAll": "Todas las categorías",
+      "addToInventory": "Agregar al inventario",
+      "empty": "No hay insumos registrados. Usa «Agregar al inventario» para empezar.",
+      "noResults": "Ningún insumo coincide con la búsqueda.",
+      "needed": "Se necesita",
+      "urgent": "Urgente",
+      "lowStock": "Bajo stock",
+      "addDialog": {
+        "title": "Agregar al inventario",
+        "subtitle": "Crea un insumo nuevo o suma cantidad a uno existente.",
+        "modeNew": "Crear insumo",
+        "modeExisting": "Agregar a existente",
+        "modeNeed": "Registrar necesidad",
+        "modeNeedHint": "Registra un insumo con cantidad 0 para indicar que se necesita con urgencia. Aparecerá en el directorio público con un icono de alerta.",
+        "sourceDonation": "Donación",
+        "sourcePurchase": "Compra",
+        "selectItem": "Insumo",
+        "quantity": "Cantidad a agregar",
+        "invoicePhoto": "Foto de la factura",
+        "invoicePhotoHint": "Sube una foto o captura de la factura de compra (JPG, PNG o WebP).",
+        "submit": "Registrar entrada",
+        "submitting": "Guardando…",
+        "success": "Inventario actualizado correctamente.",
+        "error": "No se pudo registrar la entrada. Intenta de nuevo."
+      }
+    },
     "addItem": "Agregar insumo al inventario",
     "itemName": "Nombre del insumo",
     "category": "Categoría",
@@ -1278,6 +1393,98 @@
       "submitting": "Enviando...",
       "success": "¡Gracias! Tu sugerencia fue registrada y la revisaremos pronto.",
       "error": "No se pudo enviar. Intenta de nuevo más tarde."
+    }
+  },
+  "coordinatorPortal": {
+    "brand": "Portal de coordinadores",
+    "viewSite": "Ver sitio público",
+    "logout": "Cerrar sesión",
+    "signIn": "Iniciar sesión",
+    "nav": {
+      "label": "Navegación del portal",
+      "panel": "Mis centros",
+      "register": "Registrar centro"
+    },
+    "hub": {
+      "title": "Centros de acopio",
+      "subtitle": "Selecciona un centro para administrar voluntarios e inventario.",
+      "search": "Buscar centro…",
+      "newCenter": "Nuevo centro",
+      "verified": "Verificado",
+      "pending": "Pendiente",
+      "inactive": "Inactivo",
+      "manage": "Administrar",
+      "volunteers": "Voluntarios",
+      "inventory": "Insumos"
+    },
+    "registerDialog": {
+      "title": "Registra tu centro de acopio",
+      "subtitle": "Completa los datos para añadir otro centro a tu cuenta.",
+      "mandatorySubtitle": "Para usar el portal debes registrar al menos un centro de acopio. Este paso es obligatorio.",
+      "logout": "Cerrar sesión y salir"
+    },
+    "manage": {
+      "back": "Todos los centros",
+      "breadcrumb": "Centros de acopio"
+    },
+    "switcher": {
+      "allCenters": "Mis centros",
+      "search": "Buscar centro…",
+      "verified": "Verificado",
+      "pending": "Pendiente"
+    },
+    "centerNav": {
+      "label": "Administración del centro",
+      "settings": "Configuración",
+      "volunteers": "Voluntarios",
+      "inventory": "Inventario"
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los datos. Verifica la conexión a la base de datos.",
+      "databaseUnavailable": "No se pudo conectar con la base de datos. Revisa DATABASE_URL en .env y que el proyecto Supabase esté activo."
+    },
+    "acceso": {
+      "title": "Acceso al portal",
+      "subtitle": "Inicia sesión o crea una cuenta para gestionar tu centro de acopio.",
+      "loginTab": "Iniciar sesión",
+      "signupTab": "Crear cuenta",
+      "fullName": "Nombre completo",
+      "password": "Contraseña",
+      "authError": "No se pudo completar la autenticación.",
+      "submitting": "Procesando…",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "forgotSubtitle": "Te enviaremos un enlace a tu correo para restablecer la contraseña.",
+      "forgotSubmit": "Enviar enlace",
+      "forgotSent": "Si el correo está registrado, recibirás un enlace en unos minutos.",
+      "backToLogin": "Volver al inicio de sesión",
+      "registerCenterPrompt": "¿Aún no tienes centro registrado?",
+      "registerCenterLink": "Registrar centro de acopio",
+      "goToPortal": "Ir a acceso / registro"
+    },
+    "otp": {
+      "title": "Verifica tu correo",
+      "subtitle": "Ingresa el código que enviamos a {email}.",
+      "code": "Código de verificación",
+      "verify": "Verificar",
+      "resend": "Reenviar código",
+      "resendSent": "Código reenviado.",
+      "invalid": "Código inválido o expirado.",
+      "close": "Cerrar",
+      "verifiedLogin": "Correo verificado. Inicia sesión para continuar."
+    },
+    "reset": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Elige una nueva contraseña para tu cuenta de coordinador.",
+      "password": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Guardar contraseña",
+      "submitting": "Guardando…",
+      "mismatch": "Las contraseñas no coinciden.",
+      "success": "Contraseña actualizada. Ya puedes iniciar sesión.",
+      "loginLink": "Ir al inicio de sesión",
+      "error": "No se pudo actualizar la contraseña.",
+      "sessionRequired": "El enlace no es válido o expiró. Solicita uno nuevo.",
+      "requestLink": "Solicitar nuevo enlace"
     }
   }
 }

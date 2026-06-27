@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { requireCenterAccess } from "@/lib/auth-center";
 import { createInventoryItem, listInventoryItems } from "@/lib/center-dashboard";
+import { databaseErrorResponse } from "@/lib/db-errors";
 
 export const prerender = false;
 
@@ -18,11 +19,15 @@ export const GET: APIRoute = async ({ params, request, cookies }) => {
     });
   }
 
-  const items = await listInventoryItems(helpCenterId);
-  return new Response(JSON.stringify({ items }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const items = await listInventoryItems(helpCenterId);
+    return new Response(JSON.stringify({ items }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return databaseErrorResponse(error);
+  }
 };
 
 export const POST: APIRoute = async ({ params, request, cookies }) => {
@@ -48,18 +53,22 @@ export const POST: APIRoute = async ({ params, request, cookies }) => {
     });
   }
 
-  const item = await createInventoryItem({
-    helpCenterId,
-    name: String(name),
-    category: String(category),
-    unit: unit ? String(unit) : "unidad",
-    quantityOnHand: quantityOnHand != null ? Number(quantityOnHand) : 0,
-    minimumStock: minimumStock != null ? Number(minimumStock) : null,
-    notes: notes ?? null,
-  });
+  try {
+    const item = await createInventoryItem({
+      helpCenterId,
+      name: String(name),
+      category: String(category),
+      unit: unit ? String(unit) : "unidad",
+      quantityOnHand: quantityOnHand != null ? Number(quantityOnHand) : 0,
+      minimumStock: minimumStock != null ? Number(minimumStock) : null,
+      notes: notes ?? null,
+    });
 
-  return new Response(JSON.stringify({ item }), {
-    status: 201,
-    headers: { "Content-Type": "application/json" },
-  });
+    return new Response(JSON.stringify({ item }), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return databaseErrorResponse(error);
+  }
 };

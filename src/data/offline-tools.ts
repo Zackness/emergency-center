@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+
 export interface OfflineTool {
   id: string;
   slug: string;
@@ -84,6 +86,7 @@ export const OFFLINE_TOOLS_EN: OfflineTool[] = [
   },
 ];
 
-export function getOfflineTools(locale: "es" | "en"): OfflineTool[] {
-  return locale === "en" ? OFFLINE_TOOLS_EN : OFFLINE_TOOLS;
+export function getOfflineTools(locale: Locale): OfflineTool[] {
+  if (locale === "es") return OFFLINE_TOOLS;
+  return OFFLINE_TOOLS_EN;
 }

@@ -1,5 +1,6 @@
 import { SEED_EXTERNAL_SOURCES } from "@/data/external-sources";
-import { getAdapter, SOURCE_ADAPTERS } from "@/lib/missing-persons/adapters";
+import { getAdapter } from "@/lib/missing-persons/adapters";
+import { resolveMissingPersonSyncSlugsAsync } from "@/lib/missing-persons/sync-source-registry";
 import {
   findImportedMatch,
   registerImportedRecord,
@@ -402,17 +403,8 @@ async function syncSourceRest(
     if (batch.length < take) break;
   }
 
-  const activePersons = await restSelectAll<{ id: string }>(
-    admin,
-    "missing_persons",
-    "id",
-    1000,
-    "is_active=eq.true&verification_status=not.in.(found,deceased)"
-  );
-
   await restPatch(admin, "external_sources", `id=eq.${source.id}`, {
     last_updated_at: new Date().toISOString(),
-    ...(result.fetched > 0 ? { approximate_count: activePersons.length } : {}),
   });
 
   return result;
@@ -424,8 +416,7 @@ export async function syncMissingPersonsRest(
   const admin = getSupabaseRestAdmin();
   await ensureExternalSourcesRest(admin);
 
-  const slugs =
-    options.sourceSlugs?.length ? options.sourceSlugs : SOURCE_ADAPTERS.map((a) => a.slug);
+  const slugs = await resolveMissingPersonSyncSlugsAsync(options.sourceSlugs);
 
   const index = await buildPersonIndexRest(admin);
   const results: SyncResult[] = [];

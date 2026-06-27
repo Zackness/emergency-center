@@ -1,119 +1,16 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import PageHeader from "@/components/ui/PageHeader.astro";
-import DonationNeedsList from "@/components/ui/DonationNeedsList.astro";
-import HelpCenterHub from "@/components/help-centers/HelpCenterHub";
-import { isValidLocale, type Locale } from "@/i18n/config";
-import { useTranslations } from "@/i18n/utils";
-import { fetchHelpCenters } from "@/lib/data";
-import { getHelpCenterImages } from "@/lib/help-centers";
+import CentrosAyudaPage from "@/views/CentrosAyudaPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+  return secondaryLocaleStaticPaths();
 }
 
-const { lang } = Astro.params;
-if (!isValidLocale(lang)) return Astro.redirect("/es/centros-ayuda");
-
-const locale = lang as Locale;
-const { t, dict } = useTranslations(locale);
-const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
-const centers = await fetchHelpCenters();
-
-const centerViews = centers.map((center) => ({
-  ...center,
-  images: getHelpCenterImages(center),
-}));
-
-const hub = dict.helpCenters.hub;
-
-const hubLabels = {
-  hashtag: hub.hashtag,
-  criticalTitle: hub.criticalTitle,
-  criticalBody: hub.criticalBody,
-  portals: hub.portals,
-  zonesTitle: hub.zonesTitle,
-  directoryTitle: hub.directoryTitle,
-  directorySubtitle: hub.directorySubtitle,
-  tabs: hub.tabs,
-  filterCity: hub.filterCity,
-  filterSector: hub.filterSector,
-  allCities: hub.allCities,
-  allSectors: hub.allSectors,
-  searchSector: hub.searchSector,
-  clearFilters: hub.clearFilters,
-  noResults: hub.noResults,
-  showing: hub.showing,
-  of: hub.of,
-  verified: hub.verified,
-  phone: t("common.phone"),
-  schedule: t("common.schedule"),
-  directions: t("common.directions"),
-  deliveryTabIntro: hub.deliveryTabIntro,
-  deliveryTransportCta: hub.deliveryTransportCta,
-  deliveryRegisterCta: hub.deliveryRegisterCta,
-  alliedPlatform: hub.alliedPlatform,
-  panelCta: hub.panelCta,
-  thirdPartyCta: hub.thirdPartyCta,
-  logisticsBadge: dict.helpCenters.logistics.badge,
-  logisticsTitle: dict.helpCenters.logistics.title,
-  logisticsDescription: dict.helpCenters.logistics.description,
-  logisticsFree: dict.helpCenters.logistics.free,
-  centroacopioBadge: hub.centroacopioBadge,
-  deliveryNoResults: hub.deliveryNoResults,
-  deliveryVehicle: hub.deliveryVehicle,
-  deliveryCoverage: hub.deliveryCoverage,
-  activeAcopio: dict.helpCenters.activeAcopio,
-  g3Caritas: dict.helpCenters.g3Caritas,
-};
-
-const typeLabels = Object.fromEntries(
-  (["church", "community", "university", "government", "ngo"] as const).map((key) => [
-    key,
-    t(`helpCenters.types.${key}`),
-  ]),
-);
-
-const acceptLabels = Object.fromEntries(
-  (["water", "food", "medicine", "clothing", "hygiene", "blankets"] as const).map((key) => [
-    key,
-    t(`helpCenters.accepts.${key}`),
-  ]),
-);
+const locale = resolveSecondaryLocale(Astro, "/centros-ayuda");
+if (locale instanceof Response) return locale;
 ---
 
-<BaseLayout locale={locale} title={t("helpCenters.title")}>
-  <PageHeader
-    eyebrow={hub.heroBadge}
-    title={hub.heroTitle}
-    subtitle={hub.heroSubtitle}
-    imageSrc="/images/headers/ayuda-comunitaria.svg"
-    imageAlt=""
-  >
-    <HelpCenterHub
-      client:only="react"
-      locale={locale}
-      centers={centerViews}
-      labels={hubLabels}
-      typeLabels={typeLabels}
-      acceptLabels={acceptLabels}
-      feedbackLabels={feedbackLabels}
-      confidenceLabels={confidenceLabels}
-      registerPath={`/${locale}/centros-ayuda/registrar`}
-      registerThirdPartyPath={`/${locale}/centros-ayuda/registrar?mode=third_party`}
-      panelPath={`/${locale}/centros-ayuda/panel`}
-      volunteersPath={`/${locale}/voluntarios`}
-      volunteersTransportPath={`/${locale}/voluntarios#carreras-gratis-acopio`}
-      volunteersRegisterPath={`/${locale}/voluntarios`}
-      alliedPlatformUrl="https://centroacopio.site/"
-    />
-
-    <div class="mt-10">
-      <DonationNeedsList
-        locale={locale}
-        feedbackLabels={feedbackLabels}
-        confidenceLabels={confidenceLabels}
-      />
-    </div>
-  </PageHeader>
-</BaseLayout>
+<CentrosAyudaPage locale={locale} />

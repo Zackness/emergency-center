@@ -1,62 +1,16 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import DamageMapHub from "@/components/damage/DamageMapHub";
-import { isValidLocale, type Locale } from "@/i18n/config";
-import { useTranslations } from "@/i18n/utils";
-import { VENEZUELA_STATES } from "@/data/seed";
-import type { DamageSeverity } from "@/types";
+import DanosPage from "@/views/DanosPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+  return secondaryLocaleStaticPaths();
 }
 
-const { lang } = Astro.params;
-if (!isValidLocale(lang)) return Astro.redirect("/es/danos");
-
-const locale = lang as Locale;
-const { t, dict } = useTranslations(locale);
-
-const severityLabels = Object.fromEntries(
-  (["collapsed", "damaged", "evacuated"] as DamageSeverity[]).map((key) => [
-    key,
-    t(`damage.severityLabels.${key}`),
-  ])
-) as Record<DamageSeverity, string>;
-
-const hubLabels = {
-  ...dict.damage.hub,
-  legend: t("damage.legend"),
-  listTitle: t("damage.listTitle"),
-  empty: t("damage.empty"),
-  source: t("damage.source"),
-  reportTitle: t("damage.reportTitle"),
-  reportSubtitle: t("damage.reportSubtitle"),
-};
-
-const priorityRescueLabels = dict.damage.priorityRescue;
-const engineersPlatformLabels = dict.damage.engineersPlatform;
-
-const formLabels = {
-  ...dict.damage.form,
-  submit: t("common.submit"),
-};
-
-const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+const locale = resolveSecondaryLocale(Astro, "/danos");
+if (locale instanceof Response) return locale;
 ---
 
-<BaseLayout locale={locale} title={t("damage.title")}>
-  <div class="container-app py-10 md:py-14">
-    <DamageMapHub
-      client:only="react"
-      locale={locale}
-      labels={hubLabels}
-      severityLabels={severityLabels}
-      formLabels={formLabels}
-      states={VENEZUELA_STATES}
-      feedbackLabels={feedbackLabels}
-      confidenceLabels={confidenceLabels}
-      priorityRescueLabels={priorityRescueLabels}
-      engineersPlatformLabels={engineersPlatformLabels}
-    />
-  </div>
-</BaseLayout>
+<DanosPage locale={locale} />

@@ -1,119 +1,16 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import PageHeader from "@/components/ui/PageHeader.astro";
-import MapView from "@/components/map/MapView";
-import CommunityFeedback from "@/components/community/CommunityFeedback";
-import { isValidLocale, type Locale } from "@/i18n/config";
-import { useTranslations } from "@/i18n/utils";
-import { fetchShelters } from "@/lib/data";
-import { CALIPSO_VOLUNTEER_LODGING } from "@/data/volunteer-lodging";
-import type { MapLocation } from "@/types";
+import RefugiosPage from "@/views/RefugiosPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+  return secondaryLocaleStaticPaths();
 }
 
-const { lang } = Astro.params;
-if (!isValidLocale(lang)) return Astro.redirect("/es/refugios");
-
-const locale = lang as Locale;
-const { t, dict } = useTranslations(locale);
-const shelters = await fetchShelters();
-const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
-
-const mapLocations: MapLocation[] = shelters.map((s) => ({
-  id: s.id,
-  name: s.name,
-  latitude: s.latitude,
-  longitude: s.longitude,
-  type: "shelter" as const,
-  address: s.address,
-}));
+const locale = resolveSecondaryLocale(Astro, "/refugios");
+if (locale instanceof Response) return locale;
 ---
 
-<BaseLayout locale={locale} title={t("shelters.title")}>
-  <PageHeader title={t("shelters.title")} subtitle={t("shelters.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
-    <div class="mb-8">
-      <MapView client:only="react" locations={mapLocations} locale={locale} />
-    </div>
-
-    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {
-        shelters.map((shelter) => {
-          const isCalipsoLodging =
-            shelter.phone === CALIPSO_VOLUNTEER_LODGING.phone ||
-            shelter.name.includes("Calipso");
-          return (
-          <article class="card flex flex-col" id={isCalipsoLodging ? CALIPSO_VOLUNTEER_LODGING.id : shelter.id}>
-            <div class="flex flex-col gap-3 flex-1">
-              <div>
-                <div class="flex items-center gap-2">
-                  <h3 class="font-semibold text-ink">{shelter.name}</h3>
-                  {shelter.is_verified && (
-                    <span class="badge-verified">{t("common.verified")}</span>
-                  )}
-                </div>
-                <p class="mt-2 text-sm text-ink-secondary">
-                  {shelter.city}, {shelter.state} — {shelter.address}
-                </p>
-                <div class="mt-3 flex flex-wrap gap-4 text-sm">
-                  {shelter.phone && (
-                    <a
-                      href={`tel:${shelter.phone.replace(/[^0-9+]/g, "")}`}
-                      class="text-accent hover:underline"
-                    >
-                      {t("common.phone")}: {shelter.phone}
-                    </a>
-                  )}
-                  {isCalipsoLodging && (
-                    <a
-                      href={CALIPSO_VOLUNTEER_LODGING.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-accent hover:underline"
-                    >
-                      Instagram: {CALIPSO_VOLUNTEER_LODGING.instagramHandle}
-                    </a>
-                  )}
-                  {shelter.capacity != null && (
-                    <span>
-                      {t("common.capacity")}: {shelter.current_occupancy ?? 0}/{shelter.capacity}
-                    </span>
-                  )}
-                  {shelter.schedule && (
-                    <span>{t("common.schedule")}: {shelter.schedule}</span>
-                  )}
-                </div>
-                {shelter.services?.length > 0 && (
-                  <div class="mt-3 flex flex-wrap gap-1.5">
-                    {shelter.services.map((s: string) => (
-                      <span class="badge bg-accent-muted text-accent text-xs capitalize">{s}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${shelter.latitude},${shelter.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn-secondary mt-auto self-start text-xs"
-              >
-                {t("common.directions")}
-              </a>
-            </div>
-            <CommunityFeedback
-              client:visible
-              contentType="shelter"
-              contentId={isCalipsoLodging ? CALIPSO_VOLUNTEER_LODGING.id : shelter.id}
-              locale={locale}
-              labels={feedbackLabels}
-              confidenceLabels={confidenceLabels}
-              compact
-            />
-          </article>
-          );
-        })
-      }
-    </div>
-  </PageHeader>
-</BaseLayout>
+<RefugiosPage locale={locale} />

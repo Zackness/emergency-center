@@ -1,4 +1,7 @@
 import type { APIRoute } from "astro";
+import { fetchInventoryNeedSummaries } from "@/lib/center-dashboard";
+import { canShowPublicInventory } from "@/lib/help-centers/public";
+import { isDatabaseConfigured } from "@/lib/prisma";
 
 export const prerender = false;
 
@@ -20,7 +23,19 @@ export const GET: APIRoute = async ({ url }) => {
       offset: Number.isFinite(offset) ? Math.max(0, offset) : 0,
     });
 
-    return new Response(JSON.stringify(result), {
+    const inventoryCenterIds = result.centers
+      .filter((center) => canShowPublicInventory(center))
+      .map((center) => center.id);
+    const needSummaries = isDatabaseConfigured()
+      ? await fetchInventoryNeedSummaries(inventoryCenterIds)
+      : new Map();
+
+    const centers = result.centers.map((center) => ({
+      ...center,
+      needs_summary: needSummaries.get(center.id) ?? null,
+    }));
+
+    return new Response(JSON.stringify({ ...result, centers }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

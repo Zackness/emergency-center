@@ -26,3 +26,10 @@ export interface HelpCentersCatalogQuery {
   limit?: number;
   offset?: number;
 }
+
+export interface HelpCenterNeedsSummary {
+  critical: string[];
+  low: string[];
+  criticalCount: number;
+  lowCount: number;
+}

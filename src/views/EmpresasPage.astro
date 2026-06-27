@@ -1,0 +1,97 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import SolidarityCompanyCard from "@/components/ui/SolidarityCompanyCard.astro";
+import CompanyForm from "@/components/forms/CompanyForm";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
+import { getSolidarityCompanies } from "@/data/solidarity-companies";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { fetchHelpCenters } from "@/lib/data";
+import { resolveHelpCenterHref } from "@/lib/help-centers";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t, dict } = useTranslations(locale);
+const companies = getSolidarityCompanies();
+const helpCenters = await fetchHelpCenters();
+const resourceLabels = dict.companies.resourceTypes as Record<string, string>;
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+
+const formLabels = {
+  ...dict.companies.form,
+  submit: t("common.submit"),
+};
+---
+
+<BaseLayout locale={locale} title={t("companies.title")}>
+  <PageHeader title={t("companies.title")} subtitle={t("companies.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="" />
+
+  <div class="container-app pb-16 space-y-16 -mt-4">
+    <section id="empresas-solidarias">
+      <div class="mb-6 max-w-3xl">
+        <h2 class="text-xl font-semibold text-ink">{t("companies.directory.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary">{t("companies.directory.subtitle")}</p>
+      </div>
+      <div class="grid gap-4 max-w-3xl">
+        {
+          companies.map((company) => (
+            <div>
+            <SolidarityCompanyCard
+              id={company.slug}
+              name={company.name}
+              description={company.description[locale]}
+              resources={company.resources}
+              resourceLabels={resourceLabels}
+              coverage={company.coverage[locale]}
+              resourcesLabel={t("companies.directory.resources")}
+              coverageLabel={t("companies.directory.coverage")}
+              websiteUrl={company.website_url}
+              websiteLabel={t("companies.directory.visitWebsite")}
+              instagramUrl={company.instagram_url}
+              instagramLabel={t("companies.directory.instagram")}
+              phone={company.phone}
+              phoneLabel={t("companies.directory.phone")}
+              helpCenterHref={
+                company.help_center_id
+                  ? resolveHelpCenterHref(locale, company.help_center_id, helpCenters)
+                  : undefined
+              }
+              helpCenterLabel={t("companies.directory.viewHelpCenter")}
+              verified={company.is_verified}
+              verifiedLabel={t("common.verified")}
+            />
+            <CommunityFeedback
+              client:visible
+              contentType="solidarity_company"
+              contentId={company.slug}
+              locale={locale}
+              labels={feedbackLabels}
+              confidenceLabels={confidenceLabels}
+              compact
+            />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="registrar-empresa" class="max-w-3xl">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("companies.register.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary">{t("companies.register.subtitle")}</p>
+      </div>
+      <CompanyForm
+        client:load
+        locale={locale}
+        labels={formLabels}
+        resourceTypes={resourceLabels}
+        states={VENEZUELA_STATES}
+      />
+    </section>
+  </div>
+</BaseLayout>

@@ -1,5 +1,4 @@
-import type { Prisma } from "@prisma/client";
-import { LinkCategory } from "@prisma/client";
+import type { LinkCategory, Prisma } from "@prisma/client";
 import { SEED_EXTERNAL_SOURCES } from "@/data/external-sources";
 import { SEED_DAMAGE_REPORTS } from "@/data/damage-reports";
 import { getHospitalsCatalog, HOSPITALS_TOTAL_COUNT } from "@/data/hospitals";
@@ -249,6 +248,8 @@ export async function createHelpCenterRegistration(
         accepts: data.accepts,
         isVerified: false,
         isActive: true,
+        imageUrl: data.image_url ?? null,
+        imageUrls: data.image_url ? [data.image_url] : [],
         createdById: ownerUserId ?? null,
       },
     });
@@ -320,6 +321,26 @@ export async function fetchExternalSources() {
   } catch {
     return seed;
   }
+}
+
+/** Fuentes externas con cifras en vivo desde las APIs de cada plataforma (cuando existen). */
+export async function fetchExternalSourcesWithLiveStats() {
+  const sources = await fetchExternalSources();
+  const { fetchLivePlatformStats } = await import("@/lib/missing-persons/platform-stats");
+  const live = await fetchLivePlatformStats();
+
+  return sources.map((source) => {
+    const platformStats = live.get(source.slug);
+    if (!platformStats) return source;
+
+    return {
+      ...source,
+      approximate_count: platformStats.approximate_count ?? source.approximate_count,
+      count_pending: platformStats.count_pending ?? source.count_pending,
+      count_located: platformStats.count_located ?? source.count_located,
+      last_updated_at: new Date().toISOString(),
+    };
+  });
 }
 
 export interface MissingPersonsQuery {

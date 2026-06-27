@@ -1,0 +1,24 @@
+---
+export const prerender = false;
+
+import { centerSectionPath, DEFAULT_CENTER_SECTION, resolveCenterManagePage } from "@/lib/center-manage-page";
+import type { Locale } from "@/i18n/config";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
+
+export function getStaticPaths() {
+  return secondaryLocaleStaticPaths();
+}
+
+const { id } = Astro.params;
+const localeResult = resolveSecondaryLocale(Astro, "/centros-ayuda/panel");
+if (localeResult instanceof Response) return localeResult;
+
+const locale = localeResult as Locale;
+const ctx = await resolveCenterManagePage(Astro, locale, id);
+if (ctx.redirect) return ctx.redirect;
+
+return Astro.redirect(centerSectionPath(locale, ctx.centerId, DEFAULT_CENTER_SECTION));
+---

@@ -1,0 +1,19 @@
+---
+export const prerender = false;
+
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import AlliedPlatformsPanel from "@/components/admin/AlliedPlatformsPanel";
+import { requireAdminSession } from "@/lib/admin/page-guard";
+
+const auth = await requireAdminSession(Astro);
+if (auth.redirect) return auth.redirect;
+---
+
+<AdminLayout
+  title="Plataformas aliadas"
+  description="Gestiona enlaces a iniciativas ciudadanas que complementan la respuesta de emergencia."
+  current="aliadas"
+  userEmail={auth.user.email ?? ""}
+>
+  <AlliedPlatformsPanel client:load />
+</AdminLayout>

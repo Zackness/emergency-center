@@ -1,10 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MapView from "@/components/map/MapView";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import ActiveAcopioCentersPanel from "@/components/help-centers/ActiveAcopioCentersPanel";
 import G3CaritasAcopioPanel from "@/components/help-centers/G3CaritasAcopioPanel";
+import HelpCenterDetailDialog, {
+  type HelpCenterDetailLabels,
+} from "@/components/help-centers/HelpCenterDetailDialog";
+import CenterNeedsSummary, {
+  type CenterNeedsSummaryLabels,
+} from "@/components/help-centers/CenterNeedsSummary";
 import { EMERGENCY_ZONES, centerMatchesZone } from "@/data/emergency-zones";
 import { formatHelpCenterDescription } from "@/lib/help-centers/centroacopio";
+import { canShowPublicInventory } from "@/lib/help-centers/public";
+import type { HelpCenterNeedsSummary } from "@/lib/help-centers/types";
+import { useHelpCenterCatalogRealtime } from "@/lib/hooks/useHelpCenterRealtime";
 import type { CentroacopioDeliveryView } from "@/lib/help-centers/types";
 import type { HelpCenter, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
@@ -13,6 +22,7 @@ type HubTab = "centers" | "delivery";
 
 export interface HelpCenterView extends HelpCenter {
   images: string[];
+  needs_summary?: HelpCenterNeedsSummary | null;
 }
 
 interface HubLabels {
@@ -40,6 +50,9 @@ interface HubLabels {
   phone: string;
   schedule: string;
   directions: string;
+  details: string;
+  needsSummary: CenterNeedsSummaryLabels;
+  detail: HelpCenterDetailLabels;
   deliveryTabIntro: string;
   deliveryTransportCta: string;
   deliveryRegisterCta: string;
@@ -142,6 +155,7 @@ export default function HelpCenterHub({
   const [catalogCenters, setCatalogCenters] = useState<HelpCenterView[]>(centers);
   const [deliveries, setDeliveries] = useState<CentroacopioDeliveryView[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
+  const [detailCenter, setDetailCenter] = useState<HelpCenterView | null>(null);
   const directoryRef = useRef<HTMLElement>(null);
 
   const imageByCenterId = useMemo(() => {
@@ -150,13 +164,11 @@ export default function HelpCenterHub({
     return map;
   }, [centers]);
 
-  useEffect(() => {
-    let cancelled = false;
+  const reloadCatalog = useCallback(() => {
     setCatalogLoading(true);
     fetch("/api/help-centers/catalog?limit=10000")
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error("catalog"))))
-      .then((data: { centers: HelpCenter[]; deliveries: CentroacopioDeliveryView[] }) => {
-        if (cancelled) return;
+      .then((data: { centers: HelpCenterView[]; deliveries: CentroacopioDeliveryView[] }) => {
         const merged: HelpCenterView[] = data.centers.map((center) => ({
           ...center,
           images:
@@ -164,23 +176,23 @@ export default function HelpCenterHub({
             (center.id.startsWith("centroacopio-")
               ? ["/images/help-centers/placeholder.svg"]
               : ["/images/help-centers/placeholder.svg"]),
+          needs_summary: center.needs_summary ?? null,
         }));
         setCatalogCenters(merged);
         setDeliveries(data.deliveries ?? []);
       })
       .catch(() => {
-        if (!cancelled) {
-          setCatalogCenters(centers);
-          setDeliveries([]);
-        }
+        setCatalogCenters(centers);
+        setDeliveries([]);
       })
-      .finally(() => {
-        if (!cancelled) setCatalogLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
+      .finally(() => setCatalogLoading(false));
   }, [centers, imageByCenterId]);
+
+  useEffect(() => {
+    reloadCatalog();
+  }, [reloadCatalog]);
+
+  useHelpCenterCatalogRealtime(reloadCatalog);
 
   const filteredCenters = useMemo(() => {
     const q = sectorQuery.trim().toLowerCase();
@@ -512,14 +524,31 @@ export default function HelpCenterHub({
                           ))}
                         </div>
                       )}
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${center.latitude},${center.longitude}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-secondary mt-4 self-start text-xs"
-                      >
-                        {labels.directions}
-                      </a>
+                      {center.needs_summary && (
+                        <CenterNeedsSummary
+                          summary={center.needs_summary}
+                          labels={labels.needsSummary}
+                        />
+                      )}
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${center.latitude},${center.longitude}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-secondary text-xs"
+                        >
+                          {labels.directions}
+                        </a>
+                        {canShowPublicInventory(center) && (
+                          <button
+                            type="button"
+                            className="btn-primary text-xs"
+                            onClick={() => setDetailCenter(center)}
+                          >
+                            {labels.details}
+                          </button>
+                        )}
+                      </div>
                       <CommunityFeedback
                         contentType="help_center"
                         contentId={center.id}
@@ -616,6 +645,13 @@ export default function HelpCenterHub({
           </div>
         )}
       </section>
+
+      <HelpCenterDetailDialog
+        centerId={detailCenter?.id ?? null}
+        centerPreview={detailCenter}
+        labels={labels.detail}
+        onClose={() => setDetailCenter(null)}
+      />
     </div>
   );
 }

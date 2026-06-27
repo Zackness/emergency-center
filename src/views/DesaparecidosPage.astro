@@ -1,0 +1,348 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import ExternalSourceCard from "@/components/ui/ExternalSourceCard.astro";
+import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
+import MissingPersonRegistry from "@/components/registry/MissingPersonRegistry";
+import MissingPersonForm from "@/components/forms/MissingPersonForm";
+import CommunityFeedback from "@/components/community/CommunityFeedback";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { fetchExternalSources, fetchExternalSourcesWithLiveStats, fetchMissingPersonsStats } from "@/lib/data";
+import { defaultMissingPersonSyncSlugs } from "@/lib/missing-persons/sync-source-registry";
+import { fetchAlliedPlatforms } from "@/lib/allied-platforms/service";
+import { OFFICIAL_EARTHQUAKE_STATS } from "@/data/official-earthquake-stats";
+import { RED_CROSS_FAMILY_CONTACT } from "@/data/red-cross-family-contact";
+import { VENEVISION_MISSING_LINE } from "@/data/venevision-missing-line";
+import { VENEZUELA_STATES } from "@/data/seed";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t, dict } = useTranslations(locale);
+
+const externalSources = await fetchExternalSources();
+const missingSyncSlugs = new Set([...defaultMissingPersonSyncSlugs(), "venapp"]);
+const externalSourcesWithStats = (await fetchExternalSourcesWithLiveStats()).filter((source) =>
+  missingSyncSlugs.has(source.slug)
+);
+const alliedPlatforms = await fetchAlliedPlatforms();
+const stats = await fetchMissingPersonsStats();
+
+const sourceRegistrationLabels = dict.missing.sourceRegistration as Record<string, string>;
+const sourceStatusLabels = dict.missing.sourceStatus as Record<string, string>;
+
+const formLabels = {
+  ...dict.missing.form,
+  submit: t("common.submit"),
+};
+
+const registryLabels = {
+  searchPlaceholder: t("missing.registry.searchPlaceholder"),
+  stateFilter: t("missing.registry.stateFilter"),
+  allStates: t("missing.registry.allStates"),
+  showing: t("missing.registry.showing"),
+  of: t("missing.registry.of"),
+  noResults: t("common.noResults"),
+  loadMore: t("missing.registry.loadMore"),
+  loading: t("missing.registry.loading"),
+  sources: t("missing.registry.sources"),
+  lastSeen: t("missing.registry.lastSeen"),
+  nationalId: t("missing.registry.nationalId"),
+  verification: dict.missing.verification as Record<string, string>,
+};
+const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
+const official = OFFICIAL_EARTHQUAKE_STATS;
+const venevisionFields = dict.missing.venevision.requiredFields as string[];
+const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}?text=${encodeURIComponent(
+  locale === "es"
+    ? "Hola, quiero reportar a una persona desaparecida para difusión en Venevisión."
+    : "Hello, I want to report a missing person for broadcast on Venevisión."
+)}`;
+---
+
+<BaseLayout locale={locale} title={t("missing.title")}>
+  <PageHeader title={t("missing.title")} subtitle={t("missing.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
+  </PageHeader>
+
+  <div class="container-app pb-16 space-y-16 -mt-4">
+    <section class="max-w-3xl">
+      <blockquote class="rounded-2xl border border-accent/20 bg-accent-muted/40 p-6 text-ink-secondary">
+        <p class="text-lg font-medium text-ink">{t("missing.hubQuote")}</p>
+        <p class="mt-2 text-sm">{t("missing.hubQuoteDetail")}</p>
+      </blockquote>
+    </section>
+
+    <section id="fuentes-externas">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("missing.aggregator.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary max-w-3xl">{t("missing.aggregator.subtitle")}</p>
+      </div>
+      <p class="text-sm text-ink-secondary max-w-3xl mb-6">{t("missing.aggregator.disclaimer")}</p>
+      <div class="grid gap-4 lg:grid-cols-2">
+        {
+          externalSourcesWithStats.map((source) => (
+            <ExternalSourceCard
+              name={source.name}
+              description={source.description}
+              url={source.url}
+              registrationType={source.registration_type}
+              registrationTypeLabel={t("missing.aggregator.registrationType")}
+              registrationTypeDisplay={sourceRegistrationLabels[source.registration_type] ?? source.registration_type}
+              approximateCount={source.approximate_count}
+              countPending={source.count_pending}
+              countLocated={source.count_located}
+              lastUpdated={source.last_updated_at}
+              lastUpdatedLabel={t("common.lastUpdated")}
+              status={source.status}
+              statusLabel={sourceStatusLabels[source.status] ?? source.status}
+              externalSourceLabel={t("missing.aggregator.externalSource")}
+              visitLabel={t("missing.external.visit")}
+              verified={source.is_verified}
+              verifiedLabel={t("common.verified")}
+              countLabel={t("missing.aggregator.approximateCount")}
+              countPendingLabel={t("missing.aggregator.countPending")}
+              countLocatedLabel={t("missing.aggregator.countLocated")}
+            />
+          ))
+        }
+      </div>
+      <p class="mt-4 text-xs text-ink-muted max-w-3xl">{t("missing.aggregator.noSumWarning")}</p>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="missing-persons-platform-stats"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </section>
+
+    <section id="registro-unificado">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("missing.registry.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary max-w-3xl">{t("missing.registry.subtitle")}</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 max-w-3xl mb-6">
+        <div class="card flex flex-col items-center justify-center border-accent/30 bg-accent-muted/20 py-8 text-center">
+          <p class="text-5xl font-extrabold tracking-tight text-accent">{stats.unique_active.toLocaleString()}</p>
+          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsUnique")}</p>
+        </div>
+        <div class="card flex flex-col items-center justify-center py-8 text-center">
+          <p class="text-5xl font-extrabold tracking-tight text-ink">{stats.total_external_records.toLocaleString()}</p>
+          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsRecords")}</p>
+        </div>
+      </div>
+      <p class="text-xs text-ink-muted max-w-3xl mb-6">{t("missing.registry.statsDedupNote")}</p>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="missing-persons-registry-stats"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+      <MissingPersonRegistry
+        client:load
+        locale={locale}
+        states={VENEZUELA_STATES}
+        labels={registryLabels}
+        feedbackLabels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        initialStats={stats}
+      />
+    </section>
+
+    <section class="max-w-3xl">
+      <div class="rounded-2xl border-2 border-emergency/25 bg-emergency-muted/30 p-6" id="cruz-roja-contacto-familiar">
+        <p class="text-xs font-semibold uppercase tracking-wide text-emergency mb-2">
+          {RED_CROSS_FAMILY_CONTACT.organization}
+        </p>
+        <h2 class="text-xl font-semibold text-ink">{t("missing.redCross.title")}</h2>
+        <p class="mt-3 text-sm text-ink-secondary italic">{t("missing.redCross.quote")}</p>
+        <p class="mt-3 text-sm text-ink-secondary">{t("missing.redCross.description")}</p>
+        <div class="mt-5 flex flex-wrap items-center gap-3">
+          <a href={RED_CROSS_FAMILY_CONTACT.phoneTel} class="btn-primary">
+            {t("missing.redCross.call")}: {RED_CROSS_FAMILY_CONTACT.phoneDisplay}
+          </a>
+          <a
+            href={RED_CROSS_FAMILY_CONTACT.generalLineTel}
+            class="btn-secondary text-sm"
+          >
+            {t("missing.redCross.generalLine")}: {RED_CROSS_FAMILY_CONTACT.generalLine}
+          </a>
+        </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="cruz-roja-contacto-familiar"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </div>
+    </section>
+
+    <section class="max-w-3xl" id="venevision">
+      <div class="rounded-2xl border-2 border-accent/25 bg-accent-muted/30 p-6">
+        <p class="text-xs font-semibold uppercase tracking-wide text-accent mb-2">
+          {VENEVISION_MISSING_LINE.organization}
+        </p>
+        <h2 class="text-xl font-semibold text-ink">{t("missing.venevision.title")}</h2>
+        <p class="mt-3 text-sm text-ink-secondary">{t("missing.venevision.description")}</p>
+        <p class="mt-4 text-sm font-medium text-ink">{t("missing.venevision.requiredLabel")}</p>
+        <ul class="mt-2 list-disc pl-5 text-sm text-ink-secondary space-y-1">
+          {venevisionFields.map((field) => <li>{field}</li>)}
+        </ul>
+        <div class="mt-5 flex flex-wrap items-center gap-3">
+          <a href={VENEVISION_MISSING_LINE.phoneTel} class="btn-primary">
+            {t("missing.venevision.call")}: {VENEVISION_MISSING_LINE.phoneDisplay}
+          </a>
+          <a
+            href={venevisionWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary text-sm"
+          >
+            {t("missing.venevision.whatsapp")} →
+          </a>
+        </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="venevision-missing-line"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </div>
+    </section>
+
+    <section class="max-w-3xl mb-8" id="hospitales-ingresados">
+      <div class="rounded-2xl border border-success/30 bg-success-muted/25 p-5">
+        <h2 class="text-lg font-semibold text-ink">{t("missing.hospitalsCrosslink.title")}</h2>
+        <p class="mt-2 text-sm text-ink-secondary">{t("missing.hospitalsCrosslink.description")}</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a
+            href="https://hospitalesenvenezuela.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            {t("missing.hospitalsCrosslink.cta")}
+          </a>
+          <a href={localePath(locale, "hospitales")} class="btn-secondary text-sm">
+            {locale === "es" ? "Directorio de hospitales" : "Hospital directory"} →
+          </a>
+        </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="hospitales-en-venezuela-crosslink"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </div>
+    </section>
+
+    <section class="max-w-3xl" id="mascotas-perdidas">
+      <div class="rounded-2xl border border-accent/30 bg-accent-muted/25 p-5">
+        <h2 class="text-lg font-semibold text-ink">{t("missing.petsCrosslink.title")}</h2>
+        <p class="mt-2 text-sm text-ink-secondary">{t("missing.petsCrosslink.description")}</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href={`${localePath(locale, "mascotas")}#academia-leguau`} class="btn-primary">
+            {t("missing.petsCrosslink.cta")}
+          </a>
+          <a
+            href="https://www.instagram.com/academialeguau/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary text-sm"
+          >
+            @academialeguau →
+          </a>
+        </div>
+        <CommunityFeedback
+          client:visible
+          contentType="external_link"
+          contentId="missing-pets-crosslink"
+          locale={locale}
+          labels={feedbackLabels}
+          confidenceLabels={confidenceLabels}
+          compact
+        />
+      </div>
+    </section>
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("missing.official.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.subtitle")}</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 max-w-5xl">
+        <div class="card text-center">
+          <p class="text-2xl font-bold text-ink">{official.fatalities.toLocaleString()}</p>
+          <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.fatalities")}</p>
+        </div>
+        <div class="card text-center">
+          <p class="text-2xl font-bold text-ink">{official.injured.toLocaleString()}</p>
+          <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.injured")}</p>
+        </div>
+        <div class="card text-center">
+          <p class="text-2xl font-bold text-ink">{official.missingOfficial.toLocaleString()}</p>
+          <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.missing")}</p>
+        </div>
+        <div class="card text-center">
+          <p class="text-2xl font-bold text-ink">{official.trappedAlive.toLocaleString()}</p>
+          <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.trapped")}</p>
+        </div>
+        <div class="card text-center">
+          <p class="text-2xl font-bold text-ink">{official.affectedFamilies.toLocaleString()}</p>
+          <p class="mt-1 text-sm text-ink-secondary">{t("missing.official.affectedFamilies")}</p>
+        </div>
+      </div>
+      <p class="mt-3 text-xs text-ink-muted max-w-5xl">
+        {t("missing.official.source")}:{" "}
+        <a href={official.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">
+          {official.source}
+        </a>
+      </p>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="official-earthquake-stats"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </section>
+
+    <section>
+      <AlliedPlatforms locale={locale} platforms={alliedPlatforms} />
+    </section>
+
+    <section>
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("missing.backup.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary">{t("missing.backup.subtitle")}</p>
+      </div>
+      <MissingPersonForm
+        client:load
+        locale={locale}
+        labels={formLabels}
+        states={VENEZUELA_STATES}
+        externalSources={externalSources}
+      />
+    </section>
+  </div>
+</BaseLayout>

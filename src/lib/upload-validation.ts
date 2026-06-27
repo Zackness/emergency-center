@@ -19,11 +19,12 @@ export function validateImageFile(file: File): { ok: true } | { ok: false; error
   return { ok: true };
 }
 
-/** Carpetas permitidas bajo startupven-responde/ */
+/** Carpetas permitidas en el bucket `uploads` de Supabase Storage */
 export const UPLOAD_FOLDERS = new Set([
   "missing-persons",
   "damage-reports",
   "help-centers",
+  "inventory-invoices",
   "media",
 ]);
 

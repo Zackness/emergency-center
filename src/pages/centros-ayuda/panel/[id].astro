@@ -1,0 +1,11 @@
+---
+export const prerender = false;
+
+import { centerSectionPath, DEFAULT_CENTER_SECTION, resolveCenterManagePage } from "@/lib/center-manage-page";
+
+const { id } = Astro.params;
+const ctx = await resolveCenterManagePage(Astro, "es", id);
+if (ctx.redirect) return ctx.redirect;
+
+return Astro.redirect(centerSectionPath("es", ctx.centerId, DEFAULT_CENTER_SECTION));
+---

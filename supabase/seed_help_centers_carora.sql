@@ -12,7 +12,7 @@ SELECT
   ARRAY['water', 'food', 'medicine', 'hygiene', 'clothing'],
   '/images/help-centers/centros-acopio-carora.png',
   ARRAY['/images/help-centers/centros-acopio-carora.png'],
-  false, true
+  true, true
 WHERE NOT EXISTS (
   SELECT 1 FROM help_centers
   WHERE name = 'Centro de acopio Carora — Av. Francisco de Miranda'
@@ -27,12 +27,12 @@ SELECT
   'Centro de acopio Carora — G.E. Ramón Pompilio Oropeza',
   'Centro de acopio en Carora habilitado tras el terremoto. Reciben: agua potable, gasas, alcohol, algodón, jeringas, ropa y comida no perecedera. Horario desde las 10:00 a.m.',
   'community', 'Lara', 'Carora',
-  'Frente al grupo escolar Ramón Pompilio Oropeza, Carora',
+  'Av. Francisco de Miranda, frente al grupo escolar Ramón Pompilio Oropeza, Carora',
   10.1725, -70.0605, NULL, 'Desde las 10:00 a.m.',
   ARRAY['water', 'food', 'medicine', 'hygiene', 'clothing'],
   '/images/help-centers/centros-acopio-carora.png',
   ARRAY['/images/help-centers/centros-acopio-carora.png'],
-  false, true
+  true, true
 WHERE NOT EXISTS (
   SELECT 1 FROM help_centers
   WHERE name = 'Centro de acopio Carora — G.E. Ramón Pompilio Oropeza'

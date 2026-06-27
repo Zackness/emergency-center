@@ -1,0 +1,117 @@
+---
+import "@/styles/global.css";
+import AdminThemeInit from "@/components/admin/AdminThemeInit.astro";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: "dashboard" | "centros" | "aliadas";
+  userEmail: string;
+}
+
+const { title, description, current = "dashboard", userEmail } = Astro.props;
+
+const nav = [
+  { id: "dashboard" as const, href: "/admin", label: "Inicio" },
+  { id: "centros" as const, href: "/admin/centros-acopio", label: "Centros de acopio" },
+  { id: "aliadas" as const, href: "/admin/plataformas-aliadas", label: "Plataformas aliadas" },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} — Admin</title>
+    <AdminThemeInit />
+  </head>
+  <body class="min-h-screen bg-surface text-ink">
+    <div class="flex min-h-screen">
+      <aside class="hidden w-56 shrink-0 flex-col border-r border-border bg-surface-muted lg:flex">
+        <div class="border-b border-border px-4 py-5">
+          <a href="/admin" class="flex items-center gap-2.5">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-white">
+              EC
+            </span>
+            <div class="leading-tight">
+              <p class="text-sm font-semibold text-ink">Emergency Center</p>
+              <p class="text-xs text-ink-muted">Administración</p>
+            </div>
+          </a>
+        </div>
+
+        <nav class="flex-1 space-y-1 p-3" aria-label="Admin">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  current === item.id
+                    ? "bg-surface-elevated text-ink"
+                    : "text-ink-secondary hover:bg-surface-muted/80 hover:text-ink",
+                ]}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="space-y-1 border-t border-border p-3">
+          <a
+            href="/centros-ayuda/panel"
+            class="block rounded-lg px-3 py-2 text-xs text-ink-muted hover:bg-surface-muted/80 hover:text-ink"
+          >
+            Portal coordinadores →
+          </a>
+          <a href="/" class="block rounded-lg px-3 py-2 text-xs text-ink-muted hover:bg-surface-muted/80 hover:text-ink">
+            Ver sitio →
+          </a>
+        </div>
+      </aside>
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header class="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-surface-elevated px-4 py-4 md:px-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-accent lg:hidden">Admin</p>
+            <h1 class="text-lg font-semibold text-ink">{title}</h1>
+            {description && <p class="text-sm text-ink-secondary">{description}</p>}
+          </div>
+          <div class="flex flex-wrap items-center gap-3 text-sm">
+            <ThemeToggle locale="es" />
+            <span class="text-ink-muted">{userEmail}</span>
+            <form method="POST" action="/api/auth/logout">
+              <button type="submit" class="btn-ghost text-sm text-ink-secondary">Cerrar sesión</button>
+            </form>
+          </div>
+        </header>
+
+        <nav class="flex flex-wrap gap-2 border-b border-border bg-surface-muted p-2 lg:hidden" aria-label="Admin">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  "rounded-lg px-3 py-2 text-xs font-medium",
+                  current === item.id
+                    ? "bg-accent text-white"
+                    : "bg-surface-elevated text-ink-secondary",
+                ]}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <main class="flex-1 overflow-auto p-4 md:p-8">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

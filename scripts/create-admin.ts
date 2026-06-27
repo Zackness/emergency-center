@@ -4,6 +4,8 @@
  *
  * Uso:
  *   npm run admin:create -- opsuale@gmail.com
+ *   npm run admin:create -- opsuale@gmail.com --password "TuClaveSegura"
+ *   npm run admin:create -- opsuale@gmail.com --reset-password
  *   npm run admin:create -- opsuale@gmail.com --invite
  */
 import { randomBytes } from "node:crypto";
@@ -30,18 +32,43 @@ async function findUserByEmail(baseUrl: string, secret: string, email: string) {
   const res = await fetch(url, { headers: authHeaders(secret) });
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`No se pudo buscar usuario (${res.status}): ${body}`);
+    console.warn(`Búsqueda por email falló (${res.status}): ${body}`);
+    return findUserByEmailFromList(baseUrl, secret, email);
   }
 
   const data = (await res.json()) as { users?: Array<{ id: string; email?: string }> };
-  return data.users?.[0] ?? null;
+  return data.users?.[0] ?? findUserByEmailFromList(baseUrl, secret, email);
+}
+
+async function findUserByEmailFromList(baseUrl: string, secret: string, email: string) {
+  const target = email.toLowerCase();
+  let page = 1;
+
+  for (;;) {
+    const res = await fetch(`${baseUrl}/auth/v1/admin/users?page=${page}&per_page=200`, {
+      headers: authHeaders(secret),
+    });
+    if (!res.ok) {
+      console.warn(`Listado de usuarios falló (${res.status})`);
+      return null;
+    }
+
+    const data = (await res.json()) as { users?: Array<{ id: string; email?: string }> };
+    const users = data.users ?? [];
+    const match = users.find((user) => user.email?.toLowerCase() === target);
+    if (match) return match;
+    if (users.length < 200) break;
+    page += 1;
+  }
+
+  return null;
 }
 
 async function createUser(
   baseUrl: string,
   secret: string,
   email: string,
-  options: { invite: boolean }
+  options: { invite: boolean; password?: string }
 ) {
   if (options.invite) {
     const res = await fetch(`${baseUrl}/auth/v1/invite`, {
@@ -56,7 +83,7 @@ async function createUser(
     return findUserByEmail(baseUrl, secret, email);
   }
 
-  const password = randomBytes(16).toString("base64url");
+  const password = options.password ?? randomBytes(16).toString("base64url");
   const res = await fetch(`${baseUrl}/auth/v1/admin/users`, {
     method: "POST",
     headers: authHeaders(secret),
@@ -70,14 +97,41 @@ async function createUser(
 
   if (!res.ok) {
     const body = await res.text();
+    if (res.status === 422 && body.toLowerCase().includes("already")) {
+      const existing = await findUserByEmailFromList(baseUrl, secret, email);
+      if (existing) return existing;
+    }
     throw new Error(`No se pudo crear usuario (${res.status}): ${body}`);
   }
 
   const user = (await res.json()) as { id: string; email?: string };
-  console.log("\nUsuario creado. Contraseña temporal (cámbiala al entrar):");
+  console.log("\nUsuario creado. Contraseña (cámbiala al entrar si es temporal):");
   console.log(password);
   console.log("");
   return user;
+}
+
+async function resetUserPassword(
+  baseUrl: string,
+  secret: string,
+  userId: string,
+  password?: string
+) {
+  const nextPassword = password ?? randomBytes(16).toString("base64url");
+  const res = await fetch(`${baseUrl}/auth/v1/admin/users/${userId}`, {
+    method: "PUT",
+    headers: authHeaders(secret),
+    body: JSON.stringify({ password: nextPassword }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`No se pudo restablecer contraseña (${res.status}): ${body}`);
+  }
+
+  console.log("\nContraseña restablecida:");
+  console.log(nextPassword);
+  console.log("");
 }
 
 async function ensureProfile(baseUrl: string, secret: string, userId: string, email: string) {
@@ -120,9 +174,15 @@ async function main() {
 
   const emailArg = process.argv[2];
   const invite = process.argv.includes("--invite");
+  const resetPassword = process.argv.includes("--reset-password");
+  const passwordFlagIndex = process.argv.indexOf("--password");
+  const explicitPassword =
+    passwordFlagIndex >= 0 ? process.argv[passwordFlagIndex + 1] : undefined;
 
   if (!emailArg || !emailArg.includes("@")) {
-    console.error("Uso: npm run admin:create -- correo@ejemplo.com [--invite]");
+    console.error(
+      "Uso: npm run admin:create -- correo@ejemplo.com [--password clave] [--reset-password] [--invite]"
+    );
     process.exit(1);
   }
 
@@ -140,9 +200,21 @@ async function main() {
   let user = await findUserByEmail(baseUrl, secret, email);
   if (user) {
     console.log(`Usuario existente: ${user.email ?? email}`);
+    if (resetPassword || explicitPassword) {
+      await resetUserPassword(baseUrl, secret, user.id, explicitPassword);
+    }
+  } else if (resetPassword && explicitPassword) {
+    console.log(`Usuario no encontrado; creando ${email} con la contraseña indicada...`);
+    user = await createUser(baseUrl, secret, email, {
+      invite: false,
+      password: explicitPassword,
+    });
   } else {
     console.log(`Creando usuario ${email}...`);
-    user = await createUser(baseUrl, secret, email, { invite });
+    user = await createUser(baseUrl, secret, email, {
+      invite,
+      password: explicitPassword,
+    });
   }
 
   if (!user?.id) {

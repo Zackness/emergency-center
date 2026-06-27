@@ -42,7 +42,16 @@ export function assertSafeDatabaseTarget(context: string): void {
     `[db-guard] ${context}: escritura bloqueada contra producción (${productionRef}).`
   );
   console.error(
-    "Clona el repo y usa TU propio Supabase en .env, o exporta CONFIRM_PRODUCTION_DB=1 solo si es intencional."
+    "Tu .env apunta al Supabase de producción. Opciones:"
+  );
+  console.error(
+    "  1) Usar tu propio proyecto Supabase en .env (recomendado para desarrollo)"
+  );
+  console.error(
+    "  2) Si es intencional escribir en producción: CONFIRM_PRODUCTION_DB=1 npm run sync:missing"
+  );
+  console.error(
+    "  3) Disparar sync en el sitio desplegado: npm run sync:missing:remote"
   );
   process.exit(1);
 }

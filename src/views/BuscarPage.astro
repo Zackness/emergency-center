@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import GlobalSearch from "@/components/search/GlobalSearch";
+import type { Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import type { SearchResultType } from "@/types/search";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { t, dict } = useTranslations(locale);
+const initialQuery = Astro.url.searchParams.get("q") ?? "";
+
+const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
+---
+
+<BaseLayout locale={locale} title={t("search.title")}>
+  <PageHeader title={t("search.title")} subtitle={t("search.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
+    <GlobalSearch
+      client:load
+      locale={locale}
+      initialQuery={initialQuery}
+      primary
+      labels={{
+        placeholder: t("search.placeholder"),
+        noResults: t("search.noResults"),
+        resultsFor: t("search.resultsFor"),
+        hint: t("search.hint"),
+        external: t("search.external"),
+        categories: categoryLabels,
+      }}
+    />
+  </PageHeader>
+</BaseLayout>

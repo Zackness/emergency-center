@@ -1,5 +1,6 @@
 import type {
   Agency as AgencyRow,
+  AlliedPlatform as AlliedPlatformRow,
   DamageReport as DamageReportRow,
   ExternalLink as ExternalLinkRow,
   ExternalRecord as ExternalRecordRow,
@@ -12,6 +13,7 @@ import type {
 } from "@prisma/client";
 import type {
   Agency,
+  AlliedPlatform,
   DamageReport,
   ExternalLink,
   ExternalSource,
@@ -40,6 +42,8 @@ export function mapHelpCenter(row: HelpCenterRow): HelpCenter {
     email: row.email,
     schedule: row.schedule,
     accepts: row.accepts,
+    staff_needed: row.staffNeeded ?? [],
+    staff_needed_notes: row.staffNeededNotes ?? null,
     image_url: row.imageUrl ?? null,
     image_urls: row.imageUrls?.length
       ? row.imageUrls
@@ -125,6 +129,21 @@ export function mapExternalLink(row: ExternalLinkRow): ExternalLink {
     is_active: row.isActive,
     sort_order: row.sortOrder,
     created_at: row.createdAt.toISOString(),
+  };
+}
+
+export function mapAlliedPlatform(row: AlliedPlatformRow): AlliedPlatform {
+  return {
+    id: row.id,
+    domain: row.domain,
+    url: row.url,
+    description: {
+      es: row.descriptionEs,
+      en: row.descriptionEn,
+    },
+    color: row.color,
+    is_active: row.isActive,
+    sort_order: row.sortOrder,
   };
 }
 

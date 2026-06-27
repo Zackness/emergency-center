@@ -1,14 +1,16 @@
 ---
-import { ALLIED_PLATFORMS, type AlliedPlatformColor } from "@/data/allied-platforms";
+import type { AlliedPlatformColor } from "@/data/allied-platforms";
+import type { AlliedPlatform } from "@/types";
 import type { Locale } from "@/i18n/config";
 
 interface Props {
   locale: Locale;
+  platforms: AlliedPlatform[];
   title?: string;
   subtitle?: string;
 }
 
-const { locale, title, subtitle } = Astro.props;
+const { locale, platforms, title, subtitle } = Astro.props;
 
 const heading = title ?? (locale === "es" ? "Plataformas aliadas" : "Allied platforms");
 const sub =
@@ -32,7 +34,7 @@ const dotColor: Record<AlliedPlatformColor, string> = {
 
   <ul class="mt-8 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-soft">
     {
-      ALLIED_PLATFORMS.map((platform) => (
+      platforms.map((platform) => (
         <li>
           <div class="px-5 py-4">
             <a

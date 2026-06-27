@@ -33,6 +33,8 @@ export interface HelpCenter {
   email: string | null;
   schedule: string | null;
   accepts: string[];
+  staff_needed: string[];
+  staff_needed_notes: string | null;
   image_url?: string | null;
   image_urls?: string[];
   is_verified: boolean;
@@ -59,6 +61,7 @@ export interface HelpCenterRegistration {
   accepts: string[];
   reporter_name?: string | null;
   reporter_phone?: string | null;
+  image_url?: string | null;
 }
 
 export interface Hospital {
@@ -126,6 +129,18 @@ export interface ExternalLink {
   is_active: boolean;
   sort_order: number;
   created_at: string;
+}
+
+export type AlliedPlatformColor = "blue" | "yellow" | "red";
+
+export interface AlliedPlatform {
+  id?: string;
+  domain: string;
+  url: string;
+  description: { es: string; en: string };
+  color: AlliedPlatformColor;
+  is_active?: boolean;
+  sort_order?: number;
 }
 
 export interface NewsItem {

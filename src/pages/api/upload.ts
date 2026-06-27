@@ -1,5 +1,10 @@
 import type { APIRoute } from "astro";
-import { isBunnyConfigured, uploadToBunny, listBunnyFiles, bunnyDeleteByPublicUrl } from "@/lib/bunny";
+import {
+  deleteFromSupabaseStorage,
+  isSupabaseStorageConfigured,
+  listSupabaseStorageFiles,
+  uploadToSupabaseStorage,
+} from "@/lib/supabase/storage-admin";
 import { UPLOAD_RATE_LIMIT, guardPublicWrite } from "@/lib/api-security";
 import { sanitizeUploadFolder, validateImageFile } from "@/lib/upload-validation";
 
@@ -15,8 +20,8 @@ export const GET: APIRoute = async ({ url, request }) => {
     });
   }
 
-  if (!isBunnyConfigured()) {
-    return new Response(JSON.stringify({ error: "Bunny.net not configured" }), {
+  if (!isSupabaseStorageConfigured()) {
+    return new Response(JSON.stringify({ error: "Supabase Storage not configured" }), {
       status: 503,
       headers: { "Content-Type": "application/json" },
     });
@@ -24,7 +29,7 @@ export const GET: APIRoute = async ({ url, request }) => {
 
   try {
     const subfolder = sanitizeUploadFolder(url.searchParams.get("folder"));
-    const files = await listBunnyFiles(subfolder);
+    const files = await listSupabaseStorageFiles(subfolder);
     return new Response(JSON.stringify({ files }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
@@ -46,8 +51,8 @@ export const POST: APIRoute = async ({ request }) => {
   });
   if (blocked) return blocked;
 
-  if (!isBunnyConfigured()) {
-    return new Response(JSON.stringify({ error: "Bunny.net not configured" }), {
+  if (!isSupabaseStorageConfigured()) {
+    return new Response(JSON.stringify({ error: "Supabase Storage not configured" }), {
       status: 503,
       headers: { "Content-Type": "application/json" },
     });
@@ -73,7 +78,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const subfolder = sanitizeUploadFolder(formData.get("folder") as string | null);
-    const fileUrl = await uploadToBunny(file, { subfolder });
+    const fileUrl = await uploadToSupabaseStorage(file, subfolder);
 
     return new Response(JSON.stringify({ url: fileUrl, folder: subfolder }), {
       status: 201,
@@ -98,8 +103,8 @@ export const DELETE: APIRoute = async ({ url, request }) => {
     });
   }
 
-  if (!isBunnyConfigured()) {
-    return new Response(JSON.stringify({ error: "Bunny.net not configured" }), {
+  if (!isSupabaseStorageConfigured()) {
+    return new Response(JSON.stringify({ error: "Supabase Storage not configured" }), {
       status: 503,
       headers: { "Content-Type": "application/json" },
     });
@@ -114,7 +119,7 @@ export const DELETE: APIRoute = async ({ url, request }) => {
   }
 
   try {
-    const result = await bunnyDeleteByPublicUrl(fileUrl);
+    const result = await deleteFromSupabaseStorage(fileUrl);
     return new Response(JSON.stringify({ deleted: result.deleted }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
