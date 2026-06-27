@@ -1,4 +1,9 @@
-import type { ImportedMissingRecord, SourceAdapter } from "@/lib/missing-persons/types";
+import type {
+  ImportedMissingRecord,
+  ImportedPersonStatus,
+  SourceAdapter,
+  SourcePageResult,
+} from "@/lib/missing-persons/types";
 import { parseLocation } from "@/lib/missing-persons/location";
 
 const BASE = "https://venezuelatebusca.com";
@@ -46,21 +51,60 @@ function mapPerson(row: VtbPerson): ImportedMissingRecord {
   };
 }
 
-export const venezuelaTeBuscaAdapter: SourceAdapter = {
-  slug: "venezuela-te-busca",
+const VTB_FOUND_STATUS_CANDIDATES = ["found", "located", "encontrado"] as const;
 
-  async fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]> {
-    const url = `${BASE}/api/persons?limit=${limit}&offset=${offset}&status=missing`;
+async function fetchVtbPage(
+  offset: number,
+  limit: number,
+  status: ImportedPersonStatus
+): Promise<SourcePageResult> {
+  const statusesToTry =
+    status === "found"
+      ? VTB_FOUND_STATUS_CANDIDATES
+      : status === "missing"
+        ? (["missing"] as const)
+        : (["missing", ...VTB_FOUND_STATUS_CANDIDATES] as const);
+
+  for (const apiStatus of statusesToTry) {
+    const url = `${BASE}/api/persons?limit=${limit}&offset=${offset}&status=${apiStatus}`;
     const res = await fetch(url, {
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(60_000),
     });
 
+    if (res.status === 404) continue;
     if (!res.ok) {
       throw new Error(`Venezuela Te Busca API ${res.status}`);
     }
 
-    const data = (await res.json()) as { persons?: VtbPerson[] };
-    return (data.persons ?? []).map(mapPerson);
+    const data = (await res.json()) as { persons?: VtbPerson[]; total?: number };
+    const items = (data.persons ?? []).map(mapPerson);
+    const filtered =
+      status === "found"
+        ? items.filter((row) => row.status === "found")
+        : status === "missing"
+          ? items.filter((row) => row.status === "missing")
+          : items;
+
+    return { items: filtered, total: data.total ?? null };
+  }
+
+  return { items: [], total: null };
+}
+
+export const venezuelaTeBuscaAdapter: SourceAdapter = {
+  slug: "venezuela-te-busca",
+
+  async fetchPage(offset, limit, status = "missing") {
+    return fetchVtbPage(offset, limit, status);
+  },
+
+  async fetchBatch(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<ImportedMissingRecord[]> {
+    const page = await fetchVtbPage(offset, limit, status);
+    return page.items;
   },
 };

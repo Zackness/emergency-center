@@ -6,6 +6,7 @@ import {
   registerImportedRecord,
   type PersonIndex,
 } from "@/lib/missing-persons/dedup";
+import { normalizeHubStats } from "@/lib/missing-persons/hub-stats";
 import type {
   ImportedMissingRecord,
   SyncOptions,
@@ -431,7 +432,7 @@ export async function syncMissingPersonsRest(
 export async function getMissingPersonsStatsRest() {
   const admin = getSupabaseRestAdmin();
 
-  const [activePersons, externalRecords, sources] = await Promise.all([
+  const [activePersons, foundPersons, externalRecords, sources] = await Promise.all([
     restSelectAll<{ id: string }>(
       admin,
       "missing_persons",
@@ -439,12 +440,18 @@ export async function getMissingPersonsStatsRest() {
       1000,
       "is_active=eq.true&verification_status=not.in.(found,deceased)"
     ),
+    restSelectAll<{ id: string }>(
+      admin,
+      "missing_persons",
+      "id",
+      1000,
+      "verification_status=eq.found"
+    ),
     restSelectAll<{ id: string; source_id: string }>(
       admin,
       "external_records",
       "id,source_id",
-      1000,
-      "is_active=eq.true"
+      1000
     ),
     restSelectAll<ExternalSourceRow>(
       admin,
@@ -461,9 +468,10 @@ export async function getMissingPersonsStatsRest() {
     bySource.set(row.source_id, (bySource.get(row.source_id) ?? 0) + 1);
   }
 
-  return {
-    unique_active: activePersons.length,
-    total_external_records: externalRecords.length,
+  return normalizeHubStats({
+    total_reports: externalRecords.length,
+    missing: activePersons.length,
+    found: foundPersons.length,
     sources: [...bySource.entries()].map(([sourceId, count]) => {
       const src = sourceMap.get(sourceId);
       return {
@@ -473,5 +481,5 @@ export async function getMissingPersonsStatsRest() {
         platform_count: src?.approximate_count ?? null,
       };
     }),
-  };
+  });
 }

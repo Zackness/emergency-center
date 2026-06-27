@@ -14,6 +14,8 @@ const data = snapshot as {
     distinctive_marks: string | null;
     contact_phone: string | null;
     photo_url: string | null;
+    breed?: string | null;
+    pet_type?: "dog" | "cat" | "other" | null;
   }>;
 };
 

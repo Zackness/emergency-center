@@ -129,7 +129,7 @@ export default function CoordinatorHub({
           {centers.length > 0 && (
             <button
               type="button"
-              className="btn-primary shrink-0"
+              className="btn-primary hidden shrink-0 sm:inline-flex"
               onClick={() => {
                 setMandatoryRegister(false);
                 setDialogOpen(true);
@@ -139,6 +139,22 @@ export default function CoordinatorHub({
             </button>
           )}
         </div>
+
+        {centers.length > 0 && (
+          <button
+            type="button"
+            className="coordinator-fab sm:hidden"
+            aria-label={labels.newCenter}
+            onClick={() => {
+              setMandatoryRegister(false);
+              setDialogOpen(true);
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <path d="M5 12h14" /><path d="M12 5v14" />
+            </svg>
+          </button>
+        )}
 
         {centers.length > 0 && (
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -172,7 +188,7 @@ export default function CoordinatorHub({
               <a
                 key={center.id}
                 href={`${panelBase}/${center.id}/inventario`}
-                className="group relative flex flex-col rounded-xl border border-border bg-surface-elevated p-5 transition-all hover:border-accent/40 hover:shadow-soft"
+                className="group relative flex flex-col rounded-xl border border-border bg-surface-elevated p-5 transition-all active:scale-[0.99] hover:border-accent/40 hover:shadow-soft sm:active:scale-100"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -215,7 +231,7 @@ export default function CoordinatorHub({
                   )}
                 </div>
 
-                <span className="mt-4 text-sm font-medium text-accent opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="mt-4 text-sm font-medium text-accent sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
                   {labels.manage} →
                 </span>
               </a>

@@ -81,7 +81,7 @@ const typeLabels = Object.fromEntries(
 );
 
 const acceptLabels = Object.fromEntries(
-  (["water", "food", "medicine", "clothing", "hygiene", "blankets"] as const).map((key) => [
+  (["water", "food", "medicine", "clothing", "hygiene", "bathroom_supplies", "blankets"] as const).map((key) => [
     key,
     t(`helpCenters.accepts.${key}`),
   ]),

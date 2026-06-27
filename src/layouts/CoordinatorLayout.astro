@@ -4,6 +4,7 @@ import AdminThemeInit from "@/components/admin/AdminThemeInit.astro";
 import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 import Logo from "@/components/ui/Logo.astro";
 import CenterSwitcher from "@/components/dashboard/CenterSwitcher";
+import CoordinatorNavIcon from "@/components/dashboard/CoordinatorNavIcon.astro";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
@@ -175,16 +176,29 @@ const switcherLabels = {
       </aside>
 
       <div class="flex min-w-0 flex-1 flex-col">
-        <header class="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-surface-elevated px-4 py-2.5 md:px-6">
-          <div class="flex min-w-0 flex-1 items-center gap-2 text-sm">
+        <header class="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-surface-elevated px-3 py-2 md:gap-3 md:px-6 md:py-2.5">
+          <div class="flex min-w-0 flex-1 items-center gap-1.5 text-sm md:gap-2">
+            {
+              mode === "center" && (
+                <a
+                  href={panelPath}
+                  class="btn-ghost shrink-0 p-2 md:hidden"
+                  aria-label={t("coordinatorPortal.manage.back")}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </a>
+              )
+            }
             <a
               href={panelPath}
-              class="flex shrink-0 items-center gap-2 rounded-md transition-opacity hover:opacity-90"
+              class="hidden shrink-0 items-center gap-2 rounded-md transition-opacity hover:opacity-90 md:flex"
               aria-label="Emergency Center"
             >
               <Logo size={28} />
             </a>
-            <span class="text-ink-muted" aria-hidden="true">/</span>
+            <span class="hidden text-ink-muted md:inline" aria-hidden="true">/</span>
             <a
               href={panelPath}
               class="hidden shrink-0 font-medium text-ink-secondary transition-colors hover:text-ink sm:inline"
@@ -205,14 +219,30 @@ const switcherLabels = {
                       labels={switcherLabels}
                     />
                   </div>
-                  <h1 class="truncate font-semibold text-ink sm:hidden">{centerName}</h1>
+                  <div class="min-w-0 flex-1 sm:hidden">
+                    <CenterSwitcher
+                      client:load
+                      locale={locale}
+                      centerId={centerId}
+                      centerName={centerName}
+                      panelPath={panelPath}
+                      labels={switcherLabels}
+                      mobile
+                    />
+                  </div>
                 </>
               )
             }
             {
               mode === "hub" && (
                 <>
-                  <span class="text-ink-muted md:hidden" aria-hidden="true">/</span>
+                  <a
+                    href={panelPath}
+                    class="flex shrink-0 items-center rounded-md transition-opacity hover:opacity-90 md:hidden"
+                    aria-label="Emergency Center"
+                  >
+                    <Logo size={24} />
+                  </a>
                   <h1 class="truncate font-semibold text-ink md:hidden">{title}</h1>
                   <div class="hidden md:block">
                     {description && <p class="text-sm text-ink-secondary">{description}</p>}
@@ -221,9 +251,9 @@ const switcherLabels = {
               )
             }
           </div>
-          <div class="flex flex-wrap items-center gap-2 text-sm">
+          <div class="flex shrink-0 items-center gap-1 text-sm md:gap-2">
             <ThemeToggle locale={locale} />
-            {userEmail && <span class="hidden text-ink-muted sm:inline">{userEmail}</span>}
+            {userEmail && <span class="hidden text-ink-muted lg:inline">{userEmail}</span>}
             {
               userEmail ? (
                 <form method="POST" action="/api/auth/logout">
@@ -241,27 +271,31 @@ const switcherLabels = {
           </div>
         </header>
 
-        <nav class="flex gap-2 border-b border-border bg-surface-muted p-2 md:hidden" aria-label={t("coordinatorPortal.nav.label")}>
-          {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class:list={[
-                  "flex-1 rounded-lg px-3 py-2 text-center text-xs font-medium",
-                  activeNavId === item.id
-                    ? "bg-accent text-white"
-                    : "bg-surface-elevated text-ink-secondary",
-                ]}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <main class="flex-1 overflow-auto bg-surface p-4 md:p-8">
+        <main class="coordinator-mobile-main flex-1 overflow-auto bg-surface p-4 md:p-8">
           <slot />
         </main>
+
+        <nav class="coordinator-bottom-nav" aria-label={t("coordinatorPortal.nav.label")}>
+          <div class="flex items-stretch justify-around px-1 pt-1">
+            {
+              nav.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={[
+                    "coordinator-bottom-nav-link",
+                    activeNavId === item.id
+                      ? "coordinator-bottom-nav-link-active"
+                      : "coordinator-bottom-nav-link-idle",
+                  ]}
+                  aria-current={activeNavId === item.id ? "page" : undefined}
+                >
+                  <CoordinatorNavIcon icon={item.icon} size={22} />
+                  <span class="max-w-[4.5rem] truncate">{item.label}</span>
+                </a>
+              ))
+            }
+          </div>
+        </nav>
       </div>
     </div>
   </body>

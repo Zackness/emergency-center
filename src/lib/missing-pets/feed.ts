@@ -19,6 +19,9 @@ function matchesQuery(pet: MissingPet, query: MissingPetsQuery): boolean {
   if (query.status && query.status !== "all" && pet.status !== query.status) {
     return false;
   }
+  if (query.species && query.species !== "all" && pet.species !== query.species) {
+    return false;
+  }
   if (query.state && query.state !== "all" && pet.state !== query.state) {
     return false;
   }

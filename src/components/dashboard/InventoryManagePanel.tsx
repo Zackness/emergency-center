@@ -71,7 +71,7 @@ export default function InventoryManagePanel({
             onChange={(e) => setSearch(e.target.value)}
           />
           <select
-            className="input sm:max-w-[12rem]"
+            className="input hidden md:block md:max-w-[12rem]"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
@@ -83,10 +83,45 @@ export default function InventoryManagePanel({
             ))}
           </select>
         </div>
-        <button type="button" className="btn-primary shrink-0" onClick={() => setDialogOpen(true)}>
+        <button
+          type="button"
+          className="btn-primary hidden shrink-0 md:inline-flex"
+          onClick={() => setDialogOpen(true)}
+        >
           {labels.addToInventory}
         </button>
       </div>
+
+      <div className="mobile-chip-scroll md:hidden">
+        <button
+          type="button"
+          className={`mobile-chip ${categoryFilter === "all" ? "mobile-chip-active" : ""}`}
+          onClick={() => setCategoryFilter("all")}
+        >
+          {labels.filterAll}
+        </button>
+        {INVENTORY_CATEGORIES.map((c) => (
+          <button
+            key={c}
+            type="button"
+            className={`mobile-chip ${categoryFilter === c ? "mobile-chip-active" : ""}`}
+            onClick={() => setCategoryFilter(c)}
+          >
+            {labels.categories[c] ?? c}
+          </button>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="coordinator-fab"
+        aria-label={labels.addToInventory}
+        onClick={() => setDialogOpen(true)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+          <path d="M5 12h14" /><path d="M12 5v14" />
+        </svg>
+      </button>
 
       <AddInventoryDialog
         open={dialogOpen}
@@ -98,7 +133,80 @@ export default function InventoryManagePanel({
         onSuccess={onRefresh}
       />
 
-      <div className="rounded-xl border border-border bg-surface-elevated overflow-x-auto">
+      <ul className="space-y-3 md:hidden">
+        {items.length === 0 ? (
+          <li className="rounded-xl border border-border bg-surface-elevated px-4 py-8 text-center text-sm text-ink-secondary">
+            {labels.empty}
+          </li>
+        ) : filtered.length === 0 ? (
+          <li className="rounded-xl border border-border bg-surface-elevated px-4 py-8 text-center text-sm text-ink-secondary">
+            {labels.noResults}
+          </li>
+        ) : (
+          filtered.map((item) => {
+            const urgency = inventoryUrgency({
+              quantityOnHand: item.quantityOnHand,
+              minimumStock: item.minimumStock ?? null,
+            });
+            return (
+              <li
+                key={item.id}
+                className={`rounded-xl border bg-surface-elevated p-4 shadow-soft ${
+                  urgency === "critical"
+                    ? "border-emergency/40"
+                    : urgency === "low"
+                      ? "border-warning/40"
+                      : "border-border"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-ink">{item.name}</p>
+                    <p className="mt-0.5 text-xs text-ink-muted">
+                      {labels.categories[item.category] ?? item.category}
+                    </p>
+                  </div>
+                  {urgency === "critical" && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emergency-muted px-2 py-0.5 text-xs font-medium text-emergency">
+                      <AlertCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                      {labels.needed}
+                    </span>
+                  )}
+                  {urgency === "low" && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-warning-muted px-2 py-0.5 text-xs font-medium text-warning">
+                      <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
+                      {labels.lowStock}
+                    </span>
+                  )}
+                </div>
+                <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-border pt-3">
+                  <div>
+                    <p className="text-xs text-ink-muted">{labels.stock}</p>
+                    <p
+                      className={`text-lg font-bold ${
+                        urgency !== "ok" ? "text-warning" : "text-ink"
+                      }`}
+                    >
+                      {item.quantityOnHand}{" "}
+                      <span className="text-sm font-medium text-ink-secondary">
+                        {labels.units[item.unit] ?? item.unit}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-ink-muted">{labels.minimumStock}</p>
+                    <p className="text-sm font-medium text-ink-secondary">
+                      {item.minimumStock ?? "—"}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            );
+          })
+        )}
+      </ul>
+
+      <div className="hidden rounded-xl border border-border bg-surface-elevated overflow-x-auto md:block">
         <table className="w-full min-w-[36rem] text-sm text-left">
           <thead>
             <tr className="border-b border-border text-ink-muted">

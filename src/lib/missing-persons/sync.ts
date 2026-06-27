@@ -1,5 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 import { SEED_EXTERNAL_SOURCES } from "@/data/external-sources";
+import { normalizeHubStats } from "@/lib/missing-persons/hub-stats";
 import { getAdapter } from "@/lib/missing-persons/adapters";
 import { resolveMissingPersonSyncSlugsAsync } from "@/lib/missing-persons/sync-source-registry";
 import {
@@ -280,17 +281,19 @@ export async function syncMissingPersons(
 }
 
 export async function getMissingPersonsStats(prisma: PrismaClient) {
-  const [uniqueActive, totalRecords, bySource] = await Promise.all([
+  const [missing, found, totalRecords, bySource] = await Promise.all([
     prisma.missingPerson.count({
       where: {
         isActive: true,
         verificationStatus: { notIn: ["found", "deceased"] },
       },
     }),
-    prisma.externalRecord.count({ where: { isActive: true } }),
+    prisma.missingPerson.count({
+      where: { verificationStatus: "found" },
+    }),
+    prisma.externalRecord.count(),
     prisma.externalRecord.groupBy({
       by: ["sourceId"],
-      where: { isActive: true },
       _count: { id: true },
     }),
   ]);
@@ -302,9 +305,10 @@ export async function getMissingPersonsStats(prisma: PrismaClient) {
 
   const sourceMap = new Map(sources.map((s) => [s.id, s]));
 
-  return {
-    unique_active: uniqueActive,
-    total_external_records: totalRecords,
+  return normalizeHubStats({
+    total_reports: totalRecords,
+    missing,
+    found,
     sources: bySource.map((row) => {
       const src = sourceMap.get(row.sourceId);
       return {
@@ -314,5 +318,5 @@ export async function getMissingPersonsStats(prisma: PrismaClient) {
         platform_count: src?.approximateCount ?? null,
       };
     }),
-  };
+  });
 }

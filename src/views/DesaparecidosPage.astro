@@ -15,6 +15,7 @@ import { fetchAlliedPlatforms } from "@/lib/allied-platforms/service";
 import { OFFICIAL_EARTHQUAKE_STATS } from "@/data/official-earthquake-stats";
 import { RED_CROSS_FAMILY_CONTACT } from "@/data/red-cross-family-contact";
 import { VENEVISION_MISSING_LINE } from "@/data/venevision-missing-line";
+import { MISSING_PERSONS_HEADER } from "@/data/site-images";
 import { VENEZUELA_STATES } from "@/data/seed";
 
 interface Props {
@@ -43,6 +44,10 @@ const formLabels = {
 const registryLabels = {
   searchPlaceholder: t("missing.registry.searchPlaceholder"),
   stateFilter: t("missing.registry.stateFilter"),
+  statusFilter: t("missing.registry.statusFilter"),
+  allStatuses: t("missing.registry.allStatuses"),
+  statusMissing: t("missing.registry.statusMissing"),
+  statusFound: t("missing.registry.statusFound"),
   allStates: t("missing.registry.allStates"),
   showing: t("missing.registry.showing"),
   of: t("missing.registry.of"),
@@ -52,7 +57,13 @@ const registryLabels = {
   sources: t("missing.registry.sources"),
   lastSeen: t("missing.registry.lastSeen"),
   nationalId: t("missing.registry.nationalId"),
-  verification: dict.missing.verification as Record<string, string>,
+  statsTotalReports: t("missing.registry.statsTotalReports"),
+  statsMissing: t("missing.registry.statsMissing"),
+  statsFound: t("missing.registry.statsFound"),
+  statusBadge: {
+    missing: t("missing.registry.statusBadgeMissing"),
+    found: t("missing.registry.statusBadgeFound"),
+  },
 };
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const official = OFFICIAL_EARTHQUAKE_STATS;
@@ -65,8 +76,12 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
 ---
 
 <BaseLayout locale={locale} title={t("missing.title")}>
-  <PageHeader title={t("missing.title")} subtitle={t("missing.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
-  </PageHeader>
+  <PageHeader
+    title={t("missing.title")}
+    subtitle={t("missing.subtitle")}
+    imageSrc={MISSING_PERSONS_HEADER}
+    imageAlt={locale === "es" ? "Familias buscando personas desaparecidas tras el terremoto" : "Families searching for missing persons after the earthquake"}
+  />
 
   <div class="container-app pb-16 space-y-16 -mt-4">
     <section class="max-w-3xl">
@@ -127,17 +142,20 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         <h2 class="text-xl font-semibold text-ink">{t("missing.registry.title")}</h2>
         <p class="mt-1 text-sm text-ink-secondary max-w-3xl">{t("missing.registry.subtitle")}</p>
       </div>
-      <div class="grid gap-4 sm:grid-cols-2 max-w-3xl mb-6">
-        <div class="card flex flex-col items-center justify-center border-accent/30 bg-accent-muted/20 py-8 text-center">
-          <p class="text-5xl font-extrabold tracking-tight text-accent">{stats.unique_active.toLocaleString()}</p>
-          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsUnique")}</p>
-        </div>
-        <div class="card flex flex-col items-center justify-center py-8 text-center">
-          <p class="text-5xl font-extrabold tracking-tight text-ink">{stats.total_external_records.toLocaleString()}</p>
-          <p class="mt-2 text-sm font-medium text-ink-secondary">{t("missing.registry.statsRecords")}</p>
-        </div>
-      </div>
       <p class="text-xs text-ink-muted max-w-3xl mb-6">{t("missing.registry.statsDedupNote")}</p>
+      <MissingPersonRegistry
+        client:load
+        locale={locale}
+        states={VENEZUELA_STATES}
+        labels={registryLabels}
+        feedbackLabels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        initialStats={{
+          total_reports: stats.total_reports,
+          missing: stats.missing,
+          found: stats.found,
+        }}
+      />
       <CommunityFeedback
         client:visible
         contentType="external_link"
@@ -146,15 +164,6 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         labels={feedbackLabels}
         confidenceLabels={confidenceLabels}
         compact
-      />
-      <MissingPersonRegistry
-        client:load
-        locale={locale}
-        states={VENEZUELA_STATES}
-        labels={registryLabels}
-        feedbackLabels={feedbackLabels}
-        confidenceLabels={confidenceLabels}
-        initialStats={stats}
       />
     </section>
 

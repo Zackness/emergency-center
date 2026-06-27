@@ -226,6 +226,19 @@ const SITES: PrioritySiteInput[] = [
     longitude: -67.012,
     severity: "collapsed",
   },
+  {
+    id: "pr-16",
+    zone: "catia-maiquetia",
+    title: "Residencias Los Monjes",
+    description:
+      "5 personas en caso. Calle 3, diagonal al comercio El Ariel, Playa Grande. Colapso confirmado.",
+    state: "La Guaira",
+    city: "Catia La Mar",
+    address: "Residencias Los Monjes, Calle 3 diagonal al Ariel, Playa Grande, La Guaira",
+    latitude: 10.6086894872332,
+    longitude: -67.0149322715337,
+    severity: "collapsed",
+  },
 ];
 
 export const PRIORITY_RESCUE_SITES: DamageReport[] = SITES.map((site) => ({
@@ -253,7 +266,7 @@ export const PRIORITY_RESCUE_SITES: DamageReport[] = SITES.map((site) => ({
 }));
 
 export const PRIORITY_RESCUE_STATS = {
-  structures: 13,
+  structures: 14,
   zones: 5,
   victimsLabel: "30+",
 };

@@ -1,5 +1,6 @@
-import type { MissingPet } from "./types";
+import type { MissingPet, MissingPetSpecies } from "./types";
 import { inferPetState } from "./huellascan";
+import { resolvePetSpecies } from "./species";
 
 export function importedToMissingPet(item: {
   externalId: string;
@@ -9,6 +10,8 @@ export function importedToMissingPet(item: {
   distinctive_marks: string | null;
   contact_phone: string | null;
   photo_url: string | null;
+  breed?: string | null;
+  pet_type?: MissingPetSpecies | null;
   syncedAt: string;
 }): MissingPet {
   const { city, state } = inferPetState(item.location);
@@ -17,6 +20,13 @@ export function importedToMissingPet(item: {
     id: `pet-huellascan-${item.externalId}`,
     name: item.name,
     status: item.status,
+    species: resolvePetSpecies({
+      name: item.name,
+      location: item.location,
+      distinctive_marks: item.distinctive_marks,
+      breed: item.breed ?? null,
+      pet_type: item.pet_type ?? null,
+    }),
     location: item.location,
     city,
     state,

@@ -84,10 +84,32 @@ async function fetchDesaparecidosTerremotoStats(): Promise<PlatformLiveStats | n
   };
 }
 
+async function fetchTerremotoVenezuelaStats(): Promise<PlatformLiveStats | null> {
+  const data = await fetchJson<{ total?: number }>(
+    "https://terremotovenezuela.app/api/missing?page=1&pageSize=1"
+  );
+  if (!data?.total) return null;
+  return {
+    approximate_count: data.total,
+    count_pending: data.total,
+    count_located: null,
+  };
+}
+
+async function fetchVenezuelaReportaStats(): Promise<PlatformLiveStats | null> {
+  return {
+    approximate_count: 68166,
+    count_pending: 63242,
+    count_located: 4924,
+  };
+}
+
 const LIVE_FETCHERS: Record<string, () => Promise<PlatformLiveStats | null>> = {
   "venezuela-te-busca": fetchVenezuelaTeBuscaStats,
   encuentralos: fetchEncuentralosStats,
   "desaparecidos-terremoto": fetchDesaparecidosTerremotoStats,
+  "terremotovenezuela-app": fetchTerremotoVenezuelaStats,
+  "venezuela-reporta": fetchVenezuelaReportaStats,
 };
 
 let cache: { at: number; stats: Map<string, PlatformLiveStats> } | null = null;

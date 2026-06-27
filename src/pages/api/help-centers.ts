@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 import type { HelpCenterRegistration, HelpCenterType } from "@/types";
 import { PUBLIC_FORM_RATE_LIMIT, guardRequest, readJsonBody } from "@/lib/api-security";
+import { sanitizeHelpCenterAccepts } from "@/lib/help-centers/accepts";
 
 export const prerender = false;
 
-const ACCEPT_KEYS = ["water", "food", "medicine", "clothing", "hygiene", "blankets"] as const;
 const TYPE_KEYS: HelpCenterType[] = ["church", "community", "university", "government", "ngo"];
 
 function badRequest(message: string) {
@@ -47,9 +47,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return badRequest("Select at least one accepted donation type");
     }
 
-    const accepts = body.accepts.filter((item) =>
-      ACCEPT_KEYS.includes(item as (typeof ACCEPT_KEYS)[number])
-    );
+    const accepts = sanitizeHelpCenterAccepts(body.accepts);
     if (!accepts.length) return badRequest("Invalid accepts values");
 
     const imageUrl = body.image_url?.trim();

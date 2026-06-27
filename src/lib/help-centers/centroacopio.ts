@@ -492,6 +492,9 @@ export function mapSuppliesToAccepts(supplies: string[]): string[] {
   if (/alimento|enlatado|comida|perecedero/.test(haystack)) accepts.add("food");
   if (/medicina|médic/.test(haystack)) accepts.add("medicine");
   if (/ropa|vestimenta/.test(haystack)) accepts.add("clothing");
+  if (/papel\s*higi|aseo.*baño|baño|sanitario|cloro|papel\s*toalla/.test(haystack)) {
+    accepts.add("bathroom_supplies");
+  }
   if (/aseo|higiene|pañal/.test(haystack)) accepts.add("hygiene");
   if (/manta|frazada/.test(haystack)) accepts.add("blankets");
   if (!accepts.size) accepts.add("food");

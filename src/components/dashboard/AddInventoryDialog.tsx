@@ -179,14 +179,18 @@ export default function AddInventoryDialog({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="add-inventory-title"
     >
       <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={handleClose} aria-hidden="true" />
-      <div className="relative z-10 flex max-h-[min(90vh,52rem)] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-elevated">
-        <div className="flex items-start justify-between gap-4 border-b border-border px-6 py-5">
+      <div
+        className="relative z-10 flex max-h-[min(92vh,52rem)] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl border border-border bg-surface-elevated shadow-elevated sm:rounded-2xl"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
+        <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-border sm:hidden" aria-hidden="true" />
+        <div className="flex items-start justify-between gap-4 border-b border-border px-5 py-4 sm:px-6 sm:py-5">
           <div>
             <h2 id="add-inventory-title" className="text-lg font-semibold text-ink">
               {labels.title}
@@ -203,11 +207,11 @@ export default function AddInventoryDialog({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="overflow-y-auto px-6 py-5 space-y-5">
+        <form onSubmit={handleSubmit} className="overflow-y-auto space-y-5 px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
+              className={`min-h-11 rounded-lg px-3 py-2 text-sm font-medium ${
                 mode === "existing"
                   ? "bg-accent text-white"
                   : "bg-surface-muted text-ink-secondary"
@@ -219,7 +223,7 @@ export default function AddInventoryDialog({
             </button>
             <button
               type="button"
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
+              className={`min-h-11 rounded-lg px-3 py-2 text-sm font-medium ${
                 mode === "new" ? "bg-accent text-white" : "bg-surface-muted text-ink-secondary"
               }`}
               onClick={() => setMode("new")}
@@ -228,7 +232,7 @@ export default function AddInventoryDialog({
             </button>
             <button
               type="button"
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
+              className={`min-h-11 rounded-lg px-3 py-2 text-sm font-medium ${
                 mode === "need" ? "bg-accent text-white" : "bg-surface-muted text-ink-secondary"
               }`}
               onClick={() => setMode("need")}

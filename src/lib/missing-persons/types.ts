@@ -21,9 +21,24 @@ export interface ImportedMissingRecord {
   status: ImportedPersonStatus;
 }
 
+export interface SourcePageResult {
+  items: ImportedMissingRecord[];
+  total: number | null;
+}
+
 export interface SourceAdapter {
   slug: string;
-  fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]>;
+  fetchBatch(
+    offset: number,
+    limit: number,
+    status?: ImportedPersonStatus
+  ): Promise<ImportedMissingRecord[]>;
+  /** Paginación con total reportado por la plataforma, si la API lo expone. */
+  fetchPage?(
+    offset: number,
+    limit: number,
+    status?: ImportedPersonStatus
+  ): Promise<SourcePageResult>;
 }
 
 export interface SyncOptions {

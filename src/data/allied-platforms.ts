@@ -26,6 +26,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     color: "yellow",
   },
   {
+    domain: "donarseguro.com",
+    url: "https://donarseguro.com",
+    description: {
+      es: "Directorio que reúne organizaciones legítimas donde donar de forma segura al terremoto en Venezuela, con enlaces verificados.",
+      en: "Directory that gathers legitimate organizations where you can donate safely to the Venezuela earthquake response, with verified links.",
+    },
+    color: "yellow",
+  },
+  {
     domain: "vzlayuda.com",
     url: "https://vzlayuda.com",
     description: {

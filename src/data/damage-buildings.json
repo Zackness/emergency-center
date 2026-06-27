@@ -5532,14 +5532,14 @@
     },
     {
       "externalId": "86600d22-3460-4444-853f-e56254a67434",
-      "title": "Los Monjes",
-      "address": "Playa Grande, Maiquetía 1162, La Guaira, Venezuela",
-      "city": "Maiquetía",
+      "title": "Residencias Los Monjes",
+      "address": "Calle 3 diagonal al Ariel, Playa Grande, Maiquetía 1162, La Guaira, Venezuela",
+      "city": "Catia La Mar",
       "zone": "Playa Grande",
       "state": "La Guaira",
       "latitude": 10.6086894872332,
       "longitude": -67.0149322715337,
-      "severity": "evacuated",
+      "severity": "collapsed",
       "imageUrls": [
         "https://jckifxsdlnsvbztxydes.supabase.co/storage/v1/object/public/damage-media/reports/1200188a-c5f9-4dca-b929-77b652c33f79.jpeg"
       ],

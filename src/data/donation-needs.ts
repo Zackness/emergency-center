@@ -36,6 +36,17 @@ export const DONATION_NEED_CATEGORIES = [
     ],
   },
   {
+    id: "bathroom-supplies",
+    items: [
+      "toilet-paper",
+      "paper-towels",
+      "hand-soap",
+      "bleach",
+      "bathroom-cleaner",
+      "trash-bags",
+    ],
+  },
+  {
     id: "3d-printing",
     items: ["pla-filament", "petg-filament", "abs-filament"],
   },

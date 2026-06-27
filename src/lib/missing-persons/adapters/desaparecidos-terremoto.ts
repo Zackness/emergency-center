@@ -1,4 +1,4 @@
-import type { ImportedMissingRecord, SourceAdapter } from "@/lib/missing-persons/types";
+import type { ImportedMissingRecord, ImportedPersonStatus, SourceAdapter } from "@/lib/missing-persons/types";
 import { parseLocation } from "@/lib/missing-persons/location";
 
 const API_BASE = "https://desaparecidos-terremoto-api.theempire.tech/api";
@@ -52,9 +52,14 @@ function mapPerson(row: DesaparecidosPerson): ImportedMissingRecord {
 export const desaparecidosTerremotoAdapter: SourceAdapter = {
   slug: "desaparecidos-terremoto",
 
-  async fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]> {
+  async fetchBatch(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<ImportedMissingRecord[]> {
     const page = Math.floor(offset / limit) + 1;
-    const url = `${API_BASE}/personas?page=${page}&pageSize=${limit}&estado=sin-contacto`;
+    const estado = status === "found" ? "localizado" : "sin-contacto";
+    const url = `${API_BASE}/personas?page=${page}&pageSize=${limit}&estado=${estado}`;
     const res = await fetch(url, {
       headers: {
         Accept: "application/json",
@@ -76,8 +81,6 @@ export const desaparecidosTerremotoAdapter: SourceAdapter = {
     }
 
     const data = (await res.json()) as { items?: DesaparecidosPerson[] };
-    return (data.items ?? [])
-      .filter((row) => row.estado !== "localizado")
-      .map(mapPerson);
+    return (data.items ?? []).map(mapPerson);
   },
 };

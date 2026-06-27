@@ -1,4 +1,4 @@
-import type { ImportedMissingRecord, SourceAdapter } from "@/lib/missing-persons/types";
+import type { ImportedMissingRecord, ImportedPersonStatus, SourceAdapter } from "@/lib/missing-persons/types";
 import { parseLocation } from "@/lib/missing-persons/location";
 
 const BASE = "https://terremotovenezuela.app";
@@ -12,6 +12,7 @@ interface TvAppPerson {
   contact: string | null;
   photoUrl: string | null;
   status: string;
+  resolvedAt?: string | number | null;
   createdAt: string;
 }
 
@@ -24,6 +25,7 @@ function resolvePhotoUrl(photoUrl: string | null, personId: string): string | nu
 function mapPerson(row: TvAppPerson): ImportedMissingRecord {
   const { state, city } = parseLocation(row.lastSeen);
   const contact = row.contact?.trim();
+  const isMissing = row.status === "active" && !row.resolvedAt;
 
   return {
     sourceSlug: "terremotovenezuela-app",
@@ -42,28 +44,65 @@ function mapPerson(row: TvAppPerson): ImportedMissingRecord {
     contactName: contact ? "Reporte ciudadano" : "Reporte ciudadano",
     contactPhone: contact || "Por confirmar",
     contactEmail: null,
-    status: row.status === "active" ? "missing" : "found",
+    status: isMissing ? "missing" : "found",
+  };
+}
+
+async function fetchTvPage(
+  page: number,
+  pageSize: number
+): Promise<import("@/lib/missing-persons/types").SourcePageResult> {
+  const url = `${BASE}/api/missing?page=${page}&pageSize=${pageSize}`;
+  const res = await fetch(url, {
+    headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(60_000),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Terremoto Venezuela App API ${res.status}`);
+  }
+
+  const data = (await res.json()) as { people?: TvAppPerson[]; total?: number };
+  return {
+    items: (data.people ?? []).map(mapPerson),
+    total: data.total ?? null,
   };
 }
 
 export const terremotoVenezuelaAppAdapter: SourceAdapter = {
   slug: "terremotovenezuela-app",
 
-  async fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]> {
+  async fetchPage(offset, limit, status = "missing") {
     const page = Math.floor(offset / limit) + 1;
-    const url = `${BASE}/api/missing?page=${page}&pageSize=${limit}`;
-    const res = await fetch(url, {
-      headers: { Accept: "application/json" },
-      signal: AbortSignal.timeout(60_000),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Terremoto Venezuela App API ${res.status}`);
+    const result = await fetchTvPage(page, limit);
+    if (status === "missing") {
+      return {
+        items: result.items.filter((row) => row.status === "missing"),
+        total: result.total,
+      };
     }
+    if (status === "found") {
+      return {
+        items: result.items.filter((row) => row.status === "found"),
+        total: null,
+      };
+    }
+    return result;
+  },
 
-    const data = (await res.json()) as { people?: TvAppPerson[] };
-    return (data.people ?? [])
-      .filter((row) => row.status === "active")
-      .map(mapPerson);
+  async fetchBatch(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<ImportedMissingRecord[]> {
+    const page = Math.floor(offset / limit) + 1;
+    const result = await fetchTvPage(page, limit);
+    if (status === "found") {
+      return result.items.filter((row) => row.status === "found");
+    }
+    if (status === "missing") {
+      return result.items.filter((row) => row.status === "missing");
+    }
+    return result.items;
   },
 };

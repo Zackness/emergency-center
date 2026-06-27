@@ -7,6 +7,10 @@ import type { MissingPersonWithSources } from "@/types";
 interface RegistryLabels {
   searchPlaceholder: string;
   stateFilter: string;
+  statusFilter: string;
+  allStatuses: string;
+  statusMissing: string;
+  statusFound: string;
   allStates: string;
   showing: string;
   of: string;
@@ -16,7 +20,13 @@ interface RegistryLabels {
   sources: string;
   lastSeen: string;
   nationalId: string;
-  verification: Record<string, string>;
+  statsTotalReports: string;
+  statsMissing: string;
+  statsFound: string;
+  statusBadge: {
+    missing: string;
+    found: string;
+  };
 }
 
 interface MissingPersonRegistryProps {
@@ -26,8 +36,9 @@ interface MissingPersonRegistryProps {
   feedbackLabels: Record<string, string>;
   confidenceLabels: Record<CommunityConfidenceLevel, string>;
   initialStats?: {
-    unique_active: number;
-    total_external_records: number;
+    total_reports: number;
+    missing: number;
+    found: number;
   };
 }
 
@@ -37,6 +48,11 @@ interface ApiResponse {
   page: number;
   limit: number;
 }
+
+const PERSON_STATUS_STYLES = {
+  missing: "bg-emergency-muted text-emergency",
+  found: "bg-success-muted text-success",
+} as const;
 
 function PersonCard({
   person,
@@ -51,11 +67,8 @@ function PersonCard({
   feedbackLabels: Record<string, string>;
   confidenceLabels: Record<CommunityConfidenceLevel, string>;
 }) {
-  const statusClass =
-    person.verification_status === "family_verified" ||
-    person.verification_status === "org_verified"
-      ? "badge-verified"
-      : "badge-warning";
+  const isFound = person.verification_status === "found";
+  const statusKey = isFound ? "found" : "missing";
 
   return (
     <article className="card flex flex-col overflow-hidden p-0">
@@ -86,8 +99,8 @@ function PersonCard({
             </svg>
           </div>
         )}
-        <span className={`${statusClass} absolute right-3 top-3 shadow-sm`}>
-          {labels.verification[person.verification_status] ?? person.verification_status}
+        <span className={`badge absolute right-3 top-3 shadow-sm ${PERSON_STATUS_STYLES[statusKey]}`}>
+          {labels.statusBadge[statusKey]}
         </span>
       </div>
 
@@ -166,9 +179,11 @@ export default function MissingPersonRegistry({
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
   const [state, setState] = useState("");
+  const [status, setStatus] = useState<"all" | "missing" | "found">("all");
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<MissingPersonWithSources[]>([]);
-  const [total, setTotal] = useState(initialStats?.unique_active ?? 0);
+  const [total, setTotal] = useState(0);
+  const [hubStats, setHubStats] = useState(initialStats);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -185,6 +200,7 @@ export default function MissingPersonRegistry({
       });
       if (debouncedQ.trim()) params.set("q", debouncedQ.trim());
       if (state) params.set("state", state);
+      if (status !== "all") params.set("status", status);
 
       try {
         const res = await fetch(`/api/missing-persons?${params}`);
@@ -199,8 +215,23 @@ export default function MissingPersonRegistry({
         setLoading(false);
       }
     },
-    [debouncedQ, state]
+    [debouncedQ, state, status]
   );
+
+  useEffect(() => {
+    void fetch("/api/missing-persons/sync")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.total_reports != null) {
+          setHubStats({
+            total_reports: data.total_reports,
+            missing: data.missing,
+            found: data.found,
+          });
+        }
+      })
+      .catch(() => undefined);
+  }, []);
 
   useEffect(() => {
     void fetchPage(1, false);
@@ -210,7 +241,34 @@ export default function MissingPersonRegistry({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-3 max-w-3xl">
+      <div className="grid gap-4 sm:grid-cols-3 max-w-4xl">
+        <div className="card flex flex-col items-center justify-center py-6 text-center">
+          <p className="text-4xl font-extrabold tracking-tight text-ink">
+            {(hubStats?.total_reports ?? 0).toLocaleString()}
+          </p>
+          <p className="mt-2 text-sm font-medium text-ink-secondary">
+            {labels.statsTotalReports}
+          </p>
+        </div>
+        <div className="card flex flex-col items-center justify-center border-accent/30 bg-accent-muted/20 py-6 text-center">
+          <p className="text-4xl font-extrabold tracking-tight text-accent">
+            {(hubStats?.missing ?? 0).toLocaleString()}
+          </p>
+          <p className="mt-2 text-sm font-medium text-ink-secondary">
+            {labels.statsMissing}
+          </p>
+        </div>
+        <div className="card flex flex-col items-center justify-center py-6 text-center">
+          <p className="text-4xl font-extrabold tracking-tight text-ink">
+            {(hubStats?.found ?? 0).toLocaleString()}
+          </p>
+          <p className="mt-2 text-sm font-medium text-ink-secondary">
+            {labels.statsFound}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3 max-w-4xl lg:flex-row">
         <input
           type="search"
           value={q}
@@ -220,9 +278,19 @@ export default function MissingPersonRegistry({
           aria-label={labels.searchPlaceholder}
         />
         <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value as "all" | "missing" | "found")}
+          className="input lg:max-w-[11rem]"
+          aria-label={labels.statusFilter}
+        >
+          <option value="all">{labels.allStatuses}</option>
+          <option value="missing">{labels.statusMissing}</option>
+          <option value="found">{labels.statusFound}</option>
+        </select>
+        <select
           value={state}
           onChange={(e) => setState(e.target.value)}
-          className="input sm:max-w-xs"
+          className="input lg:max-w-xs"
           aria-label={labels.stateFilter}
         >
           <option value="">{labels.allStates}</option>
@@ -241,7 +309,7 @@ export default function MissingPersonRegistry({
       {items.length === 0 && !loading ? (
         <p className="text-ink-secondary text-sm">{labels.noResults}</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {items.map((person) => (
             <PersonCard
               key={person.id}

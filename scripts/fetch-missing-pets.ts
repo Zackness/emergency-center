@@ -10,6 +10,7 @@ import {
   fetchHuellascanHtml,
   parseHuellascanPage,
 } from "../src/lib/missing-pets/huellascan";
+import { inferPetSpecies } from "../src/lib/missing-pets/species";
 
 const OUTPUT = new URL("../src/data/missing-pets.json", import.meta.url);
 const DELAY_MS = 150;
@@ -41,7 +42,12 @@ async function main() {
     ingest(html);
   }
 
-  const items = [...byId.values()].sort((a, b) => Number(b.externalId) - Number(a.externalId));
+  const items = [...byId.values()]
+    .map((item) => ({
+      ...item,
+      pet_type: inferPetSpecies(item),
+    }))
+    .sort((a, b) => Number(b.externalId) - Number(a.externalId));
   const payload = {
     source: "https://www.huellascan.com/terremoto",
     fetched_at: new Date().toISOString(),

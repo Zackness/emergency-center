@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Personas desaparecidas</title>
+  <desc id="desc">Familias y voluntarios buscando personas desaparecidas tras el terremoto, con avisos y teléfonos de contacto.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="48%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="0" x2="1">
+      <stop offset="0%" stop-color="#101828" stop-opacity=".68"/>
+      <stop offset="58%" stop-color="#101828" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#101828" stop-opacity=".26"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .07"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <path d="M0 640h1600v260H0z" fill="#8b7355"/>
+  <rect x="120" y="180" width="520" height="420" rx="28" fill="#f8fafc"/>
+  <rect x="155" y="215" width="450" height="350" rx="16" fill="#e2e8f0"/>
+  <rect x="185" y="245" width="120" height="150" rx="10" fill="#cbd5e1"/>
+  <circle cx="245" cy="295" r="34" fill="#94a3b8"/>
+  <path d="M205 355h80" stroke="#64748b" stroke-width="10" stroke-linecap="round"/>
+  <rect x="325" y="245" width="120" height="150" rx="10" fill="#bfdbfe"/>
+  <circle cx="385" cy="295" r="34" fill="#60a5fa"/>
+  <path d="M345 355h80" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+  <rect x="465" y="245" width="120" height="150" rx="10" fill="#fecaca"/>
+  <circle cx="525" cy="295" r="34" fill="#f87171"/>
+  <path d="M485 355h80" stroke="#dc2626" stroke-width="10" stroke-linecap="round"/>
+  <path d="M185 420h390M185 455h320M185 490h350" stroke="#64748b" stroke-width="12" stroke-linecap="round"/>
+  <rect x="720" y="220" width="760" height="380" rx="32" fill="#1e293b"/>
+  <rect x="770" y="270" width="660" height="280" rx="18" fill="#0f172a"/>
+  <circle cx="860" cy="360" r="52" fill="#334155"/>
+  <circle cx="860" cy="345" r="22" fill="#94a3b8"/>
+  <path d="M820 395c18-28 62-28 80 0v55H820z" fill="#64748b"/>
+  <circle cx="980" cy="360" r="52" fill="#334155"/>
+  <circle cx="980" cy="345" r="22" fill="#60a5fa"/>
+  <path d="M940 395c18-28 62-28 80 0v55H940z" fill="#2563eb"/>
+  <circle cx="1100" cy="360" r="52" fill="#334155"/>
+  <circle cx="1100" cy="345" r="22" fill="#fbbf24"/>
+  <path d="M1060 395c18-28 62-28 80 0v55H1060z" fill="#d97706"/>
+  <path d="M820 470h420M820 505h360" stroke="#475569" stroke-width="14" stroke-linecap="round"/>
+  <rect x="1240" y="560" width="170" height="260" rx="28" fill="#111827"/>
+  <rect x="1265" y="595" width="120" height="190" rx="12" fill="#dbeafe"/>
+  <path d="M1290 640h70M1290 675h52M1290 710h84" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="1080" cy="690" r="78" fill="none" stroke="#f97316" stroke-width="22"/>
+  <path d="M1138 748l92 92" stroke="#f97316" stroke-width="22" stroke-linecap="round"/>
+  <path d="M0 760c220-70 390-58 610-18 260 52 480 42 760-34 110-28 210-36 290-28v220H0z" fill="#475467" opacity=".22"/>
+  <rect width="1600" height="900" fill="url(#shade)"/>
+  <rect width="1600" height="900" filter="url(#grain)" opacity=".35"/>
+</svg>

@@ -11,7 +11,7 @@ const CENTER_TYPES: HelpCenterType[] = [
   "ngo",
 ];
 
-const ACCEPT_KEYS = ["water", "food", "medicine", "clothing", "hygiene", "blankets"];
+import { HELP_CENTER_ACCEPT_KEYS } from "@/lib/help-centers/accepts";
 
 export interface CenterRegistrationFormLabels {
   centerName: string;
@@ -251,7 +251,7 @@ export default function CenterRegistrationForm({
       <div>
         <p className="label">{labels.accepts}</p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {ACCEPT_KEYS.map((key) => (
+          {HELP_CENTER_ACCEPT_KEYS.map((key) => (
             <label
               key={key}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-3 py-1.5 text-sm cursor-pointer"

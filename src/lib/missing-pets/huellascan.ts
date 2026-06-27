@@ -50,12 +50,46 @@ function parseOptionalField(raw: string): string | null {
 const REPORT_RE =
   /descargarCartel\(event,\s*(\d+),\s*&quot;(lost|found)&quot;,\s*&quot;((?:\\.|[^&])*)&quot;,\s*&quot;((?:\\.|[^&])*)&quot;,\s*(null|&quot;(?:\\.|[^&])*&quot;),\s*(null|&quot;(?:\\.|[^&])*&quot;)\)/g;
 
+const PHOTO_RE =
+  /src="(https:\/\/media\.huellascan\.com\/uploads\/earthquake\/[^"]+)"/g;
+
+function collectPhotoEntries(html: string) {
+  return [...html.matchAll(PHOTO_RE)].map((match) => ({
+    url: match[1],
+    index: match.index ?? 0,
+  }));
+}
+
+/** Asigna la foto del card que precede a cada botón descargarCartel. */
+function photoBeforeReport(
+  photoEntries: Array<{ url: string; index: number }>,
+  reportIndex: number,
+  lastPhotoIndex: number
+): { url: string | null; lastPhotoIndex: number } {
+  const candidates = photoEntries.filter(
+    (photo) => photo.index > lastPhotoIndex && photo.index < reportIndex
+  );
+  const chosen = candidates.at(-1);
+  if (!chosen) return { url: null, lastPhotoIndex };
+  return { url: chosen.url, lastPhotoIndex: chosen.index };
+}
+
 export function extractMaxPage(html: string): number {
   const pages = [...html.matchAll(/gotoPage\((\d+),\s*'page'\)/g)].map((m) => Number(m[1]));
   return pages.length ? Math.max(...pages) : 1;
 }
 
+function breedBeforeReport(html: string, reportIndex: number): string | null {
+  const block = html.slice(Math.max(0, reportIndex - 12_000), reportIndex);
+  const matches = [...block.matchAll(/Raza:<\/b>\s*\n?\s*([^<]+)/g)];
+  const breed = matches.at(-1)?.[1]?.trim();
+  return breed || null;
+}
+
 export function parseHuellascanPage(html: string) {
+  const photoEntries = collectPhotoEntries(html);
+  let lastPhotoIndex = -1;
+
   const items: Array<{
     externalId: string;
     name: string;
@@ -64,15 +98,17 @@ export function parseHuellascanPage(html: string) {
     distinctive_marks: string | null;
     contact_phone: string | null;
     photo_url: string | null;
+    breed: string | null;
   }> = [];
 
   for (const match of html.matchAll(REPORT_RE)) {
-    const index = match.index ?? 0;
-    const chunk = html.slice(Math.max(0, index - 3000), index);
-    const photoMatches = [
-      ...chunk.matchAll(/src="(https:\/\/media\.huellascan\.com\/uploads\/earthquake\/[^"]+)"/g),
-    ];
-    const photo_url = photoMatches.at(-1)?.[1] ?? null;
+    const reportIndex = match.index ?? 0;
+    const { url: photo_url, lastPhotoIndex: nextIndex } = photoBeforeReport(
+      photoEntries,
+      reportIndex,
+      lastPhotoIndex
+    );
+    lastPhotoIndex = nextIndex;
 
     items.push({
       externalId: match[1],
@@ -82,6 +118,7 @@ export function parseHuellascanPage(html: string) {
       distinctive_marks: parseOptionalField(match[5]),
       contact_phone: parseOptionalField(match[6]),
       photo_url,
+      breed: breedBeforeReport(html, reportIndex),
     });
   }
 

@@ -1,9 +1,11 @@
 export type MissingPetStatus = "lost" | "found";
+export type MissingPetSpecies = "dog" | "cat" | "other";
 
 export interface MissingPet {
   id: string;
   name: string;
   status: MissingPetStatus;
+  species: MissingPetSpecies;
   location: string;
   city: string | null;
   state: string | null;
@@ -22,6 +24,7 @@ export interface MissingPet {
 export interface MissingPetsQuery {
   q?: string;
   status?: MissingPetStatus | "all";
+  species?: MissingPetSpecies | "all";
   state?: string;
   page?: number;
   limit?: number;

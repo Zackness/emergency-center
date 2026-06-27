@@ -1,4 +1,9 @@
-import type { ImportedMissingRecord, SourceAdapter } from "@/lib/missing-persons/types";
+import type {
+  ImportedMissingRecord,
+  ImportedPersonStatus,
+  SourceAdapter,
+  SourcePageResult,
+} from "@/lib/missing-persons/types";
 import { parseLocation } from "@/lib/missing-persons/location";
 
 const BASE = "https://encuentralos.tecnosoft.dev";
@@ -46,8 +51,13 @@ function mapPerson(row: EncuentralosPerson): ImportedMissingRecord {
 export const encuentralosAdapter: SourceAdapter = {
   slug: "encuentralos",
 
-  async fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]> {
-    const url = `${BASE}/api/personas?limit=${limit}&offset=${offset}&estado=desaparecido`;
+  async fetchPage(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<SourcePageResult> {
+    const estado = status === "found" ? "localizado" : "desaparecido";
+    const url = `${BASE}/api/personas?limit=${limit}&offset=${offset}&estado=${estado}`;
     const res = await fetch(url, {
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(60_000),
@@ -57,7 +67,19 @@ export const encuentralosAdapter: SourceAdapter = {
       throw new Error(`Encuéntralos API ${res.status}`);
     }
 
-    const data = (await res.json()) as { items?: EncuentralosPerson[] };
-    return (data.items ?? []).map(mapPerson);
+    const data = (await res.json()) as { items?: EncuentralosPerson[]; total?: number };
+    return {
+      items: (data.items ?? []).map(mapPerson),
+      total: data.total ?? null,
+    };
+  },
+
+  async fetchBatch(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<ImportedMissingRecord[]> {
+    const page = await this.fetchPage!(offset, limit, status);
+    return page.items;
   },
 };

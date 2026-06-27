@@ -9,6 +9,11 @@ export const GET: APIRoute = async ({ url }) => {
 
     const q = url.searchParams.get("q") ?? undefined;
     const state = url.searchParams.get("state") ?? undefined;
+    const statusParam = url.searchParams.get("status");
+    const status =
+      statusParam === "missing" || statusParam === "found" || statusParam === "all"
+        ? statusParam
+        : "all";
     const parsedPage = Number(url.searchParams.get("page") ?? "1");
     const parsedLimit = Number(url.searchParams.get("limit") ?? "24");
     const page = Number.isFinite(parsedPage) ? Math.max(1, parsedPage) : 1;
@@ -17,8 +22,8 @@ export const GET: APIRoute = async ({ url }) => {
       : 24;
 
     const [items, total] = await Promise.all([
-      fetchMissingPersons({ q, state, page, limit }),
-      countMissingPersons({ q, state }),
+      fetchMissingPersons({ q, state, status, page, limit }),
+      countMissingPersons({ q, state, status }),
     ]);
 
     return new Response(

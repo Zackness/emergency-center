@@ -5,13 +5,15 @@ import {
   registerImportedRecord,
   type PersonIndex,
 } from "@/lib/missing-persons/dedup";
+import { normalizeHubStats, type MissingPersonsHubStats } from "@/lib/missing-persons/hub-stats";
 import { dedupeSourcesByPlatform } from "@/lib/missing-persons/sources";
-import type { ImportedMissingRecord } from "@/lib/missing-persons/types";
-import type { MissingPersonSourceLink, MissingPersonWithSources } from "@/types";
+import type { ImportedMissingRecord, ImportedPersonStatus } from "@/lib/missing-persons/types";
+import type { MissingPersonSourceLink, MissingPersonVerificationStatus, MissingPersonWithSources } from "@/types";
 
 export interface MissingPersonsLiveQuery {
   q?: string;
   state?: string;
+  status?: "all" | "missing" | "found";
   page?: number;
   limit?: number;
 }
@@ -24,13 +26,27 @@ const SOURCE_LABELS: Record<string, string> = {
   "desaparecidos-terremoto": "Desaparecidos Terremoto",
 };
 
-let memoryCache: { at: number; persons: MissingPersonWithSources[] } | null = null;
+const FETCH_STATUSES: ImportedPersonStatus[] = ["missing", "found"];
+
+let memoryCache: {
+  at: number;
+  persons: MissingPersonWithSources[];
+  totalReports: number;
+} | null = null;
 const MEMORY_TTL_MS = 5 * 60 * 1000;
-const MAX_PER_SOURCE = 2_000;
+const MAX_PER_SOURCE = 5_000;
 const BATCH_SIZE = 200;
 
 export function clearMissingPersonsLiveCache() {
   memoryCache = null;
+}
+
+function verificationFromRecord(
+  status: ImportedPersonStatus
+): MissingPersonVerificationStatus {
+  if (status === "found") return "found";
+  if (status === "deceased") return "deceased";
+  return "unverified";
 }
 
 function sourceLink(record: ImportedMissingRecord): MissingPersonSourceLink {
@@ -51,6 +67,7 @@ function importedToPerson(
   sources: MissingPersonSourceLink[]
 ): MissingPersonWithSources {
   const now = new Date().toISOString();
+  const verification = verificationFromRecord(record.status);
   return {
     id: personId,
     full_name: record.fullName,
@@ -66,83 +83,118 @@ function importedToPerson(
     contact_name: record.contactName,
     contact_phone: record.contactPhone,
     contact_email: record.contactEmail,
-    verification_status: "unverified",
-    is_active: true,
+    verification_status: verification,
+    is_active: record.status === "missing",
     created_at: now,
     updated_at: now,
     sources,
   };
 }
 
-function mergeSource(
-  person: MissingPersonWithSources,
-  record: ImportedMissingRecord
-): void {
+function mergeRecord(person: MissingPersonWithSources, record: ImportedMissingRecord): void {
   const link = sourceLink(record);
-  if (person.sources.some((s) => s.source_slug === link.source_slug)) {
-    return;
+  if (!person.sources.some((s) => s.source_slug === link.source_slug && s.id === link.id)) {
+    person.sources.push(link);
   }
-  person.sources.push(link);
+
+  if (record.status === "found") {
+    person.verification_status = "found";
+    person.is_active = false;
+  } else if (record.status === "deceased") {
+    person.verification_status = "deceased";
+    person.is_active = false;
+  } else if (person.verification_status !== "found" && person.verification_status !== "deceased") {
+    person.verification_status = "unverified";
+    person.is_active = true;
+  }
+
   if (!person.photo_url && record.photoUrl) person.photo_url = record.photoUrl;
+  if (!person.national_id && record.nationalId) person.national_id = record.nationalId;
   if (person.contact_phone === "Por confirmar" && record.contactPhone) {
     person.contact_phone = record.contactPhone;
   }
+  if (!person.last_seen_location && record.lastSeenLocation) {
+    person.last_seen_location = record.lastSeenLocation;
+  }
 }
 
-async function loadAllFromAdapters(): Promise<MissingPersonWithSources[]> {
+async function fetchAdapterBatch(
+  adapter: (typeof SOURCE_ADAPTERS)[number],
+  offset: number,
+  status: ImportedPersonStatus
+): Promise<ImportedMissingRecord[]> {
+  return Promise.race([
+    adapter.fetchBatch(offset, BATCH_SIZE, status),
+    new Promise<ImportedMissingRecord[]>((_, reject) => {
+      setTimeout(() => reject(new Error("fetch timeout")), 20_000);
+    }),
+  ]);
+}
+
+async function loadAllFromAdapters(): Promise<{
+  persons: MissingPersonWithSources[];
+  totalReports: number;
+}> {
   const now = Date.now();
   if (memoryCache && now - memoryCache.at < MEMORY_TTL_MS) {
-    return memoryCache.persons;
+    return { persons: memoryCache.persons, totalReports: memoryCache.totalReports };
   }
 
   const index: PersonIndex = new Map();
   const persons = new Map<string, MissingPersonWithSources>();
+  const seenSourceRecords = new Set<string>();
+  let totalReports = 0;
 
   const syncSlugs = new Set(defaultMissingPersonSyncSlugs());
   const adapters = SOURCE_ADAPTERS.filter((adapter) => syncSlugs.has(adapter.slug));
 
   for (const adapter of adapters) {
-    let offset = 0;
-    while (offset < MAX_PER_SOURCE) {
-      let batch: ImportedMissingRecord[];
-      try {
-        batch = await Promise.race([
-          adapter.fetchBatch(offset, BATCH_SIZE),
-          new Promise<ImportedMissingRecord[]>((_, reject) => {
-            setTimeout(() => reject(new Error("fetch timeout")), 12_000);
-          }),
-        ]);
-      } catch (err) {
-        console.error(`[missing-persons] live fetch ${adapter.slug} failed:`, err);
-        break;
+    for (const status of FETCH_STATUSES) {
+      if (adapter.slug === "terremotovenezuela-app" && status === "found") {
+        continue;
       }
 
-      if (!batch.length) break;
-
-      for (const record of batch) {
-        if (record.status !== "missing") continue;
-
-        const existingId = findMatchingPersonId(index, record, {
-          sourceSlug: record.sourceSlug,
-          externalId: record.externalId,
-          externalUrl: record.externalUrl,
-        });
-
-        if (existingId) {
-          const existing = persons.get(existingId);
-          if (existing) mergeSource(existing, record);
-          continue;
+      let offset = 0;
+      while (offset < MAX_PER_SOURCE) {
+        let batch: ImportedMissingRecord[];
+        try {
+          batch = await fetchAdapterBatch(adapter, offset, status);
+        } catch (err) {
+          console.error(`[missing-persons] live fetch ${adapter.slug}/${status} failed:`, err);
+          break;
         }
 
-        const personId = `live-${record.sourceSlug}-${record.externalId}`;
-        const link = sourceLink(record);
-        const person = importedToPerson(record, personId, [link]);
-        persons.set(personId, person);
-        registerImportedRecord(index, personId, record);
-      }
+        if (!batch.length) break;
 
-      offset += batch.length;
-      if (batch.length < BATCH_SIZE) break;
+        for (const record of batch) {
+          const sourceKey = `${record.sourceSlug}:${record.externalId}`;
+          if (!seenSourceRecords.has(sourceKey)) {
+            seenSourceRecords.add(sourceKey);
+            totalReports += 1;
+          }
+
+          const existingId = findMatchingPersonId(index, record, {
+            sourceSlug: record.sourceSlug,
+            externalId: record.externalId,
+            externalUrl: record.externalUrl,
+          });
+
+          if (existingId) {
+            const existing = persons.get(existingId);
+            if (existing) mergeRecord(existing, record);
+            registerImportedRecord(index, existingId, record);
+            continue;
+          }
+
+          const personId = `live-${record.sourceSlug}-${record.externalId}`;
+          const person = importedToPerson(record, personId, [sourceLink(record)]);
+          persons.set(personId, person);
+          registerImportedRecord(index, personId, record);
+        }
+
+        offset += batch.length;
+        if (batch.length < BATCH_SIZE) break;
+      }
     }
   }
 
@@ -152,12 +204,23 @@ async function loadAllFromAdapters(): Promise<MissingPersonWithSources[]> {
       sources: dedupeSourcesByPlatform(person.sources),
     }))
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
-  memoryCache = { at: now, persons: list };
-  return list;
+
+  memoryCache = { at: now, persons: list, totalReports };
+  return { persons: list, totalReports };
+}
+
+function personMatchesStatus(
+  person: MissingPersonWithSources,
+  status: MissingPersonsLiveQuery["status"]
+): boolean {
+  if (!status || status === "all") return true;
+  if (status === "found") return person.verification_status === "found";
+  return person.verification_status !== "found" && person.verification_status !== "deceased";
 }
 
 function matchesQuery(person: MissingPersonWithSources, query: MissingPersonsLiveQuery): boolean {
   if (query.state && person.state !== query.state) return false;
+  if (!personMatchesStatus(person, query.status)) return false;
   if (query.q?.trim()) {
     const needle = query.q.trim().toLowerCase();
     const haystack = [
@@ -167,6 +230,7 @@ function matchesQuery(person: MissingPersonWithSources, query: MissingPersonsLiv
       person.state,
       person.last_seen_location,
       person.description,
+      person.contact_phone,
     ]
       .filter(Boolean)
       .join(" ")
@@ -177,8 +241,8 @@ function matchesQuery(person: MissingPersonWithSources, query: MissingPersonsLiv
 }
 
 export async function fetchMissingPersonsLive(query: MissingPersonsLiveQuery = {}) {
-  const all = await loadAllFromAdapters();
-  const filtered = all.filter((person) => matchesQuery(person, query));
+  const { persons } = await loadAllFromAdapters();
+  const filtered = persons.filter((person) => matchesQuery(person, query));
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(100, Math.max(1, query.limit ?? 24));
   const start = (page - 1) * limit;
@@ -191,26 +255,30 @@ export async function fetchMissingPersonsLive(query: MissingPersonsLiveQuery = {
   };
 }
 
-export async function fetchMissingPersonsLiveStats() {
-  const all = await loadAllFromAdapters();
+export async function fetchMissingPersonsLiveStats(): Promise<MissingPersonsHubStats> {
+  const { persons, totalReports } = await loadAllFromAdapters();
   const bySource = new Map<string, number>();
 
-  for (const person of all) {
+  for (const person of persons) {
     for (const source of person.sources) {
       bySource.set(source.source_slug, (bySource.get(source.source_slug) ?? 0) + 1);
     }
   }
 
-  const totalRecords = [...bySource.values()].reduce((sum, count) => sum + count, 0);
+  const missing = persons.filter(
+    (person) => person.verification_status !== "found" && person.verification_status !== "deceased"
+  ).length;
+  const found = persons.filter((person) => person.verification_status === "found").length;
 
-  return {
-    unique_active: all.length,
-    total_external_records: totalRecords,
+  return normalizeHubStats({
+    total_reports: totalReports,
+    missing,
+    found,
     sources: [...bySource.entries()].map(([slug, records]) => ({
       slug,
       name: SOURCE_LABELS[slug] ?? slug,
       records,
       platform_count: null,
     })),
-  };
+  });
 }

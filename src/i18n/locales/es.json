@@ -193,6 +193,7 @@
         "syringes": "Jeringas (inyectadoras)",
         "gloves": "Guantes",
         "medications": "Medicamentos",
+        "bathroom-supplies": "Aseo de baño",
         "3d-printing": "Impresión 3D"
       },
       "items": {
@@ -221,6 +222,12 @@
         "vitamin-k": "Vitamina K amp",
         "tranexamic-acid": "Ácido tranexámico amp",
         "lidocaine": "Lidocaína",
+        "toilet-paper": "Papel higiénico",
+        "paper-towels": "Toallas de papel / servilletas",
+        "hand-soap": "Jabón líquido para manos",
+        "bleach": "Cloro / blanqueador",
+        "bathroom-cleaner": "Limpiador de baño",
+        "trash-bags": "Bolsas de basura",
         "pla-filament": "Filamento PLA",
         "petg-filament": "Filamento PETG",
         "abs-filament": "Filamento ABS u otros"
@@ -250,6 +257,7 @@
       "medicine": "Medicinas",
       "clothing": "Ropa",
       "hygiene": "Higiene",
+      "bathroom_supplies": "Aseo de baño",
       "blankets": "Mantas"
     },
     "staffNeeded": {
@@ -600,20 +608,27 @@
     },
     "registry": {
       "title": "Registro unificado sin duplicados",
-      "subtitle": "Consolidamos registros de las plataformas aliadas que registran desaparecidos (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela y Desaparecidos Terremoto). La misma persona aparece una sola vez con enlaces a cada fuente. La cédula de identidad ayuda a evitar duplicados.",
+      "subtitle": "Consolidamos reportes de Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela y Desaparecidos Terremoto. La misma persona aparece una sola vez aunque esté en varias plataformas; cruzamos cédula, foto, teléfono, ubicación y nombre.",
       "sources": "Fuentes asociadas",
       "lastSeen": "Última ubicación conocida",
       "nationalId": "Cédula de identidad",
-      "searchPlaceholder": "Buscar por nombre, cédula o ubicación…",
+      "searchPlaceholder": "Buscar por nombre, cédula, teléfono o ubicación…",
       "stateFilter": "Filtrar por estado",
+      "statusFilter": "Estado del reporte",
+      "allStatuses": "Todos los estados",
+      "statusMissing": "Por localizar",
+      "statusFound": "Localizados",
       "allStates": "Todos los estados",
       "showing": "Mostrando",
       "of": "de",
       "loadMore": "Cargar más",
       "loading": "Cargando…",
-      "statsUnique": "Personas únicas",
-      "statsRecords": "Registros importados",
-      "statsDedupNote": "Cifra deduplicada: no sumes los totales de cada plataforma."
+      "statsTotalReports": "Reportes en plataformas",
+      "statsMissing": "Por localizar (suma)",
+      "statsFound": "Localizados (suma)",
+      "statusBadgeMissing": "Desaparecido",
+      "statusBadgeFound": "Encontrado",
+      "statsDedupNote": "Cifras reportadas por cada plataforma aliada (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela, etc.). La suma puede incluir la misma persona en más de un sitio; en el listado consolidamos sin duplicados por cédula, foto, teléfono o ubicación."
     },
     "sourceStatus": {
       "active": "Activo",
@@ -679,7 +694,14 @@
       "title": "Registro de mascotas perdidas y encontradas",
       "subtitle": "Listado sincronizado desde HuellasCAN — Terremoto. Busca por nombre, zona o estado.",
       "searchPlaceholder": "Buscar por nombre, zona o señas…",
-      "statusFilter": "Estado",
+      "speciesFilter": "Especie",
+      "allSpecies": "Todos",
+      "species": {
+        "dog": "Perros",
+        "cat": "Gatos",
+        "other": "Otro"
+      },
+      "statusFilter": "Situación",
       "allStatuses": "Todos",
       "allStates": "Todos los estados",
       "stateFilter": "Estado",
@@ -1036,6 +1058,7 @@
       "medicine": "Medicinas",
       "clothing": "Ropa",
       "hygiene": "Higiene",
+      "bathroom_supplies": "Aseo de baño",
       "blankets": "Mantas",
       "fuel": "Combustible",
       "tools": "Herramientas",

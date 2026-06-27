@@ -9,6 +9,10 @@ export interface DedupInput {
   age: number | null;
   contactPhone: string;
   nationalId?: string | null;
+  photoUrl?: string | null;
+  lastSeenLocation?: string | null;
+  state?: string | null;
+  city?: string | null;
 }
 
 export async function buildPersonIndex(prisma: PrismaClient): Promise<PersonIndex> {
@@ -21,6 +25,10 @@ export async function buildPersonIndex(prisma: PrismaClient): Promise<PersonInde
       age: true,
       contactPhone: true,
       nationalId: true,
+      photoUrl: true,
+      lastSeenLocation: true,
+      state: true,
+      city: true,
     },
   });
 
@@ -30,6 +38,10 @@ export async function buildPersonIndex(prisma: PrismaClient): Promise<PersonInde
       age: person.age,
       contactPhone: person.contactPhone,
       nationalId: person.nationalId,
+      photoUrl: person.photoUrl,
+      lastSeenLocation: person.lastSeenLocation,
+      state: person.state,
+      city: person.city,
     });
   }
 
@@ -72,6 +84,10 @@ export function registerDedupKeys(index: PersonIndex, personId: string, input: D
     age: input.age,
     contactPhone: input.contactPhone,
     nationalId: input.nationalId ?? null,
+    photoUrl: input.photoUrl ?? null,
+    lastSeenLocation: input.lastSeenLocation ?? null,
+    state: input.state ?? null,
+    city: input.city ?? null,
   });
   for (const key of keys) {
     if (!index.has(key)) index.set(key, personId);
@@ -106,6 +122,10 @@ export function findMatchingPersonId(
     age: input.age,
     contactPhone: input.contactPhone,
     nationalId: input.nationalId ?? null,
+    photoUrl: input.photoUrl ?? null,
+    lastSeenLocation: input.lastSeenLocation ?? null,
+    state: input.state ?? null,
+    city: input.city ?? null,
   });
   for (const key of keys) {
     const id = index.get(key);

@@ -364,6 +364,47 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     is_verified: true,
     sort_order: 17,
   },
+  {
+    id: "casa-bambi",
+    slug: "casa-bambi",
+    name: "Casa Bambi (Hogar Bambi Venezuela)",
+    resources: ["food", "medicine", "lodging"],
+    state: "Distrito Capital",
+    city: "Caracas",
+    coverage: {
+      es: "Nacional — 5 casas hogar y atención a niños en situación de riesgo",
+      en: "Nationwide — 5 group homes and care for at-risk children",
+    },
+    description: {
+      es: "Asociación civil sin fines de lucro con más de 30 años de trayectoria. Tras el terremoto del 24 de junio de 2026, canalizan ayuda para niños, niñas y adolescentes sin padres o afectados por la tragedia: acogida, alimentación, salud y acompañamiento integral. Aceptan donaciones económicas e insumos; consulta formas de aporte en su web oficial.",
+      en: "Non-profit civil association with over 30 years of experience. After the June 24, 2026 earthquake, they channel aid for children and teens without parents or affected by the tragedy: shelter, food, health and holistic support. They accept financial donations and supplies; see their official website for how to contribute.",
+    },
+    website_url: "https://hogarbambi.org/",
+    instagram_url: "https://www.instagram.com/hogarbambi/",
+    phone: "+58 414-3081107",
+    is_verified: true,
+    sort_order: 18,
+  },
+  {
+    id: "jesusdavid-med-literas",
+    slug: "jesusdavid-med-literas",
+    name: "Jesús David (@jesusdavid.med)",
+    resources: ["lodging", "machinery"],
+    state: "Lara",
+    city: "Barquisimeto",
+    coverage: {
+      es: "Zona Industria 2, Barquisimeto",
+      en: "Zona Industria 2, Barquisimeto",
+    },
+    description: {
+      es: "Iniciativa solidaria en Zona Industria 2 que fabrica literas para familias damnificadas por el terremoto del 24 de junio. Coordinan entregas y apoyo en especie por Instagram @jesusdavid.med o al teléfono indicado.",
+      en: "Solidarity initiative in Zona Industria 2 building bunk beds for families affected by the June 24 earthquake. Coordinate deliveries and in-kind support via Instagram @jesusdavid.med or the phone number listed.",
+    },
+    instagram_url: "https://www.instagram.com/jesusdavid.med/",
+    phone: "+58 424-5465825",
+    is_verified: false,
+    sort_order: 19,
+  },
 ];
 
 export function getSolidarityCompanies() {

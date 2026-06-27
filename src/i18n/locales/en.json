@@ -193,6 +193,7 @@
         "syringes": "Syringes",
         "gloves": "Gloves",
         "medications": "Medications",
+        "bathroom-supplies": "Bathroom supplies",
         "3d-printing": "3D printing"
       },
       "items": {
@@ -221,6 +222,12 @@
         "vitamin-k": "Vitamin K amp",
         "tranexamic-acid": "Tranexamic acid amp",
         "lidocaine": "Lidocaine",
+        "toilet-paper": "Toilet paper",
+        "paper-towels": "Paper towels",
+        "hand-soap": "Liquid hand soap",
+        "bleach": "Bleach",
+        "bathroom-cleaner": "Bathroom cleaner",
+        "trash-bags": "Trash bags",
         "pla-filament": "PLA filament",
         "petg-filament": "PETG filament",
         "abs-filament": "ABS or other filament"
@@ -250,6 +257,7 @@
       "medicine": "Medicine",
       "clothing": "Clothing",
       "hygiene": "Hygiene",
+      "bathroom_supplies": "Bathroom supplies",
       "blankets": "Blankets"
     },
     "staffNeeded": {
@@ -600,20 +608,27 @@
     },
     "registry": {
       "title": "Deduplicated unified registry",
-      "subtitle": "We consolidate records from allied platforms that register missing persons (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela and Desaparecidos Terremoto). Each person appears once with links to every source. National ID helps prevent duplicates.",
+      "subtitle": "We consolidate reports from Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela and Desaparecidos Terremoto. Each person appears once even if listed on multiple platforms; we match by ID, photo, phone, location and name.",
       "sources": "Associated sources",
       "lastSeen": "Last known location",
       "nationalId": "National ID",
-      "searchPlaceholder": "Search by name, ID or location…",
+      "searchPlaceholder": "Search by name, ID, phone or location…",
       "stateFilter": "Filter by state",
+      "statusFilter": "Report status",
+      "allStatuses": "All statuses",
+      "statusMissing": "Still missing",
+      "statusFound": "Located",
       "allStates": "All states",
       "showing": "Showing",
       "of": "of",
       "loadMore": "Load more",
       "loading": "Loading…",
-      "statsUnique": "Unique persons",
-      "statsRecords": "Imported records",
-      "statsDedupNote": "Deduplicated count — do not add up totals from each platform."
+      "statsTotalReports": "Platform reports",
+      "statsMissing": "Still missing (sum)",
+      "statsFound": "Located (sum)",
+      "statusBadgeMissing": "Missing",
+      "statusBadgeFound": "Found",
+      "statsDedupNote": "Figures reported by each allied platform (Venezuela Te Busca, Encuéntralos, Venezuela Reporta, Terremoto Venezuela, etc.). Totals may include the same person on multiple sites; the list below deduplicates by ID, photo, phone or location."
     },
     "sourceStatus": {
       "active": "Active",
@@ -679,7 +694,14 @@
       "title": "Lost and found pets registry",
       "subtitle": "Synced listing from HuellasCAN — Earthquake. Search by name, area or state.",
       "searchPlaceholder": "Search by name, area or markings…",
-      "statusFilter": "Status",
+      "speciesFilter": "Species",
+      "allSpecies": "All",
+      "species": {
+        "dog": "Dogs",
+        "cat": "Cats",
+        "other": "Other"
+      },
+      "statusFilter": "Situation",
       "allStatuses": "All",
       "allStates": "All states",
       "stateFilter": "State",
@@ -1036,6 +1058,7 @@
       "medicine": "Medicine",
       "clothing": "Clothing",
       "hygiene": "Hygiene",
+      "bathroom_supplies": "Bathroom supplies",
       "blankets": "Blankets",
       "fuel": "Fuel",
       "tools": "Tools",

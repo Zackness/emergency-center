@@ -196,22 +196,22 @@ export default function CenterManageView({
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-border bg-surface-elevated p-4 text-center">
-          <p className="text-2xl font-bold text-ink">{summary.volunteersPending}</p>
-          <p className="text-sm text-ink-secondary">{labels.volunteersPending}</p>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="rounded-xl border border-border bg-surface-elevated p-3 text-center md:p-4">
+          <p className="text-xl font-bold text-ink md:text-2xl">{summary.volunteersPending}</p>
+          <p className="text-xs text-ink-secondary md:text-sm">{labels.volunteersPending}</p>
         </div>
-        <div className="rounded-xl border border-border bg-surface-elevated p-4 text-center">
-          <p className="text-2xl font-bold text-ink">{summary.volunteersActive}</p>
-          <p className="text-sm text-ink-secondary">{labels.volunteersActive}</p>
+        <div className="rounded-xl border border-border bg-surface-elevated p-3 text-center md:p-4">
+          <p className="text-xl font-bold text-ink md:text-2xl">{summary.volunteersActive}</p>
+          <p className="text-xs text-ink-secondary md:text-sm">{labels.volunteersActive}</p>
         </div>
-        <div className="rounded-xl border border-border bg-surface-elevated p-4 text-center">
-          <p className="text-2xl font-bold text-ink">{summary.items}</p>
-          <p className="text-sm text-ink-secondary">{labels.itemsCount}</p>
+        <div className="rounded-xl border border-border bg-surface-elevated p-3 text-center md:p-4">
+          <p className="text-xl font-bold text-ink md:text-2xl">{summary.items}</p>
+          <p className="text-xs text-ink-secondary md:text-sm">{labels.itemsCount}</p>
         </div>
-        <div className="rounded-xl border border-border bg-surface-elevated p-4 text-center">
-          <p className="text-2xl font-bold text-warning">{summary.lowStock}</p>
-          <p className="text-sm text-ink-secondary">{labels.lowStock}</p>
+        <div className="rounded-xl border border-border bg-surface-elevated p-3 text-center md:p-4">
+          <p className="text-xl font-bold text-warning md:text-2xl">{summary.lowStock}</p>
+          <p className="text-xs text-ink-secondary md:text-sm">{labels.lowStock}</p>
         </div>
       </div>
 
@@ -231,7 +231,7 @@ export default function CenterManageView({
 
       {section === "voluntarios" && !loading && (
         <div className="space-y-4">
-          <div className="flex justify-end">
+          <div className="hidden justify-end md:flex">
             <button
               type="button"
               className="btn-primary"
@@ -241,6 +241,17 @@ export default function CenterManageView({
             </button>
           </div>
 
+          <button
+            type="button"
+            className="coordinator-fab"
+            aria-label={labels.addVolunteer}
+            onClick={() => setAddVolunteerOpen(true)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <path d="M5 12h14" /><path d="M12 5v14" />
+            </svg>
+          </button>
+
           <AddVolunteerDialog
             open={addVolunteerOpen}
             centerId={centerId}
@@ -249,7 +260,57 @@ export default function CenterManageView({
             onSuccess={() => void loadCenterData()}
           />
 
-          <div className="rounded-xl border border-border bg-surface-elevated overflow-x-auto">
+          <ul className="space-y-3 md:hidden">
+            {volunteers.length === 0 ? (
+              <li className="rounded-xl border border-border bg-surface-elevated px-4 py-8 text-center text-sm text-ink-secondary">
+                {labels.volunteerTable.empty}
+              </li>
+            ) : (
+              volunteers.map((v) => (
+                <li
+                  key={v.id}
+                  className="rounded-xl border border-border bg-surface-elevated p-4 shadow-soft"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-ink">{v.name}</p>
+                      <p className="mt-1 text-sm text-ink-secondary">{v.phone}</p>
+                      {v.nationalId && (
+                        <p className="mt-0.5 text-xs text-ink-muted">
+                          {formatNationalIdDisplay(v.nationalId)}
+                        </p>
+                      )}
+                    </div>
+                    <span className="badge shrink-0 bg-surface-muted text-ink-secondary">
+                      {(labels[v.status as keyof ManageLabels] as string) ?? v.status}
+                    </span>
+                  </div>
+                  <div className="mt-4 flex gap-2 border-t border-border pt-3">
+                    {v.status !== "active" && (
+                      <button
+                        type="button"
+                        className="btn-primary min-h-11 flex-1 text-sm"
+                        onClick={() => void updateVolunteer(v.id, "active")}
+                      >
+                        {labels.approve}
+                      </button>
+                    )}
+                    {v.status === "active" && (
+                      <button
+                        type="button"
+                        className="btn-secondary min-h-11 flex-1 text-sm"
+                        onClick={() => void updateVolunteer(v.id, "inactive")}
+                      >
+                        {labels.deactivate}
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))
+            )}
+          </ul>
+
+          <div className="hidden rounded-xl border border-border bg-surface-elevated overflow-x-auto md:block">
             <table className="w-full min-w-[36rem] text-sm text-left">
               <thead>
                 <tr className="border-b border-border text-ink-muted">

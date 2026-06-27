@@ -346,8 +346,24 @@ export async function fetchExternalSourcesWithLiveStats() {
 export interface MissingPersonsQuery {
   q?: string;
   state?: string;
+  status?: "all" | "missing" | "found";
   page?: number;
   limit?: number;
+}
+
+function buildMissingPersonStatusWhere(
+  status: MissingPersonsQuery["status"] = "all"
+): Prisma.MissingPersonWhereInput {
+  if (status === "missing") {
+    return {
+      isActive: true,
+      verificationStatus: { notIn: ["found", "deceased"] },
+    };
+  }
+  if (status === "found") {
+    return { verificationStatus: "found" };
+  }
+  return {};
 }
 
 function buildMissingPersonSearchOr(q: string): Prisma.MissingPersonWhereInput[] {
@@ -366,19 +382,22 @@ function buildMissingPersonSearchOr(q: string): Prisma.MissingPersonWhereInput[]
 export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(100, Math.max(1, query.limit ?? 24));
-  const skip = (page - 1) * limit;
-
-  const fetchLive = async () => {
-    const { fetchMissingPersonsLive } = await import("@/lib/missing-persons/live-feed");
-    return (await fetchMissingPersonsLive({ ...query, page, limit })).items;
-  };
-
-  if (!isDatabaseConfigured()) return fetchLive();
+  const status = query.status ?? "all";
 
   try {
-    const where = {
-      isActive: true,
-      verificationStatus: { notIn: ["found", "deceased"] as ("found" | "deceased")[] },
+    const { fetchMissingPersonsPaginated } = await import("@/lib/missing-persons/paginated-feed");
+    const result = await fetchMissingPersonsPaginated({ ...query, status, page, limit });
+    return result.items;
+  } catch (err) {
+    console.error("[missing-persons] paginated list failed, trying database:", err);
+  }
+
+  if (!isDatabaseConfigured()) return [];
+
+  try {
+    const skip = (page - 1) * limit;
+    const where: Prisma.MissingPersonWhereInput = {
+      ...buildMissingPersonStatusWhere(status),
       ...(query.state ? { state: query.state } : {}),
       ...(query.q
         ? {
@@ -400,29 +419,31 @@ export async function fetchMissingPersons(query: MissingPersonsQuery = {}) {
       },
     });
 
-    if (!rows.length && !query.q && !query.state && page === 1) {
-      return fetchLive();
-    }
-
     return rows.map(mapMissingPersonWithSources);
   } catch {
-    return fetchLive();
+    return [];
   }
 }
 
-export async function countMissingPersons(query: Pick<MissingPersonsQuery, "q" | "state"> = {}) {
-  const countLive = async () => {
-    const { fetchMissingPersonsLive } = await import("@/lib/missing-persons/live-feed");
-    return (await fetchMissingPersonsLive({ ...query, page: 1, limit: 1 })).total;
-  };
-
-  if (!isDatabaseConfigured()) return countLive();
+export async function countMissingPersons(
+  query: Pick<MissingPersonsQuery, "q" | "state" | "status"> = {}
+) {
+  const status = query.status ?? "all";
 
   try {
-    const count = await prisma.missingPerson.count({
+    const { fetchMissingPersonsPaginated } = await import("@/lib/missing-persons/paginated-feed");
+    const result = await fetchMissingPersonsPaginated({ ...query, status, page: 1, limit: 1 });
+    return result.total;
+  } catch (err) {
+    console.error("[missing-persons] paginated count failed, trying database:", err);
+  }
+
+  if (!isDatabaseConfigured()) return 0;
+
+  try {
+    return await prisma.missingPerson.count({
       where: {
-        isActive: true,
-        verificationStatus: { notIn: ["found", "deceased"] },
+        ...buildMissingPersonStatusWhere(status),
         ...(query.state ? { state: query.state } : {}),
         ...(query.q
           ? {
@@ -431,33 +452,24 @@ export async function countMissingPersons(query: Pick<MissingPersonsQuery, "q" |
           : {}),
       },
     });
-
-    if (count === 0 && !query.q && !query.state) {
-      return countLive();
-    }
-
-    return count;
   } catch {
-    return countLive();
+    return 0;
   }
 }
 
 export async function fetchMissingPersonsStats() {
-  const fetchLiveStats = async () => {
-    const { fetchMissingPersonsLiveStats } = await import("@/lib/missing-persons/live-feed");
-    return fetchMissingPersonsLiveStats();
-  };
-
-  if (!isDatabaseConfigured()) return fetchLiveStats();
+  const { fetchAggregatedPlatformStats } = await import(
+    "@/lib/missing-persons/aggregate-platform-stats"
+  );
 
   try {
-    const { getMissingPersonsStats } = await import("@/lib/missing-persons/sync");
-    const stats = await getMissingPersonsStats(prisma);
-    if (stats.unique_active > 0) return stats;
-    return fetchLiveStats();
-  } catch {
-    return fetchLiveStats();
+    return await fetchAggregatedPlatformStats();
+  } catch (err) {
+    console.error("[missing-persons] aggregated platform stats failed:", err);
   }
+
+  const { normalizeHubStats } = await import("@/lib/missing-persons/hub-stats");
+  return normalizeHubStats({ total_reports: 0, missing: 0, found: 0, sources: [] });
 }
 
 export async function createMissingPerson(

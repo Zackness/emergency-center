@@ -74,7 +74,7 @@ export default function AddVolunteerDialog({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="add-volunteer-title"
@@ -84,8 +84,12 @@ export default function AddVolunteerDialog({
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-elevated">
-        <div className="flex items-start justify-between gap-4 border-b border-border px-6 py-5">
+      <div
+        className="relative z-10 flex max-h-[min(92vh,40rem)] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface-elevated shadow-elevated sm:max-w-md sm:rounded-2xl"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
+        <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-border sm:hidden" aria-hidden="true" />
+        <div className="flex items-start justify-between gap-4 border-b border-border px-5 py-4 sm:px-6 sm:py-5">
           <div>
             <h2 id="add-volunteer-title" className="text-lg font-semibold text-ink">
               {labels.title}
@@ -102,7 +106,7 @@ export default function AddVolunteerDialog({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto px-5 py-4 sm:px-6 sm:py-5">
           <div>
             <label className="label" htmlFor="vol-name">
               {labels.form.name}
@@ -141,11 +145,11 @@ export default function AddVolunteerDialog({
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2 justify-end border-t border-border pt-4">
-            <button type="button" className="btn-secondary" onClick={onClose}>
+          <div className="flex flex-col-reverse gap-2 border-t border-border pt-4 sm:flex-row sm:flex-wrap sm:justify-end">
+            <button type="button" className="btn-secondary min-h-11 w-full sm:w-auto" onClick={onClose}>
               {labels.form.close}
             </button>
-            <button type="submit" className="btn-primary" disabled={status === "loading"}>
+            <button type="submit" className="btn-primary min-h-11 w-full sm:w-auto" disabled={status === "loading"}>
               {status === "loading" ? labels.form.submitting : labels.form.submit}
             </button>
           </div>

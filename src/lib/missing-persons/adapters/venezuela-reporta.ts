@@ -1,4 +1,8 @@
-import type { ImportedMissingRecord, SourceAdapter } from "@/lib/missing-persons/types";
+import type {
+  ImportedMissingRecord,
+  ImportedPersonStatus,
+  SourceAdapter,
+} from "@/lib/missing-persons/types";
 import { parseLocation } from "@/lib/missing-persons/location";
 import { VENEZUELA_REPORTA_SEARCH_TERMS } from "@/lib/missing-persons/adapters/venezuela-reporta-terms";
 
@@ -54,6 +58,12 @@ async function fetchSearch(term: string): Promise<ReportaResult[]> {
   return data.resultados ?? [];
 }
 
+/** Búsqueda directa en Venezuela Reporta (no precarga todo el índice). */
+export async function searchVenezuelaReportaRecords(query: string): Promise<ImportedMissingRecord[]> {
+  const rows = await fetchSearch(query.trim());
+  return rows.map(mapPerson);
+}
+
 async function loadAllRecords(): Promise<ImportedMissingRecord[]> {
   if (cachedRecords) return cachedRecords;
 
@@ -63,8 +73,15 @@ async function loadAllRecords(): Promise<ImportedMissingRecord[]> {
     try {
       const rows = await fetchSearch(term);
       for (const row of rows) {
-        if (row.status !== "buscando") continue;
-        byId.set(row.id, mapPerson(row));
+        const mapped = mapPerson(row);
+        const existing = byId.get(row.id);
+        if (!existing) {
+          byId.set(row.id, mapped);
+          continue;
+        }
+        if (mapped.status === "found") {
+          byId.set(row.id, mapped);
+        }
       }
     } catch (err) {
       console.warn(`[venezuela-reporta] búsqueda "${term}" falló:`, err);
@@ -79,9 +96,19 @@ async function loadAllRecords(): Promise<ImportedMissingRecord[]> {
 export const venezuelaReportaAdapter: SourceAdapter = {
   slug: "venezuela-reporta",
 
-  async fetchBatch(offset: number, limit: number): Promise<ImportedMissingRecord[]> {
+  async fetchBatch(
+    offset: number,
+    limit: number,
+    status: ImportedPersonStatus = "missing"
+  ): Promise<ImportedMissingRecord[]> {
     const all = await loadAllRecords();
-    return all.slice(offset, offset + limit);
+    const filtered =
+      status === "found"
+        ? all.filter((row) => row.status === "found")
+        : status === "missing"
+          ? all.filter((row) => row.status === "missing")
+          : all;
+    return filtered.slice(offset, offset + limit);
   },
 };
 

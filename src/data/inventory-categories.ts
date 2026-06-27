@@ -5,6 +5,7 @@ export const INVENTORY_CATEGORIES = [
   "medicine",
   "clothing",
   "hygiene",
+  "bathroom_supplies",
   "blankets",
   "fuel",
   "tools",

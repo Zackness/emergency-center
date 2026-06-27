@@ -17,19 +17,26 @@ if (Astro.slots.has("default")) {
 const hasSlotContent = slotHtml.trim().length > 0;
 ---
 
-<section class:list={["relative overflow-hidden border-b border-border", className]}>
+<section
+  class:list={[
+    "relative overflow-hidden border-b border-border",
+    imageSrc && "min-h-[260px] sm:min-h-[300px]",
+    className,
+  ]}
+>
   {
     imageSrc ? (
       <>
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          class="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          decoding="async"
+        <div
+          class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={`background-image: url("${imageSrc}")`}
+          role={imageAlt ? "img" : "presentation"}
+          aria-label={imageAlt || undefined}
+          aria-hidden={imageAlt ? undefined : true}
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-ink/10" aria-hidden="true"></div>
-        <div class="absolute inset-0 bg-grid opacity-20 mix-blend-screen" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-ink/20" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-grid opacity-15 mix-blend-screen" aria-hidden="true"></div>
       </>
     ) : (
       <>
@@ -38,7 +45,7 @@ const hasSlotContent = slotHtml.trim().length > 0;
       </>
     )
   }
-  <div class="container-app relative py-12 sm:py-16">
+  <div class="container-app relative flex min-h-[260px] flex-col justify-end py-12 sm:min-h-[300px] sm:py-16">
     <div class={imageSrc ? "max-w-3xl" : undefined}>
       {eyebrow && (
         <span class:list={[imageSrc ? "mb-3 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white/25 backdrop-blur" : "eyebrow mb-3 animate-fade-in"]}>

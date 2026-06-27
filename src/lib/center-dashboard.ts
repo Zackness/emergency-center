@@ -1,4 +1,5 @@
 import type { InventoryInboundSource, InventoryMovementType, VolunteerRegistrationStatus } from "@prisma/client";
+import { sanitizeHelpCenterAccepts } from "@/lib/help-centers/accepts";
 import { inventoryUrgency } from "@/lib/help-centers/public";
 import { sanitizeStaffNeeded } from "@/lib/help-centers/staff-needed";
 import type { HelpCenterNeedsSummary } from "@/lib/help-centers/types";
@@ -342,8 +343,6 @@ export async function getCenterDashboardSummary(helpCenterId: string) {
   return { volunteersPending, volunteersActive, items, lowStock };
 }
 
-const ACCEPT_KEYS = ["water", "food", "medicine", "clothing", "hygiene", "blankets"] as const;
-
 export async function getHelpCenterForManagement(helpCenterId: string) {
   return prisma.helpCenter.findFirst({
     where: { id: helpCenterId, isActive: true },
@@ -367,9 +366,7 @@ export async function updateHelpCenterDetails(
   }
 ) {
   const accepts =
-    data.accepts?.filter((item) =>
-      ACCEPT_KEYS.includes(item as (typeof ACCEPT_KEYS)[number])
-    ) ?? undefined;
+    data.accepts !== undefined ? sanitizeHelpCenterAccepts(data.accepts) : undefined;
   const staffNeeded =
     data.staffNeeded !== undefined ? sanitizeStaffNeeded(data.staffNeeded) : undefined;
 

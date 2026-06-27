@@ -9,6 +9,7 @@ const ACCEPT_LABELS: Record<"es" | "en", Record<string, string>> = {
     medicine: "Medicinas",
     clothing: "Ropa",
     hygiene: "Higiene",
+    bathroom_supplies: "Aseo de baño",
     blankets: "Mantas",
   },
   en: {
@@ -17,11 +18,12 @@ const ACCEPT_LABELS: Record<"es" | "en", Record<string, string>> = {
     medicine: "Medicine",
     clothing: "Clothing",
     hygiene: "Hygiene",
+    bathroom_supplies: "Bathroom supplies",
     blankets: "Blankets",
   },
 };
 
-const ACCEPT_KEYS = ["water", "food", "medicine", "clothing", "hygiene", "blankets"] as const;
+import { HELP_CENTER_ACCEPT_KEYS } from "@/lib/help-centers/accepts";
 
 interface CenterData {
   id: string;
@@ -243,11 +245,15 @@ export default function CenterSettingsForm({
         </div>
         <fieldset className="sm:col-span-2">
           <legend className="label">{labels.accepts}</legend>
-          <div className="mt-2 flex flex-wrap gap-3">
-            {ACCEPT_KEYS.map((key) => (
-              <label key={key} className="flex items-center gap-2 text-sm text-ink-secondary">
+          <div className="mt-2 flex flex-wrap gap-2">
+            {HELP_CENTER_ACCEPT_KEYS.map((key) => (
+              <label
+                key={key}
+                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-ink-secondary transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent-muted/30"
+              >
                 <input
                   type="checkbox"
+                  className="h-4 w-4"
                   checked={center.accepts.includes(key)}
                   onChange={() => toggleAccept(key)}
                 />
@@ -258,11 +264,15 @@ export default function CenterSettingsForm({
         </fieldset>
         <fieldset className="sm:col-span-2">
           <legend className="label">{labels.staffNeeded}</legend>
-          <div className="mt-2 flex flex-wrap gap-3">
+          <div className="mt-2 flex flex-wrap gap-2">
             {STAFF_NEEDED_KEYS.map((key) => (
-              <label key={key} className="flex items-center gap-2 text-sm text-ink-secondary">
+              <label
+                key={key}
+                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-ink-secondary transition-colors has-[:checked]:border-accent has-[:checked]:bg-accent-muted/30"
+              >
                 <input
                   type="checkbox"
+                  className="h-4 w-4"
                   checked={center.staff_needed.includes(key)}
                   onChange={() => toggleStaffNeeded(key)}
                 />
@@ -288,9 +298,11 @@ export default function CenterSettingsForm({
       {error && <p className="text-sm text-emergency">{error}</p>}
       {message && <p className="text-sm text-accent">{message}</p>}
 
-      <button type="submit" className="btn-primary" disabled={saving}>
-        {saving ? labels.loading : labels.save}
-      </button>
+      <div className="coordinator-sticky-action">
+        <button type="submit" className="btn-primary min-h-11 w-full md:w-auto" disabled={saving}>
+          {saving ? labels.loading : labels.save}
+        </button>
+      </div>
     </form>
   );
 }

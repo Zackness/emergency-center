@@ -255,7 +255,7 @@ const STATIC_PAGES: Record<
       href: "/es/danos",
       title: "Mapa de daños",
       description: "Mapa de edificios dañados en Venezuela con búsqueda, filtros y reportes ciudadanos.",
-      keywords: "daños mapa edificios desplomado dañado evacuado estructuras terremoto reportar terremotovenezuela",
+      keywords: "daños mapa edificios desplomado dañado evacuado estructuras terremoto reportar terremotovenezuela los monjes residencias playa grande ariel",
     },
     {
       href: "/es/danos#sitios-prioritarios-rescate",
@@ -336,7 +336,7 @@ const STATIC_PAGES: Record<
       href: "/es/empresas",
       title: "Empresas solidarias",
       description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Cáritas Venezuela, MOF y más organizaciones con transporte gratis, ayuda humanitaria o centros de acopio",
-      keywords: "empresa solidaria yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov",
+      keywords: "empresa solidaria yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov casa bambi hogar bambi niños huérfanos",
     },
     {
       href: "/es/empresas#mercado-libre",
@@ -400,6 +400,22 @@ const STATIC_PAGES: Record<
       description:
         "Colectivo de impresión 3D que fabrica férulas para lesionados. Solicitan filamento PLA, PETG o ABS. Instagram @scaytaller · Tel: 0412-0521777.",
       keywords: "scaytaller filamento 3d impresión férulas pla petg abs donar empresas solidarias",
+    },
+    {
+      href: "/es/empresas#casa-bambi",
+      title: "Casa Bambi — Ayuda a niños afectados por el terremoto",
+      description:
+        "Hogar Bambi Venezuela: apoyo a niños sin padres o afectados por la tragedia del 24 de junio. Donaciones e insumos vía hogarbambi.org · Instagram @hogarbambi.",
+      keywords:
+        "casa bambi hogar bambi bambi niños niñas adolescentes huérfanos sin padres terremoto tragedia acogida donaciones padrino hogarbambi",
+    },
+    {
+      href: "/es/empresas#jesusdavid-med-literas",
+      title: "Jesús David — Literas para damnificados (Barquisimeto)",
+      description:
+        "Fabricación de literas en Zona Industria 2, Barquisimeto, para familias afectadas por el terremoto. Instagram @jesusdavid.med · Tel: 0424-5465825.",
+      keywords:
+        "jesusdavid med literas camas damnificados barquisimeto zona industria 2 lara terremoto muebles solidario",
     },
     {
       href: "/es/recursos",
@@ -502,7 +518,7 @@ const STATIC_PAGES: Record<
       href: "/en/danos",
       title: "Damage map",
       description: "Map of damaged buildings in Venezuela with search, filters and community reports.",
-      keywords: "damage map buildings collapsed damaged evacuated structures earthquake report terremotovenezuela",
+      keywords: "damage map buildings collapsed damaged evacuated structures earthquake report terremotovenezuela los monjes residencias playa grande ariel",
     },
     {
       href: "/en/danos#sitios-prioritarios-rescate",
@@ -583,7 +599,7 @@ const STATIC_PAGES: Record<
       href: "/en/empresas",
       title: "Solidarity companies",
       description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Caritas Venezuela, MOF and more organizations with free transport, humanitarian aid or collection centers",
-      keywords: "solidarity company yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov",
+      keywords: "solidarity company yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov casa bambi hogar bambi children orphans",
     },
     {
       href: "/en/empresas#mercado-libre",
@@ -647,6 +663,22 @@ const STATIC_PAGES: Record<
       description:
         "3D printing collective manufacturing splints for injured people. They request PLA, PETG or ABS filament. Instagram @scaytaller · Tel: 0412-0521777.",
       keywords: "scaytaller filament 3d printing splints pla petg abs donate solidarity companies",
+    },
+    {
+      href: "/en/empresas#casa-bambi",
+      title: "Casa Bambi — Aid for children affected by the earthquake",
+      description:
+        "Hogar Bambi Venezuela: support for children without parents or affected by the June 24 tragedy. Donations via hogarbambi.org · Instagram @hogarbambi.",
+      keywords:
+        "casa bambi hogar bambi children teens orphans earthquake tragedy shelter donations hogarbambi",
+    },
+    {
+      href: "/en/empresas#jesusdavid-med-literas",
+      title: "Jesús David — Bunk beds for affected families (Barquisimeto)",
+      description:
+        "Bunk bed production in Zona Industria 2, Barquisimeto, for families affected by the earthquake. Instagram @jesusdavid.med · Tel: 0424-5465825.",
+      keywords:
+        "jesusdavid med bunk beds beds affected barquisimeto zona industria 2 lara earthquake solidarity furniture",
     },
     {
       href: "/en/recursos",

@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import type { MissingPet, MissingPetStatus } from "@/lib/missing-pets/types";
+import type { MissingPet, MissingPetSpecies, MissingPetStatus } from "@/lib/missing-pets/types";
 
 interface RegistryLabels {
   searchPlaceholder: string;
+  speciesFilter: string;
+  allSpecies: string;
+  species: Record<MissingPetSpecies, string>;
   statusFilter: string;
   allStatuses: string;
   allStates: string;
@@ -40,6 +43,25 @@ const STATUS_STYLES: Record<MissingPetStatus, string> = {
   found: "bg-success-muted text-success",
 };
 
+const SPECIES_OPTIONS: Array<{ value: MissingPetSpecies | "all"; icon: string }> = [
+  { value: "all", icon: "🐾" },
+  { value: "dog", icon: "🐶" },
+  { value: "cat", icon: "🐱" },
+  { value: "other", icon: "🐾" },
+];
+
+const STATUS_OPTIONS: Array<{ value: MissingPetStatus | "all" }> = [
+  { value: "all" },
+  { value: "lost" },
+  { value: "found" },
+];
+
+function filterChipClass(active: boolean): string {
+  return active
+    ? "border-accent bg-accent text-white shadow-sm"
+    : "border-border bg-surface-elevated text-ink-secondary hover:border-accent/40 hover:text-ink";
+}
+
 function PetCard({
   pet,
   labels,
@@ -66,6 +88,7 @@ function PetCard({
             alt={pet.name}
             className="h-full w-full object-cover"
             loading="lazy"
+            referrerPolicy="no-referrer"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-ink-muted">
@@ -142,6 +165,7 @@ export default function MissingPetRegistry({
 }: MissingPetRegistryProps) {
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
+  const [species, setSpecies] = useState<MissingPetSpecies | "all">("all");
   const [status, setStatus] = useState<MissingPetStatus | "all">("all");
   const [state, setState] = useState("");
   const [page, setPage] = useState(1);
@@ -162,6 +186,7 @@ export default function MissingPetRegistry({
         limit: "24",
       });
       if (debouncedQ.trim()) params.set("q", debouncedQ.trim());
+      if (species !== "all") params.set("species", species);
       if (status !== "all") params.set("status", status);
       if (state) params.set("state", state);
 
@@ -178,7 +203,7 @@ export default function MissingPetRegistry({
         setLoading(false);
       }
     },
-    [debouncedQ, status, state]
+    [debouncedQ, species, status, state]
   );
 
   useEffect(() => {
@@ -189,6 +214,57 @@ export default function MissingPetRegistry({
 
   return (
     <div className="space-y-6">
+      <div className="space-y-4">
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            {labels.speciesFilter}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {SPECIES_OPTIONS.map((option) => {
+              const active = species === option.value;
+              const label =
+                option.value === "all" ? labels.allSpecies : labels.species[option.value];
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${filterChipClass(active)}`}
+                  onClick={() => setSpecies(option.value)}
+                  aria-pressed={active}
+                >
+                  <span aria-hidden="true">{option.icon}</span>
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            {labels.statusFilter}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {STATUS_OPTIONS.map((option) => {
+              const active = status === option.value;
+              const label =
+                option.value === "all" ? labels.allStatuses : labels.status[option.value];
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${filterChipClass(active)}`}
+                  onClick={() => setStatus(option.value)}
+                  aria-pressed={active}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       <div className="flex max-w-4xl flex-col gap-3 lg:flex-row">
         <input
           type="search"
@@ -198,16 +274,6 @@ export default function MissingPetRegistry({
           className="input flex-1"
           aria-label={labels.searchPlaceholder}
         />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as MissingPetStatus | "all")}
-          className="input lg:max-w-[11rem]"
-          aria-label={labels.statusFilter}
-        >
-          <option value="all">{labels.allStatuses}</option>
-          <option value="lost">{labels.status.lost}</option>
-          <option value="found">{labels.status.found}</option>
-        </select>
         <select
           value={state}
           onChange={(e) => setState(e.target.value)}
@@ -230,7 +296,7 @@ export default function MissingPetRegistry({
       {items.length === 0 && !loading ? (
         <p className="text-sm text-ink-secondary">{labels.noResults}</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {items.map((pet) => (
             <PetCard key={pet.id} pet={pet} labels={labels} locale={locale} />
           ))}

@@ -23,6 +23,8 @@ interface CenterSwitcherProps {
   centerName: string;
   panelPath: string;
   labels: CenterSwitcherLabels;
+  /** Panel inferior en móvil en lugar de dropdown */
+  mobile?: boolean;
 }
 
 function ChevronUpDown() {
@@ -50,6 +52,7 @@ export default function CenterSwitcher({
   centerName,
   panelPath,
   labels,
+  mobile = false,
 }: CenterSwitcherProps) {
   const [open, setOpen] = useState(false);
   const [centers, setCenters] = useState<ManagedCenter[]>([]);
@@ -79,6 +82,15 @@ export default function CenterSwitcher({
     return () => document.removeEventListener("mousedown", onPointerDown);
   }, []);
 
+  useEffect(() => {
+    if (!mobile || !open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobile, open]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return centers;
@@ -90,12 +102,71 @@ export default function CenterSwitcher({
     );
   }, [centers, query]);
 
+  const listContent = (
+    <>
+      <div className={mobile ? "border-b border-border p-3" : "border-b border-border p-2"}>
+        <input
+          type="search"
+          className="input text-base sm:text-sm"
+          placeholder={labels.search}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          autoFocus={open}
+        />
+      </div>
+      <ul className={mobile ? "max-h-[50vh] overflow-y-auto py-1" : "max-h-72 overflow-y-auto py-1"}>
+        {filtered.length === 0 ? (
+          <li className="px-3 py-4 text-center text-sm text-ink-muted">—</li>
+        ) : (
+          filtered.map((center) => (
+            <li key={center.id}>
+              <a
+                href={centerSectionPath(locale, center.id, DEFAULT_CENTER_SECTION)}
+                className={`flex min-h-[3rem] items-start justify-between gap-2 px-4 py-3 text-sm transition-colors hover:bg-surface-muted/60 active:bg-surface-muted/80 ${
+                  center.id === centerId ? "bg-surface-muted/40" : ""
+                }`}
+                onClick={() => setOpen(false)}
+              >
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-ink">{center.name}</p>
+                  <p className="truncate text-xs text-ink-muted">
+                    {center.city}, {center.state}
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+                    center.isVerified
+                      ? "bg-success-muted text-success"
+                      : "bg-warning-muted text-warning"
+                  }`}
+                >
+                  {center.isVerified ? labels.verified : labels.pending}
+                </span>
+              </a>
+            </li>
+          ))
+        )}
+      </ul>
+      <div className="border-t border-border p-2">
+        <a
+          href={panelPath}
+          className="flex min-h-[2.75rem] items-center rounded-md px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-muted/60 hover:text-ink active:bg-surface-muted/80"
+          onClick={() => setOpen(false)}
+        >
+          ← {labels.allCenters}
+        </a>
+      </div>
+    </>
+  );
+
   return (
     <div ref={rootRef} className="relative min-w-0">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex max-w-full items-center gap-2 rounded-md px-2 py-1 text-sm font-medium text-ink transition-colors hover:bg-surface-muted/60"
+        className={`flex max-w-full items-center gap-2 rounded-lg text-sm font-medium text-ink transition-colors hover:bg-surface-muted/60 active:bg-surface-muted/80 ${
+          mobile ? "w-full px-2 py-2" : "rounded-md px-2 py-1"
+        }`}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
@@ -116,65 +187,32 @@ export default function CenterSwitcher({
         <ChevronUpDown />
       </button>
 
-      {open && (
-        <div
-          className="absolute left-0 top-full z-50 mt-1 w-80 overflow-hidden rounded-lg border border-border bg-surface-elevated shadow-soft"
-          role="listbox"
-        >
-          <div className="border-b border-border p-2">
-            <input
-              type="search"
-              className="input text-sm"
-              placeholder={labels.search}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              autoFocus
-            />
-          </div>
-          <ul className="max-h-72 overflow-y-auto py-1">
-            {filtered.length === 0 ? (
-              <li className="px-3 py-4 text-center text-sm text-ink-muted">—</li>
-            ) : (
-              filtered.map((center) => (
-                <li key={center.id}>
-                  <a
-                    href={centerSectionPath(locale, center.id, DEFAULT_CENTER_SECTION)}
-                    className={`flex items-start justify-between gap-2 px-3 py-2.5 text-sm transition-colors hover:bg-surface-muted/60 ${
-                      center.id === centerId ? "bg-surface-muted/40" : ""
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-medium text-ink">{center.name}</p>
-                      <p className="truncate text-xs text-ink-muted">
-                        {center.city}, {center.state}
-                      </p>
-                    </div>
-                    <span
-                      className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                        center.isVerified
-                          ? "bg-success-muted text-success"
-                          : "bg-warning-muted text-warning"
-                      }`}
-                    >
-                      {center.isVerified ? labels.verified : labels.pending}
-                    </span>
-                  </a>
-                </li>
-              ))
-            )}
-          </ul>
-          <div className="border-t border-border p-2">
-            <a
-              href={panelPath}
-              className="block rounded-md px-3 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-muted/60 hover:text-ink"
+      {open &&
+        (mobile ? (
+          <>
+            <button
+              type="button"
+              className="fixed inset-0 z-50 bg-black/40"
+              aria-label={labels.allCenters}
               onClick={() => setOpen(false)}
+            />
+            <div
+              className="fixed inset-x-0 bottom-0 z-[60] overflow-hidden rounded-t-2xl border border-border bg-surface-elevated shadow-elevated"
+              style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+              role="listbox"
             >
-              ← {labels.allCenters}
-            </a>
+              <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-border" aria-hidden="true" />
+              {listContent}
+            </div>
+          </>
+        ) : (
+          <div
+            className="absolute left-0 top-full z-50 mt-1 w-80 overflow-hidden rounded-lg border border-border bg-surface-elevated shadow-soft"
+            role="listbox"
+          >
+            {listContent}
           </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 }
