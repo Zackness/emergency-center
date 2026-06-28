@@ -28,6 +28,7 @@
     "fetch:pets": "tsx scripts/fetch-missing-pets.ts",
     "fetch:children": "tsx scripts/fetch-children-emergency.ts",
     "fetch:centroacopio": "tsx --tsconfig tsconfig.json scripts/fetch-centroacopio.ts",
+    "fetch:redayuda": "tsx --tsconfig tsconfig.json scripts/fetch-redayuda.ts",
     "fetch:vzlayuda": "tsx --tsconfig tsconfig.json scripts/fetch-vzlayuda.ts",
     "sync:help-centers": "tsx --tsconfig tsconfig.json scripts/sync-help-centers.ts",
     "sync:seed-help-centers": "tsx --tsconfig tsconfig.json scripts/sync-seed-help-centers.ts",

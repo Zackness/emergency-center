@@ -661,7 +661,8 @@ export async function queryDamageReportsFromDb(query: {
 /** Datos iniciales del hub /danos (SSR). Si la DB tarda, usa el snapshot local. */
 export async function fetchDamageReportsForPage() {
   const { LOCAL_DAMAGE_BUILDINGS } = await import("@/data/damage-buildings");
-  const { mergePriorityRescueSites, computeDamageStats } = await import("@/lib/damage-map/feed");
+  const { computeDamageStats } = await import("@/lib/damage-map/feed");
+  const { mergePriorityRescueSites } = await import("@/lib/damage-map/merge-priority");
 
   const localSnapshot = () => {
     const all = mergePriorityRescueSites(LOCAL_DAMAGE_BUILDINGS);

@@ -37,6 +37,18 @@ type Step = {
 
 const STEPS: Step[] = [
   {
+    id: "redayuda",
+    label: "Red Ayuda Venezuela — stats y sismos",
+    npmScript: "fetch:redayuda",
+    phase: "fetch",
+  },
+  {
+    id: "vzlayuda",
+    label: "Vzla Ayuda — ofertas y solicitudes",
+    npmScript: "fetch:vzlayuda",
+    phase: "fetch",
+  },
+  {
     id: "pets",
     label: "Mascotas — HuellasCAN",
     npmScript: "fetch:pets",
