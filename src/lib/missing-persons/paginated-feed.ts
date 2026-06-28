@@ -27,7 +27,6 @@ const SOURCE_LABELS: Record<string, string> = {
 
 const PAGE_SOURCES = [
   "encuentralos",
-  "terremotovenezuela-app",
   "venezuela-te-busca",
 ] as const;
 

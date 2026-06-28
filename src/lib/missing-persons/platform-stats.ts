@@ -104,7 +104,21 @@ async function fetchVenezuelaReportaStats(): Promise<PlatformLiveStats | null> {
   };
 }
 
+async function fetchRedAyudaVenezuelaStats(): Promise<PlatformLiveStats | null> {
+  const data = await fetchJson<{
+    stats?: { desaparecidos?: number; salvo?: number };
+  }>("https://redayudavenezuela.com/api/stats");
+  const stats = data?.stats;
+  if (!stats?.desaparecidos) return null;
+  return {
+    approximate_count: stats.desaparecidos,
+    count_pending: stats.desaparecidos,
+    count_located: stats.salvo ?? null,
+  };
+}
+
 const LIVE_FETCHERS: Record<string, () => Promise<PlatformLiveStats | null>> = {
+  "red-ayuda-venezuela": fetchRedAyudaVenezuelaStats,
   "venezuela-te-busca": fetchVenezuelaTeBuscaStats,
   encuentralos: fetchEncuentralosStats,
   "desaparecidos-terremoto": fetchDesaparecidosTerremotoStats,

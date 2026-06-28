@@ -26,7 +26,11 @@ const { locale } = Astro.props;
 const { t, dict } = useTranslations(locale);
 
 const externalSources = await fetchExternalSources();
-const missingSyncSlugs = new Set([...defaultMissingPersonSyncSlugs(), "venapp"]);
+const missingSyncSlugs = new Set([
+  ...defaultMissingPersonSyncSlugs(),
+  "venapp",
+  "red-ayuda-venezuela",
+]);
 const externalSourcesWithStats = (await fetchExternalSourcesWithLiveStats()).filter((source) =>
   missingSyncSlugs.has(source.slug)
 );
@@ -89,6 +93,27 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
         <p class="text-lg font-medium text-ink">{t("missing.hubQuote")}</p>
         <p class="mt-2 text-sm">{t("missing.hubQuoteDetail")}</p>
       </blockquote>
+    </section>
+
+    <section class="max-w-3xl" id="ninos-de-pie">
+      <a
+        href={localePath(locale, "ninos")}
+        class="block rounded-2xl border-2 border-emergency/30 bg-emergency-muted/40 p-6 no-underline transition hover:border-emergency/50"
+      >
+        <p class="text-xs font-semibold uppercase tracking-wide text-emergency mb-2">
+          {locale === "es" ? "Niños rescatados — página dedicada" : "Rescued children — dedicated page"}
+        </p>
+        <h2 class="text-xl font-semibold text-ink">{t("missing.ninosDePie.title")}</h2>
+        <p class="mt-3 text-sm text-ink-secondary">{t("missing.ninosDePie.description")}</p>
+        <span class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent">
+          {t("missing.ninosDePie.dedicatedPageCta")} →
+        </span>
+        <p class="mt-3 text-xs text-ink-muted">
+          {locale === "es"
+            ? "Niños de Pie (Nexo Signal) y Red Ayuda — Niños en un solo lugar."
+            : "Niños de Pie (Nexo Signal) and Red Ayuda — Children in one place."}
+        </p>
+      </a>
     </section>
 
     <section id="fuentes-externas">

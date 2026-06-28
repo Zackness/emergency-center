@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
   AlertTriangle,
@@ -18,6 +18,9 @@ import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { DamageReport, DamageSeverity, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 import type { DamageMapStats } from "@/lib/damage-map/types";
+import { filterDamageReports } from "@/lib/damage-map/feed";
+
+const PAGE_SIZE = 24;
 
 interface DamageMapHubProps {
   locale: "es" | "en";
@@ -46,6 +49,8 @@ interface DamageMapHubProps {
     reportCta: string;
     note: string;
   };
+  initialItems: DamageReport[];
+  initialStats: DamageMapStats;
 }
 
 const SEVERITY_COLORS: Record<DamageSeverity, string> = {
@@ -87,16 +92,18 @@ export default function DamageMapHub({
   confidenceLabels,
   priorityRescueLabels,
   engineersPlatformLabels,
+  initialItems,
+  initialStats,
 }: DamageMapHubProps) {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [severity, setSeverity] = useState<DamageSeverity | "all">("all");
   const [stateFilter, setStateFilter] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
-  const [items, setItems] = useState<DamageReport[]>([]);
-  const [stats, setStats] = useState<DamageMapStats | null>(null);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [allItems, setAllItems] = useState<DamageReport[]>(initialItems);
+  const [stats, setStats] = useState<DamageMapStats>(initialStats);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -106,43 +113,67 @@ export default function DamageMapHub({
     return () => window.clearTimeout(timer);
   }, [search]);
 
-  const fetchReports = useCallback(async () => {
-    const params = new URLSearchParams({ limit: "10000", offset: "0" });
-    if (debouncedSearch) params.set("search", debouncedSearch);
-    if (severity !== "all") params.set("severity", severity);
-    if (stateFilter !== "all") params.set("state", stateFilter);
-
-    const response = await fetch(`/api/damage-reports?${params.toString()}`);
-    if (!response.ok) {
-      const body = await response.json().catch(() => ({}));
-      throw new Error(body.error ?? "Error loading damage reports");
-    }
-    const data = await response.json();
-    setStats(data.stats);
-    setTotal(data.total);
-    setItems(data.items);
-  }, [debouncedSearch, severity, stateFilter]);
+  useEffect(() => {
+    setAllItems(initialItems);
+    setStats(initialStats);
+  }, [initialItems, initialStats]);
 
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
+    setVisibleCount(PAGE_SIZE);
     setSelectedId(null);
-    fetchReports()
+  }, [debouncedSearch, severity, stateFilter]);
+
+  const filteredItems = useMemo(
+    () =>
+      filterDamageReports(allItems, {
+        search: debouncedSearch || undefined,
+        severity,
+        state: stateFilter,
+      }),
+    [allItems, debouncedSearch, severity, stateFilter]
+  );
+
+  const visibleItems = useMemo(
+    () => filteredItems.slice(0, visibleCount),
+    [filteredItems, visibleCount]
+  );
+  const hasMore = visibleCount < filteredItems.length;
+
+  useEffect(() => {
+    if (refreshKey === 0) return;
+
+    let cancelled = false;
+    setRefreshing(true);
+    setError(null);
+
+    fetch("/api/damage-reports?limit=10000&offset=0")
+      .then(async (response) => {
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body.error ?? "Error loading damage reports");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setAllItems(data.items);
+        setStats(data.stats);
+      })
       .catch((err: Error) => {
         if (!cancelled) setError(err.message);
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setRefreshing(false);
       });
+
     return () => {
       cancelled = true;
     };
-  }, [fetchReports, refreshKey]);
+  }, [refreshKey]);
 
   const mapLocations: MapLocation[] = useMemo(
     () =>
-      items.map((report) => ({
+      filteredItems.map((report) => ({
         id: report.id,
         name: report.title,
         latitude: report.latitude,
@@ -152,7 +183,7 @@ export default function DamageMapHub({
         severity: report.severity,
         image_urls: report.image_urls,
       })),
-    [items]
+    [filteredItems]
   );
 
   return (
@@ -208,7 +239,7 @@ export default function DamageMapHub({
               <ChevronDown className={`h-4 w-4 transition ${showFilters ? "rotate-180" : ""}`} />
             </button>
             <span className="text-sm text-ink-secondary">
-              <strong className="text-ink">{total}</strong> {labels.buildingCount}
+              <strong className="text-ink">{filteredItems.length}</strong> {labels.buildingCount}
             </span>
           </div>
           {showFilters && (
@@ -294,7 +325,7 @@ export default function DamageMapHub({
             <AlertCircle className="h-6 w-6" />
           </div>
           <div className="min-w-0">
-            <div className="text-3xl font-bold tabular-nums text-ink">{stats?.collapsed ?? "—"}</div>
+            <div className="text-3xl font-bold tabular-nums text-ink">{stats.collapsed}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.collapsed}
             </div>
@@ -305,7 +336,7 @@ export default function DamageMapHub({
             <AlertTriangle className="h-6 w-6" />
           </div>
           <div className="min-w-0">
-            <div className="text-3xl font-bold tabular-nums text-ink">{stats?.damaged ?? "—"}</div>
+            <div className="text-3xl font-bold tabular-nums text-ink">{stats.damaged}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.damaged}
             </div>
@@ -316,7 +347,7 @@ export default function DamageMapHub({
             <Construction className="h-6 w-6" />
           </div>
           <div className="min-w-0">
-            <div className="text-3xl font-bold tabular-nums text-ink">{stats?.evacuated ?? "—"}</div>
+            <div className="text-3xl font-bold tabular-nums text-ink">{stats.evacuated}</div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {severityLabels.evacuated}
             </div>
@@ -328,7 +359,7 @@ export default function DamageMapHub({
           </div>
           <div className="min-w-0">
             <div className="text-2xl font-bold text-ink">
-              {formatRelativeTime(stats?.last_synced_at ?? null, locale)}
+              {formatRelativeTime(stats.last_synced_at, locale)}
             </div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
               {labels.lastUpdate}
@@ -351,15 +382,15 @@ export default function DamageMapHub({
               </span>
             ))}
           </div>
-          {!loading && total > 0 && (
+          {filteredItems.length > 0 && (
             <span className="text-sm text-ink-secondary">
               {locale === "es"
-                ? `${items.length} marcadores en el mapa`
-                : `${items.length} markers on map`}
+                ? `${filteredItems.length} marcadores en el mapa`
+                : `${filteredItems.length} markers on map`}
             </span>
           )}
         </div>
-        {loading ? (
+        {refreshing ? (
           <div className="flex h-[min(50vh,520px)] min-h-[220px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary sm:h-[400px] lg:h-[520px]">
             {labels.loading}
           </div>
@@ -376,11 +407,11 @@ export default function DamageMapHub({
       <section>
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-xl font-semibold text-ink">{labels.listTitle}</h2>
-          {!loading && total > 0 && (
+          {!refreshing && filteredItems.length > 0 && (
             <span className="text-sm text-ink-secondary">
               {locale === "es"
-                ? `Mostrando ${items.length} de ${total}`
-                : `Showing ${items.length} of ${total}`}
+                ? `Mostrando ${visibleItems.length} de ${filteredItems.length}`
+                : `Showing ${visibleItems.length} of ${filteredItems.length}`}
             </span>
           )}
         </div>
@@ -389,18 +420,18 @@ export default function DamageMapHub({
             {error}
           </p>
         )}
-        {loading && (
+        {refreshing && (
           <p className="mt-3 rounded-2xl border border-border bg-surface-muted p-6 text-sm text-ink-secondary">
             {labels.loading}
           </p>
         )}
-        {!loading && items.length === 0 && !error && (
+        {!refreshing && filteredItems.length === 0 && !error && (
           <p className="mt-3 rounded-2xl border border-border bg-surface-muted p-6 text-sm text-ink-secondary">
             {labels.empty}
           </p>
         )}
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {items.map((report) => (
+          {visibleItems.map((report) => (
             <article
               key={report.id}
               id={report.id}
@@ -474,6 +505,17 @@ export default function DamageMapHub({
             </article>
           ))}
         </div>
+        {hasMore && (
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+              className="btn-secondary"
+            >
+              {labels.loadMore}
+            </button>
+          </div>
+        )}
       </section>
 
       <section id="reportar">

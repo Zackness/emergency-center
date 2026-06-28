@@ -9,12 +9,7 @@ interface Props {
 }
 
 const { title, subtitle, eyebrow, imageSrc, imageAlt = "", class: className } = Astro.props;
-
-let slotHtml = "";
-if (Astro.slots.has("default")) {
-  slotHtml = String(await Astro.slots.render("default") ?? "");
-}
-const hasSlotContent = slotHtml.trim().length > 0;
+const hasSlotContent = Astro.slots.has("default");
 ---
 
 <section
@@ -66,7 +61,9 @@ const hasSlotContent = slotHtml.trim().length > 0;
 {
   hasSlotContent && (
     <div class="container-app">
-      <div class="py-8 sm:py-10" set:html={slotHtml} />
+      <div class="py-8 sm:py-10">
+        <slot />
+      </div>
     </div>
   )
 }

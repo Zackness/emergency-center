@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import SolidarityCompanyCard from "@/components/ui/SolidarityCompanyCard.astro";
+import StructuralInspectionSection from "@/components/sections/StructuralInspectionSection.astro";
 import CompanyForm from "@/components/forms/CompanyForm";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getSolidarityCompanies } from "@/data/solidarity-companies";
@@ -32,6 +33,14 @@ const formLabels = {
   <PageHeader title={t("companies.title")} subtitle={t("companies.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="" />
 
   <div class="container-app pb-16 space-y-16 -mt-4">
+    <StructuralInspectionSection
+      locale={locale}
+      filter="company"
+      sectionId="inspecciones-estructurales-empresas"
+      titleKey="companies.directory.structuralTitle"
+      subtitleKey="companies.directory.structuralSubtitle"
+    />
+
     <section id="empresas-solidarias">
       <div class="mb-6 max-w-3xl">
         <h2 class="text-xl font-semibold text-ink">{t("companies.directory.title")}</h2>

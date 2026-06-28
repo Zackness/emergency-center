@@ -4,7 +4,16 @@ import PageHeader from "@/components/ui/PageHeader.astro";
 import OfflineToolCard from "@/components/ui/OfflineToolCard.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getOfflineTools } from "@/data/offline-tools";
+import { getMedicalSupportResources } from "@/data/medical-support";
 import { getPsychologicalSupportResources } from "@/data/psychological-support";
+import {
+  getRedAyudaCaracasHospitals,
+  getRedAyudaCommunityGuide,
+  getRedAyudaEmergencyPhones,
+  getRedAyudaQuakes,
+  getRedAyudaSnapshot,
+  REDAYUDA_PLATFORM_URL,
+} from "@/data/redayuda-resources";
 import type { Locale } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { phoneTelHref } from "@/lib/phone";
@@ -16,7 +25,13 @@ interface Props {
 const { locale } = Astro.props;
 const { t, dict } = useTranslations(locale);
 const offlineTools = getOfflineTools(locale);
+const medicalSupport = getMedicalSupportResources();
 const psychologicalSupport = getPsychologicalSupportResources();
+const redAyuda = getRedAyudaSnapshot();
+const redAyudaHospitals = getRedAyudaCaracasHospitals();
+const redAyudaPhones = getRedAyudaEmergencyPhones();
+const redAyudaGuide = getRedAyudaCommunityGuide();
+const redAyudaQuakes = getRedAyudaQuakes();
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 
 const guides = [
@@ -119,6 +134,77 @@ const guides = [
       </div>
     </section>
 
+    <section class="mb-16" id="apoyo-medico">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-ink">{t("resources.medicalSupport.title")}</h2>
+        <p class="mt-1 text-sm text-ink-secondary max-w-3xl">
+          {t("resources.medicalSupport.subtitle")}
+        </p>
+      </div>
+      <div class="grid gap-4 max-w-4xl sm:grid-cols-2">
+        {
+          medicalSupport.map((resource) => (
+            <article class="card-interactive" id={resource.id}>
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-semibold text-ink">{resource.name}</h3>
+                    {resource.is_verified && (
+                      <span class="badge-verified">{t("common.verified")}</span>
+                    )}
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-secondary">
+                    {locale === "es" ? resource.description.es : resource.description.en}
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-3 border-t border-border pt-4">
+                {resource.website_url && (
+                  <a
+                    href={resource.website_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary text-sm"
+                  >
+                    {t("resources.medicalSupport.openMission")} →
+                  </a>
+                )}
+                {resource.instagram_url && (
+                  <a
+                    href={resource.instagram_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-secondary text-sm"
+                  >
+                    Instagram {resource.handle ?? ""} →
+                  </a>
+                )}
+                {resource.whatsapp_url && (
+                  <a
+                    href={resource.whatsapp_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-secondary text-sm"
+                  >
+                    WhatsApp →
+                  </a>
+                )}
+              </div>
+              <CommunityFeedback
+                client:visible
+                contentType="external_link"
+                contentId={resource.id}
+                locale={locale}
+                labels={feedbackLabels}
+                confidenceLabels={confidenceLabels}
+                compact
+              />
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
     <section class="mb-16" id="apoyo-psicologico">
       <div class="mb-6">
         <h2 class="text-xl font-semibold text-ink">{t("resources.psychologicalSupport.title")}</h2>
@@ -183,6 +269,152 @@ const guides = [
           ))
         }
       </div>
+    </section>
+
+    <section class="mb-16" id="red-ayuda-venezuela">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-semibold text-ink">
+            {locale === "es" ? "Red Ayuda Venezuela" : "Red Ayuda Venezuela"}
+          </h2>
+          <p class="mt-1 text-sm text-ink-secondary max-w-3xl">
+            {locale === "es"
+              ? "Datos sincronizados desde redayudavenezuela.com: guía comunitaria, hospitales de Caracas, teléfonos de emergencia y réplicas recientes (USGS)."
+              : "Data synced from redayudavenezuela.com: community guide, Caracas hospitals, emergency phones and recent aftershocks (USGS)."}
+          </p>
+        </div>
+        <a
+          href={REDAYUDA_PLATFORM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary text-sm shrink-0"
+        >
+          {locale === "es" ? "Abrir plataforma" : "Open platform"} →
+        </a>
+      </div>
+
+      {
+        redAyuda.stats && (
+          <div class="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl">
+            <div class="card text-sm">
+              <p class="text-ink-secondary">{locale === "es" ? "Desaparecidos" : "Missing"}</p>
+              <p class="text-lg font-semibold text-ink">{redAyuda.stats.desaparecidos.toLocaleString()}</p>
+            </div>
+            <div class="card text-sm">
+              <p class="text-ink-secondary">{locale === "es" ? "A salvo" : "Safe"}</p>
+              <p class="text-lg font-semibold text-ink">{redAyuda.stats.salvo.toLocaleString()}</p>
+            </div>
+            <div class="card text-sm">
+              <p class="text-ink-secondary">{locale === "es" ? "Puntos de ayuda" : "Help points"}</p>
+              <p class="text-lg font-semibold text-ink">{redAyuda.stats.puntos.toLocaleString()}</p>
+            </div>
+            <div class="card text-sm">
+              <p class="text-ink-secondary">{locale === "es" ? "En hospitales" : "In hospitals"}</p>
+              <p class="text-lg font-semibold text-ink">{redAyuda.stats.hospital.toLocaleString()}</p>
+            </div>
+          </div>
+        )
+      }
+
+      <div class="grid gap-8 lg:grid-cols-2 max-w-5xl">
+        <article class="card">
+          <h3 class="font-semibold text-ink">
+            {locale === "es" ? "Guía rápida para la comunidad" : "Quick community guide"}
+          </h3>
+          <ol class="mt-4 space-y-3">
+            {
+              redAyudaGuide.map((item) => (
+                <li class="flex gap-3 text-sm text-ink-secondary">
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-muted text-xs font-semibold text-accent">
+                    {item.order}
+                  </span>
+                  <span>{locale === "es" ? item.text_es : item.text_en}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </article>
+
+        <div class="space-y-8">
+          <article class="card">
+            <h3 class="font-semibold text-ink">
+              {locale === "es" ? "Hospitales en Caracas" : "Hospitals in Caracas"}
+            </h3>
+            <ul class="mt-4 space-y-3">
+              {
+                redAyudaHospitals.map((hospital) => (
+                  <li class="text-sm">
+                    <p class="font-medium text-ink">
+                      {hospital.name}
+                      <span class="font-normal text-ink-secondary"> ({hospital.zone})</span>
+                    </p>
+                    <a href={phoneTelHref(hospital.phone)} class="text-accent hover:underline">
+                      {hospital.phone}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+
+          {
+            redAyudaQuakes.length > 0 && (
+              <article class="card">
+                <h3 class="font-semibold text-ink">
+                  {locale === "es" ? "Réplicas y sismos recientes (USGS)" : "Recent aftershocks (USGS)"}
+                </h3>
+                <ul class="mt-4 space-y-2">
+                  {
+                    redAyudaQuakes.slice(0, 5).map((quake) => (
+                      <li class="text-sm text-ink-secondary">
+                        <span class="font-medium text-ink">M{quake.mag.toFixed(1)}</span>
+                        {" — "}
+                        {quake.place}
+                      </li>
+                    ))
+                  }
+                </ul>
+              </article>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="mt-8 max-w-5xl">
+        <h3 class="font-semibold text-ink mb-4">
+          {locale === "es" ? "Teléfonos de emergencia" : "Emergency phone numbers"}
+        </h3>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            redAyudaPhones.map((entry) => (
+              <article class="card text-sm" id={entry.id}>
+                <h4 class="font-medium text-ink">
+                  {locale === "es" ? entry.label_es : entry.label_en}
+                </h4>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  {
+                    entry.numbers.map((num) => (
+                      <a href={phoneTelHref(num)} class="text-accent hover:underline">
+                        {num}
+                      </a>
+                    ))
+                  }
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId="red-ayuda-venezuela"
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
     </section>
 
     <section>

@@ -8,6 +8,24 @@ export type { AlliedPlatform, AlliedPlatformColor } from "@/types";
  */
 export const ALLIED_PLATFORMS: AlliedPlatform[] = [
   {
+    domain: "redayudavenezuela.com",
+    url: "https://redayudavenezuela.com",
+    description: {
+      es: "Red de emergencia ciudadana: buscar personas por nombre o foto, puntos de ayuda, hospitales, réplicas USGS y guía comunitaria.",
+      en: "Citizen emergency network: search people by name or photo, help points, hospitals, USGS aftershocks and community guide.",
+    },
+    color: "red",
+  },
+  {
+    domain: "busca.nexosignal.co",
+    url: "https://busca.nexosignal.co",
+    description: {
+      es: "Niños de Pie: busca y reporta niños rescatados sin familia. Directorio con foto, hospital y estado de salud para reunirlos con sus familias.",
+      en: "Niños de Pie: search and report rescued children without family. Directory with photo, hospital and health status to reunite them with their families.",
+    },
+    color: "red",
+  },
+  {
     domain: "hospitalesenvenezuela.com",
     url: "https://hospitalesenvenezuela.com",
     description: {
@@ -17,11 +35,29 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     color: "blue",
   },
   {
+    domain: "zanapronto.com",
+    url: "https://zanapronto.com/rescate",
+    description: {
+      es: "App Zana: apoyo médico gratuito — mapa de ayuda, buscar medicinas y coordinar rescate.",
+      en: "Zana app: free medical support — help map, find medicines and coordinate rescue aid.",
+    },
+    color: "blue",
+  },
+  {
     domain: "centroacopio.site",
     url: "https://centroacopio.site/",
     description: {
       es: "Red nacional de centros de acopio y voluntarios de delivery gratuito.",
       en: "National network of collection centers and free delivery volunteers.",
+    },
+    color: "yellow",
+  },
+  {
+    domain: "ayudaencamino.com",
+    url: "https://ayudaencamino.com",
+    description: {
+      es: "Coordinación de ayuda: ONGs y acopios publican necesidades en tiempo real; tú eliges qué llevar y dónde entregar.",
+      en: "Aid coordination: NGOs and collection points publish real-time needs; you choose what to bring and where to deliver.",
     },
     color: "yellow",
   },

@@ -42,6 +42,39 @@ const HOSPITAL_OVERRIDES: { match: string; data: Partial<Hospital> }[] = [
       is_verified: true,
     },
   },
+  {
+    match: "Hospital José Gregorio Hernández",
+    data: {
+      address: "Los Magallanes, Caracas",
+      phone: "0212-870-7897",
+      status: "operational",
+      services: ["emergencias", "hospital"],
+      notes: "Teléfono publicado por Red Ayuda Venezuela",
+      is_verified: true,
+    },
+  },
+  {
+    match: "Hospital Miguel Pérez Carreño",
+    data: {
+      address: "Bella Vista, Caracas",
+      phone: "0212-472-8472",
+      status: "operational",
+      services: ["emergencias", "hospital"],
+      notes: "Teléfono publicado por Red Ayuda Venezuela",
+      is_verified: true,
+    },
+  },
+  {
+    match: "Hospital Militar",
+    data: {
+      address: "San Martín, Caracas",
+      phone: "0212-406-1241",
+      status: "operational",
+      services: ["emergencias", "hospital"],
+      notes: "Teléfono publicado por Red Ayuda Venezuela",
+      is_verified: true,
+    },
+  },
 ];
 
 function facilityId(record: HospitalFacilityRecord): string {

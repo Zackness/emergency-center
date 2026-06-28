@@ -1,0 +1,18 @@
+---
+export const prerender = false;
+
+import NinosPage from "@/views/NinosPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
+
+export function getStaticPaths() {
+  return secondaryLocaleStaticPaths();
+}
+
+const locale = resolveSecondaryLocale(Astro, "/ninos");
+if (locale instanceof Response) return locale;
+---
+
+<NinosPage locale={locale} />

@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SiteFootprints from "@/components/home/SiteFootprints.astro";
 import StatCard from "@/components/ui/StatCard.astro";
 import GlobalSearch from "@/components/search/GlobalSearch";
+import LandingMapHub from "@/components/home/LandingMapHub";
+import LandingVolunteerHub from "@/components/home/LandingVolunteerHub.astro";
 import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { Locale } from "@/i18n/config";
@@ -16,6 +18,8 @@ import {
 } from "@/data/seed";
 import type { SearchResultType } from "@/types/search";
 import { HOME_HERO_IMAGE } from "@/data/site-images";
+import { getVzlaAyudaAvisos, getVzlaAyudaSnapshot } from "@/data/vzlayuda-resources";
+import { fetchLandingMapCatalogForPage } from "@/lib/map/landing-catalog";
 
 interface Props {
   locale: Locale;
@@ -24,6 +28,12 @@ interface Props {
 const { locale } = Astro.props;
 const { t, dict } = useTranslations(locale);
 const alliedPlatforms = await fetchAlliedPlatforms();
+const vzSnapshot = getVzlaAyudaSnapshot();
+const vzAvisos = getVzlaAyudaAvisos();
+const vzOffers = vzAvisos.filter((a) => a.tipo === "oferta");
+const vzRequests = vzAvisos.filter((a) => a.tipo === "solicitud");
+const volunteerTotal = vzSnapshot.counts.total;
+const landingMapCatalog = await fetchLandingMapCatalogForPage(locale);
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 ---
@@ -50,11 +60,14 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
           {t("home.banner.subtitle")}
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href={localePath(locale, "centros-ayuda")} class="btn-primary">
-            {t("home.banner.cta")}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <a href="#mapa-emergencia" class="btn-primary">
+            {t("home.map.cta")}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </a>
-          <a href={localePath(locale, "voluntarios")} class="btn-secondary">
+          <a href={localePath(locale, "centros-ayuda")} class="btn-secondary">
+            {t("home.banner.cta")}
+          </a>
+          <a href="#ayuda-solidaria" class="btn-secondary">
             {t("home.banner.secondary")}
           </a>
         </div>
@@ -74,31 +87,28 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
           />
         </div>
       </div>
-      <div class="relative">
+      <div class="relative hidden lg:block">
         <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-emergency/25 via-accent/10 to-transparent blur-2xl" aria-hidden="true"></div>
-        <div class="relative overflow-hidden rounded-[2rem] border border-white/60 bg-surface shadow-soft">
+        <a
+          href="#mapa-emergencia"
+          class="group relative block overflow-hidden rounded-[2rem] border border-white/60 bg-surface shadow-soft transition-transform hover:scale-[1.01]"
+        >
           <img
             src={HOME_HERO_IMAGE}
-            alt={locale === "es"
-              ? "Voluntarios organizando ayuda humanitaria ante la emergencia sísmica en Venezuela"
-              : "Volunteers organizing humanitarian aid during Venezuela's seismic emergency"}
-            class="h-[min(50vh,430px)] min-h-[220px] w-full object-cover sm:h-[360px] lg:h-[430px]"
+            alt=""
+            class="h-[430px] w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
             loading="eager"
             decoding="async"
-            fetchpriority="high"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent"></div>
           <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/15 p-4 text-white backdrop-blur">
-            <p class="text-sm font-semibold">
-              {locale === "es" ? "Respuesta ciudadana en tiempo real" : "Real-time citizen response"}
-            </p>
-            <p class="mt-1 text-xs text-white/80">
-              {locale === "es"
-                ? "Mapa, refugios, ayuda y verificación comunitaria en un solo lugar."
-                : "Map, shelters, aid and community verification in one place."}
-            </p>
+            <p class="text-sm font-semibold">{t("home.map.heroTitle")}</p>
+            <p class="mt-1 text-xs text-white/80">{t("home.map.heroSubtitle")}</p>
+            <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-white/90">
+              {t("home.map.cta")} →
+            </span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -108,9 +118,88 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
       <StatCard value={SEED_HELP_CENTERS.length + "+"} label={t("home.stats.helpCenters")} icon="map-pin" accent="emergency" />
       <StatCard value={SEED_SHELTERS.length + "+"} label={t("home.stats.shelters")} icon="tent" accent="success" />
       <StatCard value={String(SEED_HOSPITALS.length)} label={t("home.stats.hospitals")} icon="hospital" accent="accent" />
-      <StatCard value="—" label={t("home.stats.volunteers")} icon="heart" accent="warning" />
+      <StatCard value={String(volunteerTotal)} label={t("home.stats.volunteers")} icon="heart" accent="warning" />
     </div>
   </section>
+
+  <section class="container-app py-12 sm:py-16">
+    <LandingMapHub
+      client:load
+      locale={locale}
+      initialCatalog={landingMapCatalog}
+      labels={{
+        title: t("home.map.title"),
+        subtitle: t("home.map.subtitle"),
+        searchPlaceholder: t("home.map.searchPlaceholder"),
+        filterZone: t("home.map.filterZone"),
+        allZones: t("home.map.allZones"),
+        allLayers: t("home.map.allLayers"),
+        severity: t("home.map.severity"),
+        allSeverities: t("home.map.allSeverities"),
+        severityCollapsed: t("home.map.severityCollapsed"),
+        severityDamaged: t("home.map.severityDamaged"),
+        severityEvacuated: t("home.map.severityEvacuated"),
+        showing: t("home.map.showing"),
+        of: t("home.map.of"),
+        loading: t("common.loading"),
+        error: t("common.error"),
+        retry: t("home.map.retry"),
+        directions: t("common.directions"),
+        openDetail: t("home.map.openDetail"),
+        externalLink: t("common.officialLink"),
+        source: t("home.map.source"),
+        noLocations: t("home.map.noLocations"),
+        legend: t("home.map.legend"),
+        layers: {
+          help_center: t("home.map.layers.helpCenters"),
+          hospital: t("home.map.layers.hospitals"),
+          shelter: t("home.map.layers.shelters"),
+          damage: t("home.map.layers.damage"),
+          quake: t("home.map.layers.quakes"),
+          redayuda: t("home.map.layers.redAyuda"),
+          platform: t("home.map.layers.platforms"),
+          children: t("home.map.layers.children"),
+        },
+        stats: {
+          missing: t("home.map.stats.missing"),
+          safe: t("home.map.stats.safe"),
+          helpPoints: t("home.map.stats.helpPoints"),
+          trapped: t("home.map.stats.trapped"),
+          children: t("home.map.stats.children"),
+          childrenMissing: t("home.map.stats.childrenMissing"),
+          childrenCritical: t("home.map.stats.childrenCritical"),
+        },
+      }}
+    />
+  </section>
+
+  <LandingVolunteerHub
+    locale={locale}
+    offers={vzOffers.slice(0, 3)}
+    requests={vzRequests.slice(0, 3)}
+    offerCount={vzSnapshot.counts.oferta}
+    requestCount={vzSnapshot.counts.solicitud}
+    fetchedAt={vzSnapshot.fetched_at}
+    labels={{
+      eyebrow: t("home.volunteers.eyebrow"),
+      title: t("home.volunteers.title"),
+      subtitle: t("home.volunteers.subtitle"),
+      offersTitle: t("home.volunteers.offersTitle"),
+      offersSubtitle: t("home.volunteers.offersSubtitle"),
+      requestsTitle: t("home.volunteers.requestsTitle"),
+      requestsSubtitle: t("home.volunteers.requestsSubtitle"),
+      offerHint: t("home.volunteers.offerHint"),
+      requestHint: t("home.volunteers.requestHint"),
+      viewOffers: t("home.volunteers.viewOffers"),
+      viewRequests: t("home.volunteers.viewRequests"),
+      publishOffer: t("home.volunteers.publishOffer"),
+      publishRequest: t("home.volunteers.publishRequest"),
+      updated: t("home.volunteers.updated"),
+      offerBadge: t("home.volunteers.offerBadge"),
+      requestBadge: t("home.volunteers.requestBadge"),
+      viewAll: t("home.volunteers.viewAll"),
+    }}
+  />
 
   <section class="container-app py-16">
     <div class="max-w-3xl">

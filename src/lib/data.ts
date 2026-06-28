@@ -658,6 +658,37 @@ export async function queryDamageReportsFromDb(query: {
   );
 }
 
+/** Datos iniciales del hub /danos (SSR). Si la DB tarda, usa el snapshot local. */
+export async function fetchDamageReportsForPage() {
+  const { LOCAL_DAMAGE_BUILDINGS } = await import("@/data/damage-buildings");
+  const { mergePriorityRescueSites, computeDamageStats } = await import("@/lib/damage-map/feed");
+
+  const localSnapshot = () => {
+    const all = mergePriorityRescueSites(LOCAL_DAMAGE_BUILDINGS);
+    return {
+      items: all,
+      total: all.length,
+      stats: computeDamageStats(all),
+    };
+  };
+
+  const timeoutMs = import.meta.env.DEV ? 2500 : 20000;
+
+  try {
+    return await Promise.race([
+      queryDamageReportsFromDb({ limit: 10000, offset: 0 }),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("damage-map page fetch timeout")), timeoutMs);
+      }),
+    ]);
+  } catch (err) {
+    if (err instanceof Error && err.message !== "damage-map page fetch timeout") {
+      console.error("[damage-map] page fetch failed, using local snapshot:", err);
+    }
+    return localSnapshot();
+  }
+}
+
 export async function createDamageReport(data: DamageReportRegistration) {
   if (!isDatabaseConfigured()) {
     return { id: "seed", ...data };

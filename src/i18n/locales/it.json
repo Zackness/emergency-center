@@ -11,6 +11,7 @@
     "shelters": "Shelters",
     "agencies": "Agencies",
     "missing": "Missing persons",
+    "children": "Children",
     "pets": "Pets",
     "news": "News",
     "volunteers": "Volunteers",
@@ -102,13 +103,32 @@
       "title": "Seismic emergency in Venezuela",
       "subtitle": "Earthquakes of magnitude 7.2 and 7.5 on June 24, 2026. State of emergency active. Find verified aid in one place.",
       "cta": "View help centers",
-      "secondary": "Register as volunteer"
+      "secondary": "Aiuto solidale"
     },
     "stats": {
       "helpCenters": "Collection centers",
       "shelters": "Active shelters",
       "hospitals": "Hospitals",
-      "volunteers": "Registered volunteers"
+      "volunteers": "Offerte e richieste di aiuto"
+    },
+    "volunteers": {
+      "eyebrow": "Aiuto solidale",
+      "title": "Trova o offri aiuto vicino a te",
+      "subtitle": "Due elenchi da VZLA Ayuda: chi offre supporto e chi ne ha bisogno.",
+      "offersTitle": "Voglio aiutare",
+      "offersSubtitle": "Trasporto, medicina, cibo, rifugio e altro.",
+      "requestsTitle": "Ho bisogno di aiuto",
+      "requestsSubtitle": "Famiglie e organizzazioni che chiedono supporto o volontari.",
+      "offerHint": "Ho qualcosa da dare",
+      "requestHint": "Mi manca qualcosa",
+      "viewOffers": "Vedi offerte",
+      "viewRequests": "Vedi richieste",
+      "publishOffer": "Pubblica offerta",
+      "publishRequest": "Pubblica richiesta",
+      "updated": "Aggiornato:",
+      "offerBadge": "Offre aiuto",
+      "requestBadge": "Ha bisogno di aiuto",
+      "viewAll": "Vai al elenco volontari"
     },
     "about": {
       "eyebrow": "What this platform is",
@@ -166,6 +186,46 @@
       "redCross": "Venezuelan Red Cross",
       "civilProtection": "Civil Protection",
       "bitchat": "BitChat — Messages without internet (Bluetooth)"
+    },
+    "map": {
+      "cta": "Vedi mappa di emergenza",
+      "heroTitle": "Mappa unificata dell'emergenza",
+      "heroSubtitle": "Centri di raccolta, rifugi, ospedali, danni, bambini salvati, Red Ayuda Venezuela e piattaforme alleate — con filtri e link diretti.",
+      "title": "Mappa di emergenza",
+      "subtitle": "Esplora centri di raccolta, rifugi, ospedali, danni strutturali, repliche USGS, bambini salvati o dispersi (Red Ayuda e Niños de Pie) e dati delle piattaforme alleate. Ogni punto collega a una sezione di questo sito o alla fonte originale.",
+      "searchPlaceholder": "Cerca nella mappa per nome, indirizzo o zona…",
+      "filterZone": "Filtra per zona",
+      "allZones": "Tutte le zone",
+      "allLayers": "Tutti i livelli",
+      "severity": "Gravità del danno",
+      "allSeverities": "Tutta gravità",
+      "severityCollapsed": "Collassato",
+      "severityDamaged": "Danneggiato",
+      "severityEvacuated": "Evacuato",
+      "showing": "Mostrando",
+      "of": "di",
+      "retry": "Riprova",
+      "openDetail": "Vedi dettagli",
+      "source": "Fonte",
+      "noLocations": "Nessuna posizione con questi filtri. Prova un'altra zona o attiva più livelli.",
+      "legend": "Tocca un marcatore per dettagli e link",
+      "layers": {
+        "helpCenters": "Centri di raccolta",
+        "hospitals": "Ospedali",
+        "shelters": "Rifugi",
+        "damage": "Danni",
+        "quakes": "Sismi USGS",
+        "redAyuda": "Red Ayuda — Ospedali",
+        "platforms": "Piattaforme / Red Ayuda",
+        "children": "Bambini salvati"
+      },
+      "stats": {
+        "missing": "Dispersi",
+        "safe": "Al sicuro",
+        "helpPoints": "Punti di aiuto",
+        "trapped": "Intrappolati",
+        "children": "Bambini in protezione"
+      }
     }
   },
   "helpCenters": {
@@ -363,6 +423,14 @@
         "cta": "Go to centroacopio.site",
         "note": "Data syncs independently; always verify with the center before moving supplies."
       },
+      "ayudaEncamino": {
+        "eyebrow": "Real-time donations",
+        "title": "Ayuda en Camino",
+        "description": "Collection centers, shelters and NGOs publish what they need with exact addresses. Pick a need, say how much you can bring, and the organization will know you're on your way.",
+        "cta": "View urgent needs",
+        "ctaOrganizations": "I'm an organization",
+        "note": "You can also help from abroad with verified information. Complements this directory; always confirm before traveling."
+      },
       "panelCta": "Coordinator panel",
       "thirdPartyCta": "Report third-party center"
     },
@@ -412,6 +480,10 @@
       "description": "This allied platform digitizes lists of people admitted to hospitals and health centers. Search by full name or national ID to see if they are registered and at which facility. For privacy it does not show clinical status — call the hospital to confirm.",
       "cta": "Search on hospitalesenvenezuela.com",
       "note": "If the person is not listed at any hospital, they may be missing — also check the missing persons registry."
+    },
+    "zana": {
+      "eyebrow": "Free medical support",
+      "cta": "Open Zana rescue mission"
     }
   },
   "shelters": {
@@ -535,6 +607,13 @@
       ],
       "call": "Call or message",
       "whatsapp": "WhatsApp"
+    },
+    "ninosDePie": {
+      "title": "Looking for a rescued child?",
+      "description": "Niños de Pie lists children rescued from rubble without identified family. Search by hospital or status, or report immediately if you are caring for a child.",
+      "searchCta": "Search for a child",
+      "reportCta": "Report a found child",
+      "note": "Nexo Signal allied platform. Each report with a photo helps reunite families."
     },
     "external": {
       "title": "External platforms",
@@ -906,6 +985,56 @@
       "helpCenterNone": "No specific center — general registration",
       "helpCenterHint": "If you choose a center, the coordinator will review your request from the volunteer dashboard.",
       "consent": "I agree my data may be used for emergency coordination"
+    },
+    "vzlayuda": {
+      "hubTitle": "Trova o offri aiuto vicino a te",
+      "hubSubtitle": "Scegli una scheda: chi vuole aiutare vede le offerte; chi ha bisogno vede le richieste. Pubblica qui o su vzlayuda.com.",
+      "dataNote": "Elenchi sincronizzati con vzlayuda.com. Ciò che pubblichi qui resta su questo sito.",
+      "offersCardTitle": "Offri aiuto o trova chi sostenere",
+      "offersCardSubtitle": "Trasporto, medicina, cibo, rifugio, attrezzi e altro.",
+      "requestsCardTitle": "Cerca o chiedi ciò che ti serve",
+      "requestsCardSubtitle": "Famiglie, fondazioni e centri che richiedono volontari o supporto.",
+      "publishOfferBtn": "Pubblica offerta",
+      "publishRequestBtn": "Pubblica richiesta di aiuto",
+      "cancelForm": "Annulla",
+      "tabOfferHint": "Ho qualcosa da dare",
+      "tabRequestHint": "Mi manca qualcosa",
+      "offersListTitle": "I want to help — Offers",
+      "offersListSubtitle": "People offering help or volunteer services. Imported from vzlayuda.com and local posts.",
+      "requestsListTitle": "I need help — Requests",
+      "requestsListSubtitle": "People and organizations requesting support or volunteers. Imported from vzlayuda.com and local posts.",
+      "publishTitle": "Pubblica offerta o richiesta di aiuto",
+      "publishSubtitle": "Come su VZLA Ayuda: senza account. WhatsApp è il contatto. Puoi anche pubblicare su vzlayuda.com per maggiore visibilità.",
+      "searchPlaceholder": "Cerca per titolo, città, categoria o nome…",
+      "sourceAll": "Tutte le fonti",
+      "sourceVzlayuda": "VZLA Ayuda",
+      "sourceLocal": "Pubblicato qui",
+      "allCategories": "Tutte le categorie",
+      "categoryFilter": "Categoria",
+      "offerBadge": "Offre aiuto",
+      "requestBadge": "Ha bisogno di aiuto",
+      "contactOnVzlayuda": "Vedi su VZLA Ayuda",
+      "fetchedAt": "Aggiornato:",
+      "statsCount": "Pubblicazioni",
+      "tabOffer": "Voglio aiutare",
+      "tabRequest": "Ho bisogno di aiuto",
+      "kindOfferLabel": "Offro aiuto",
+      "kindOfferHint": "Ho qualcosa da dare",
+      "kindRequestLabel": "Ho bisogno di aiuto",
+      "kindRequestHint": "Mi manca qualcosa",
+      "titleField": "Titolo breve",
+      "category": "Categoria",
+      "zone": "Zona o quartiere",
+      "description": "Descrizione (opzionale)",
+      "submitOffer": "Pubblica offerta",
+      "submitRequest": "Pubblica richiesta di aiuto",
+      "submitting": "Pubblicazione…",
+      "successOffer": "Offerta pubblicata. Apparirà nell'elenco; puoi anche pubblicare su vzlayuda.com.",
+      "successRequest": "Richiesta pubblicata. Apparirà nell'elenco; puoi anche pubblicare su vzlayuda.com.",
+      "error": "Impossibile pubblicare. Riprova o usa vzlayuda.com/publicar.",
+      "vzlayudaNote": "Consigliamo anche di pubblicare su vzlayuda.com per raggiungere più persone. Il contatto WhatsApp viene condiviso solo quando qualcuno decide di scriverti.",
+      "vzlayudaCta": "Pubblica anche su vzlayuda.com",
+      "consent": "Confermo che le informazioni sono veritiere e autorizzo la pubblicazione del mio contatto per la coordinazione dell'aiuto"
     }
   },
   "centerDashboard": {
@@ -1091,6 +1220,11 @@
     "psychologicalSupport": {
       "title": "Psychological support",
       "subtitle": "Psychological first aid, emotional containment and crisis intervention for people affected by the emergency."
+    },
+    "medicalSupport": {
+      "title": "Medical support and telemedicine",
+      "subtitle": "Solidarity apps and platforms for medical guidance, medicine search and health aid coordination during the emergency.",
+      "openMission": "Open rescue mission"
     }
   },
   "search": {

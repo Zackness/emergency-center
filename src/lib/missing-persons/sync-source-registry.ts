@@ -4,6 +4,7 @@ import { getAdapter, SOURCE_ADAPTERS } from "@/lib/missing-persons/adapters";
 
 /** Dominio aliado → slug de fuente externa / adaptador de sync. */
 export const MISSING_PERSON_SOURCE_BY_DOMAIN: Record<string, string> = {
+  "redayudavenezuela.com": "red-ayuda-venezuela",
   "terremotovenezuela.app": "terremotovenezuela-app",
   "venezuelatebusca.com": "venezuela-te-busca",
   "venezuelareporta.org": "venezuela-reporta",

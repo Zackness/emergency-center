@@ -11,6 +11,7 @@ import CenterNeedsSummary, {
 } from "@/components/help-centers/CenterNeedsSummary";
 import { EMERGENCY_ZONES, centerMatchesZone } from "@/data/emergency-zones";
 import { formatHelpCenterDescription } from "@/lib/help-centers/centroacopio";
+import { resolveCenterHashAnchor } from "@/lib/help-centers";
 import { canShowPublicInventory } from "@/lib/help-centers/public";
 import type { HelpCenterNeedsSummary } from "@/lib/help-centers/types";
 import { useHelpCenterCatalogRealtime } from "@/lib/hooks/useHelpCenterRealtime";
@@ -61,6 +62,14 @@ interface HubLabels {
     title: string;
     description: string;
     cta: string;
+    note: string;
+  };
+  ayudaEncamino: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    cta: string;
+    ctaOrganizations: string;
     note: string;
   };
   panelCta: string;
@@ -234,10 +243,11 @@ export default function HelpCenterHub({
     if (typeof window === "undefined") return;
     const hash = window.location.hash.replace("#", "");
     if (!hash) return;
-    if (centers.some((c) => c.id === hash) || catalogCenters.some((c) => c.id === hash)) {
+    const centerAnchor = resolveCenterHashAnchor(hash, catalogCenters.length ? catalogCenters : centers);
+    if (centerAnchor) {
       setActiveTab("centers");
       requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById(centerAnchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
       return;
     }
@@ -385,6 +395,41 @@ export default function HelpCenterHub({
           </a>
           <a href={registerThirdPartyPath} className="btn-secondary text-sm">
             {labels.thirdPartyCta}
+          </a>
+        </div>
+      </section>
+
+      <section className="card border-warning/30 bg-warning-muted/15 p-5 sm:p-6" id="ayudaencamino">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warning">
+          {labels.ayudaEncamino.eyebrow}
+        </p>
+        <h2 className="mt-1 text-xl font-bold text-ink">{labels.ayudaEncamino.title}</h2>
+        <p className="mt-2 text-sm text-ink-secondary">{labels.ayudaEncamino.description}</p>
+        <p className="mt-2 text-xs text-ink-muted">{labels.ayudaEncamino.note}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a
+            href="https://ayudaencamino.com/necesidades"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            {labels.ayudaEncamino.cta}
+          </a>
+          <a
+            href="https://ayudaencamino.com/organizaciones"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary text-sm"
+          >
+            {labels.ayudaEncamino.ctaOrganizations}
+          </a>
+          <a
+            href="https://ayudaencamino.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary text-sm"
+          >
+            ayudaencamino.com →
           </a>
         </div>
       </section>

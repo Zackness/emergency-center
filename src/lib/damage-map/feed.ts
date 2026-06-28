@@ -84,12 +84,19 @@ export function computeDamageStats(reports: DamageReport[]): DamageMapStats {
   };
 }
 
+export function filterDamageReports(
+  reports: DamageReport[],
+  query: Pick<DamageMapQuery, "search" | "severity" | "state">
+): DamageReport[] {
+  return reports.filter((report) => matchesQuery(report, query));
+}
+
 export async function queryDamageReports(
   query: DamageMapQuery,
   fetchFromDb: () => Promise<DamageReport[]>
 ): Promise<{ items: DamageReport[]; total: number; stats: DamageMapStats }> {
   const all = mergePriorityRescueSites(await fetchFromDb());
-  const filtered = all.filter((report) => matchesQuery(report, query));
+  const filtered = filterDamageReports(all, query);
   const offset = query.offset ?? 0;
   const limit = query.limit ?? 50;
   const items = filtered.slice(offset, offset + limit);

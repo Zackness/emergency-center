@@ -1,0 +1,481 @@
+{
+  "source": "redayudavenezuela.com",
+  "source_url": "https://redayudavenezuela.com",
+  "fetched_at": "2026-06-28T00:59:50.998Z",
+  "stats": {
+    "salvo": 9939,
+    "atrapados": 123,
+    "danos": 1119,
+    "voluntarios": 667,
+    "necesidades": 341,
+    "puntos": 246,
+    "desaparecidos": 110429,
+    "hospital": 12450
+  },
+  "official": {
+    "fallecidos": 1430,
+    "heridos": 3238,
+    "refugiados": null,
+    "desaparecidos": null,
+    "source": "Cifra oficial preliminar (vía Wikipedia) — en actualización",
+    "updated_at": "2026-06-28T00:59:23.488+00:00"
+  },
+  "ninos": 250,
+  "denuncias": 129,
+  "quakes": [
+    {
+      "id": "us6000t8q8",
+      "mag": 4.8,
+      "place": "35 km NNE of El Limón, Venezuela",
+      "time": 1782588036606,
+      "lat": 10.6023,
+      "lng": -67.5112
+    },
+    {
+      "id": "us6000t8k6",
+      "mag": 4.7,
+      "place": "54 km N of El Limón, Venezuela",
+      "time": 1782512171931,
+      "lat": 10.8,
+      "lng": -67.5993
+    },
+    {
+      "id": "us6000t8d1",
+      "mag": 4.4,
+      "place": "17 km WSW of Morón, Venezuela",
+      "time": 1782447570378,
+      "lat": 10.4537,
+      "lng": -68.3607
+    },
+    {
+      "id": "us6000t81p",
+      "mag": 4.4,
+      "place": "5 km NE of Guatire, Venezuela",
+      "time": 1782366503136,
+      "lat": 10.5111,
+      "lng": -66.5057
+    },
+    {
+      "id": "us6000t80d",
+      "mag": 4.5,
+      "place": "13 km N of Caucagüito, Venezuela",
+      "time": 1782339834046,
+      "lat": 10.6092,
+      "lng": -66.7168
+    },
+    {
+      "id": "us6000t7zp",
+      "mag": 7.5,
+      "place": "28 km SE of Yumare, Venezuela",
+      "time": 1782338711566,
+      "lat": 10.4351,
+      "lng": -68.4716
+    },
+    {
+      "id": "us6000t7zc",
+      "mag": 7.2,
+      "place": "23 km SE of Yumare, Venezuela",
+      "time": 1782338673389,
+      "lat": 10.436,
+      "lng": -68.5277
+    }
+  ],
+  "hospitals": [
+    {
+      "id": "ra-scraped-1",
+      "name": "Hospital José Gregorio Hernández",
+      "zone": "Los Magallanes",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-870-78-97"
+    },
+    {
+      "id": "ra-scraped-2",
+      "name": "Hospital Miguel Pérez Carreño",
+      "zone": "Bella Vista",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-472-84-72"
+    },
+    {
+      "id": "ra-scraped-3",
+      "name": "Hospital Militar",
+      "zone": "San Martín",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-406-12-41"
+    },
+    {
+      "id": "ra-scraped-4",
+      "name": "Hospital Periférico de Catia",
+      "zone": "Catia",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-870-27-71"
+    },
+    {
+      "id": "ra-scraped-5",
+      "name": "Hospital Periférico de Coche",
+      "zone": "Coche",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-681-11-33"
+    },
+    {
+      "id": "ra-scraped-6",
+      "name": "Policlínica David Lobo",
+      "zone": "Santa Rosalía",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-541-54-65"
+    },
+    {
+      "id": "ra-scraped-7",
+      "name": "Policlínica La Arboleda",
+      "zone": "San Bernardino",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-550-18-11"
+    },
+    {
+      "id": "ra-scraped-8",
+      "name": "Policlínica Las Mercedes",
+      "zone": "Las Mercedes",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-993-23-23"
+    },
+    {
+      "id": "ra-scraped-9",
+      "name": "Policlínica Santiago de León",
+      "zone": "Sabana Grande",
+      "city": "Caracas",
+      "state": "Distrito Capital",
+      "phone": "0212-762-90-25"
+    }
+  ],
+  "phones": [
+    {
+      "id": "ra-em-cantv",
+      "category": "emergency",
+      "label_es": "Emergencias Cantv (desde fijo)",
+      "label_en": "Cantv emergencies (landline)",
+      "numbers": [
+        "171"
+      ]
+    },
+    {
+      "id": "ra-em-movilnet",
+      "category": "emergency",
+      "label_es": "Emergencias Movilnet",
+      "label_en": "Movilnet emergencies",
+      "numbers": [
+        "*1"
+      ]
+    },
+    {
+      "id": "ra-em-digitel",
+      "category": "emergency",
+      "label_es": "Emergencias Digitel",
+      "label_en": "Digitel emergencies",
+      "numbers": [
+        "112"
+      ]
+    },
+    {
+      "id": "ra-em-movistar",
+      "category": "emergency",
+      "label_es": "Emergencias Movistar",
+      "label_en": "Movistar emergencies",
+      "numbers": [
+        "911"
+      ]
+    },
+    {
+      "id": "ra-amb-aero",
+      "category": "ambulance",
+      "label_es": "Aeroambulancias",
+      "label_en": "Air ambulances",
+      "numbers": [
+        "0212-993-2541",
+        "0212-992-8980",
+        "0212-992-8990",
+        "0212-991-7940"
+      ]
+    },
+    {
+      "id": "ra-amb-rescarven",
+      "category": "ambulance",
+      "label_es": "Rescarven",
+      "label_en": "Rescarven ambulance service",
+      "numbers": [
+        "0212-993-6911",
+        "0212-993-6991",
+        "0212-993-1310",
+        "0212-993-3367"
+      ]
+    },
+    {
+      "id": "ra-amb-sam",
+      "category": "ambulance",
+      "label_es": "Servicio de Ambulancia Metropolitano",
+      "label_en": "Metropolitan ambulance service",
+      "numbers": [
+        "0212-545-4545",
+        "0212-545-4655",
+        "0212-577-9209"
+      ]
+    },
+    {
+      "id": "ra-bom-antimano",
+      "category": "firefighters",
+      "label_es": "Bomberos Antímano",
+      "label_en": "Antímano firefighters",
+      "numbers": [
+        "0212-472-2054"
+      ],
+      "zone": "Antímano"
+    },
+    {
+      "id": "ra-bom-catia-mar",
+      "category": "firefighters",
+      "label_es": "Bomberos Catia la Mar",
+      "label_en": "Catia la Mar firefighters",
+      "numbers": [
+        "0212-351-9966"
+      ],
+      "zone": "Catia la Mar"
+    },
+    {
+      "id": "ra-bom-chacao",
+      "category": "firefighters",
+      "label_es": "Bomberos Chacao",
+      "label_en": "Chacao firefighters",
+      "numbers": [
+        "0212-265-3261"
+      ],
+      "zone": "Chacao"
+    },
+    {
+      "id": "ra-bom-este",
+      "category": "firefighters",
+      "label_es": "Bomberos del Este (Cafetal)",
+      "label_en": "East firefighters (Cafetal)",
+      "numbers": [
+        "0212-987-4334",
+        "0212-985-5060"
+      ],
+      "zone": "El Cafetal"
+    },
+    {
+      "id": "ra-bom-sucre",
+      "category": "firefighters",
+      "label_es": "Bomberos Sucre",
+      "label_en": "Sucre firefighters",
+      "numbers": [
+        "0212-985-3640"
+      ],
+      "zone": "Sucre"
+    },
+    {
+      "id": "ra-bom-paraiso",
+      "category": "firefighters",
+      "label_es": "Bomberos El Paraíso",
+      "label_en": "El Paraíso firefighters",
+      "numbers": [
+        "0212-481-0961"
+      ],
+      "zone": "El Paraíso"
+    },
+    {
+      "id": "ra-bom-valle",
+      "category": "firefighters",
+      "label_es": "Bomberos El Valle",
+      "label_en": "El Valle firefighters",
+      "numbers": [
+        "0212-672-0175",
+        "0212-672-0636"
+      ],
+      "zone": "El Valle"
+    },
+    {
+      "id": "ra-bom-guaira",
+      "category": "firefighters",
+      "label_es": "Bomberos La Guaira",
+      "label_en": "La Guaira firefighters",
+      "numbers": [
+        "0212-332-7620",
+        "0212-331-0445"
+      ],
+      "zone": "La Guaira"
+    },
+    {
+      "id": "ra-bom-trinidad",
+      "category": "firefighters",
+      "label_es": "Bomberos La Trinidad",
+      "label_en": "La Trinidad firefighters",
+      "numbers": [
+        "0212-943-4361"
+      ],
+      "zone": "La Trinidad"
+    },
+    {
+      "id": "ra-bom-urbina",
+      "category": "firefighters",
+      "label_es": "Bomberos La Urbina",
+      "label_en": "La Urbina firefighters",
+      "numbers": [
+        "0212-241-6641"
+      ],
+      "zone": "La Urbina"
+    },
+    {
+      "id": "ra-bom-metro",
+      "category": "firefighters",
+      "label_es": "Bomberos Metropolitanos",
+      "label_en": "Metropolitan firefighters",
+      "numbers": [
+        "0212-545-4545"
+      ],
+      "zone": "Caracas"
+    },
+    {
+      "id": "ra-bom-miranda",
+      "category": "firefighters",
+      "label_es": "Bomberos Miranda",
+      "label_en": "Miranda firefighters",
+      "numbers": [
+        "0212-235-6967"
+      ],
+      "zone": "Miranda"
+    },
+    {
+      "id": "ra-bom-pvz",
+      "category": "firefighters",
+      "label_es": "Bomberos Plaza Venezuela",
+      "label_en": "Plaza Venezuela firefighters",
+      "numbers": [
+        "0212-793-0039",
+        "0212-793-6457"
+      ],
+      "zone": "Plaza Venezuela"
+    },
+    {
+      "id": "ra-bom-san-bernardino",
+      "category": "firefighters",
+      "label_es": "Bomberos San Bernardino",
+      "label_en": "San Bernardino firefighters",
+      "numbers": [
+        "0212-577-9209"
+      ],
+      "zone": "San Bernardino"
+    }
+  ],
+  "community_guide": [
+    {
+      "order": 1,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 2,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 3,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 4,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 5,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 6,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 7,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 8,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 9,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 10,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 11,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 12,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 13,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 14,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 15,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 16,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 17,
+      "text_es": "rounded-xl bg-stone-",
+      "text_en": "rounded-xl bg-stone-"
+    },
+    {
+      "order": 18,
+      "text_es": "place-items-center rounded-full bg-blue-",
+      "text_en": "place-items-center rounded-full bg-blue-"
+    },
+    {
+      "order": 19,
+      "text_es": "%ADa%20r%C3%A1pida%20tras%20el%20terremoto%20en%20Venezuela%3A%0A%0A1.%20Ponte%20a%20salvo%3A%20al%C3%A9jate%20de%20estructuras%20da%C3%B1adas%2C%20vidrios%20y%20postes.%20Pueden%20venir%20r%C3%A9plicas.%0A2.%20Revisa%20si%20t%C3%BA%20y%20los%20tuyos%20est%C3%A1n%20heridos.%20Da%20primeros%20auxilios%20b%C3%A1sicos.%0A3.%20Si%20hueles%20gas%2C%20cierra%20la%20llave%20y%20no%20enciendas%20nada.%20Corta%20la%20electricidad%20si%20ves%20cables%20sueltos.%0A4.%20No%20uses%20ascensores.%20Baja%20por%20las%20escaleras%20con%20cuidado.%0A5.%20Avisa%20que%20est%C3%A1s%20a%20salvo%20con%20un%20solo%20mensaje%20(no%20llames%3A%20satura%20la%20red).%20Puedes%20hacerlo%20aqu%C3%AD%20mismo.%0A6.%20Ten%20a%20mano%20agua%2C%20linterna%2C%20medicinas%20y%20tus%20documentos.%0A7.%20Acuerda%20un%20punto%20de%20encuentro%20con%20tu%20familia%20por%20si%20se%20separan.%0A8.%20No%20difundas%20rumores%3A%20verifica%20antes%20de%20compartir.%0A9.%20Ayuda%20a%20vecinos%20vulnerables%3A%20adultos%20mayores%2C%20ni%C3%B1os%20y%20personas%20con%20discapacidad.%0A%0ALlamadas%20de%20Emergencias%20(l%C3%ADnea%20directa)%3A%0ACantv%20(desde%20fijo)%3A%20171%0AMovilnet%3A%20*1%0ADigitel%3A%20112%0AMovistar%3A%20911\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"mt-",
+      "text_en": "%ADa%20r%C3%A1pida%20tras%20el%20terremoto%20en%20Venezuela%3A%0A%0A1.%20Ponte%20a%20salvo%3A%20al%C3%A9jate%20de%20estructuras%20da%C3%B1adas%2C%20vidrios%20y%20postes.%20Pueden%20venir%20r%C3%A9plicas.%0A2.%20Revisa%20si%20t%C3%BA%20y%20los%20tuyos%20est%C3%A1n%20heridos.%20Da%20primeros%20auxilios%20b%C3%A1sicos.%0A3.%20Si%20hueles%20gas%2C%20cierra%20la%20llave%20y%20no%20enciendas%20nada.%20Corta%20la%20electricidad%20si%20ves%20cables%20sueltos.%0A4.%20No%20uses%20ascensores.%20Baja%20por%20las%20escaleras%20con%20cuidado.%0A5.%20Avisa%20que%20est%C3%A1s%20a%20salvo%20con%20un%20solo%20mensaje%20(no%20llames%3A%20satura%20la%20red).%20Puedes%20hacerlo%20aqu%C3%AD%20mismo.%0A6.%20Ten%20a%20mano%20agua%2C%20linterna%2C%20medicinas%20y%20tus%20documentos.%0A7.%20Acuerda%20un%20punto%20de%20encuentro%20con%20tu%20familia%20por%20si%20se%20separan.%0A8.%20No%20difundas%20rumores%3A%20verifica%20antes%20de%20compartir.%0A9.%20Ayuda%20a%20vecinos%20vulnerables%3A%20adultos%20mayores%2C%20ni%C3%B1os%20y%20personas%20con%20discapacidad.%0A%0ALlamadas%20de%20Emergencias%20(l%C3%ADnea%20directa)%3A%0ACantv%20(desde%20fijo)%3A%20171%0AMovilnet%3A%20*1%0ADigitel%3A%20112%0AMovistar%3A%20911\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"mt-"
+    },
+    {
+      "order": 20,
+      "text_es": "inline-flex items-center gap-",
+      "text_en": "inline-flex items-center gap-"
+    },
+    {
+      "order": 21,
+      "text_es": "font-semibold text-white hover:bg-blue-700\">",
+      "text_en": "font-semibold text-white hover:bg-blue-700\">"
+    }
+  ]
+}

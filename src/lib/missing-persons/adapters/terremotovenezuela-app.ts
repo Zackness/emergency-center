@@ -59,7 +59,7 @@ async function fetchTvPage(
   });
 
   if (!res.ok) {
-    throw new Error(`Terremoto Venezuela App API ${res.status}`);
+    return { items: [], total: null };
   }
 
   const data = (await res.json()) as { people?: TvAppPerson[]; total?: number };

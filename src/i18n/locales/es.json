@@ -11,6 +11,7 @@
     "shelters": "Refugios",
     "agencies": "Organismos",
     "missing": "Desaparecidos",
+    "children": "Niños",
     "pets": "Mascotas",
     "news": "Noticias",
     "volunteers": "Voluntarios",
@@ -102,13 +103,32 @@
       "title": "Emergencia sísmica en Venezuela",
       "subtitle": "Terremotos de magnitud 7.2 y 7.5 el 24 de junio de 2026. Estado de emergencia activo. Encuentra ayuda verificada en un solo lugar.",
       "cta": "Ver centros de ayuda",
-      "secondary": "Registrar como voluntario"
+      "secondary": "Ayuda solidaria"
     },
     "stats": {
       "helpCenters": "Centros de acopio",
       "shelters": "Refugios activos",
       "hospitals": "Hospitales",
-      "volunteers": "Voluntarios registrados"
+      "volunteers": "Ofertas y solicitudes de ayuda"
+    },
+    "volunteers": {
+      "eyebrow": "Ayuda solidaria",
+      "title": "Encuentra o brinda ayuda cerca de ti",
+      "subtitle": "Dos listados actualizados desde VZLA Ayuda: personas que ofrecen apoyo y quienes lo necesitan.",
+      "offersTitle": "Quiero ayudar",
+      "offersSubtitle": "Transporte, medicina, comida, refugio y más.",
+      "requestsTitle": "Necesito ayuda",
+      "requestsSubtitle": "Familias y organizaciones que piden apoyo o voluntarios.",
+      "offerHint": "Tengo algo que dar",
+      "requestHint": "Me hace falta algo",
+      "viewOffers": "Ver ofrecimientos",
+      "viewRequests": "Ver solicitudes",
+      "publishOffer": "Publicar ofrecimiento",
+      "publishRequest": "Publicar solicitud",
+      "updated": "Actualizado:",
+      "offerBadge": "Ofrece ayuda",
+      "requestBadge": "Necesita ayuda",
+      "viewAll": "Ir al directorio de voluntarios"
     },
     "about": {
       "eyebrow": "Qué es esta plataforma",
@@ -166,6 +186,48 @@
       "redCross": "Cruz Roja Venezolana",
       "civilProtection": "Protección Civil",
       "bitchat": "BitChat — Mensajes sin internet (Bluetooth)"
+    },
+    "map": {
+      "cta": "Ver mapa de emergencia",
+      "heroTitle": "Mapa unificado de la emergencia",
+      "heroSubtitle": "Centros de acopio, refugios, hospitales, daños, niños rescatados, Red Ayuda Venezuela y plataformas aliadas — con filtros y enlaces directos.",
+      "title": "Mapa de emergencia",
+      "subtitle": "Explora centros de acopio, refugios, hospitales, daños estructurales, réplicas USGS y niños (desaparecidos, críticos o bajo resguardo) desde Nexo Signal y Red Ayuda. Cada punto enlaza al registro en /ninos o a la fuente original.",
+      "searchPlaceholder": "Buscar en el mapa por nombre, dirección o zona…",
+      "filterZone": "Filtrar por zona",
+      "allZones": "Todas las zonas",
+      "allLayers": "Todas las capas",
+      "severity": "Gravedad del daño",
+      "allSeverities": "Toda gravedad",
+      "severityCollapsed": "Colapsado",
+      "severityDamaged": "Dañado",
+      "severityEvacuated": "Evacuado",
+      "showing": "Mostrando",
+      "of": "de",
+      "retry": "Reintentar",
+      "openDetail": "Ver detalle",
+      "source": "Fuente",
+      "noLocations": "No hay ubicaciones con estos filtros. Prueba otra zona o activa más capas.",
+      "legend": "Toca un marcador para ver detalle y enlaces",
+      "layers": {
+        "helpCenters": "Centros de acopio",
+        "hospitals": "Hospitales",
+        "shelters": "Refugios",
+        "damage": "Daños",
+        "quakes": "Sismos USGS",
+        "redAyuda": "Red Ayuda — Hospitales",
+        "platforms": "Plataformas / Red Ayuda",
+        "children": "Niños (estado)"
+      },
+      "stats": {
+        "missing": "Desaparecidos",
+        "safe": "A salvo",
+        "helpPoints": "Puntos de ayuda",
+        "trapped": "Atrapados",
+        "children": "Niños en registro",
+        "childrenMissing": "Niños desaparecidos / en peligro",
+        "childrenCritical": "Estado crítico"
+      }
     }
   },
   "helpCenters": {
@@ -363,6 +425,14 @@
         "cta": "Ir a centroacopio.site",
         "note": "Los datos se sincronizan de forma independiente; verifica siempre con el centro antes de trasladar insumos."
       },
+      "ayudaEncamino": {
+        "eyebrow": "Donaciones en tiempo real",
+        "title": "Ayuda en Camino",
+        "description": "Centros de acopio, refugios y ONGs publican qué necesitan con dirección exacta. Elige una necesidad, indica cuánto puedes llevar y la organización sabrá que vas en camino.",
+        "cta": "Ver necesidades urgentes",
+        "ctaOrganizations": "Soy organización",
+        "note": "También puedes ayudar desde el exterior con información verificada. Complementa este directorio; confirma siempre antes de desplazarte."
+      },
       "panelCta": "Panel de coordinador",
       "thirdPartyCta": "Reportar de terceros",
       "details": "Ver detalles",
@@ -441,6 +511,10 @@
       "description": "Esta plataforma aliada digitaliza las listas de personas que ingresan a hospitales y centros de salud. Busca por nombre completo o cédula para saber si está registrada y en qué centro. Por privacidad no muestra el estado de salud: llama al hospital para confirmar.",
       "cta": "Buscar en hospitalesenvenezuela.com",
       "note": "Si la persona no aparece en ningún hospital, puede estar desaparecida — revisa también el registro de desaparecidos."
+    },
+    "zana": {
+      "eyebrow": "Apoyo médico gratuito",
+      "cta": "Abrir misión de rescate Zana"
     }
   },
   "shelters": {
@@ -490,6 +564,16 @@
       "engineerCta": "Soy ingeniero voluntario",
       "reportCta": "Reportar edificio dañado",
       "note": "Iniciativa independiente • contacto@cabreracg.com"
+    },
+    "structuralInspection": {
+      "title": "Inspecciones estructurales gratuitas",
+      "subtitle": "Ingenieros civiles, empresas y colectivos que ofrecen evaluaciones, orientación o reparación sin costo tras el terremoto. Verifica daños visibles antes de ingresar a un edificio.",
+      "servicesLabel": "Servicios",
+      "coverageLabel": "Cobertura",
+      "volunteerBadge": "Voluntario",
+      "companyBadge": "Empresa",
+      "whatsappLabel": "WhatsApp",
+      "disclaimer": "Información compartida por la comunidad en Instagram. No sustituye la inspección oficial de Protección Civil o el Colegio de Ingenieros. Ante riesgo inmediato, evacúa y llama al 171."
     },
     "priorityRescue": {
       "title": "Sitios prioritarios de búsqueda y rescate",
@@ -564,6 +648,14 @@
       ],
       "call": "Llamar o escribir",
       "whatsapp": "WhatsApp"
+    },
+    "ninosDePie": {
+      "title": "¿Buscas a un niño rescatado?",
+      "description": "Niños de Pie reúne el directorio de menores rescatados de los escombros sin familia identificada. Puedes buscar por hospital o estado, o reportar de inmediato si estás atendiendo a un niño.",
+      "searchCta": "Buscar niño",
+      "reportCta": "Reportar niño encontrado",
+      "note": "Plataforma aliada de Nexo Signal. Cada reporte con foto ayuda a reunir familias.",
+      "dedicatedPageCta": "Ver página de niños rescatados"
     },
     "external": {
       "title": "Plataformas externas",
@@ -683,6 +775,97 @@
       "venezuelaTeBusca": {
         "name": "Venezuela Te Busca",
         "desc": "Iniciativa ciudadana para reconectar familias y facilitar la búsqueda de personas desaparecidas."
+      }
+    }
+  },
+  "children": {
+    "title": "Niños rescatados y desaparecidos",
+    "subtitle": "Directorios especializados para reunir familias con menores tras el terremoto del 24 de junio de 2026. Usa la plataforma que corresponda a tu caso.",
+    "disclaimer": "Estas herramientas son para menores de edad. Si buscas a un adulto, usa la sección de Personas desaparecidas. Ante riesgo inmediato, llama al 171.",
+    "stats": {
+      "redAyudaLabel": "Casos en Red Ayuda — Niños",
+      "reportsLabel": "Reportes ciudadanos (Red Ayuda)",
+      "updated": "Actualizado"
+    },
+    "platforms": {
+      "nexosignal": {
+        "title": "Niños de Pie — Nexo Signal",
+        "description": "Directorio público de niños rescatados de los escombros sin familia identificada. Incluye foto, hospital, estado de salud y datos del reporte.",
+        "features": [
+          "Busca por hospital (Luciani, Pérez Carreño, La Guaira, Vargas, etc.)",
+          "Filtra por estado de salud: estable, crítico o sin identificar",
+          "Reporta de inmediato si estás atendiendo a un niño solo",
+          "Cada reporte con foto ayuda a reunificar familias"
+        ],
+        "searchCta": "Buscar en busca.nexosignal.co",
+        "reportCta": "Reportar niño encontrado"
+      },
+      "redayuda": {
+        "title": "Red Ayuda — Niños",
+        "description": "Busca por nombre a niños y niñas desaparecidos que su familia reporta, y a menores rescatados que estaban solos. Permite reportar un niño/a encontrado e importar datos desde foto.",
+        "features": [
+          "Búsqueda por nombre con asistente de la plataforma",
+          "Desaparecidos que busca la familia y rescatados sin compañía",
+          "Reporte para organismos autorizados y ciudadanos",
+          "Historial de entregas y traslados en cada ficha"
+        ],
+        "searchCta": "Abrir directorio de niños",
+        "reportCta": "Reportar niño/a solo/a"
+      }
+    },
+    "protection": {
+      "title": "Proteger a los niños y niñas",
+      "subtitle": "Recomendaciones de Red Ayuda Venezuela para evitar re-victimización y proteger a los menores.",
+      "source": "Fuente: redayudavenezuela.com/ninos",
+      "items": [
+        "Nunca entregues a un niño o niña a alguien solo porque dice ser su familiar. Solo las personas autorizadas pueden autorizar la entrega.",
+        "Mantenlo en un lugar seguro (refugio u organización) hasta verificar el parentesco.",
+        "Registra cada entrega o traslado en la ficha del niño o niña, para que quede el historial."
+      ]
+    },
+    "crosslinks": {
+      "missingTitle": "¿Buscas a un adulto?",
+      "missingDescription": "El registro unificado de personas desaparecidas incluye adultos y mayores en varias plataformas ciudadanas.",
+      "missingCta": "Ir a Desaparecidos",
+      "petsTitle": "¿Buscas una mascota?",
+      "petsDescription": "HuellasCAN y otras plataformas reunen perros y gatos extraviados tras el sismo.",
+      "petsCta": "Ir a Mascotas"
+    },
+    "registry": {
+      "title": "Registro de niños rescatados y reportados",
+      "subtitle": "Listado unificado desde Niños de Pie (Nexo Signal) y Red Ayuda — Niños. Busca por nombre, hospital o plataforma.",
+      "lastSynced": "Última sincronización",
+      "searchPlaceholder": "Buscar por nombre, hospital o lugar…",
+      "sourceFilter": "Plataforma",
+      "allSources": "Todas",
+      "sources": {
+        "nexosignal": "Nexo Signal",
+        "redayuda": "Red Ayuda"
+      },
+      "healthFilter": "Estado de salud",
+      "allHealth": "Todos",
+      "health": {
+        "stable": "Estable",
+        "critical": "Crítico",
+        "unidentified": "Sin identificar",
+        "unknown": "Sin datos"
+      },
+      "hospitalFilter": "Hospital",
+      "allHospitals": "Todos los hospitales",
+      "showing": "Mostrando",
+      "of": "de",
+      "loadMore": "Cargar más",
+      "loading": "Cargando…",
+      "age": "Edad",
+      "hospital": "Hospital",
+      "location": "Encontrado en",
+      "statement": "Lo que dice",
+      "contact": "Contacto",
+      "source": "Ver en plataforma",
+      "custody": "Custodia",
+      "custodyStatus": {
+        "under_care": "Bajo resguardo",
+        "unknown": "Por confirmar"
       }
     }
   },
@@ -809,8 +992,12 @@
     }
   },
   "volunteers": {
-    "title": "Registro de voluntarios",
-    "subtitle": "Ofrece tu ayuda profesional o logística durante la emergencia.",
+    "title": "Voluntarios y ayuda solidaria",
+    "subtitle": "Encuentra o brinda ayuda cerca de ti. Dos listados como VZLA Ayuda: quienes ofrecen apoyo y quienes lo necesitan.",
+    "structuralInspection": {
+      "title": "Ingenieros y evaluadores estructurales",
+      "subtitle": "Voluntarios civiles y empresas que ofrecen inspecciones, orientación o reparación gratuita. El directorio completo de egresados UNIMET está en @fceunimet."
+    },
     "lodging": {
       "badge": "Hospedaje",
       "title": "Hospedaje gratuito en Tucacas para quienes vienen a ayudar",
@@ -942,6 +1129,56 @@
       "helpCenterNone": "Sin centro específico — registro general",
       "helpCenterHint": "Si eliges un centro, el coordinador revisará tu solicitud desde el panel de voluntariado.",
       "consent": "Acepto que mis datos sean utilizados para coordinación de emergencia"
+    },
+    "vzlayuda": {
+      "hubTitle": "Encuentra o brinda ayuda cerca de ti",
+      "hubSubtitle": "Elige una pestaña: quienes quieren ayudar ven ofrecimientos; quienes necesitan apoyo ven solicitudes. Puedes publicar en nuestra web o en vzlayuda.com.",
+      "dataNote": "Listados sincronizados con vzlayuda.com. Lo que publiques aquí queda guardado en este sitio y aparece en el listado correspondiente.",
+      "offersCardTitle": "Ofrece o encuentra a quién ayudar",
+      "offersCardSubtitle": "Transporte, medicina, comida, refugio, herramientas y más.",
+      "requestsCardTitle": "Busca o pide lo que te hace falta",
+      "requestsCardSubtitle": "Familias, fundaciones y centros que solicitan voluntarios o apoyo.",
+      "publishOfferBtn": "Publicar ofrecimiento",
+      "publishRequestBtn": "Publicar solicitud de ayuda",
+      "cancelForm": "Cancelar",
+      "tabOfferHint": "Tengo algo que dar",
+      "tabRequestHint": "Me hace falta algo",
+      "offersListTitle": "Quiero ayudar — Ofrecimientos",
+      "offersListSubtitle": "Personas que ofrecen ayuda o voluntariado. Importado de vzlayuda.com y publicaciones locales.",
+      "requestsListTitle": "Necesito ayuda — Solicitudes",
+      "requestsListSubtitle": "Personas y organizaciones que piden apoyo o buscan voluntarios. Importado de vzlayuda.com y publicaciones locales.",
+      "publishTitle": "Publicar ofrecimiento o solicitud de ayuda",
+      "publishSubtitle": "Sin cuenta. Tu WhatsApp es el contacto. También puedes publicar en vzlayuda.com para mayor alcance.",
+      "searchPlaceholder": "Buscar por título, ciudad, categoría o nombre…",
+      "sourceAll": "Todas las fuentes",
+      "sourceVzlayuda": "VZLA Ayuda",
+      "sourceLocal": "Publicado aquí",
+      "allCategories": "Todas las categorías",
+      "categoryFilter": "Categoría",
+      "offerBadge": "Ofrece ayuda",
+      "requestBadge": "Necesita ayuda",
+      "contactOnVzlayuda": "Ver en VZLA Ayuda",
+      "fetchedAt": "Actualizado:",
+      "statsCount": "Publicaciones",
+      "tabOffer": "Quiero ayudar",
+      "tabRequest": "Necesito ayuda",
+      "kindOfferLabel": "Ofrezco ayuda",
+      "kindOfferHint": "Tengo algo que dar",
+      "kindRequestLabel": "Necesito ayuda",
+      "kindRequestHint": "Me hace falta algo",
+      "titleField": "Título breve",
+      "category": "Categoría",
+      "zone": "Zona o sector",
+      "description": "Descripción (opcional)",
+      "submitOffer": "Publicar ofrecimiento",
+      "submitRequest": "Publicar solicitud de ayuda",
+      "submitting": "Publicando…",
+      "successOffer": "Ofrecimiento publicado. Aparecerá en el directorio y puedes ampliar alcance en vzlayuda.com.",
+      "successRequest": "Solicitud publicada. Aparecerá en el directorio y puedes ampliar alcance en vzlayuda.com.",
+      "error": "No se pudo publicar. Intenta de nuevo o usa vzlayuda.com/publicar.",
+      "vzlayudaNote": "También recomendamos publicar en vzlayuda.com para llegar a más personas. El contacto por WhatsApp solo se comparte cuando alguien decide escribirte.",
+      "vzlayudaCta": "Publicar también en vzlayuda.com",
+      "consent": "Confirmo que la información es verídica y autorizo publicar mi contacto para coordinación de ayuda"
     }
   },
   "centerDashboard": {
@@ -1078,6 +1315,8 @@
     "directory": {
       "title": "Empresas que ya están apoyando",
       "subtitle": "Transporte gratuito, telefonía móvil sin costo, puntos de acopio en sucursales y logística solidaria tras el terremoto del 24 de junio.",
+      "structuralTitle": "Inspecciones estructurales gratuitas",
+      "structuralSubtitle": "Constructoras, ferreterías e ingenierías que ofrecen evaluaciones, asesoría o servicios técnicos sin costo tras el sismo.",
       "resources": "Recursos ofrecidos",
       "coverage": "Cobertura",
       "visitWebsite": "Sitio web",
@@ -1132,6 +1371,11 @@
     "psychologicalSupport": {
       "title": "Apoyo psicológico",
       "subtitle": "Primeros auxilios psicológicos, contención emocional e intervención en crisis para personas afectadas por la emergencia."
+    },
+    "medicalSupport": {
+      "title": "Apoyo médico y telemedicina",
+      "subtitle": "Apps y plataformas solidarias para orientación médica, búsqueda de medicinas y coordinación de ayuda sanitaria durante la emergencia.",
+      "openMission": "Abrir misión de rescate"
     }
   },
   "search": {

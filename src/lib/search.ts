@@ -14,6 +14,12 @@ import { VENEVISION_MISSING_LINE } from "@/data/venevision-missing-line";
 import { INTERPRETER_VOLUNTEER_GROUP } from "@/data/interpreter-volunteer-group";
 import { RED_CROSS_VOLUNTEER_REGISTRY } from "@/data/red-cross-volunteer";
 import {
+  getRedAyudaCaracasHospitals,
+  getRedAyudaCommunityGuide,
+  getRedAyudaEmergencyPhones,
+  REDAYUDA_PLATFORM_URL,
+} from "@/data/redayuda-resources";
+import {
   fetchAgencies,
   fetchExternalLinks,
   fetchExternalSources,
@@ -213,11 +219,39 @@ const STATIC_PAGES: Record<
       keywords: "centroacopio acopio delivery gratis motorizado transporte donaciones unidos por venezuela",
     },
     {
+      href: "https://redayudavenezuela.com",
+      title: "Red Ayuda Venezuela — red de emergencia ciudadana",
+      description:
+        "Busca personas por nombre o foto, reporta a salvo, consulta hospitales, puntos de ayuda, réplicas USGS y guía comunitaria.",
+      keywords: "redayuda red ayuda venezuela desaparecidos buscar foto asistente puntos ayuda hospitales sismos réplicas guía comunidad",
+    },
+    {
+      href: "/es/recursos#red-ayuda-venezuela",
+      title: "Red Ayuda — hospitales Caracas y teléfonos de emergencia",
+      description:
+        "Directorio de hospitales en Caracas, líneas de emergencia por operadora, ambulancias y bomberos por zona (datos de redayudavenezuela.com).",
+      keywords: "red ayuda hospitales caracas teléfono emergencia bomberos ambulancia movilnet digitel movistar 171",
+    },
+    {
       href: "https://vzlayuda.com",
       title: "VZLA Ayuda — encuentra o brinda ayuda",
       description:
         "Encuentra o brinda ayuda cerca de ti. Sin cuentas, al instante. Plataforma aliada de coordinación solidaria.",
       keywords: "vzlayuda ayuda venezuela necesito ayuda quiero ayudar solidaridad emergencia terremoto",
+    },
+    {
+      href: "https://ayudaencamino.com",
+      title: "Ayuda en Camino — coordinación de donaciones",
+      description:
+        "Centros de acopio, refugios y ONGs publican necesidades en tiempo real. Elige qué llevar, indica cuánto donas y entrega en la dirección indicada.",
+      keywords: "ayudaencamino ayuda en camino donaciones necesidades acopio ong refugio medicinas alimentos terremoto coordinación",
+    },
+    {
+      href: "/es/centros-ayuda#ayudaencamino",
+      title: "Ayuda en Camino — necesidades urgentes",
+      description:
+        "Plataforma aliada en centros de ayuda: filtra por zona o tipo de suministro y comprométete a llevar donaciones a organizaciones que las necesitan ahora.",
+      keywords: "ayudaencamino centros ayuda donar necesidades urgentes organizaciones acopio",
     },
     {
       href: "/es/centros-ayuda#que-donar",
@@ -240,10 +274,26 @@ const STATIC_PAGES: Record<
       keywords: "hospitalesenvenezuela ingresados pacientes hospital familiar cédula lista digital salud emergencia médico urgencias",
     },
     {
+      href: "/es/hospitales#app-zana",
+      title: "Zana — App de apoyo médico gratuito",
+      description:
+        "App venezolana 100 % gratuita durante la emergencia: mapa de ayuda, buscar medicinas, publicar necesidades y contactar equipos. Instagram @appzana · zanapronto.com/rescate",
+      keywords: "zana app zana zanapronto appzana telemedicina medicinas mapa ayuda rescate terremoto whatsapp apoyo médico gratis",
+    },
+    {
+      href: "/es/recursos#apoyo-medico",
+      title: "Apoyo médico y telemedicina — Zana",
+      description:
+        "Plataformas solidarias para orientación médica, búsqueda de medicinas y coordinación sanitaria tras el terremoto.",
+      keywords: "zana zanapronto appzana telemedicina medicinas apoyo médico misión rescate terremoto",
+    },
+    {
       href: "/es/refugios",
       title: "Refugios",
-      description: "Refugios temporales con capacidad y servicios",
-      keywords: "alojamiento refugio temporal vivienda hospedaje tucacas calipso voluntarios",
+      description:
+        "Refugios temporales tras el terremoto del 24 jun 2026: Guayana Esequiba, Chato Candela, IND, Ipostel, Parque del Este, Altamira, La Guaira, Tucacas.",
+      keywords:
+        "refugio alojamiento temporal guayana esequiba chato candela ind ipostel parque ali primera parque del este plaza altamira chacao la guaira garcia carneiro tucacas falcon terremoto 24 junio cecodap carmen melendez",
     },
     {
       href: "/es/refugios#calipso-tucacas",
@@ -285,6 +335,30 @@ const STATIC_PAGES: Record<
       keywords: "interp-aid intérprete idiomas traductor whatsapp brigadas rescate internacional",
     },
     {
+      href: "/es/danos#inspecciones-estructurales",
+      title: "Inspecciones estructurales gratuitas — mapa de daños",
+      description:
+        "Directorio UNIMET @fceunimet, Grupo Ávila, Cima Constructora 360, Somos Metra, COMCA, Ingefalca, Materiales El Bosque, OfiSolis, Athyco y más.",
+      keywords:
+        "inspección estructural gratuita ingeniero civil fceunimet directorio estructural unimet sophystik2 constructora360 cima somosmetra comca_ve ingefalca materialeselbosque ofisolis grupoavila athyco ascensoresclimb copovenca habitabilidad evaluación edificio dañado",
+    },
+    {
+      href: "/es/voluntarios#inspecciones-estructurales-voluntarios",
+      title: "Voluntarios — inspecciones estructurales",
+      description:
+        "Ingenieros civiles y evaluadores que ofrecen inspecciones gratuitas tras el terremoto. Directorio @fceunimet.",
+      keywords:
+        "voluntario ingeniero civil inspección estructural fceunimet sophystik2 somosmetra comca ingefalca grupoavila",
+    },
+    {
+      href: "/es/empresas#inspecciones-estructurales-empresas",
+      title: "Empresas — inspecciones estructurales gratuitas",
+      description:
+        "Constructoras y ferreterías con servicio gratuito de evaluación estructural: Cima, Materiales El Bosque, Grupo Ávila, Athyco, Ascensores Climb, Copovenca.",
+      keywords:
+        "empresa inspección estructural constructora360 cima materiales el bosque ofisolis athyco ascensores climb copovenca grupoavila",
+    },
+    {
       href: "/es/danos#ingenieros-por-venezuela",
       title: "Ingenieros por Venezuela — mapa de daños",
       description: "Plataforma aliada para registro de ingenieros voluntarios y reporte de edificios dañados.",
@@ -301,6 +375,32 @@ const STATIC_PAGES: Record<
       title: "Personas desaparecidas",
       description: "Buscar desaparecidos, plataformas externas y registro de respaldo",
       keywords: "desaparecido buscar familia VenApp Venezuela Te Busca",
+    },
+    {
+      href: "/es/ninos",
+      title: "Niños rescatados y desaparecidos",
+      description:
+        "Niños de Pie (Nexo Signal / busca.nexosignal.co) y Red Ayuda — Niños: directorios para reunir familias con menores tras el terremoto.",
+      keywords:
+        "niños niñas infantes menores rescatados nexosignal ninos de pie busca.nexosignal.co redayuda redayudavenezuela ninos desaparecidos solo hospital protección infantil",
+    },
+    {
+      href: "/es/ninos#nexosignal-ninos-de-pie",
+      title: "Niños de Pie — busca.nexosignal.co",
+      description: "Directorio de niños rescatados sin familia. Busca por hospital o reporta un niño encontrado.",
+      keywords: "nexosignal ninos de pie busca.nexosignal.co niño rescatado hospital luciani reportar",
+    },
+    {
+      href: "/es/ninos#red-ayuda-ninos",
+      title: "Red Ayuda — Niños",
+      description: "Busca niños desaparecidos por nombre y reporta menores rescatados solos en redayudavenezuela.com/ninos.",
+      keywords: "red ayuda redayuda ninos niños desaparecidos rescatados solo protección infantil",
+    },
+    {
+      href: "/es/ninos#registro-ninos",
+      title: "Registro unificado de niños",
+      description: "Listado sincronizado desde Niños de Pie (Nexo Signal) y Red Ayuda — Niños con búsqueda por nombre y hospital.",
+      keywords: "registro niños listado nexosignal redayuda buscar hospital rescatados",
     },
     {
       href: "/es/mascotas",
@@ -333,10 +433,22 @@ const STATIC_PAGES: Record<
       keywords: "voluntario ayuda ofrecer médico enfermero rescatista defensa civil",
     },
     {
+      href: "/es/voluntarios#quiero-ayudar",
+      title: "Publicar ofrecimiento o solicitud de ayuda",
+      description: "Como VZLA Ayuda: publica si ofreces ayuda o si la necesitas. Directorio sincronizado con vzlayuda.com.",
+      keywords: "vzlayuda necesito ayuda ofrezco ayuda publicar solicitud ofrecimiento directorio solidario whatsapp",
+    },
+    {
+      href: "/es/voluntarios#directorio-solidario",
+      title: "Directorio solidario VZLA Ayuda",
+      description: "Personas que ofrecen ayuda o solicitan apoyo, importadas de vzlayuda.com y publicaciones locales.",
+      keywords: "vzlayuda directorio ofertas solicitudes transporte medicina alimentos refugio materiales",
+    },
+    {
       href: "/es/empresas",
       title: "Empresas solidarias",
       description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Cáritas Venezuela, MOF y más organizaciones con transporte gratis, ayuda humanitaria o centros de acopio",
-      keywords: "empresa solidaria yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov casa bambi hogar bambi niños huérfanos",
+      keywords: "empresa solidaria yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel telefonía señal sms llamadas transporte donaciones acopio ayuda humanitaria mof odontólogo bel renov casa bambi hogar bambi niños huérfanos ferretotal ferretotaloficial herramientas ferretería",
     },
     {
       href: "/es/empresas#mercado-libre",
@@ -418,6 +530,38 @@ const STATIC_PAGES: Record<
         "jesusdavid med literas camas damnificados barquisimeto zona industria 2 lara terremoto muebles solidario",
     },
     {
+      href: "/es/empresas#ferretotal",
+      title: "Ferretotal — Acopio y herramientas (La Trinidad)",
+      description:
+        "Ferretería venezolana con sede La Trinidad como centro de acopio: herramientas de rescate, linternas, pilas y donativos hacia zonas afectadas. @ferretotaloficial",
+      keywords:
+        "ferretotal ferretotaloficial ferretería herramientas rescate acopio la trinidad baruta linternas pilas guantes venezuelareporta thefaria",
+    },
+    {
+      href: "/es/centros-ayuda#102",
+      title: "Ferretotal La Trinidad — Centro de acopio",
+      description:
+        "Punto de acopio en Av. Intercomunal La Trinidad para donar herramientas, linternas y donativos tras el terremoto. Tel: 0212-9422888 · @ferretotaloficial",
+      keywords:
+        "ferretotal la trinidad acopio herramientas baruta ferretería donaciones terremoto 02129422888",
+    },
+    {
+      href: "/es/centros-ayuda#103",
+      title: "Centro de acopio CDMX — Anzures (ayuda a Venezuela)",
+      description:
+        "Punto de acopio en Calle Buffon 38, colonia Anzures, Ciudad de México, para donativos hacia Venezuela tras el terremoto del 24 de junio.",
+      keywords:
+        "cdmx mexico ciudad de mexico anzures buffon acopio donaciones venezuela terremoto rescate exterior internacional",
+    },
+    {
+      href: "/es/centros-ayuda#104",
+      title: "Bomberos de Valencia — Centro de acopio (sede principal)",
+      description:
+        "Acopio en la Estación Central del IAM Bomberos de Valencia, Zona Industrial Municipal Norte, Av. Ernesto L. Branger. Tel: 0241-8324615 · Emergencias 911.",
+      keywords:
+        "bomberos valencia carabobo acopio sede principal estación central ernesto branger zona industrial donaciones terremoto 911 02418324615",
+    },
+    {
       href: "/es/recursos",
       title: "Recursos y guías",
       description: "Qué hacer antes, durante y después de una emergencia",
@@ -476,11 +620,39 @@ const STATIC_PAGES: Record<
       keywords: "centroacopio collection center free delivery transport donations unidos por venezuela",
     },
     {
+      href: "https://redayudavenezuela.com",
+      title: "Red Ayuda Venezuela — citizen emergency network",
+      description:
+        "Search people by name or photo, report safe status, hospitals, help points, USGS aftershocks and community guide.",
+      keywords: "redayuda red ayuda venezuela missing search photo assistant help points hospitals earthquakes aftershocks community guide",
+    },
+    {
+      href: "/en/recursos#red-ayuda-venezuela",
+      title: "Red Ayuda — Caracas hospitals and emergency phones",
+      description:
+        "Caracas hospital directory, carrier emergency lines, ambulances and firefighters by zone (from redayudavenezuela.com).",
+      keywords: "red ayuda hospitals caracas emergency phone firefighters ambulance movilnet digitel movistar 171",
+    },
+    {
       href: "https://vzlayuda.com",
       title: "VZLA Ayuda — find or offer help",
       description:
         "Find or offer help near you. No accounts needed, instantly. Allied solidarity coordination platform.",
       keywords: "vzlayuda venezuela help need help offer help solidarity emergency earthquake",
+    },
+    {
+      href: "https://ayudaencamino.com",
+      title: "Ayuda en Camino — donation coordination",
+      description:
+        "Collection centers, shelters and NGOs publish real-time needs. Choose what to bring, commit how much you'll donate and deliver to the listed address.",
+      keywords: "ayudaencamino ayuda en camino donations needs collection center ngo shelter medicine food earthquake coordination",
+    },
+    {
+      href: "/en/centros-ayuda#ayudaencamino",
+      title: "Ayuda en Camino — urgent needs",
+      description:
+        "Allied platform on help centers: filter by area or supply type and commit to bring donations to organizations that need them now.",
+      keywords: "ayudaencamino help centers donate urgent needs organizations collection",
     },
     {
       href: "/en/centros-ayuda#que-donar",
@@ -503,10 +675,26 @@ const STATIC_PAGES: Record<
       keywords: "hospitalesenvenezuela admitted patients hospital relative id digital list health emergency medical urgent care",
     },
     {
+      href: "/en/hospitales#app-zana",
+      title: "Zana — Free medical support app",
+      description:
+        "Venezuelan app 100% free during the emergency: help map, find medicines, publish needs and contact teams. Instagram @appzana · zanapronto.com/rescate",
+      keywords: "zana app zana zanapronto appzana telemedicine medicines help map rescue earthquake whatsapp free medical support",
+    },
+    {
+      href: "/en/recursos#apoyo-medico",
+      title: "Medical support and telemedicine — Zana",
+      description:
+        "Solidarity platforms for medical guidance, medicine search and health coordination after the earthquake.",
+      keywords: "zana zanapronto appzana telemedicine medicines medical support rescue mission earthquake",
+    },
+    {
       href: "/en/refugios",
       title: "Shelters",
-      description: "Temporary shelters with capacity and services",
-      keywords: "housing shelter temporary lodging tucacas calipso volunteers",
+      description:
+        "Temporary shelters after the June 24, 2026 earthquake: Guayana Esequiba, Chato Candela, IND, Ipostel, Parque del Este, Altamira, La Guaira, Tucacas.",
+      keywords:
+        "shelter housing temporary guayana esequiba chato candela ind ipostel ali primera parque del este altamira chacao la guaira garcia carneiro tucacas falcon earthquake june 24 cecodap",
     },
     {
       href: "/en/refugios#calipso-tucacas",
@@ -548,6 +736,30 @@ const STATIC_PAGES: Record<
       keywords: "interp-aid interpreter languages translator whatsapp international rescue brigades",
     },
     {
+      href: "/en/danos#inspecciones-estructurales",
+      title: "Free structural inspections — damage map",
+      description:
+        "UNIMET directory @fceunimet, Grupo Ávila, Cima Constructora 360, Somos Metra, COMCA, Ingefalca, Materiales El Bosque, OfiSolis, Athyco and more.",
+      keywords:
+        "free structural inspection civil engineer fceunimet unimet sophystik2 constructora360 cima somosmetra comca_ve ingefalca materialeselbosque ofisolis grupoavila athyco ascensoresclimb copovenca habitability evaluation damaged building",
+    },
+    {
+      href: "/en/voluntarios#inspecciones-estructurales-voluntarios",
+      title: "Volunteers — structural inspections",
+      description:
+        "Civil engineers and evaluators offering free inspections after the earthquake. Directory on @fceunimet.",
+      keywords:
+        "volunteer civil engineer structural inspection fceunimet sophystik2 somosmetra comca ingefalca grupoavila",
+    },
+    {
+      href: "/en/empresas#inspecciones-estructurales-empresas",
+      title: "Companies — free structural inspections",
+      description:
+        "Construction firms and hardware stores with free structural evaluation: Cima, Materiales El Bosque, Grupo Ávila, Athyco, Ascensores Climb, Copovenca.",
+      keywords:
+        "company structural inspection constructora360 cima materiales el bosque ofisolis athyco ascensores climb copovenca grupoavila",
+    },
+    {
       href: "/en/danos#ingenieros-por-venezuela",
       title: "Ingenieros por Venezuela — damage map",
       description: "Allied platform for volunteer engineer registration and damaged building reports.",
@@ -564,6 +776,32 @@ const STATIC_PAGES: Record<
       title: "Missing persons",
       description: "Search missing persons, external platforms and backup registry",
       keywords: "missing search family VenApp Venezuela Te Busca",
+    },
+    {
+      href: "/en/ninos",
+      title: "Rescued and missing children",
+      description:
+        "Niños de Pie (Nexo Signal / busca.nexosignal.co) and Red Ayuda — Children: directories to reunite families with minors after the earthquake.",
+      keywords:
+        "children minors rescued nexosignal ninos de pie busca.nexosignal.co redayuda redayudavenezuela missing child alone hospital child protection",
+    },
+    {
+      href: "/en/ninos#nexosignal-ninos-de-pie",
+      title: "Niños de Pie — busca.nexosignal.co",
+      description: "Directory of rescued children without family. Search by hospital or report a found child.",
+      keywords: "nexosignal ninos de pie busca.nexosignal.co rescued child hospital report",
+    },
+    {
+      href: "/en/ninos#red-ayuda-ninos",
+      title: "Red Ayuda — Children",
+      description: "Search missing children by name and report unaccompanied rescued minors at redayudavenezuela.com/ninos.",
+      keywords: "red ayuda redayuda children missing rescued alone child protection",
+    },
+    {
+      href: "/en/ninos#registro-ninos",
+      title: "Unified children registry",
+      description: "Synced listing from Niños de Pie (Nexo Signal) and Red Ayuda — Children with search by name and hospital.",
+      keywords: "children registry listing nexosignal redayuda search hospital rescued",
     },
     {
       href: "/en/mascotas",
@@ -596,10 +834,22 @@ const STATIC_PAGES: Record<
       keywords: "volunteer help offer nurse doctor rescuer civil defense",
     },
     {
+      href: "/en/voluntarios#publicar-ayuda",
+      title: "Publish help offer or request",
+      description: "Like VZLA Ayuda: post if you offer help or need it. Directory synced with vzlayuda.com.",
+      keywords: "vzlayuda need help offer help publish request solidarity directory whatsapp",
+    },
+    {
+      href: "/en/voluntarios#directorio-solidario",
+      title: "VZLA Ayuda solidarity directory",
+      description: "People offering help or requesting support, imported from vzlayuda.com and local posts.",
+      keywords: "vzlayuda directory offers requests transport medicine food shelter supplies",
+    },
+    {
       href: "/en/empresas",
       title: "Solidarity companies",
       description: "Vamos App, Yummy, Farmatodo, Mercado Libre, Caritas Venezuela, MOF and more organizations with free transport, humanitarian aid or collection centers",
-      keywords: "solidarity company yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov casa bambi hogar bambi children orphans",
+      keywords: "solidarity company yummy farmatodo mercado libre mercadolibre apoyo venezuela caritas caritasdevzla vamos app movistar digitel mobile signal sms calls transport donations collection humanitarian aid mof dentist bel renov casa bambi hogar bambi children orphans ferretotal ferretotaloficial tools hardware",
     },
     {
       href: "/en/empresas#mercado-libre",
@@ -679,6 +929,38 @@ const STATIC_PAGES: Record<
         "Bunk bed production in Zona Industria 2, Barquisimeto, for families affected by the earthquake. Instagram @jesusdavid.med · Tel: 0424-5465825.",
       keywords:
         "jesusdavid med bunk beds beds affected barquisimeto zona industria 2 lara earthquake solidarity furniture",
+    },
+    {
+      href: "/en/empresas#ferretotal",
+      title: "Ferretotal — Collection center and tools (La Trinidad)",
+      description:
+        "Venezuelan hardware chain with La Trinidad branch as collection point: rescue tools, flashlights, batteries and donations to affected areas. @ferretotaloficial",
+      keywords:
+        "ferretotal ferretotaloficial hardware tools rescue collection la trinidad baruta flashlights batteries gloves venezuelareporta thefaria",
+    },
+    {
+      href: "/en/centros-ayuda#102",
+      title: "Ferretotal La Trinidad — Collection center",
+      description:
+        "Drop-off point on Av. Intercomunal La Trinidad for tools, flashlights and donations after the earthquake. Tel: 0212-9422888 · @ferretotaloficial",
+      keywords:
+        "ferretotal la trinidad collection tools baruta hardware donations earthquake 02129422888",
+    },
+    {
+      href: "/en/centros-ayuda#103",
+      title: "CDMX collection center — Anzures (aid for Venezuela)",
+      description:
+        "Drop-off point at Calle Buffon 38, Anzures, Mexico City, for donations bound for Venezuela after the June 24 earthquake.",
+      keywords:
+        "cdmx mexico city anzures buffon collection center donations venezuela earthquake international abroad",
+    },
+    {
+      href: "/en/centros-ayuda#104",
+      title: "Valencia Fire Department — Collection center (headquarters)",
+      description:
+        "Drop-off at IAM Valencia Fire Department Central Station, Zona Industrial Municipal Norte, Av. Ernesto L. Branger. Tel: 0241-8324615 · Emergencies 911.",
+      keywords:
+        "valencia firefighters carabobo collection center headquarters bomberos acopio ernesto branger earthquake donations 911",
     },
     {
       href: "/en/recursos",
@@ -918,6 +1200,69 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
     );
   }
 
+  for (const hospital of getRedAyudaCaracasHospitals()) {
+    index.push(
+      item({
+        id: hospital.id,
+        type: "hospital",
+        title: hospital.name,
+        description:
+          locale === "es"
+            ? `${hospital.zone}, ${hospital.city} — tel. ${hospital.phone} (Red Ayuda Venezuela)`
+            : `${hospital.zone}, ${hospital.city} — tel. ${hospital.phone} (Red Ayuda Venezuela)`,
+        href: `${prefix}/recursos#red-ayuda-venezuela`,
+        meta: hospital.phone,
+        extra: joinParts(hospital.zone, hospital.city, "red ayuda redayuda hospital caracas"),
+      })
+    );
+  }
+
+  for (const phone of getRedAyudaEmergencyPhones()) {
+    const label = locale === "es" ? phone.label_es : phone.label_en;
+    index.push(
+      item({
+        id: phone.id,
+        type: "emergency_number",
+        title: label,
+        description: phone.numbers.join(" · "),
+        href: `${prefix}/recursos#red-ayuda-venezuela`,
+        meta: phone.numbers[0],
+        extra: joinParts(phone.category, phone.zone, "red ayuda redayuda"),
+      })
+    );
+  }
+
+  index.push(
+    item({
+      id: "red-ayuda-platform",
+      type: "external_link",
+      title: locale === "es" ? "Red Ayuda Venezuela" : "Red Ayuda Venezuela",
+      description:
+        locale === "es"
+          ? "Plataforma ciudadana: desaparecidos, a salvo, hospitales, puntos de ayuda y asistente de búsqueda."
+          : "Citizen platform: missing persons, safe reports, hospitals, help points and search assistant.",
+      href: REDAYUDA_PLATFORM_URL,
+      external: true,
+      extra: "redayudavenezuela redayuda desaparecidos puntos ayuda",
+    })
+  );
+
+  for (const guideItem of getRedAyudaCommunityGuide()) {
+    index.push(
+      item({
+        id: `ra-guide-${guideItem.order}`,
+        type: "resource",
+        title:
+          locale === "es"
+            ? `Guía Red Ayuda (${guideItem.order}/9)`
+            : `Red Ayuda guide (${guideItem.order}/9)`,
+        description: locale === "es" ? guideItem.text_es : guideItem.text_en,
+        href: `${prefix}/recursos#red-ayuda-venezuela`,
+        extra: "red ayuda guía comunidad terremoto primeras horas",
+      })
+    );
+  }
+
   for (const guide of RESOURCE_GUIDES[locale]) {
     index.push(
       item({
@@ -1120,6 +1465,37 @@ export async function buildSearchIndex(locale: Locale): Promise<SearchIndexItem[
         LARA_TRANSPORT_VOLUNTEER_CALL.phone,
         "lara caracas bomberos protección civil guardaparques rescate whatsapp"
       ),
+    })
+  );
+
+  index.push(
+    item({
+      id: "vc-vzlayuda-directorio",
+      type: "page",
+      title:
+        locale === "es"
+          ? "Quiero ayudar — Ofrecimientos VZLA Ayuda"
+          : "I want to help — VZLA Ayuda offers",
+      description:
+        locale === "es"
+          ? "Personas que ofrecen ayuda o voluntariado, sincronizadas desde vzlayuda.com."
+          : "People offering help or volunteer services, synced from vzlayuda.com.",
+      href: `${prefix}/voluntarios#listado-ofrecimientos`,
+      extra: joinParts("vzlayuda", "oferta quiero ayudar transporte medicina"),
+    }),
+    item({
+      id: "vc-vzlayuda-solicitudes",
+      type: "page",
+      title:
+        locale === "es"
+          ? "Necesito ayuda — Solicitudes VZLA Ayuda"
+          : "I need help — VZLA Ayuda requests",
+      description:
+        locale === "es"
+          ? "Personas y organizaciones que piden apoyo o buscan voluntarios."
+          : "People and organizations requesting support or volunteers.",
+      href: `${prefix}/voluntarios#listado-solicitudes`,
+      extra: joinParts("vzlayuda", "solicitud necesito ayuda voluntarios"),
     })
   );
 

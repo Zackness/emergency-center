@@ -4,7 +4,8 @@ import PageHeader from "@/components/ui/PageHeader.astro";
 import RescuerCallCard from "@/components/ui/RescuerCallCard.astro";
 import VolunteerGroupCard from "@/components/ui/VolunteerGroupCard.astro";
 import VolunteerRegistryCard from "@/components/ui/VolunteerRegistryCard.astro";
-import VolunteerForm from "@/components/forms/VolunteerForm";
+import HelpCommunitySection from "@/components/volunteers/HelpCommunitySection";
+import StructuralInspectionSection from "@/components/sections/StructuralInspectionSection.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { INTERPRETER_VOLUNTEER_GROUP } from "@/data/interpreter-volunteer-group";
 import { RED_CROSS_VOLUNTEER_REGISTRY } from "@/data/red-cross-volunteer";
@@ -20,7 +21,6 @@ import {
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
-import { fetchHelpCenters } from "@/lib/data";
 import { VENEZUELA_STATES } from "@/data/seed";
 
 interface Props {
@@ -30,7 +30,6 @@ interface Props {
 const { locale } = Astro.props;
 const { t, dict } = useTranslations(locale);
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
-const helpCenters = await fetchHelpCenters();
 const rescuerCall = dict.volunteers.rescuerCall;
 const acariguaCall = dict.volunteers.acariguaTransportCall;
 const cargoCall = dict.volunteers.cargoTransportCall;
@@ -39,10 +38,7 @@ const medicalCall = dict.volunteers.medicalCall;
 const unefmCall = dict.volunteers.unefmTucacasCall;
 const redCrossCall = dict.volunteers.redCrossCall;
 const interpretersCall = dict.volunteers.interpretersCall;
-const formLabels = {
-  ...dict.volunteers.form,
-  submit: t("common.submit"),
-};
+const vz = dict.volunteers.vzlayuda as Record<string, string>;
 
 const medicalMessage =
   locale === "es"
@@ -70,11 +66,105 @@ const rescuerWhatsappUrl = `https://wa.me/${RESCUER_VOLUNTEER_CALL.whatsapp}?tex
 const laraWhatsappUrl = `https://wa.me/${LARA_TRANSPORT_VOLUNTEER_CALL.whatsapp}?text=${laraMessage}`;
 const acariguaWhatsappUrl = `https://wa.me/${ACARIGUA_TRANSPORT_VOLUNTEER_CALL.whatsapp}?text=${acariguaMessage}`;
 const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.whatsapp}?text=${cargoMessage}`;
+
+const listLabelsBase = {
+  searchPlaceholder: vz.searchPlaceholder,
+  sourceAll: vz.sourceAll,
+  sourceVzlayuda: vz.sourceVzlayuda,
+  sourceLocal: vz.sourceLocal,
+  stateFilter: t("common.state"),
+  allStates: t("common.all"),
+  categoryFilter: vz.categoryFilter,
+  allCategories: vz.allCategories,
+  showing: t("missing.registry.showing"),
+  of: t("missing.registry.of"),
+  loading: t("common.loading"),
+  noResults: t("common.noResults"),
+  offerBadge: vz.offerBadge,
+  requestBadge: vz.requestBadge,
+  contact: t("common.contact"),
+  contactOnVzlayuda: vz.contactOnVzlayuda,
+  publishOnVzlayuda: vz.vzlayudaCta,
+  fetchedAt: vz.fetchedAt,
+  statsCount: vz.statsCount,
+};
+
+const hubLabels = {
+  hubTitle: vz.hubTitle,
+  hubSubtitle: vz.hubSubtitle,
+  dataNote: vz.dataNote,
+  offersCardTitle: vz.offersCardTitle,
+  offersCardSubtitle: vz.offersCardSubtitle,
+  requestsCardTitle: vz.requestsCardTitle,
+  requestsCardSubtitle: vz.requestsCardSubtitle,
+  publishOfferBtn: vz.publishOfferBtn,
+  publishRequestBtn: vz.publishRequestBtn,
+  cancelForm: vz.cancelForm,
+  tabOfferHint: vz.tabOfferHint,
+  tabRequestHint: vz.tabRequestHint,
+};
 ---
 
 <BaseLayout locale={locale} title={t("volunteers.title")}>
   <PageHeader title={t("volunteers.title")} subtitle={t("volunteers.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
-    <section class="mb-8 rounded-2xl border border-accent/20 bg-accent-muted/40 p-5" id={CALIPSO_VOLUNTEER_LODGING.id}>
+    <HelpCommunitySection
+      client:load
+      locale={locale}
+      states={VENEZUELA_STATES}
+      hubLabels={hubLabels}
+      publishLabels={{
+        title: vz.publishTitle,
+        subtitle: vz.publishSubtitle,
+        tabOffer: vz.tabOffer,
+        tabRequest: vz.tabRequest,
+        name: t("volunteers.form.name"),
+        phone: t("volunteers.form.phone"),
+        titleField: vz.titleField,
+        category: vz.category,
+        state: t("volunteers.form.state"),
+        city: t("volunteers.form.city"),
+        zone: vz.zone,
+        description: vz.description,
+        consent: vz.consent,
+        submitOffer: vz.submitOffer,
+        submitRequest: vz.submitRequest,
+        submitting: vz.submitting,
+        successOffer: vz.successOffer,
+        successRequest: vz.successRequest,
+        error: vz.error,
+        vzlayudaNote: vz.vzlayudaNote,
+        vzlayudaCta: vz.vzlayudaCta,
+        kindOfferLabel: vz.kindOfferLabel,
+        kindOfferHint: vz.kindOfferHint,
+        kindRequestLabel: vz.kindRequestLabel,
+        kindRequestHint: vz.kindRequestHint,
+      }}
+      offersListLabels={{
+        title: vz.offersListTitle,
+        subtitle: vz.offersListSubtitle,
+        ...listLabelsBase,
+      }}
+      requestsListLabels={{
+        title: vz.requestsListTitle,
+        subtitle: vz.requestsListSubtitle,
+        ...listLabelsBase,
+      }}
+    />
+
+    <StructuralInspectionSection
+      locale={locale}
+      filter="volunteer"
+      sectionId="inspecciones-estructurales-voluntarios"
+      titleKey="volunteers.structuralInspection.title"
+      subtitleKey="volunteers.structuralInspection.subtitle"
+    />
+
+    <details class="mt-16 rounded-2xl border border-border bg-surface-muted/40 p-5 open:pb-6">
+      <summary class="cursor-pointer text-lg font-semibold text-ink">
+        {locale === "es" ? "Otras convocatorias de voluntariado" : "Other volunteer calls"}
+      </summary>
+      <div class="mt-6 space-y-8">
+    <section class="rounded-2xl border border-accent/20 bg-accent-muted/40 p-5" id={CALIPSO_VOLUNTEER_LODGING.id}>
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
         {t("volunteers.lodging.badge")}
       </p>
@@ -336,23 +426,7 @@ const cargoWhatsappUrl = `https://wa.me/${BARQUISIMETO_CARGO_TRANSPORT_CALL.what
         compact
       />
     </RescuerCallCard>
-
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-ink">{rescuerCall.formTitle}</h2>
-      <p class="mt-1 text-sm text-ink-secondary">{rescuerCall.formSubtitle}</p>
-    </div>
-
-    <VolunteerForm
-      client:load
-      locale={locale}
-      labels={formLabels}
-      states={VENEZUELA_STATES}
-      helpCenters={helpCenters.map((c) => ({
-        id: c.id,
-        name: c.name,
-        city: c.city,
-        state: c.state,
-      }))}
-    />
+      </div>
+    </details>
   </PageHeader>
 </BaseLayout>

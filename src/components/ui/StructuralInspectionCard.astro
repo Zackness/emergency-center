@@ -1,0 +1,104 @@
+---
+import { phoneTelHref } from "@/lib/phone";
+import type { StructuralInspectionService } from "@/data/structural-inspection-services";
+import type { Locale } from "@/i18n/config";
+
+interface Props {
+  service: StructuralInspectionService;
+  locale: Locale;
+  servicesLabel: string;
+  coverageLabel: string;
+  phoneLabel: string;
+  whatsappLabel: string;
+  instagramLabel: string;
+  websiteLabel: string;
+  verifiedLabel: string;
+  volunteerBadge?: string;
+  companyBadge?: string;
+}
+
+const {
+  service,
+  locale,
+  servicesLabel,
+  coverageLabel,
+  phoneLabel,
+  whatsappLabel,
+  instagramLabel,
+  websiteLabel,
+  verifiedLabel,
+  volunteerBadge,
+  companyBadge,
+} = Astro.props;
+
+const description = locale === "es" ? service.description.es : service.description.en;
+const services = locale === "es" ? service.services.es : service.services.en;
+const coverage = locale === "es" ? service.coverage.es : service.coverage.en;
+const whatsappUrl = service.whatsapp ? `https://wa.me/${service.whatsapp}` : undefined;
+---
+
+<article class="card-interactive" id={service.id}>
+  <div class="flex flex-wrap items-start justify-between gap-3">
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center gap-2">
+        <h3 class="font-semibold text-ink">{service.name}</h3>
+        {service.is_verified && <span class="badge-verified">{verifiedLabel}</span>}
+        {service.kind === "company" && companyBadge && (
+          <span class="badge bg-surface-muted text-ink-secondary text-xs">{companyBadge}</span>
+        )}
+        {service.kind === "volunteer" && volunteerBadge && (
+          <span class="badge bg-accent-muted text-accent text-xs">{volunteerBadge}</span>
+        )}
+      </div>
+      <p class="mt-2 text-sm leading-relaxed text-ink-secondary">{description}</p>
+    </div>
+  </div>
+
+  <dl class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+    <div>
+      <dt class="text-xs font-medium uppercase tracking-wide text-ink-muted">{servicesLabel}</dt>
+      <dd class="mt-1 text-ink-secondary">{services}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-medium uppercase tracking-wide text-ink-muted">{coverageLabel}</dt>
+      <dd class="mt-1 text-ink-secondary">{coverage}</dd>
+    </div>
+  </dl>
+
+  <div class="mt-4 flex flex-wrap gap-3 border-t border-border pt-4">
+    {
+      service.phone && (
+        <a href={phoneTelHref(service.phone)} class="btn-primary text-sm">
+          {phoneLabel}: {service.phone}
+        </a>
+      )
+    }
+    {
+      whatsappUrl && (
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn-primary text-sm">
+          {whatsappLabel} ?
+        </a>
+      )
+    }
+    <a
+      href={service.instagram_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-secondary text-sm"
+    >
+      {instagramLabel} {service.handle} ?
+    </a>
+    {
+      service.website_url && (
+        <a
+          href={service.website_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-secondary text-sm"
+        >
+          {websiteLabel} ?
+        </a>
+      )
+    }
+  </div>
+</article>

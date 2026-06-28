@@ -1,11 +1,18 @@
 #!/usr/bin/env npx tsx
 /**
- * Descarga todos los edificios de terremotovenezuela.com y los guarda en JSON local.
+ * Descarga edificios de terremotovenezuela.com y los guarda en JSON local.
+ * Fusiona con el snapshot existente (no elimina registros previos).
  *
  * Uso:
  *   npm run fetch:damage
  */
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import {
+  dedupeImageUrls,
+  inferState,
+  mapExternalDamageLevel,
+} from "@/lib/damage-map/normalize";
+import type { ImportedBuilding } from "@/lib/damage-map/types";
 
 const SUPABASE_URL = process.env.TERREMOTO_VZLA_SUPABASE_URL ?? "https://jckifxsdlnsvbztxydes.supabase.co";
 const SUPABASE_KEY =
@@ -13,24 +20,6 @@ const SUPABASE_KEY =
 const BUILDINGS_SELECT =
   "id,name,address,city,zone,lat,lng,damage_level,status,main_photo_url,media_urls,last_updated_at,has_missing_persons";
 const OUTPUT = new URL("../src/data/damage-buildings.json", import.meta.url);
-
-const STATE_ALIASES: Record<string, string> = {
-  "distrito capital": "Distrito Capital",
-  "la guaira": "La Guaira",
-  vargas: "La Guaira",
-  carabobo: "Carabobo",
-  miranda: "Miranda",
-  aragua: "Aragua",
-  zulia: "Zulia",
-  lara: "Lara",
-  mérida: "Mérida",
-  merida: "Mérida",
-  anzoátegui: "Anzoátegui",
-  anzoategui: "Anzoátegui",
-  apure: "Apure",
-  falcón: "Falcón",
-  falcon: "Falcón",
-};
 
 interface ExternalBuildingRow {
   id: string;
@@ -48,37 +37,21 @@ interface ExternalBuildingRow {
   has_missing_persons: boolean | null;
 }
 
-function mapExternalDamageLevel(level: string): "collapsed" | "damaged" | "evacuated" {
-  const normalized = level.trim().toLowerCase();
-  if (normalized === "total") return "collapsed";
-  if (normalized === "severo" || normalized === "severe") return "damaged";
-  return "evacuated";
+interface SnapshotFile {
+  source: string;
+  fetched_at: string;
+  count: number;
+  items: ImportedBuilding[];
+  merge_stats?: {
+    remote: number;
+    previous: number;
+    added: number;
+    updated: number;
+    preserved: number;
+  };
 }
 
-function inferState(city: string, address: string | null, zone: string | null): string {
-  const haystack = `${city} ${address ?? ""} ${zone ?? ""}`.toLowerCase();
-  for (const [alias, state] of Object.entries(STATE_ALIASES)) {
-    if (haystack.includes(alias)) return state;
-  }
-  return city || "Venezuela";
-}
-
-function dedupeImageUrls(
-  mainPhotoUrl: string | null | undefined,
-  mediaUrls: string[] | null | undefined
-): string[] {
-  const seen = new Set<string>();
-  const result: string[] = [];
-  for (const url of [mainPhotoUrl, ...(mediaUrls ?? [])]) {
-    const trimmed = url?.trim();
-    if (!trimmed || seen.has(trimmed)) continue;
-    seen.add(trimmed);
-    result.push(trimmed);
-  }
-  return result;
-}
-
-function mapRow(row: ExternalBuildingRow) {
+function mapRow(row: ExternalBuildingRow): ImportedBuilding {
   const imageUrls = dedupeImageUrls(row.main_photo_url, row.media_urls);
 
   const city = row.city?.trim() || row.zone?.trim() || "Venezuela";
@@ -106,7 +79,7 @@ function mapRow(row: ExternalBuildingRow) {
 
 async function fetchAllBuildings() {
   const pageSize = 1000;
-  const all: ReturnType<typeof mapRow>[] = [];
+  const all: ImportedBuilding[] = [];
   let offset = 0;
 
   while (true) {
@@ -142,18 +115,82 @@ async function fetchAllBuildings() {
   return all;
 }
 
+async function loadExistingSnapshot(): Promise<ImportedBuilding[]> {
+  try {
+    const raw = await readFile(OUTPUT, "utf8");
+    const data = JSON.parse(raw) as SnapshotFile;
+    return data.items ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Une remoto + local: remoto gana en conflicto; conserva entradas solo locales. */
+function mergeBuildings(
+  existing: ImportedBuilding[],
+  remote: ImportedBuilding[]
+): { items: ImportedBuilding[]; stats: SnapshotFile["merge_stats"] } {
+  const byId = new Map<string, ImportedBuilding>();
+
+  for (const item of existing) {
+    byId.set(item.externalId, item);
+  }
+
+  let added = 0;
+  let updated = 0;
+
+  for (const item of remote) {
+    if (byId.has(item.externalId)) updated += 1;
+    else added += 1;
+    byId.set(item.externalId, item);
+  }
+
+  const preserved = existing.filter((item) => !remote.some((r) => r.externalId === item.externalId)).length;
+
+  const items = [...byId.values()]
+    .map((item) => ({
+      ...item,
+      state: inferState(item.city, item.address ?? null, item.zone ?? null),
+    }))
+    .sort((a, b) => {
+    const ta = a.sourceSyncedAt ?? "";
+    const tb = b.sourceSyncedAt ?? "";
+    return tb.localeCompare(ta);
+  });
+
+  return {
+    items,
+    stats: {
+      remote: remote.length,
+      previous: existing.length,
+      added,
+      updated,
+      preserved,
+    },
+  };
+}
+
 async function main() {
   console.log("Descargando edificios desde terremotovenezuela.com…");
-  const items = await fetchAllBuildings();
-  const payload = {
+  const remote = await fetchAllBuildings();
+  const existing = await loadExistingSnapshot();
+  const { items, stats } = mergeBuildings(existing, remote);
+
+  const payload: SnapshotFile = {
     source: "https://terremotovenezuela.com/",
     fetched_at: new Date().toISOString(),
     count: items.length,
     items,
+    merge_stats: stats,
   };
 
   await writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  console.log(`Guardados ${items.length} edificios en src/data/damage-buildings.json`);
+
+  console.log(`Remoto: ${stats?.remote ?? 0} · Previo: ${stats?.previous ?? 0}`);
+  console.log(
+    `Merge: +${stats?.added ?? 0} nuevos · ${stats?.updated ?? 0} actualizados · ${stats?.preserved ?? 0} conservados del snapshot`
+  );
+  console.log(`Total en src/data/damage-buildings.json: ${items.length}`);
 }
 
 main().catch((err) => {

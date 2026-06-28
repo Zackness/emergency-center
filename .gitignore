@@ -37,8 +37,29 @@ enc_api.json
 
 # temporales / diagnóstico
 scripts/gitdiag.sh
+scripts/probe-*.sh
+scripts/probe-*.ts
+scripts/probe-*.txt
 tmp_extract.py
+tmp-extract.py
 *.tmp
 hosp.html
 hbuild.txt
 devsrv.txt
+.check-output.txt
+_out.txt
+/_*.py
+/rescate.html
+/zana_*.html
+/vtb*.html
+/vtb*.js
+/tmp-*.json
+/vt_*.txt
+/vtb_*.json
+/vtb_*.txt
+/wp.json
+/index-*.js
+/root-*.js
+HTTP
+nul
+supabase/.temp/

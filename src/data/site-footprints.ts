@@ -69,6 +69,13 @@ export const SITE_FOOTPRINTS: SiteFootprintDef[] = [
     descKey: "missing.subtitle",
   },
   {
+    path: "/ninos",
+    icon: "heart",
+    group: "people",
+    titleKey: "nav.children",
+    descKey: "children.subtitle",
+  },
+  {
     path: "/mascotas",
     icon: "paw",
     group: "people",

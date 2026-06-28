@@ -405,6 +405,28 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     is_verified: false,
     sort_order: 19,
   },
+  {
+    id: "ferretotal",
+    slug: "ferretotal",
+    name: "Ferretotal",
+    resources: ["machinery", "food", "water", "medicine"],
+    state: "Miranda",
+    city: "La Trinidad (Baruta)",
+    coverage: {
+      es: "Sede La Trinidad, Baruta — acopio y canalización de herramientas",
+      en: "La Trinidad branch, Baruta — collection and tools coordination",
+    },
+    description: {
+      es: "Cadena venezolana de ferreterías que habilitó la sede La Trinidad como centro de acopio tras el terremoto del 24 de junio. Recibe y canaliza donaciones — especialmente herramientas de rescate, linternas, pilas, guantes y material ferretero — hacia zonas afectadas. Listado en venezuelareporta.org; también difundido en recursos de emergencia en Instagram (@thefaria, @ferretotaloficial). Confirma horarios en @ferretotaloficial o al 0212-9422888.",
+      en: "Venezuelan hardware chain that opened its La Trinidad branch as a collection center after the June 24 earthquake. They receive and channel donations — especially rescue tools, flashlights, batteries, gloves and hardware supplies — to affected areas. Listed on venezuelareporta.org; also shared via emergency resource posts on Instagram (@thefaria, @ferretotaloficial). Confirm hours on @ferretotaloficial or at 0212-9422888.",
+    },
+    website_url: "https://www.ferretotal.com/",
+    instagram_url: "https://www.instagram.com/ferretotaloficial/",
+    phone: "0212-9422888",
+    help_center_id: "102",
+    is_verified: false,
+    sort_order: 20,
+  },
 ];
 
 export function getSolidarityCompanies() {

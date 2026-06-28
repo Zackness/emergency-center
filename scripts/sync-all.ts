@@ -43,6 +43,12 @@ const STEPS: Step[] = [
     phase: "fetch",
   },
   {
+    id: "children",
+    label: "Niños — NexoSignal + Red Ayuda",
+    npmScript: "fetch:children",
+    phase: "fetch",
+  },
+  {
     id: "damage-fetch",
     label: "Mapa daños — snapshot JSON",
     npmScript: "fetch:damage",
@@ -68,6 +74,12 @@ const STEPS: Step[] = [
     npmScript: "sync:damage",
     phase: "sync",
     extraArgs: ["--from-file"],
+  },
+  {
+    id: "seed-help-centers",
+    label: "Centros acopio — catálogo seed local",
+    npmScript: "sync:seed-help-centers",
+    phase: "sync",
   },
   {
     id: "help-centers",

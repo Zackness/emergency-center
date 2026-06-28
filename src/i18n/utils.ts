@@ -70,6 +70,11 @@ export function getNavItems(locale: Locale) {
       icon: "users",
     },
     {
+      href: localePath(locale, "ninos"),
+      label: t("nav.children"),
+      icon: "heart",
+    },
+    {
       href: localePath(locale, "mascotas"),
       label: t("nav.pets"),
       icon: "paw",

@@ -460,6 +460,32 @@ model VolunteerRegistration {
   @@map("volunteer_registrations")
 }
 
+enum CommunityHelpKind {
+  offer
+  request
+}
+
+model CommunityHelpPost {
+  id           String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kind         CommunityHelpKind
+  title        String
+  description  String?
+  category     String?
+  state        String
+  city         String
+  zone         String?
+  contactName  String            @map("contact_name")
+  contactPhone String            @map("contact_phone")
+  source       String            @default("emergency-center")
+  isActive     Boolean           @default(true) @map("is_active")
+  createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([kind])
+  @@index([state])
+  @@map("community_help_posts")
+}
+
 model CompanyRegistration {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   companyName String   @map("company_name")

@@ -24,6 +24,10 @@ import { FOTON_ACOPIO_CENTERS } from "@/data/foton-acopio";
 import { RDELBUFALO_ACOPIO_CENTERS } from "@/data/rdelbufalo-acopio-activos";
 import { G3_LOGISTICA_ACOPIO_CENTERS } from "@/data/g3-logistica-acopio";
 import { SCAYTALLER_3D_DONATION } from "@/data/donation-needs";
+import { EARTHQUAKE_SHELTERS } from "@/data/earthquake-shelters";
+import { FERRETOTAL_ACOPIO_CENTERS } from "@/data/ferretotal-acopio";
+import { CDMX_ACOPIO_CENTERS } from "@/data/cdmx-acopio";
+import { BOMBEROS_VALENCIA_ACOPIO_CENTERS } from "@/data/bomberos-valencia-acopio";
 
 // Seed data used when Supabase is not configured or returns empty results
 
@@ -1068,6 +1072,9 @@ export const SEED_HELP_CENTERS: HelpCenter[] = [
     updated_at: "2026-06-26T00:00:00Z",
   },
   ...CARORA_ACOPIO_EXTRA_CENTERS,
+  ...FERRETOTAL_ACOPIO_CENTERS,
+  ...BOMBEROS_VALENCIA_ACOPIO_CENTERS,
+  ...CDMX_ACOPIO_CENTERS,
   ...CHANGAN_ACOPIO_CENTERS,
   ...FOTON_ACOPIO_CENTERS,
   ...RDELBUFALO_ACOPIO_CENTERS,
@@ -1101,18 +1108,18 @@ export const SEED_SHELTERS: Shelter[] = [
     state: "La Guaira",
     city: "La Guaira",
     address:
-      "Estadio de béisbol Jorge Luis García Carneiro, La Guaira (ex Estadio Fórum). Internet totalmente gratis para quienes necesiten comunicarse. Se están montando refugios. La Guaira sigue sin señal móvil — difundir.",
+      "Estadio de béisbol Jorge Luis García Carneiro, La Guaira (ex Estadio Fórum). Refugio temporal y centro de atención médica habilitado por autoridades regionales. Internet gratuito para comunicación — La Guaira con señal móvil limitada. Fuente: BBC Mundo, Infobae (24–26 jun 2026).",
     latitude: 10.5986,
     longitude: -66.9344,
     phone: null,
     capacity: null,
     current_occupancy: null,
-    services: ["internet gratuito", "comunicación", "refugio", "alojamiento"],
-    schedule: "Activo",
-    is_verified: false,
+    services: ["refugio", "alojamiento", "atención médica", "internet gratuito", "comunicación"],
+    schedule: "24 horas",
+    is_verified: true,
     is_active: true,
     created_at: "2026-06-26T00:00:00Z",
-    updated_at: "2026-06-26T00:00:00Z",
+    updated_at: "2026-06-27T12:00:00Z",
   },
   {
     id: CALIPSO_VOLUNTEER_LODGING.shelterSeedId,
@@ -1133,6 +1140,7 @@ export const SEED_SHELTERS: Shelter[] = [
     created_at: "2026-06-26T00:00:00Z",
     updated_at: "2026-06-26T00:00:00Z",
   },
+  ...EARTHQUAKE_SHELTERS,
 ];
 
 export const SEED_AGENCIES: Agency[] = [
@@ -1400,6 +1408,45 @@ export const SEED_EXTERNAL_LINKS: ExternalLink[] = [
     sort_order: 4,
     created_at: "2026-06-26T21:00:00Z",
   },
+  {
+    id: "12",
+    title: "Zana — Apoyo médico gratuito",
+    description:
+      "App venezolana 100 % gratuita durante la emergencia: mapa de ayuda, buscar medicinas, publicar necesidades y contactar equipos por teléfono o WhatsApp. Instagram @appzana.",
+    url: "https://zanapronto.com/rescate",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 5,
+    created_at: "2026-06-27T22:00:00Z",
+  },
+  {
+    id: "13",
+    title: "Ayuda en Camino",
+    description:
+      "Coordinación de ayuda humanitaria: centros de acopio, refugios y ONGs publican necesidades en tiempo real. Elige qué donar, indica cuánto llevas y entrega en la dirección indicada.",
+    url: "https://ayudaencamino.com",
+    category: "official",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 6,
+    created_at: "2026-06-27T23:00:00Z",
+  },
+  {
+    id: "14",
+    title: "Red Ayuda Venezuela",
+    description:
+      "Plataforma ciudadana de emergencia: busca personas por nombre o foto, reporta a salvo, consulta hospitales, puntos de ayuda, réplicas USGS y guía para la comunidad.",
+    url: "https://redayudavenezuela.com",
+    category: "missing",
+    locale: "both",
+    is_verified: false,
+    is_active: true,
+    sort_order: 3,
+    created_at: "2026-06-28T00:00:00Z",
+  },
 ];
 
 export const SEED_NEWS: NewsItem[] = [
@@ -1646,11 +1693,32 @@ export const SEED_EMERGENCY_NUMBERS: EmergencyNumber[] = [
     sort_order: 6,
   },
   {
-    id: "7",
+    id: "8",
+    label_es: "Emergencias Movilnet",
+    label_en: "Movilnet emergencies",
+    number: "*1",
+    sort_order: 8,
+  },
+  {
+    id: "9",
+    label_es: "Emergencias Digitel",
+    label_en: "Digitel emergencies",
+    number: "112",
+    sort_order: 9,
+  },
+  {
+    id: "10",
+    label_es: "Emergencias Movistar",
+    label_en: "Movistar emergencies",
+    number: "911",
+    sort_order: 10,
+  },
+  {
+    id: "11",
     label_es: "Férulas 3D — @scaytaller",
     label_en: "3D splints — @scaytaller",
     number: SCAYTALLER_3D_DONATION.phone,
-    sort_order: 7,
+    sort_order: 11,
   },
 ];
 
