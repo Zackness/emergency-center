@@ -25,6 +25,18 @@ export const MEDICAL_SUPPORT_RESOURCES: MedicalSupportResource[] = [
     is_verified: false,
     sort_order: 0,
   },
+  {
+    id: "tu-granito-de-arena-sangre",
+    name: "Tu Granito de Arena Hoy — donación de sangre",
+    description: {
+      es: "Iniciativa ciudadana en Instagram que difunde dónde donar sangre en Caracas y alrededores tras el terremoto. Cada donación puede salvar hasta tres vidas. Consulta centros, requisitos y horarios en la sección de donación de sangre de Recursos y Hospitales.",
+      en: "Citizen initiative on Instagram spreading where to donate blood in Caracas and surrounding areas after the earthquake. Each donation can save up to three lives. See centers, requirements and hours in the blood donation section on Resources and Hospitals.",
+    },
+    instagram_url: "https://www.instagram.com/tugranitodearenahoy/",
+    handle: "@tugranitodearenahoy",
+    is_verified: false,
+    sort_order: 1,
+  },
 ];
 
 export function getMedicalSupportResources() {

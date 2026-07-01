@@ -517,6 +517,10 @@
     "zana": {
       "eyebrow": "Free medical support",
       "cta": "Open Zana rescue mission"
+    },
+    "bloodDonation": {
+      "eyebrow": "Urgent — save lives",
+      "crosslink": "See all centers in Resources"
     }
   },
   "shelters": {
@@ -564,10 +568,17 @@
     },
     "urgentRescue": {
       "badge": "Urgent rescue — today",
+      "badgeMissingPerson": "Urgent — missing person",
+      "badgeBloodDonation": "Urgent — donate blood",
       "published": "Reported",
       "call": "Call",
       "whatsapp": "WhatsApp for rescuers",
-      "map": "View on damage map"
+      "whatsappFamily": "WhatsApp family",
+      "whatsappSecondary": "WhatsApp contact 2",
+      "map": "View on damage map",
+      "mapMissingPerson": "View on missing persons",
+      "viewBloodCenters": "View donation centers",
+      "instagramSource": "Instagram @tugranitodearenahoy"
     },
     "nasa": {
       "bannerTitle": "NASA satellite layer (Sentinel-1)",
@@ -1422,8 +1433,12 @@
     },
     "medicalSupport": {
       "title": "Medical support and telemedicine",
-      "subtitle": "Solidarity apps and platforms for medical guidance, medicine search and health aid coordination during the emergency.",
+      "subtitle": "Solidarity apps and platforms for medical guidance, medicine search, blood donation and health aid coordination during the emergency.",
       "openMission": "Open rescue mission"
+    },
+    "bloodDonation": {
+      "title": "Blood donation",
+      "subtitle": "Hospitals urgently need donors. Each donation can save up to three lives."
     },
     "apiDeveloper": {
       "title": "Public API for developers",

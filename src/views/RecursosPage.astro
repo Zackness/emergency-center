@@ -5,6 +5,7 @@ import OfflineToolCard from "@/components/ui/OfflineToolCard.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { getOfflineTools } from "@/data/offline-tools";
 import { getMedicalSupportResources } from "@/data/medical-support";
+import BloodDonationSection from "@/components/ui/BloodDonationSection.astro";
 import { getPsychologicalSupportResources } from "@/data/psychological-support";
 import {
   getRedAyudaCaracasHospitals,
@@ -204,6 +205,13 @@ const guides = [
         }
       </div>
     </section>
+
+    <BloodDonationSection
+      locale={locale}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+      class="mb-16"
+    />
 
     <section class="mb-16" id="apoyo-psicologico">
       <div class="mb-6">

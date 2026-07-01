@@ -288,6 +288,21 @@ const STATIC_PAGES: Record<
       keywords: "zana zanapronto appzana telemedicina medicinas apoyo médico misión rescate terremoto",
     },
     {
+      href: "/es/recursos#donacion-sangre",
+      title: "Donación de sangre — ¿Dónde puedo donar?",
+      description:
+        "Tu Granito de Arena Hoy (@tugranitodearenahoy): hospitales y bancos de sangre en Caracas — HUC, José Gregorio Hernández, Banco Municipal de Sangre, Pérez de León II, Domingo Luciani, Victorino Santaella, Miguel Pérez Carreño y Hospital Vargas.",
+      keywords:
+        "donar sangre donación sangre banco de sangre hemocentro tugranitodearenahoy granito de arena huc hospital vargas miguel pérez carreño domingo luciani chacao pérez de león magallanes catia los teques requisitos donante",
+    },
+    {
+      href: "/es/hospitales#donacion-sangre",
+      title: "Donar sangre en hospitales de Caracas",
+      description:
+        "Centros de donación de sangre urgentes tras el terremoto. Cada donación puede salvar hasta tres vidas. Difundido por @tugranitodearenahoy.",
+      keywords: "donar sangre hospital caracas donación urgente hemocentro banco municipal sangre",
+    },
+    {
       href: "/es/refugios",
       title: "Refugios",
       description:
@@ -687,6 +702,21 @@ const STATIC_PAGES: Record<
       description:
         "Solidarity platforms for medical guidance, medicine search and health coordination after the earthquake.",
       keywords: "zana zanapronto appzana telemedicine medicines medical support rescue mission earthquake",
+    },
+    {
+      href: "/en/recursos#donacion-sangre",
+      title: "Blood donation — Where can I donate?",
+      description:
+        "Tu Granito de Arena Hoy (@tugranitodearenahoy): blood banks and hospitals in Caracas — HUC, José Gregorio Hernández, Municipal Blood Bank, Pérez de León II, Domingo Luciani, Victorino Santaella, Miguel Pérez Carreño and Hospital Vargas.",
+      keywords:
+        "donate blood blood donation blood bank hemocenter tugranitodearenahoy huc hospital vargas miguel perez carreno domingo luciani chacao perez de leon magallanes catia los teques donor requirements",
+    },
+    {
+      href: "/en/hospitales#donacion-sangre",
+      title: "Donate blood at Caracas hospitals",
+      description:
+        "Urgent blood donation centers after the earthquake. Each donation can save up to three lives. Shared by @tugranitodearenahoy.",
+      keywords: "donate blood caracas hospital urgent donation hemocenter municipal blood bank",
     },
     {
       href: "/en/refugios",

@@ -1,7 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
- * Descarga edificios con daño probable desde la API ArcGIS de NASA (Sentinel-1).
- * Producto experimental — ver NASA_DAMAGE_WEBMAP para el mapa oficial.
+ * Descarga edificios con daï¿½o probable desde la API ArcGIS de NASA (Sentinel-1).
+ * Producto experimental ï¿½ ver NASA_DAMAGE_WEBMAP para el mapa oficial.
  *
  * Uso:
  *   npm run fetch:nasa-damage
@@ -119,7 +119,7 @@ async function main() {
   const where = `damage=1 AND damage_probability>=${minProb}`;
   const filterLabel = `damage=1 AND damage_probability>=${minProb}`;
 
-  console.log(`Consultando NASA ArcGIS (${filterLabel})…`);
+  console.log(`Consultando NASA ArcGIS (${filterLabel})ï¿½`);
   const totalAvailable = await fetchCount(where);
   if (totalAvailable != null) {
     console.log(`Registros disponibles en NASA: ${totalAvailable.toLocaleString()}`);
@@ -129,7 +129,7 @@ async function main() {
   let offset = 0;
 
   while (items.length < maxRecords) {
-    console.log(`  Página offset=${offset}…`);
+    console.log(`  Pï¿½gina offset=${offset}ï¿½`);
     const batch = await fetchPage(where, offset);
     if (!batch.length) break;
 

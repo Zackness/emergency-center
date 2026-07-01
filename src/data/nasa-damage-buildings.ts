@@ -17,7 +17,7 @@ function toDamageReport(feature: (typeof data.items)[number]): DamageReport {
     external_reference: `nasa:${feature.overture_id}`,
     description:
       feature.label === "likely_damaged"
-        ? `Detección satelital Sentinel-1 · ${Math.round((feature.damage_probability ?? 0) * 100)}% probabilidad`
+        ? `Detecciï¿½n satelital Sentinel-1 ï¿½ ${Math.round((feature.damage_probability ?? 0) * 100)}% probabilidad`
         : report.description,
   };
 }

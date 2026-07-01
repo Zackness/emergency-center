@@ -59,10 +59,17 @@ interface DamageMapHubProps {
   };
   urgentRescueLabels?: {
     badge: string;
+    badgeMissingPerson: string;
+    badgeBloodDonation: string;
     published: string;
     call: string;
     whatsapp: string;
+    whatsappFamily: string;
+    whatsappSecondary: string;
     map: string;
+    mapMissingPerson: string;
+    viewBloodCenters: string;
+    instagramSource: string;
   };
   initialItems: DamageReport[];
   initialStats: DamageMapStats;

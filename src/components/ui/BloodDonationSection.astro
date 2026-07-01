@@ -1,0 +1,95 @@
+---
+import CommunityFeedback from "@/components/community/CommunityFeedback";
+import { getBloodDonationCampaign } from "@/data/blood-donation";
+import type { Locale } from "@/i18n/config";
+import { phoneTelHref } from "@/lib/phone";
+
+interface Props {
+  locale: Locale;
+  feedbackLabels: Record<string, string>;
+  confidenceLabels: Record<string, string>;
+  class?: string;
+}
+
+const { locale, feedbackLabels, confidenceLabels, class: className = "" } = Astro.props;
+const campaign = getBloodDonationCampaign();
+const lang = locale === "en" ? "en" : "es";
+const headline = campaign.headline[lang];
+const message = campaign.message[lang];
+const requirements = campaign.requirements[lang];
+---
+
+<section class:list={["max-w-4xl", className]} id="donacion-sangre">
+  <div class="card border-emergency/35 bg-emergency-muted/20 p-5 sm:p-6">
+    <p class="text-xs font-semibold uppercase tracking-wide text-emergency">
+      {locale === "es" ? "Urgente — salvar vidas" : "Urgent — save lives"}
+    </p>
+    <h2 class="mt-1 text-xl font-bold text-ink sm:text-2xl">{headline}</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink-secondary">{message}</p>
+    <p class="mt-2 text-xs text-ink-muted">
+      {locale === "es" ? "Difundido por" : "Shared by"}{" "}
+      <a
+        href={campaign.instagram_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-accent hover:underline"
+      >
+        {campaign.handle}
+      </a>
+      {" "}({campaign.organization})
+    </p>
+
+    <div class="mt-5 flex flex-wrap gap-3">
+      <a href={campaign.instagram_url} target="_blank" rel="noopener noreferrer" class="btn-primary text-sm">
+        Instagram {campaign.handle} →
+      </a>
+    </div>
+
+    <div class="mt-6 rounded-xl border border-border bg-surface/80 p-4">
+      <h3 class="text-sm font-semibold text-ink">
+        {locale === "es" ? "Requisitos generales para donar" : "General requirements to donate"}
+      </h3>
+      <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-ink-secondary">
+        {requirements.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+
+    <h3 class="mt-6 text-sm font-semibold text-ink">
+      {locale === "es" ? "Centros donde puedes donar" : "Centers where you can donate"}
+    </h3>
+    <ul class="mt-3 space-y-3">
+      {
+        campaign.sites.map((site) => (
+          <li class="rounded-xl border border-border bg-surface/60 p-4">
+            <p class="font-medium text-ink">{site.name}</p>
+            <p class="mt-1 text-sm text-ink-secondary">
+              {site.zone}, {site.city} — {site.state}
+            </p>
+            <p class="mt-1 text-xs text-ink-muted">{site.address}</p>
+            {site.phone && (
+              <a href={phoneTelHref(site.phone)} class="mt-2 inline-block text-sm font-medium text-accent hover:underline">
+                {locale === "es" ? "Teléfono" : "Phone"}: {site.phone}
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-4 text-xs text-ink-muted">
+      {locale === "es"
+        ? "Horarios y disponibilidad pueden variar. Llama o confirma en el centro antes de desplazarte."
+        : "Hours and availability may vary. Call or confirm at the center before traveling."}
+    </p>
+
+    <CommunityFeedback
+      client:visible
+      contentType="external_link"
+      contentId={campaign.id}
+      locale={locale === "en" ? "en" : "es"}
+      labels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+      compact
+    />
+  </div>
+</section>

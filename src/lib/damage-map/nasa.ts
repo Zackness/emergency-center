@@ -51,7 +51,7 @@ export function nasaFeatureToImportedBuilding(feature: NasaDamageFeature): Impor
   const pct = Math.round(probability * 100);
   return {
     externalId: feature.overture_id,
-    title: `Edificio satélite (${pct}% prob. daño)`,
+    title: `Edificio satï¿½lite (${pct}% prob. daï¿½o)`,
     address: null,
     city: "Venezuela",
     zone: feature.class,
@@ -66,7 +66,7 @@ export function nasaFeatureToImportedBuilding(feature: NasaDamageFeature): Impor
   };
 }
 
-/** Aproximación por lat/lng para filtrar en UI (sin geocodificación inversa). */
+/** Aproximaciï¿½n por lat/lng para filtrar en UI (sin geocodificaciï¿½n inversa). */
 function inferNasaState(lat: number, lng: number): string {
   if (lat >= 10.35 && lat <= 10.75 && lng >= -67.1 && lng <= -66.7) {
     return "Distrito Capital";
@@ -89,7 +89,7 @@ function inferNasaState(lat: number, lng: number): string {
 export const NASA_DAMAGE_SOURCE_NAME = "NASA Sentinel-1 (experimental)";
 
 export const NASA_DAMAGE_DISCLAIMER_ES =
-  "Evaluación preliminar por radar satelital. No sustituye inspección en campo ni el censo edificio por edificio.";
+  "Evaluaciï¿½n preliminar por radar satelital. No sustituye inspecciï¿½n en campo ni el censo edificio por edificio.";
 
 export const NASA_DAMAGE_DISCLAIMER_EN =
   "Preliminary satellite radar assessment. Not a substitute for field inspection or a building-by-building census.";

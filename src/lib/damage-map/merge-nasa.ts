@@ -13,7 +13,7 @@ function isNearCommunityReport(nasa: DamageReport, community: DamageReport): boo
   return keyA === keyB;
 }
 
-/** Añade detecciones NASA que no coincidan con reportes comunitarios (~11 m). */
+/** Aï¿½ade detecciones NASA que no coincidan con reportes comunitarios (~11 m). */
 export function mergeNasaDamageReports(communityReports: DamageReport[]): DamageReport[] {
   if (!LOCAL_NASA_DAMAGE_BUILDINGS.length) {
     return communityReports;

@@ -92,6 +92,16 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
     sort_order: 24,
   },
   {
+    domain: "instagram.com/tugranitodearenahoy",
+    url: "https://www.instagram.com/tugranitodearenahoy/",
+    description: {
+      es: "Tu Granito de Arena Hoy: difunde dónde donar sangre en Caracas y alrededores. Cada donación puede salvar hasta tres vidas.",
+      en: "Tu Granito de Arena Hoy: shares where to donate blood in Caracas and nearby. Each donation can save up to three lives.",
+    },
+    color: "red",
+    sort_order: 25,
+  },
+  {
     domain: "vzlayuda.com",
     url: "https://vzlayuda.com",
     description: {

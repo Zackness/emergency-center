@@ -527,6 +527,20 @@
       "filterState": "State",
       "filterAll": "All"
     },
+    "urgentRescue": {
+      "badge": "Urgent rescue — today",
+      "badgeMissingPerson": "Urgent — missing person",
+      "badgeBloodDonation": "Urgent — donate blood",
+      "published": "Reported",
+      "call": "Call",
+      "whatsapp": "WhatsApp for rescuers",
+      "whatsappFamily": "WhatsApp family",
+      "whatsappSecondary": "WhatsApp contact 2",
+      "map": "View on damage map",
+      "mapMissingPerson": "View on missing persons",
+      "viewBloodCenters": "View donation centers",
+      "instagramSource": "Instagram @tugranitodearenahoy"
+    },
     "engineersPlatform": {
       "eyebrow": "Allied platform",
       "title": "Ingenieros por Venezuela",
