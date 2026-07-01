@@ -1,0 +1,99 @@
+# Sincroniza datos externos → Supabase (scraping + tablas).
+#
+# === Configuración en GitHub (una sola vez) ===
+# Repo → Settings → Secrets and variables → Actions → New repository secret
+#
+# Obligatorios:
+#   PUBLIC_SUPABASE_URL      https://xxxx.supabase.co
+#   SUPABASE_SECRET_KEY      service role / secret key
+#   DATABASE_URL             connection string Postgres (pooler :6543)
+#
+# Recomendados (adaptadores de desaparecidos / mapa de daños):
+#   TERREMOTO_VZLA_SUPABASE_URL
+#   TERREMOTO_VZLA_SUPABASE_KEY
+#   RED_ESPERANZA_SUPABASE_URL
+#   RED_ESPERANZA_SUPABASE_KEY
+#
+# No hace falta plan de pago en GitHub (repos públicos: ~2000 min/mes gratis).
+# No hace falta Vercel Pro ni cron en Vercel.
+
+name: Sync external data
+
+on:
+  schedule:
+    # Cada 8 horas: scraping aliado + acopios
+    - cron: "0 */8 * * *"
+    # Una vez al día (07:00 UTC): sync completo con desaparecidos
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "quick = scrapers; full = sync:all (desaparecidos incluidos)"
+        required: true
+        default: quick
+        type: choice
+        options:
+          - quick
+          - full
+
+concurrency:
+  group: sync-external-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      CONFIRM_PRODUCTION_DB: "1"
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+      SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+      TERREMOTO_VZLA_SUPABASE_URL: ${{ secrets.TERREMOTO_VZLA_SUPABASE_URL }}
+      TERREMOTO_VZLA_SUPABASE_KEY: ${{ secrets.TERREMOTO_VZLA_SUPABASE_KEY }}
+      RED_ESPERANZA_SUPABASE_URL: ${{ secrets.RED_ESPERANZA_SUPABASE_URL }}
+      RED_ESPERANZA_SUPABASE_KEY: ${{ secrets.RED_ESPERANZA_SUPABASE_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Verify required secrets
+        run: |
+          missing=0
+          for key in PUBLIC_SUPABASE_URL SUPABASE_SECRET_KEY DATABASE_URL; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Falta el secret $key en GitHub → Settings → Secrets → Actions"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Quick sync (scrapers + acopios)
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.mode == 'quick') ||
+          (github.event_name == 'schedule' && github.event.schedule != '0 7 * * *')
+        run: |
+          npm run sync:allied-scrapers
+          npm run sync:help-centers -- --from-file
+          npm run sync:centroacopio-deliveries -- --from-file
+          npm run sync:allied-platforms
+
+      - name: Full sync (incluye desaparecidos)
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.mode == 'full') ||
+          (github.event_name == 'schedule' && github.event.schedule == '0 7 * * *')
+        run: npm run sync:all -- --skip-hospitals
