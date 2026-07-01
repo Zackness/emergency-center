@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
+import { newsSubmissionSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
 
@@ -38,33 +40,18 @@ export const POST: APIRoute = async ({ request }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
+    const body = await readJsonBody(request);
+    const parsed = parseBody(newsSubmissionSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
+
     const { createNewsSubmission } = await import("@/lib/news-credibility");
-
-    const required = ["title", "summary", "source", "source_url"];
-    for (const field of required) {
-      if (!body[field]?.trim()) {
-        return new Response(
-          JSON.stringify({ error: `Missing field: ${field}` }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
-    }
-
-    try {
-      new URL(body.source_url);
-    } catch {
-      return new Response(
-        JSON.stringify({ error: "Invalid source_url" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    const data = parsed.data;
 
     const item = await createNewsSubmission({
-      title: body.title.trim(),
-      summary: body.summary.trim(),
-      source: body.source.trim(),
-      source_url: body.source_url.trim(),
+      title: data.title,
+      summary: data.summary,
+      source: data.source,
+      source_url: data.source_url,
     });
 
     return new Response(JSON.stringify({ item }), {

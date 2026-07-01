@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import UnifiedMapView from "@/components/map/UnifiedMapView";
 import { LAYER_COLORS } from "@/lib/map/layer-colors";
+import { UNIFIED_MAP_LAYERS } from "@/lib/map/catalog-layers";
 import { EMERGENCY_ZONES } from "@/data/emergency-zones";
 import type { Locale } from "@/i18n/config";
 import type { LandingMapCatalog } from "@/lib/map/landing-catalog";
@@ -38,6 +39,7 @@ export interface LandingMapLabels {
     children: string;
     childrenMissing: string;
     childrenCritical: string;
+    damageReports: string;
   };
 }
 
@@ -61,18 +63,13 @@ interface CatalogResponse {
     nexosignal: number;
     redayuda: number;
   } | null;
+  damageStats?: {
+    communityTotal: number;
+    onMap: number;
+  } | null;
 }
 
-const ALL_LAYERS: UnifiedMapLayer[] = [
-  "help_center",
-  "hospital",
-  "shelter",
-  "damage",
-  "quake",
-  "redayuda",
-  "platform",
-  "children",
-];
+const REFRESH_MS = 5 * 60 * 1000;
 
 interface LandingMapHubProps {
   locale: Locale;
@@ -91,13 +88,20 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
   const [childrenStats, setChildrenStats] = useState<CatalogResponse["childrenStats"]>(
     initialCatalog?.childrenStats ?? null,
   );
+  const [damageStats, setDamageStats] = useState<CatalogResponse["damageStats"]>(
+    initialCatalog?.damageStats ?? null,
+  );
+  const [totalAvailable, setTotalAvailable] = useState(initialCatalog?.totalAvailable ?? 0);
+  const [truncated, setTruncated] = useState(initialCatalog?.truncated ?? false);
   const [loading, setLoading] = useState(!initialCatalog?.markers.length);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [zone, setZone] = useState("all");
   const [severity, setSeverity] = useState("all");
-  const [activeLayers, setActiveLayers] = useState<Set<UnifiedMapLayer>>(new Set(ALL_LAYERS));
+  const [activeLayers, setActiveLayers] = useState<Set<UnifiedMapLayer>>(
+    new Set(UNIFIED_MAP_LAYERS),
+  );
   const [refreshKey, setRefreshKey] = useState(0);
   const skipInitialFetch = useRef(!!initialCatalog?.markers.length);
 
@@ -110,11 +114,11 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
     setLoading(markers.length === 0);
     setError(null);
     try {
-      const params = new URLSearchParams({ lang: locale, limit: "2000" });
+      const params = new URLSearchParams({ lang: locale });
       if (zone !== "all") params.set("zone", zone);
       if (debouncedSearch) params.set("search", debouncedSearch);
       if (severity !== "all") params.set("severity", severity);
-      if (activeLayers.size < ALL_LAYERS.length) {
+      if (activeLayers.size < UNIFIED_MAP_LAYERS.length) {
         params.set("layers", [...activeLayers].join(","));
       }
 
@@ -125,6 +129,9 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
       setCounts(data.counts ?? {});
       setStats(data.redAyudaStats ?? null);
       setChildrenStats(data.childrenStats ?? null);
+      setDamageStats(data.damageStats ?? null);
+      setTotalAvailable(data.totalAvailable ?? data.markers.length);
+      setTruncated(Boolean(data.truncated));
     } catch (err) {
       setError(err instanceof Error ? err.message : labels.error);
     } finally {
@@ -140,6 +147,23 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
     void fetchCatalog();
   }, [fetchCatalog, refreshKey]);
 
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setRefreshKey((key) => key + 1);
+    }, REFRESH_MS);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        setRefreshKey((key) => key + 1);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
   const toggleLayer = (layer: UnifiedMapLayer) => {
     setActiveLayers((prev) => {
       const next = new Set(prev);
@@ -154,52 +178,60 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
   };
 
   const fitKey = useMemo(
-    () => `${zone}-${severity}-${debouncedSearch}-${[...activeLayers].sort().join(",")}-${markers.length}`,
-    [zone, severity, debouncedSearch, activeLayers, markers.length]
+    () =>
+      `${zone}-${severity}-${debouncedSearch}-${[...activeLayers].sort().join(",")}-${markers.length}`,
+    [zone, severity, debouncedSearch, activeLayers, markers.length],
   );
 
   const zoneOptions = EMERGENCY_ZONES;
 
   return (
-    <section id="mapa-emergencia" className="scroll-mt-20">
+    <section className="scroll-mt-20">
       <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-3xl">
           <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">{labels.title}</h2>
           <p className="mt-2 text-sm text-ink-secondary sm:text-base">{labels.subtitle}</p>
         </div>
-        {stats && (
-          <div className="flex flex-wrap gap-2 text-xs">
-            <span className="badge bg-emergency-muted text-emergency">
-              {labels.stats.missing}: {stats.desaparecidos.toLocaleString()}
+        <div className="flex flex-wrap gap-2 text-xs">
+          {damageStats && damageStats.communityTotal > 0 && (
+            <span className="badge bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200">
+              {labels.stats.damageReports}: {damageStats.communityTotal.toLocaleString()}
             </span>
-            <span className="badge bg-success-muted text-success">
-              {labels.stats.safe}: {stats.salvo.toLocaleString()}
-            </span>
-            <span className="badge bg-accent-muted text-accent">
-              {labels.stats.helpPoints}: {stats.puntos}
-            </span>
-            {stats.atrapados > 0 && (
-              <span className="badge bg-warning-muted text-warning">
-                {labels.stats.trapped}: {stats.atrapados}
-              </span>
-            )}
-            {(childrenStats?.total ?? stats?.ninos ?? 0) > 0 && (
-              <span className="badge bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300">
-                {labels.stats.children}: {(childrenStats?.total ?? stats?.ninos ?? 0).toLocaleString()}
-              </span>
-            )}
-            {(childrenStats?.missing ?? 0) > 0 && (
-              <span className="badge bg-red-900/10 text-red-900 dark:bg-red-950 dark:text-red-200">
-                {labels.stats.childrenMissing}: {childrenStats!.missing}
-              </span>
-            )}
-            {(childrenStats?.critical ?? 0) > 0 && (
+          )}
+          {stats && (
+            <>
               <span className="badge bg-emergency-muted text-emergency">
-                {labels.stats.childrenCritical}: {childrenStats!.critical}
+                {labels.stats.missing}: {stats.desaparecidos.toLocaleString()}
               </span>
-            )}
-          </div>
-        )}
+              <span className="badge bg-success-muted text-success">
+                {labels.stats.safe}: {stats.salvo.toLocaleString()}
+              </span>
+              <span className="badge bg-accent-muted text-accent">
+                {labels.stats.helpPoints}: {stats.puntos}
+              </span>
+              {stats.atrapados > 0 && (
+                <span className="badge bg-warning-muted text-warning">
+                  {labels.stats.trapped}: {stats.atrapados}
+                </span>
+              )}
+            </>
+          )}
+          {(childrenStats?.total ?? stats?.ninos ?? 0) > 0 && (
+            <span className="badge bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+              {labels.stats.children}: {(childrenStats?.total ?? stats?.ninos ?? 0).toLocaleString()}
+            </span>
+          )}
+          {(childrenStats?.missing ?? 0) > 0 && (
+            <span className="badge bg-red-900/10 text-red-900 dark:bg-red-950 dark:text-red-200">
+              {labels.stats.childrenMissing}: {childrenStats!.missing}
+            </span>
+          )}
+          {(childrenStats?.critical ?? 0) > 0 && (
+            <span className="badge bg-emergency-muted text-emergency">
+              {labels.stats.childrenCritical}: {childrenStats!.critical}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="mb-4 space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-soft">
@@ -241,7 +273,7 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {ALL_LAYERS.map((layer) => {
+          {UNIFIED_MAP_LAYERS.map((layer) => {
             const active = activeLayers.has(layer);
             const count = counts[layer];
             return (
@@ -269,7 +301,14 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
 
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-secondary">
           <span>
-            {labels.showing} <strong className="text-ink">{markers.length}</strong>
+            {labels.showing}{" "}
+            <strong className="text-ink">{markers.length.toLocaleString()}</strong>
+            {truncated && totalAvailable > markers.length ? (
+              <>
+                {" "}
+                {labels.of} <strong className="text-ink">{totalAvailable.toLocaleString()}</strong>
+              </>
+            ) : null}
             {loading ? ` — ${labels.loading}` : ""}
           </span>
           <span className="font-medium text-ink-secondary">{labels.legend}</span>
@@ -279,13 +318,17 @@ export default function LandingMapHub({ locale, labels, initialCatalog }: Landin
       {error ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-surface-muted p-12 text-center">
           <p className="text-sm text-ink-secondary">{error}</p>
-          <button type="button" className="btn-secondary text-sm" onClick={() => setRefreshKey((k) => k + 1)}>
+          <button
+            type="button"
+            className="btn-secondary text-sm"
+            onClick={() => setRefreshKey((k) => k + 1)}
+          >
             {labels.retry}
           </button>
         </div>
       ) : loading && markers.length === 0 ? (
         <div
-          className="flex items-center justify-center rounded-2xl border border-border bg-surface-muted text-ink-secondary w-full h-[min(70vh,720px)] min-h-[320px]"
+          className="flex h-[min(70vh,720px)] min-h-[320px] w-full items-center justify-center rounded-2xl border border-border bg-surface-muted text-ink-secondary"
           aria-busy="true"
         >
           {labels.loading}

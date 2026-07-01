@@ -1,0 +1,16 @@
+---
+import ApiDocsPage from "@/views/ApiDocsPage.astro";
+import {
+  resolveSecondaryLocale,
+  secondaryLocaleStaticPaths,
+} from "@/i18n/page-locale";
+
+export function getStaticPaths() {
+  return secondaryLocaleStaticPaths();
+}
+
+const locale = resolveSecondaryLocale(Astro, "/api-docs");
+if (locale instanceof Response) return locale;
+---
+
+<ApiDocsPage locale={locale} />

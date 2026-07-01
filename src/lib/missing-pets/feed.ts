@@ -1,5 +1,6 @@
 import type { MissingPet, MissingPetsQuery, MissingPetsStats } from "./types";
 import { LOCAL_MISSING_PETS } from "@/data/missing-pets";
+import { DATA_CACHE_SLUGS, getDataCache } from "@/lib/data-cache";
 import { extractMaxPage, fetchHuellascanHtml, parseHuellascanPage } from "./huellascan";
 import { importedToMissingPet } from "./mapper";
 
@@ -52,7 +53,33 @@ export function computeMissingPetsStats(pets: MissingPet[]): MissingPetsStats {
   };
 }
 
+async function loadMissingPetsFromCache(): Promise<MissingPet[] | null> {
+  const cached = await getDataCache<{
+    fetched_at?: string;
+    items?: Array<{
+      externalId: string;
+      name: string;
+      status: "lost" | "found";
+      location: string;
+      distinctive_marks: string | null;
+      contact_phone: string | null;
+      photo_url: string | null;
+      breed?: string | null;
+      pet_type?: "dog" | "cat" | "other" | null;
+    }>;
+  }>(DATA_CACHE_SLUGS.MISSING_PETS);
+  if (!cached?.payload?.items?.length) return null;
+  const syncedAt = cached.payload.fetched_at ?? cached.fetched_at;
+  return cached.payload.items.map((item) => importedToMissingPet({ ...item, syncedAt }));
+}
+
 async function fetchLiveMissingPets(): Promise<MissingPet[]> {
+  const fromDb = await loadMissingPetsFromCache();
+  if (fromDb?.length) {
+    memoryCache = { at: Date.now(), pets: fromDb };
+    return fromDb;
+  }
+
   const now = Date.now();
   if (memoryCache && now - memoryCache.at < MEMORY_TTL_MS) {
     return memoryCache.pets;

@@ -1,7 +1,7 @@
 import type { DamageReport } from "@/types";
 
 export const PRIORITY_RESCUE_SOURCE_URL = "https://www.instagram.com/rdelbufalo/";
-export const PRIORITY_RESCUE_SOURCE_NAME = "@rdelbufalo — Terremoto Venezuela";
+export const PRIORITY_RESCUE_SOURCE_NAME = "@rdelbufalo — Reportes de daño (comunidad)";
 export const PRIORITY_RESCUE_PUBLISHED_AT = "2026-06-25T12:00:00Z";
 
 export interface PriorityRescueZoneMeta {
@@ -242,7 +242,7 @@ const SITES: PrioritySiteInput[] = [
 ];
 
 export const PRIORITY_RESCUE_SITES: DamageReport[] = SITES.map((site) => ({
-  id: `priority-${site.id}`,
+  id: `rdelbufalo-${site.id}`,
   title: site.title,
   severity: site.severity,
   state: site.state,

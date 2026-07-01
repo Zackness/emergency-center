@@ -12,46 +12,48 @@ const { title, subtitle, eyebrow, imageSrc, imageAlt = "", class: className } = 
 const hasSlotContent = Astro.slots.has("default");
 ---
 
-<section
-  class:list={[
-    "relative overflow-hidden border-b border-border",
-    imageSrc && "min-h-[260px] sm:min-h-[300px]",
-    className,
-  ]}
->
+<section class:list={["relative border-b border-border", className]}>
   {
     imageSrc ? (
-      <>
+      <div
+        class="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden={imageAlt ? undefined : true}
+      >
         <div
           class="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={`background-image: url("${imageSrc}")`}
-          role={imageAlt ? "img" : "presentation"}
+          role={imageAlt ? "img" : undefined}
           aria-label={imageAlt || undefined}
-          aria-hidden={imageAlt ? undefined : true}
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-ink/20" aria-hidden="true"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" aria-hidden="true"></div>
-        <div class="absolute inset-0 bg-grid opacity-15 mix-blend-screen" aria-hidden="true"></div>
-      </>
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-950/95 via-blue-900/80 to-blue-800/45"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-blue-950/92 via-blue-950/55 to-blue-900/10"></div>
+        <div class="absolute inset-0 bg-blue-950/30"></div>
+        <div class="absolute inset-0 bg-grid opacity-10 mix-blend-overlay"></div>
+      </div>
     ) : (
-      <>
-        <div class="absolute inset-0 bg-gradient-to-b from-surface-muted/60 to-surface" aria-hidden="true"></div>
-        <div class="absolute inset-0 bg-grid opacity-40" aria-hidden="true"></div>
-      </>
+      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute inset-0 bg-gradient-to-b from-surface-muted/60 to-surface"></div>
+        <div class="absolute inset-0 bg-grid opacity-40"></div>
+      </div>
     )
   }
-  <div class="container-app relative flex min-h-[260px] flex-col justify-end py-12 sm:min-h-[300px] sm:py-16">
+  <div
+    class:list={[
+      "container-app relative flex flex-col justify-end py-12 sm:py-16",
+      imageSrc ? "min-h-[280px] sm:min-h-[320px]" : "min-h-[260px] sm:min-h-[300px]",
+    ]}
+  >
     <div class={imageSrc ? "max-w-3xl" : undefined}>
       {eyebrow && (
         <span class:list={[imageSrc ? "mb-3 inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white/25 backdrop-blur" : "eyebrow mb-3 animate-fade-in"]}>
           {eyebrow}
         </span>
       )}
-      <h1 class:list={[imageSrc ? "text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-5xl" : "section-title animate-fade-in"]}>
+      <h1 class:list={[imageSrc ? "text-3xl font-bold tracking-tight text-white drop-shadow-md sm:text-4xl lg:text-5xl" : "section-title animate-fade-in"]}>
         {title}
       </h1>
       {subtitle && (
-        <p class:list={[imageSrc ? "mt-4 max-w-2xl text-base text-white/85 sm:text-lg" : "section-subtitle animate-slide-up"]}>
+        <p class:list={[imageSrc ? "mt-4 max-w-2xl text-base text-white/95 drop-shadow sm:text-lg" : "section-subtitle animate-slide-up"]}>
           {subtitle}
         </p>
       )}

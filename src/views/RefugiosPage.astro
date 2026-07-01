@@ -28,7 +28,7 @@ const mapLocations: MapLocation[] = shelters.map((s) => ({
 }));
 ---
 
-<BaseLayout locale={locale} title={t("shelters.title")}>
+<BaseLayout locale={locale} title={t("shelters.title")} description={t("shelters.subtitle")}>
   <PageHeader title={t("shelters.title")} subtitle={t("shelters.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
     <div class="mb-8">
       <MapView client:only="react" locations={mapLocations} locale={locale} />

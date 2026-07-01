@@ -1,21 +1,10 @@
 import type { APIRoute } from "astro";
 import { getSessionUser } from "@/lib/auth-center";
 import { VOTE_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
-import type { CommunityContentType } from "@/types/community-feedback";
+import { communityVoteSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
-
-const VALID_TYPES: CommunityContentType[] = [
-  "help_center",
-  "hospital",
-  "shelter",
-  "agency",
-  "damage_report",
-  "missing_person",
-  "news",
-  "solidarity_company",
-  "external_link",
-];
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   const blocked = guardPublicWrite(request, {
@@ -25,36 +14,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
+    const body = await readJsonBody(request);
+    const parsed = parseBody(communityVoteSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
+
     const { castCommunityVote } = await import("@/lib/community-feedback");
     const user = await getSessionUser(request, cookies);
-
-    if (!body.content_type || !body.content_id || !body.verdict || !body.voter_token) {
-      return new Response(
-        JSON.stringify({ error: "Missing content_type, content_id, verdict or voter_token" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    if (!VALID_TYPES.includes(body.content_type)) {
-      return new Response(JSON.stringify({ error: "Invalid content_type" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    if (body.verdict !== "credible" && body.verdict !== "false") {
-      return new Response(JSON.stringify({ error: "Invalid verdict" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    const data = parsed.data;
 
     const credibility = await castCommunityVote({
-      content_type: body.content_type,
-      content_id: String(body.content_id),
-      verdict: body.verdict,
-      voter_token: String(body.voter_token).trim(),
+      content_type: data.content_type,
+      content_id: data.content_id,
+      verdict: data.verdict,
+      voter_token: data.voter_token,
       profile_id: user?.id ?? null,
     });
 

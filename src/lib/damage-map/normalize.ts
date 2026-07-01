@@ -61,8 +61,17 @@ const CITY_TO_STATE: Record<string, string> = {
 
 export function mapExternalDamageLevel(level: string): DamageSeverity {
   const normalized = level.trim().toLowerCase();
-  if (normalized === "total") return "collapsed";
-  if (normalized === "severo" || normalized === "severe") return "damaged";
+  if (normalized === "total" || normalized === "colapso" || normalized === "collapsed") {
+    return "collapsed";
+  }
+  if (
+    normalized === "severo" ||
+    normalized === "severe" ||
+    normalized === "moderado" ||
+    normalized === "moderate"
+  ) {
+    return "damaged";
+  }
   return "evacuated";
 }
 

@@ -1,14 +1,14 @@
 import type { APIRoute } from "astro";
-import type { DamageSeverity } from "@/types";
 import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
+import { damageReportSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
 
-const VALID_SEVERITIES: DamageSeverity[] = ["collapsed", "damaged", "evacuated"];
-
 export const GET: APIRoute = async ({ url }) => {
   try {
-    const { queryDamageReportsFromDb } = await import("@/lib/data");
+    const { fetchDamageReportsForPage } = await import("@/lib/data");
+    const { filterDamageReports } = await import("@/lib/damage-map/feed");
     const search = url.searchParams.get("search") ?? undefined;
     const severity = url.searchParams.get("severity") ?? undefined;
     const state = url.searchParams.get("state") ?? undefined;
@@ -21,18 +21,26 @@ export const GET: APIRoute = async ({ url }) => {
       : 10000;
     const safeOffset = Number.isFinite(parsedOffset) ? Math.max(0, parsedOffset) : 0;
 
-    const result = await queryDamageReportsFromDb({
+    const result = await fetchDamageReportsForPage();
+    const filtered = filterDamageReports(result.items, {
       search,
-      severity: severity && severity !== "all" ? severity : undefined,
-      state: state && state !== "all" ? state : undefined,
-      limit: safeLimit,
-      offset: safeOffset,
+      severity: severity && severity !== "all" ? (severity as import("@/types").DamageSeverity) : "all",
+      state: state && state !== "all" ? state : "all",
     });
+    const items = filtered.slice(safeOffset, safeOffset + safeLimit);
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        items,
+        total: filtered.length,
+        stats: result.stats,
+        meta: result.meta,
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal server error";
     return new Response(JSON.stringify({ error: message }), {
@@ -50,45 +58,26 @@ export const POST: APIRoute = async ({ request }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
+    const body = await readJsonBody(request);
+    const parsed = parseBody(damageReportSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
+
     const { createDamageReport } = await import("@/lib/data");
-
-    const required = ["title", "state", "city", "latitude", "longitude"];
-    for (const field of required) {
-      if (body[field] === undefined || body[field] === null || body[field] === "") {
-        return new Response(
-          JSON.stringify({ error: `Missing field: ${field}` }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
-    }
-
-    const latitude = Number(body.latitude);
-    const longitude = Number(body.longitude);
-    if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid coordinates" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    const severity: DamageSeverity = VALID_SEVERITIES.includes(body.severity)
-      ? body.severity
-      : "damaged";
+    const data = parsed.data;
 
     await createDamageReport({
-      title: body.title,
-      severity,
-      state: body.state,
-      city: body.city,
-      address: body.address ?? null,
-      latitude,
-      longitude,
-      description: body.description ?? null,
-      reporter_name: body.reporter_name ?? null,
-      reporter_contact: body.reporter_contact ?? null,
-      source_name: body.source_name ?? null,
-      source_url: body.source_url ?? null,
+      title: data.title,
+      severity: data.severity,
+      state: data.state,
+      city: data.city,
+      address: data.address,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      description: data.description,
+      reporter_name: data.reporter_name,
+      reporter_contact: data.reporter_contact,
+      source_name: data.source_name,
+      source_url: data.source_url,
     });
 
     return new Response(JSON.stringify({ success: true }), {

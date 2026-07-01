@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
+import { volunteerRegistrationSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
 
@@ -11,32 +13,26 @@ export const POST: APIRoute = async ({ request }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
-    const { createVolunteerRegistration } = await import("@/lib/data");
+    const body = await readJsonBody(request);
+    const parsed = parseBody(volunteerRegistrationSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
 
-    const required = ["name", "city", "state", "profession", "availability", "phone", "email"];
-    for (const field of required) {
-      if (!body[field]) {
-        return new Response(
-          JSON.stringify({ error: `Missing field: ${field}` }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
-    }
+    const { createVolunteerRegistration } = await import("@/lib/data");
+    const data = parsed.data;
 
     await createVolunteerRegistration({
-      name: body.name,
-      city: body.city,
-      state: body.state,
-      profession: body.profession,
-      specialty: body.specialty ?? null,
-      vehicle: body.vehicle ?? null,
-      availability: body.availability,
-      phone: body.phone,
-      email: body.email,
-      location: body.location ?? null,
-      notes: body.notes ?? null,
-      help_center_id: body.help_center_id ?? null,
+      name: data.name,
+      city: data.city,
+      state: data.state,
+      profession: data.profession,
+      specialty: data.specialty,
+      vehicle: data.vehicle,
+      availability: data.availability,
+      phone: data.phone,
+      email: data.email,
+      location: data.location,
+      notes: data.notes,
+      help_center_id: data.help_center_id,
     });
 
     return new Response(JSON.stringify({ success: true }), {

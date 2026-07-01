@@ -4,6 +4,7 @@ import SiteFootprints from "@/components/home/SiteFootprints.astro";
 import StatCard from "@/components/ui/StatCard.astro";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import LandingMapHub from "@/components/home/LandingMapHub";
+import UrgentRescueAlertsBanner from "@/components/damage/UrgentRescueAlertsBanner";
 import LandingVolunteerHub from "@/components/home/LandingVolunteerHub.astro";
 import AlliedPlatforms from "@/components/ui/AlliedPlatforms.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
@@ -18,7 +19,7 @@ import {
 } from "@/data/seed";
 import type { SearchResultType } from "@/types/search";
 import { HOME_HERO_IMAGE } from "@/data/site-images";
-import { getVzlaAyudaAvisos, getVzlaAyudaSnapshot } from "@/data/vzlayuda-resources";
+import { fetchVzlaAyudaSnapshotFeed } from "@/lib/vzlayuda/snapshot-feed";
 import { fetchLandingMapCatalogForPage } from "@/lib/map/landing-catalog";
 
 interface Props {
@@ -28,17 +29,17 @@ interface Props {
 const { locale } = Astro.props;
 const { t, dict } = useTranslations(locale);
 const alliedPlatforms = await fetchAlliedPlatforms();
-const vzSnapshot = getVzlaAyudaSnapshot();
-const vzAvisos = getVzlaAyudaAvisos();
+const vzSnapshot = await fetchVzlaAyudaSnapshotFeed();
+const vzAvisos = vzSnapshot.avisos ?? [];
 const vzOffers = vzAvisos.filter((a) => a.tipo === "oferta");
 const vzRequests = vzAvisos.filter((a) => a.tipo === "solicitud");
-const volunteerTotal = vzSnapshot.counts.total;
+const volunteerTotal = vzAvisos.length;
 const landingMapCatalog = await fetchLandingMapCatalogForPage(locale);
 const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout locale={locale} description={t("home.situation.subtitle")} ogImage={HOME_HERO_IMAGE}>
   <section class="relative border-b border-border">
     <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div class="absolute inset-0 bg-gradient-to-br from-accent-muted/40 via-surface to-surface dark:from-accent-muted/20" />
@@ -95,7 +96,7 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
         >
           <img
             src={HOME_HERO_IMAGE}
-            alt=""
+            alt={t("home.map.heroTitle")}
             class="h-[430px] w-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
             loading="eager"
             decoding="async"
@@ -113,16 +114,15 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
     </div>
   </section>
 
-  <section class="container-app -mt-8 relative z-10">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <StatCard value={SEED_HELP_CENTERS.length + "+"} label={t("home.stats.helpCenters")} icon="map-pin" accent="emergency" />
-      <StatCard value={SEED_SHELTERS.length + "+"} label={t("home.stats.shelters")} icon="tent" accent="success" />
-      <StatCard value={String(SEED_HOSPITALS.length)} label={t("home.stats.hospitals")} icon="hospital" accent="accent" />
-      <StatCard value={String(volunteerTotal)} label={t("home.stats.volunteers")} icon="heart" accent="warning" />
-    </div>
+  <section class="container-app pt-6 sm:pt-8">
+    <UrgentRescueAlertsBanner
+      client:load
+      locale={locale}
+      labels={dict.damage.urgentRescue}
+    />
   </section>
 
-  <section class="container-app py-12 sm:py-16">
+  <section id="mapa-emergencia" class="container-app pt-4 sm:pt-6">
     <LandingMapHub
       client:load
       locale={locale}
@@ -168,17 +168,27 @@ const categoryLabels = dict.search.categories as Record<SearchResultType, string
           children: t("home.map.stats.children"),
           childrenMissing: t("home.map.stats.childrenMissing"),
           childrenCritical: t("home.map.stats.childrenCritical"),
+          damageReports: t("home.map.stats.damageReports"),
         },
       }}
     />
+  </section>
+
+  <section class="container-app -mt-4 relative z-10 pb-4">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <StatCard value={SEED_HELP_CENTERS.length + "+"} label={t("home.stats.helpCenters")} icon="map-pin" accent="emergency" />
+      <StatCard value={SEED_SHELTERS.length + "+"} label={t("home.stats.shelters")} icon="tent" accent="success" />
+      <StatCard value={String(SEED_HOSPITALS.length)} label={t("home.stats.hospitals")} icon="hospital" accent="accent" />
+      <StatCard value={String(volunteerTotal)} label={t("home.stats.volunteers")} icon="heart" accent="warning" />
+    </div>
   </section>
 
   <LandingVolunteerHub
     locale={locale}
     offers={vzOffers.slice(0, 3)}
     requests={vzRequests.slice(0, 3)}
-    offerCount={vzSnapshot.counts.oferta}
-    requestCount={vzSnapshot.counts.solicitud}
+    offerCount={vzOffers.length}
+    requestCount={vzRequests.length}
     fetchedAt={vzSnapshot.fetched_at}
     labels={{
       eyebrow: t("home.volunteers.eyebrow"),

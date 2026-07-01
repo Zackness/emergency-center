@@ -1,20 +1,13 @@
 import type { APIRoute } from "astro";
 import { isValidLocale } from "@/i18n/config";
 import { fetchLandingMapCatalog } from "@/lib/map/landing-catalog";
+import {
+  UNIFIED_MAP_CATALOG_MAX,
+  UNIFIED_MAP_LAYERS,
+} from "@/lib/map/catalog-layers";
 import type { UnifiedMapLayer } from "@/types/map";
 
 export const prerender = false;
-
-const ALL_LAYERS: UnifiedMapLayer[] = [
-  "help_center",
-  "hospital",
-  "shelter",
-  "damage",
-  "quake",
-  "redayuda",
-  "platform",
-  "children",
-];
 
 export const GET: APIRoute = async ({ url }) => {
   try {
@@ -26,12 +19,12 @@ export const GET: APIRoute = async ({ url }) => {
     const layersParam = url.searchParams.get("layers");
     const layers = layersParam
       ? (layersParam.split(",").filter(Boolean) as UnifiedMapLayer[])
-      : ALL_LAYERS;
+      : UNIFIED_MAP_LAYERS;
 
-    const maxTotal = Math.min(
-      2500,
-      Math.max(100, Number(url.searchParams.get("limit") ?? "2000") || 2000),
-    );
+    const requestedLimit = Number(url.searchParams.get("limit") ?? "0") || 0;
+    const maxTotal = requestedLimit > 0
+      ? Math.min(UNIFIED_MAP_CATALOG_MAX, requestedLimit)
+      : undefined;
 
     const catalog = await fetchLandingMapCatalog(locale, {
       zone,
@@ -45,7 +38,7 @@ export const GET: APIRoute = async ({ url }) => {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=120",
+        "Cache-Control": "public, max-age=60, stale-while-revalidate=120",
       },
     });
   } catch (err) {

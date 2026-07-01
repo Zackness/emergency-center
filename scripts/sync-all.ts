@@ -2,16 +2,14 @@
 /**
  * Orquesta el scraping y sincronización de todas las fuentes externas.
  *
- * Fase FETCH (JSON local / snapshots):
- *   - HuellasCAN mascotas
- *   - terremotovenezuela.com edificios
- *   - centroacopio.site acopios + deliveries
+ * Fase FETCH:
+ *   - Plataformas aliadas activas (scraping → data_cache + JSON)
  *
- * Fase SYNC (base de datos):
- *   - Desaparecidos (5 APIs ciudadanas)
- *   - Mapa de daños
- *   - Centros de acopio (centroacopio.site)
+ * Fase SYNC:
+ *   - Desaparecidos (APIs según plataformas aliadas en BD)
+ *   - Centros de acopio (centroacopio.site → help_centers)
  *   - Hospitales (catálogo nacional)
+ *   - Catálogo de plataformas aliadas
  *
  * Uso:
  *   npm run sync:all
@@ -19,9 +17,8 @@
  *   npm run sync:all -- --sync-only
  *   npm run sync:all -- --skip-missing
  *   npm run sync:all -- --skip-hospitals
- *   npm run sync:all -- --dry-run          # solo sync:help-centers en seco
  *
- * Requiere Node 20+, .env con PUBLIC_SUPABASE_URL y SUPABASE_SECRET_KEY.
+ * Requiere Node 20+, .env con DATABASE_URL y claves Supabase.
  * Para escribir en producción: CONFIRM_PRODUCTION_DB=1
  */
 import { spawnSync } from "node:child_process";
@@ -37,39 +34,15 @@ type Step = {
 
 const STEPS: Step[] = [
   {
-    id: "redayuda",
-    label: "Red Ayuda Venezuela — stats y sismos",
-    npmScript: "fetch:redayuda",
+    id: "allied-scrapers",
+    label: "Plataformas aliadas — scraping unificado → BD",
+    npmScript: "sync:allied-scrapers",
     phase: "fetch",
   },
   {
-    id: "vzlayuda",
-    label: "Vzla Ayuda — ofertas y solicitudes",
-    npmScript: "fetch:vzlayuda",
-    phase: "fetch",
-  },
-  {
-    id: "pets",
-    label: "Mascotas — HuellasCAN",
-    npmScript: "fetch:pets",
-    phase: "fetch",
-  },
-  {
-    id: "children",
-    label: "Niños — NexoSignal + Red Ayuda",
-    npmScript: "fetch:children",
-    phase: "fetch",
-  },
-  {
-    id: "damage-fetch",
-    label: "Mapa daños — snapshot JSON",
-    npmScript: "fetch:damage",
-    phase: "fetch",
-  },
-  {
-    id: "centroacopio",
-    label: "Centros acopio — centroacopio.site",
-    npmScript: "fetch:centroacopio",
+    id: "nasa-damage",
+    label: "NASA Sentinel-1 — edificios dañados (JSON mapa)",
+    npmScript: "fetch:nasa-damage",
     phase: "fetch",
   },
   {
@@ -81,13 +54,6 @@ const STEPS: Step[] = [
     skipFlag: "--skip-missing",
   },
   {
-    id: "damage",
-    label: "Mapa daños — base de datos",
-    npmScript: "sync:damage",
-    phase: "sync",
-    extraArgs: ["--from-file"],
-  },
-  {
     id: "seed-help-centers",
     label: "Centros acopio — catálogo seed local",
     npmScript: "sync:seed-help-centers",
@@ -95,7 +61,7 @@ const STEPS: Step[] = [
   },
   {
     id: "help-centers",
-    label: "Centros acopio — base de datos",
+    label: "Centros acopio — centroacopio.site → BD",
     npmScript: "sync:help-centers",
     phase: "sync",
     extraArgs: ["--from-file"],
@@ -114,6 +80,12 @@ const STEPS: Step[] = [
     phase: "sync",
     skipFlag: "--skip-hospitals",
   },
+  {
+    id: "allied-platforms",
+    label: "Plataformas aliadas — catálogo → BD",
+    npmScript: "sync:allied-platforms",
+    phase: "sync",
+  },
 ];
 
 function hasFlag(flag: string): boolean {
@@ -122,6 +94,10 @@ function hasFlag(flag: string): boolean {
 
 function runStep(step: Step): boolean {
   const extra = [...(step.extraArgs ?? [])];
+  if (step.id === "allied-scrapers") {
+    if (hasFlag("--fetch-only")) extra.push("--fetch-only");
+    if (hasFlag("--sync-only")) extra.push("--sync-only");
+  }
   if (step.id === "help-centers" && hasFlag("--dry-run")) {
     extra.push("--dry-run");
   }

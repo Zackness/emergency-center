@@ -1,7 +1,54 @@
 {
   "source": "https://centroacopio.site",
-  "fetched_at": "2026-06-28T16:17:41.560Z",
+  "fetched_at": "2026-06-30T20:16:22.515Z",
   "centers": [
+    {
+      "id": "cc28281e-b5da-44be-a2d7-44c0714a77bd",
+      "centerName": "ASCARDIO",
+      "city": "Barquisimeto / Cabudare",
+      "sector": "Iribarren (Este / Santa Rosa)",
+      "address": "Prolongación Carrera 17 con Calle 12, barrio la Feria 3002 Lara, Barquisimeto - Venezuela",
+      "description": "Nos solidarizamos con las personas afectadas por el reciente terremoto. Estaremos realizando una recolecta de insumos para llevar ayuda a los lugares que más lo necesiten en este momento.",
+      "attentionStart": "08:00",
+      "attentionEnd": "16:00",
+      "requiredSupplies": [
+        "Alimentos no perecederos",
+        "Agua",
+        "Cobijas",
+        "Articulos de higiene",
+        "Insumos medicos"
+      ],
+      "phone": "+58 (0251) 2518589",
+      "createdAt": "2026-06-29T21:43:21.324Z"
+    },
+    {
+      "id": "f1c60256-89d2-4b34-8d56-a2a45ffda3f7",
+      "centerName": "Colegio San Ignacio - Casa Loyola",
+      "city": "Caracas",
+      "sector": "Chacao",
+      "address": "Av. Santa Teresa de Jesús, La Castellana",
+      "description": "Iniciativa de Jesuitas de Venezuela, Unidos en la Misión, Cerpe, UCAB",
+      "attentionStart": "09:00",
+      "attentionEnd": "17:00",
+      "requiredSupplies": [],
+      "phone": "@sanignaciocaracas",
+      "createdAt": "2026-06-29T18:04:57.601Z"
+    },
+    {
+      "id": "8a220a4d-9bef-4b82-a087-b040a65480af",
+      "centerName": "Iglesia pentecostal unida Tabernáculo de Vida",
+      "city": "Maracay",
+      "sector": "Girardot (Centro / San Jacinto)",
+      "address": "Barrio Independencia calle C#24",
+      "description": "Estamos brindando nuestra cede como centro de acopio para los afectados de la tragedia que aqueja Venezuela",
+      "attentionStart": "10:00",
+      "attentionEnd": "19:00",
+      "requiredSupplies": [
+        "Alimentos no perecederos, artículos de cuidados para bebes, alimentos para bebés, insumos médicos"
+      ],
+      "phone": "+58 412-7779544",
+      "createdAt": "2026-06-29T01:00:39.511Z"
+    },
     {
       "id": "7173dc4b-4890-4d5c-b276-6bbc0ded4240",
       "centerName": "C.C Ciudad Paris",
@@ -3334,121 +3381,6 @@
         "Insumos médicos",
         "Ropa",
         "Mantas"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-farmapaz-en-todas-las-sucursales-farmapaz",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.557Z",
-      "kind": "community",
-      "centerName": "Farmapaz",
-      "city": "Venezuela",
-      "sector": "Venezuela",
-      "address": "En todas las sucursales Farmapaz",
-      "description": "Fuente original: Farmapaz — Unidos por Venezuela",
-      "attentionStart": "",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Ropa",
-        "Alimentos no perecederos",
-        "Insumos para bebés"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-operacion-todos-con-vzla-av-principal-de-boqueron-frente-a-la-panaderia-escorpion-pan",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.558Z",
-      "kind": "community",
-      "centerName": "Operación Todos con VZLA",
-      "city": "Maturín",
-      "sector": "Monagas",
-      "address": "Av. principal de Boquerón, frente a la panadería Escorpión Pan",
-      "description": "Fuente original: Operación Todos con VZLA",
-      "attentionStart": "",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Agua potable",
-        "Alimentos no perecederos",
-        "Insumos médicos",
-        "Ropa y abrigos"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-operacion-todos-con-vzla-sede-vente-monagas-calle-carvajal-casa-n-90-sector-la-manga-diagonal-a-p",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.558Z",
-      "kind": "community",
-      "centerName": "Operación Todos con VZLA — Sede Vente Monagas",
-      "city": "Maturín",
-      "sector": "Monagas",
-      "address": "Calle Carvajal, casa N.º 90, sector La Manga. Diagonal a Perozo Motors",
-      "description": "Fuente original: Operación Todos con VZLA",
-      "attentionStart": "",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Agua potable",
-        "Alimentos no perecederos",
-        "Insumos médicos",
-        "Ropa y abrigos"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-operacion-todos-con-vzla-av-principal-la-pica-casa-de-la-sra-irma-frente-a-la-licoreria",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.558Z",
-      "kind": "community",
-      "centerName": "Operación Todos con VZLA",
-      "city": "Maturín",
-      "sector": "Monagas",
-      "address": "Av. Principal La Pica, casa de la Sra. Irma, frente a la licorería",
-      "description": "Fuente original: Operación Todos con VZLA",
-      "attentionStart": "",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Agua potable",
-        "Alimentos no perecederos",
-        "Insumos médicos",
-        "Ropa y abrigos"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-operacion-todos-con-vzla-calle-chimborazo-sur-a-100-m-de-la-parada-de-los-26",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.558Z",
-      "kind": "community",
-      "centerName": "Operación Todos con VZLA",
-      "city": "Maturín",
-      "sector": "Monagas",
-      "address": "Calle Chimborazo Sur, a 100 m de la parada de los 26",
-      "description": "Fuente original: Operación Todos con VZLA",
-      "attentionStart": "",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Agua potable",
-        "Alimentos no perecederos",
-        "Insumos médicos",
-        "Ropa y abrigos"
-      ]
-    },
-    {
-      "id": "terremotovenezuela-app-estudiantes-de-la-universidad-de-oriente-nucleo-monagas-entrada-de-la-udo-monagas-campus-los-guar",
-      "source": "terremotovenezuela.app",
-      "createdAt": "2026-06-28T16:17:41.558Z",
-      "kind": "community",
-      "centerName": "Estudiantes de la Universidad de Oriente — Núcleo Monagas",
-      "city": "Maturín",
-      "sector": "Monagas",
-      "address": "Entrada de la UDO Monagas, Campus Los Guaritos",
-      "description": "Fuente original: UDO Monagas / AIPA / Fundación Lirio Mayero",
-      "attentionStart": "Lunes a viernes, 9:00 a.m. a 12:00 p.m.",
-      "attentionEnd": "",
-      "requiredSupplies": [
-        "Agua potable",
-        "Alimentos no perecederos y enlatados",
-        "Medicamentos básicos y de primeros auxilios",
-        "Productos de higiene personal",
-        "Ropa y zapatos en buen estado",
-        "📞 0412-0984394 📞 0424-9068784 📞 0424-9570080"
       ]
     }
   ],

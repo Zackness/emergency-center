@@ -14,12 +14,12 @@ function isDuplicatePriority(site: DamageReport, existing: DamageReport): boolea
   return coordKey(site.latitude, site.longitude) === coordKey(existing.latitude, existing.longitude);
 }
 
-/** Inserta sitios prioritarios de rescate al inicio, evitando duplicados por título o coordenadas. */
+/** Añade reportes @rdelbufalo al catálogo comunitario, evitando duplicados por título o coordenadas. */
 export function mergePriorityRescueSites(reports: DamageReport[]): DamageReport[] {
-  const merged = [...PRIORITY_RESCUE_SITES];
-  for (const report of reports) {
-    if (merged.some((site) => isDuplicatePriority(site, report))) continue;
-    merged.push(report);
+  const merged = [...reports];
+  for (const site of PRIORITY_RESCUE_SITES) {
+    if (merged.some((report) => isDuplicatePriority(site, report))) continue;
+    merged.push(site);
   }
   return merged;
 }

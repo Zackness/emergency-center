@@ -7,6 +7,7 @@ import { useTranslations } from "@/i18n/utils";
 import { fetchDamageReportsForPage } from "@/lib/data";
 import { VENEZUELA_STATES } from "@/data/seed";
 import type { DamageSeverity } from "@/types";
+import { DAMAGE_MAP_HEADER } from "@/data/site-images";
 
 interface Props {
   locale: Locale;
@@ -32,7 +33,6 @@ const hubLabels = {
   reportSubtitle: t("damage.reportSubtitle"),
 };
 
-const priorityRescueLabels = dict.damage.priorityRescue;
 const engineersPlatformLabels = dict.damage.engineersPlatform;
 
 const formLabels = {
@@ -45,9 +45,8 @@ const { confidence: confidenceLabels, ...feedbackLabels } = dict.communityFeedba
 const damageData = await fetchDamageReportsForPage();
 ---
 
-<BaseLayout locale={locale} title={t("damage.title")}>
+<BaseLayout locale={locale} title={t("damage.title")} description={t("damage.subtitle")} ogImage={DAMAGE_MAP_HEADER}>
   <div class="container-app py-10 md:py-14">
-    <StructuralInspectionSection locale={locale} sectionId="inspecciones-estructurales" />
     <DamageMapHub
       client:load
       locale={locale}
@@ -57,10 +56,20 @@ const damageData = await fetchDamageReportsForPage();
       states={VENEZUELA_STATES}
       feedbackLabels={feedbackLabels}
       confidenceLabels={confidenceLabels}
-      priorityRescueLabels={priorityRescueLabels}
       engineersPlatformLabels={engineersPlatformLabels}
+      nasaLabels={dict.damage.nasa}
+      summaryLabels={{
+        communityTotal: hubLabels.summaryCommunityTotal,
+        nasaEstimate: hubLabels.summaryNasaEstimate,
+        onMap: hubLabels.summaryOnMap,
+      }}
+      urgentRescueLabels={dict.damage.urgentRescue}
       initialItems={damageData.items}
       initialStats={damageData.stats}
+      initialMeta={damageData.meta}
     />
+    <div class="mt-12">
+      <StructuralInspectionSection locale={locale} sectionId="inspecciones-estructurales" />
+    </div>
   </div>
 </BaseLayout>

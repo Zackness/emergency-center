@@ -1,18 +1,10 @@
 import type { APIRoute } from "astro";
-import type { HelpCenterRegistration, HelpCenterType } from "@/types";
 import { PUBLIC_FORM_RATE_LIMIT, guardRequest, readJsonBody } from "@/lib/api-security";
 import { sanitizeHelpCenterAccepts } from "@/lib/help-centers/accepts";
+import { helpCenterRegistrationSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
-
-const TYPE_KEYS: HelpCenterType[] = ["church", "community", "university", "government", "ngo"];
-
-function badRequest(message: string) {
-  return new Response(JSON.stringify({ error: message }), {
-    status: 400,
-    headers: { "Content-Type": "application/json" },
-  });
-}
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   const blocked = guardRequest(request, {
@@ -22,48 +14,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<HelpCenterRegistration>(request);
+    const body = await readJsonBody(request);
+    const parsed = parseBody(helpCenterRegistrationSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
 
-    if (body.registration_type !== "own" && body.registration_type !== "third_party") {
-      return badRequest("registration_type must be own or third_party");
-    }
-
-    const required = ["name", "state", "city", "address", "type"] as const;
-    for (const field of required) {
-      if (!body[field]) return badRequest(`Missing field: ${field}`);
-    }
-
-    if (!TYPE_KEYS.includes(body.type)) {
-      return badRequest("Invalid center type");
-    }
-
-    const latitude = Number(body.latitude);
-    const longitude = Number(body.longitude);
-    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-      return badRequest("Invalid coordinates");
-    }
-
-    if (!Array.isArray(body.accepts) || body.accepts.length === 0) {
-      return badRequest("Select at least one accepted donation type");
-    }
-
-    const accepts = sanitizeHelpCenterAccepts(body.accepts);
-    if (!accepts.length) return badRequest("Invalid accepts values");
-
-    const imageUrl = body.image_url?.trim();
-    if (!imageUrl) {
-      return badRequest("Missing field: image_url");
-    }
-
-    if (body.registration_type === "third_party") {
-      if (!body.reporter_name?.trim()) {
-        return badRequest("Missing field: reporter_name");
-      }
+    const data = parsed.data;
+    const accepts = sanitizeHelpCenterAccepts(data.accepts);
+    if (!accepts.length) {
+      return validationErrorResponse("Tipos de donación inválidos");
     }
 
     let ownerUserId: string | null = null;
 
-    if (body.registration_type === "own") {
+    if (data.registration_type === "own") {
       const { getSessionUser } = await import("@/lib/auth-center");
       const user = await getSessionUser(request, cookies);
       if (!user) {
@@ -81,22 +44,22 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const { createHelpCenterRegistration } = await import("@/lib/data");
     const center = await createHelpCenterRegistration(
       {
-        registration_type: body.registration_type,
-        name: body.name.trim(),
-        description: body.description?.trim() || null,
-        type: body.type,
-        state: body.state.trim(),
-        city: body.city.trim(),
-        address: body.address.trim(),
-        latitude,
-        longitude,
-        phone: body.phone?.trim() || null,
-        email: body.email?.trim() || null,
-        schedule: body.schedule?.trim() || null,
+        registration_type: data.registration_type,
+        name: data.name,
+        description: data.description,
+        type: data.type,
+        state: data.state,
+        city: data.city,
+        address: data.address,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        phone: data.phone,
+        email: data.email,
+        schedule: data.schedule,
         accepts,
-        reporter_name: body.reporter_name?.trim() || null,
-        reporter_phone: body.reporter_phone?.trim() || null,
-        image_url: imageUrl,
+        reporter_name: data.reporter_name,
+        reporter_phone: data.reporter_phone,
+        image_url: data.image_url,
       },
       ownerUserId
     );
@@ -105,8 +68,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       JSON.stringify({
         success: true,
         id: center.id,
-        registration_type: body.registration_type,
-        panel_url: body.registration_type === "own" ? "/centros-ayuda/panel" : null,
+        registration_type: data.registration_type,
+        panel_url: data.registration_type === "own" ? "/centros-ayuda/panel" : null,
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );

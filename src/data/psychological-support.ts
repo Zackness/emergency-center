@@ -68,6 +68,20 @@ export const PSYCHOLOGICAL_SUPPORT_RESOURCES: PsychologicalSupportResource[] = [
     is_verified: true,
     sort_order: 4,
   },
+  {
+    id: "previasis",
+    name: "Previasis",
+    description: {
+      es: "Empresa de medicina prepagada que ofrece apoyo psicológico gratuito a personas y familiares afectados por el terremoto. Coordina atención y orientación en salud mental por Instagram @previasis.",
+      en: "Prepaid medicine company offering free psychological support to people and relatives affected by the earthquake. Coordinates mental health care and guidance via Instagram @previasis.",
+    },
+    instagram_url: "https://www.instagram.com/previasis/",
+    handle: "@previasis",
+    website_url: "https://previasis.com/",
+    phone: "0424-5051851",
+    is_verified: true,
+    sort_order: 5,
+  },
 ];
 
 export function getPsychologicalSupportResources() {

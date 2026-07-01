@@ -33,7 +33,7 @@ SELECT
   'Red Ayuda Venezuela',
   'Plataforma ciudadana integral: desaparecidos, personas a salvo, en hospitales, puntos de ayuda, voluntarios y asistente de búsqueda por nombre o foto.',
   'https://redayudavenezuela.com',
-  'community'::external_source_registration_type,
+  'community'::source_registration_type,
   110364,
   110364,
   9940,

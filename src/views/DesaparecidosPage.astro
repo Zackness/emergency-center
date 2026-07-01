@@ -13,6 +13,7 @@ import { fetchExternalSources, fetchExternalSourcesWithLiveStats, fetchMissingPe
 import { defaultMissingPersonSyncSlugs } from "@/lib/missing-persons/sync-source-registry";
 import { fetchAlliedPlatforms } from "@/lib/allied-platforms/service";
 import { OFFICIAL_EARTHQUAKE_STATS } from "@/data/official-earthquake-stats";
+import { MISSING_PERSONS_HEADER } from "@/data/site-images";
 import { RED_CROSS_FAMILY_CONTACT } from "@/data/red-cross-family-contact";
 import { VENEVISION_MISSING_LINE } from "@/data/venevision-missing-line";
 import { MISSING_PERSONS_HEADER } from "@/data/site-images";
@@ -79,7 +80,7 @@ const venevisionWhatsappUrl = `https://wa.me/${VENEVISION_MISSING_LINE.whatsapp}
 )}`;
 ---
 
-<BaseLayout locale={locale} title={t("missing.title")}>
+<BaseLayout locale={locale} title={t("missing.title")} description={t("missing.subtitle")} ogImage={MISSING_PERSONS_HEADER}>
   <PageHeader
     title={t("missing.title")}
     subtitle={t("missing.subtitle")}

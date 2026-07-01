@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
+import { missingPersonSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
 
@@ -51,41 +53,29 @@ export const POST: APIRoute = async ({ request }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
-    const { createMissingPerson } = await import("@/lib/data");
+    const body = await readJsonBody(request);
+    const parsed = parseBody(missingPersonSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
 
-    const required = [
-      "full_name",
-      "state",
-      "city",
-      "contact_name",
-      "contact_phone",
-    ];
-    for (const field of required) {
-      if (!body[field]) {
-        return new Response(
-          JSON.stringify({ error: `Missing field: ${field}` }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
-    }
+    const { createMissingPerson } = await import("@/lib/data");
+    const data = parsed.data;
 
     const result = await createMissingPerson({
-      full_name: body.full_name,
-      national_id: body.national_id ?? null,
-      age: body.age ? Number(body.age) : null,
-      gender: body.gender ?? null,
-      state: body.state,
-      city: body.city,
-      last_seen_location: body.last_seen_location ?? null,
-      last_seen_at: body.last_seen_at ?? null,
-      description: body.description ?? null,
-      photo_url: body.photo_url ?? null,
-      contact_name: body.contact_name,
-      contact_phone: body.contact_phone,
-      contact_email: body.contact_email ?? null,
-      external_source_slug: body.external_source_slug ?? null,
-      external_url: body.external_url ?? null,
+      full_name: data.full_name,
+      national_id: data.national_id,
+      age: data.age,
+      gender: data.gender,
+      state: data.state,
+      city: data.city,
+      last_seen_location: data.last_seen_location,
+      last_seen_at: data.last_seen_at,
+      description: data.description,
+      photo_url: data.photo_url,
+      contact_name: data.contact_name,
+      contact_phone: data.contact_phone,
+      contact_email: data.contact_email,
+      external_source_slug: data.external_source_slug,
+      external_url: data.external_url,
     });
 
     if (!result.ok) {

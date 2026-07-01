@@ -13,14 +13,19 @@ import {
 import MapView from "@/components/map/MapView";
 import DamageReportForm from "@/components/forms/DamageReportForm";
 import DamageReportGallery from "@/components/damage/DamageReportGallery";
-import PriorityRescueSitesPanel from "@/components/damage/PriorityRescueSitesPanel";
+import UrgentRescueAlertsBanner from "@/components/damage/UrgentRescueAlertsBanner";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import type { DamageReport, DamageSeverity, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 import type { DamageMapStats } from "@/lib/damage-map/types";
+import type { UnifiedDamageMeta } from "@/lib/damage-map/merge-all";
 import { filterDamageReports } from "@/lib/damage-map/feed";
+import { isNasaDamageReport } from "@/lib/damage-map/merge-nasa";
+import { NASA_DAMAGE_ESTIMATE, NASA_DAMAGE_SNAPSHOT_COUNT } from "@/data/nasa-damage-buildings";
+import { NASA_DAMAGE_WEBMAP } from "@/lib/damage-map/nasa-config";
 
 const PAGE_SIZE = 24;
+const MAP_NASA_CAP = 8_000;
 
 interface DamageMapHubProps {
   locale: "es" | "en";
@@ -30,17 +35,6 @@ interface DamageMapHubProps {
   states: string[];
   feedbackLabels: Record<string, string>;
   confidenceLabels: Record<CommunityConfidenceLevel, string>;
-  priorityRescueLabels: {
-    title: string;
-    subtitle: string;
-    structures: string;
-    zones: string;
-    victims: string;
-    source: string;
-    priorityBadge: string;
-    directions: string;
-    disclaimer: string;
-  };
   engineersPlatformLabels: {
     eyebrow: string;
     title: string;
@@ -49,8 +43,30 @@ interface DamageMapHubProps {
     reportCta: string;
     note: string;
   };
+  nasaLabels?: {
+    bannerTitle: string;
+    bannerBody: string;
+    bannerLink: string;
+    satelliteToggle: string;
+    satelliteEstimate: string;
+    satelliteLoaded: string;
+    satelliteLegend: string;
+  };
+  summaryLabels?: {
+    communityTotal: string;
+    nasaEstimate: string;
+    onMap: string;
+  };
+  urgentRescueLabels?: {
+    badge: string;
+    published: string;
+    call: string;
+    whatsapp: string;
+    map: string;
+  };
   initialItems: DamageReport[];
   initialStats: DamageMapStats;
+  initialMeta?: UnifiedDamageMeta;
 }
 
 const SEVERITY_COLORS: Record<DamageSeverity, string> = {
@@ -90,10 +106,13 @@ export default function DamageMapHub({
   states,
   feedbackLabels,
   confidenceLabels,
-  priorityRescueLabels,
   engineersPlatformLabels,
+  nasaLabels,
+  summaryLabels,
+  urgentRescueLabels,
   initialItems,
   initialStats,
+  initialMeta,
 }: DamageMapHubProps) {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -102,11 +121,23 @@ export default function DamageMapHub({
   const [showFilters, setShowFilters] = useState(false);
   const [allItems, setAllItems] = useState<DamageReport[]>(initialItems);
   const [stats, setStats] = useState<DamageMapStats>(initialStats);
+  const [meta, setMeta] = useState<UnifiedDamageMeta | undefined>(initialMeta);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showNasaLayer, setShowNasaLayer] = useState(true);
+
+  const communityCountFromItems = useMemo(
+    () => allItems.filter((item) => !isNasaDamageReport(item)).length,
+    [allItems]
+  );
+
+  const communityCount =
+    meta?.community_total ?? stats.community_total ?? communityCountFromItems;
+  const nasaEstimate = meta?.nasa_estimate ?? stats.nasa_estimate ?? NASA_DAMAGE_ESTIMATE;
+  const mapMarkers = meta?.map_markers ?? stats.map_markers ?? allItems.length;
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedSearch(search.trim()), 300);
@@ -116,7 +147,8 @@ export default function DamageMapHub({
   useEffect(() => {
     setAllItems(initialItems);
     setStats(initialStats);
-  }, [initialItems, initialStats]);
+    setMeta(initialMeta);
+  }, [initialItems, initialStats, initialMeta]);
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
@@ -133,11 +165,17 @@ export default function DamageMapHub({
     [allItems, debouncedSearch, severity, stateFilter]
   );
 
-  const visibleItems = useMemo(
-    () => filteredItems.slice(0, visibleCount),
-    [filteredItems, visibleCount]
+  /** Listado: solo reportes comunitarios (NASA es capa satelital en el mapa). */
+  const listItems = useMemo(
+    () => filteredItems.filter((item) => !isNasaDamageReport(item)),
+    [filteredItems]
   );
-  const hasMore = visibleCount < filteredItems.length;
+
+  const visibleItems = useMemo(
+    () => listItems.slice(0, visibleCount),
+    [listItems, visibleCount]
+  );
+  const hasMore = visibleCount < listItems.length;
 
   useEffect(() => {
     if (refreshKey === 0) return;
@@ -158,6 +196,7 @@ export default function DamageMapHub({
         if (cancelled) return;
         setAllItems(data.items);
         setStats(data.stats);
+        setMeta(data.meta);
       })
       .catch((err: Error) => {
         if (!cancelled) setError(err.message);
@@ -171,20 +210,22 @@ export default function DamageMapHub({
     };
   }, [refreshKey]);
 
-  const mapLocations: MapLocation[] = useMemo(
-    () =>
-      filteredItems.map((report) => ({
-        id: report.id,
-        name: report.title,
-        latitude: report.latitude,
-        longitude: report.longitude,
-        type: "damage" as const,
-        address: report.address ?? `${report.city}, ${report.state}`,
-        severity: report.severity,
-        image_urls: report.image_urls,
-      })),
-    [filteredItems]
-  );
+  const mapLocations: MapLocation[] = useMemo(() => {
+    const community = filteredItems.filter((report) => !isNasaDamageReport(report));
+    const nasa = filteredItems.filter((report) => isNasaDamageReport(report));
+    const nasaForMap = showNasaLayer ? nasa.slice(0, MAP_NASA_CAP) : [];
+
+    return [...community, ...nasaForMap].map((report) => ({
+      id: report.id,
+      name: report.title,
+      latitude: report.latitude,
+      longitude: report.longitude,
+      type: "damage" as const,
+      address: report.address ?? `${report.city}, ${report.state}`,
+      severity: report.severity,
+      image_urls: report.image_urls,
+    }));
+  }, [filteredItems, showNasaLayer]);
 
   return (
     <div className="space-y-8">
@@ -198,7 +239,7 @@ export default function DamageMapHub({
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-        <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 sm:p-8 lg:flex-row lg:items-end">
+        <div className="relative flex min-h-[160px] flex-col justify-between gap-6 p-5 sm:p-6 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{labels.hubTitle}</h1>
             <p className="mt-3 text-sm font-medium uppercase tracking-widest text-white/75">
@@ -214,6 +255,10 @@ export default function DamageMapHub({
           </a>
         </div>
       </div>
+
+      {urgentRescueLabels && (
+        <UrgentRescueAlertsBanner locale={locale} labels={urgentRescueLabels} />
+      )}
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
         <div className="flex-1 space-y-3">
@@ -239,7 +284,7 @@ export default function DamageMapHub({
               <ChevronDown className={`h-4 w-4 transition ${showFilters ? "rotate-180" : ""}`} />
             </button>
             <span className="text-sm text-ink-secondary">
-              <strong className="text-ink">{filteredItems.length}</strong> {labels.buildingCount}
+              <strong className="text-ink">{listItems.length}</strong> {labels.buildingCount}
             </span>
           </div>
           {showFilters && (
@@ -281,43 +326,34 @@ export default function DamageMapHub({
         </a>
       </div>
 
-      <div
-        id="ayuda-danos"
-        className="rounded-2xl border border-warning/30 bg-warning-muted/50 px-5 py-4 text-sm text-ink-secondary"
-      >
-        {labels.progressBanner}
-      </div>
-
-      <section
-        id="ingenieros-por-venezuela"
-        className="card border-accent/30 bg-accent-muted/20 p-5 sm:p-6"
-      >
-        <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-          {engineersPlatformLabels.eyebrow}
-        </p>
-        <h2 className="mt-1 text-xl font-bold text-ink">{engineersPlatformLabels.title}</h2>
-        <p className="mt-2 text-sm text-ink-secondary">{engineersPlatformLabels.subtitle}</p>
-        <p className="mt-2 text-xs text-ink-muted">{engineersPlatformLabels.note}</p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <a href={ENGINEERS_PLATFORM_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-            {engineersPlatformLabels.engineerCta}
-          </a>
-          <a
-            href={ENGINEERS_PLATFORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary"
-          >
-            {engineersPlatformLabels.reportCta}
-          </a>
+      {summaryLabels && (
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="rounded-xl border border-border bg-surface-muted/60 px-4 py-3">
+            <div className="text-2xl font-bold tabular-nums text-ink">
+              {communityCount.toLocaleString()}
+            </div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
+              {summaryLabels.communityTotal}
+            </div>
+          </div>
+          <div className="rounded-xl border border-accent/30 bg-accent-muted/20 px-4 py-3">
+            <div className="text-2xl font-bold tabular-nums text-ink">
+              {nasaEstimate.toLocaleString()}
+            </div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
+              {summaryLabels.nasaEstimate}
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-surface-muted/60 px-4 py-3">
+            <div className="text-2xl font-bold tabular-nums text-ink">
+              {mapMarkers.toLocaleString()}
+            </div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-ink-secondary">
+              {summaryLabels.onMap}
+            </div>
+          </div>
         </div>
-      </section>
-
-      <PriorityRescueSitesPanel
-        locale={locale}
-        labels={priorityRescueLabels}
-        severityLabels={severityLabels}
-      />
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div className="card flex items-center gap-4">
@@ -368,7 +404,47 @@ export default function DamageMapHub({
         </div>
       </div>
 
-      <section>
+      {nasaLabels && (
+        <div className="rounded-2xl border border-accent/25 bg-accent-muted/15 px-5 py-4 text-sm text-ink-secondary">
+          <p className="font-semibold text-ink">{nasaLabels.bannerTitle}</p>
+          <p className="mt-1">{nasaLabels.bannerBody}</p>
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+            <a
+              href={NASA_DAMAGE_WEBMAP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent font-medium hover:underline"
+            >
+              {nasaLabels.bannerLink} →
+            </a>
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                className="rounded"
+                checked={showNasaLayer}
+                onChange={(e) => setShowNasaLayer(e.target.checked)}
+              />
+              {nasaLabels.satelliteToggle}
+            </label>
+            <span className="text-xs text-ink-muted">
+              {NASA_DAMAGE_SNAPSHOT_COUNT > 0
+                ? nasaLabels.satelliteLoaded.replace(
+                    "{count}",
+                    NASA_DAMAGE_SNAPSHOT_COUNT.toLocaleString()
+                  )
+                : nasaLabels.satelliteEstimate.replace(
+                    "{count}",
+                    NASA_DAMAGE_ESTIMATE.toLocaleString()
+                  )}
+              {" · "}
+              {communityCount.toLocaleString()}{" "}
+              {locale === "es" ? "reportes comunitarios" : "community reports"}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <section id="mapa-danos" className="scroll-mt-20">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <span className="font-medium text-ink">{labels.legend}:</span>
@@ -381,17 +457,23 @@ export default function DamageMapHub({
                 {severityLabels[key]}
               </span>
             ))}
+            {nasaLabels && showNasaLayer && (
+              <span className="inline-flex items-center gap-2 text-ink-muted">
+                <span className="h-2 w-2 rounded-full bg-emergency/80" />
+                {nasaLabels.satelliteLegend}
+              </span>
+            )}
           </div>
-          {filteredItems.length > 0 && (
+          {mapLocations.length > 0 && (
             <span className="text-sm text-ink-secondary">
               {locale === "es"
-                ? `${filteredItems.length} marcadores en el mapa`
-                : `${filteredItems.length} markers on map`}
+                ? `${mapLocations.length.toLocaleString()} marcadores en el mapa (${communityCount.toLocaleString()} comunidad + NASA)`
+                : `${mapLocations.length.toLocaleString()} markers on map (${communityCount.toLocaleString()} community + NASA)`}
             </span>
           )}
         </div>
         {refreshing ? (
-          <div className="flex h-[min(50vh,520px)] min-h-[220px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary sm:h-[400px] lg:h-[520px]">
+          <div className="flex h-[min(70vh,680px)] min-h-[280px] items-center justify-center rounded-2xl border border-border bg-surface-muted text-sm text-ink-secondary sm:h-[480px] lg:h-[600px]">
             {labels.loading}
           </div>
         ) : (
@@ -400,18 +482,51 @@ export default function DamageMapHub({
             locale={locale}
             zoom={7}
             defaultCenter={[10.2, -67]}
+            className="h-[min(70vh,680px)] min-h-[280px] sm:h-[480px] lg:h-[600px]"
           />
         )}
+      </section>
+
+      <div
+        id="ayuda-danos"
+        className="rounded-2xl border border-warning/30 bg-warning-muted/50 px-5 py-4 text-sm text-ink-secondary"
+      >
+        {labels.progressBanner}
+      </div>
+
+      <section
+        id="ingenieros-por-venezuela"
+        className="card border-accent/30 bg-accent-muted/20 p-5 sm:p-6"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+          {engineersPlatformLabels.eyebrow}
+        </p>
+        <h2 className="mt-1 text-xl font-bold text-ink">{engineersPlatformLabels.title}</h2>
+        <p className="mt-2 text-sm text-ink-secondary">{engineersPlatformLabels.subtitle}</p>
+        <p className="mt-2 text-xs text-ink-muted">{engineersPlatformLabels.note}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a href={ENGINEERS_PLATFORM_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+            {engineersPlatformLabels.engineerCta}
+          </a>
+          <a
+            href={ENGINEERS_PLATFORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+          >
+            {engineersPlatformLabels.reportCta}
+          </a>
+        </div>
       </section>
 
       <section>
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-xl font-semibold text-ink">{labels.listTitle}</h2>
-          {!refreshing && filteredItems.length > 0 && (
+          {!refreshing && listItems.length > 0 && (
             <span className="text-sm text-ink-secondary">
               {locale === "es"
-                ? `Mostrando ${visibleItems.length} de ${filteredItems.length}`
-                : `Showing ${visibleItems.length} of ${filteredItems.length}`}
+                ? `Mostrando ${visibleItems.length} de ${listItems.length}`
+                : `Showing ${visibleItems.length} of ${listItems.length}`}
             </span>
           )}
         </div>
@@ -425,7 +540,7 @@ export default function DamageMapHub({
             {labels.loading}
           </p>
         )}
-        {!refreshing && filteredItems.length === 0 && !error && (
+        {!refreshing && listItems.length === 0 && !error && (
           <p className="mt-3 rounded-2xl border border-border bg-surface-muted p-6 text-sm text-ink-secondary">
             {labels.empty}
           </p>
@@ -456,11 +571,6 @@ export default function DamageMapHub({
                   <span className={`badge text-xs ${SEVERITY_STYLES[report.severity]}`}>
                     {severityLabels[report.severity]}
                   </span>
-                  {report.id.startsWith("priority-") && (
-                    <span className="badge bg-emergency text-white text-xs">
-                      {priorityRescueLabels.priorityBadge}
-                    </span>
-                  )}
                   {report.is_verified && (
                     <span className="badge-verified text-xs">{labels.verified}</span>
                   )}

@@ -720,3 +720,13 @@ model CommunityComment {
   @@index([contentType, contentId, createdAt(sort: Desc)])
   @@map("community_comments")
 }
+
+model DataCache {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug      String   @unique
+  payload   Json     @default("{}") @db.JsonB
+  fetchedAt DateTime @default(now()) @map("fetched_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("data_cache")
+}

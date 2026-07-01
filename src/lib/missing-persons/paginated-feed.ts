@@ -23,6 +23,7 @@ const SOURCE_LABELS: Record<string, string> = {
   "terremotovenezuela-app": "Terremoto Venezuela",
   "venezuela-reporta": "Venezuela Reporta",
   "desaparecidos-terremoto": "Desaparecidos Terremoto",
+  "red-de-esperanza": "Red de Esperanza",
 };
 
 const PAGE_SOURCES = [

@@ -4,20 +4,24 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+const isDev =
+  (typeof import.meta !== "undefined" && import.meta.env?.DEV) ||
+  process.env.NODE_ENV === "development";
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: import.meta.env.DEV ? ["error", "warn"] : ["error"],
+    log: isDev ? ["error", "warn"] : ["error"],
   });
 
-if (import.meta.env.DEV) {
+if (isDev) {
   globalForPrisma.prisma = prisma;
 }
 
 export function isDatabaseConfigured(): boolean {
   const url =
     (typeof process !== "undefined" ? process.env.DATABASE_URL : undefined) ??
-    import.meta.env.DATABASE_URL;
+    (typeof import.meta !== "undefined" ? import.meta.env?.DATABASE_URL : undefined);
   return Boolean(
     url &&
       !url.includes("your-password") &&

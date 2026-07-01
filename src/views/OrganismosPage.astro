@@ -38,7 +38,7 @@ const grouped = agencies.reduce(
 );
 ---
 
-<BaseLayout locale={locale} title={t("agencies.title")}>
+<BaseLayout locale={locale} title={t("agencies.title")} description={t("agencies.subtitle")}>
   <PageHeader title={t("agencies.title")} subtitle={t("agencies.subtitle")} imageSrc="/images/headers/salud-rescate.svg" imageAlt="">
     <div class="rounded-2xl border border-border bg-surface-muted p-4 mb-8 text-sm text-ink-secondary max-w-3xl">
       {t("agencies.socialFallback")}

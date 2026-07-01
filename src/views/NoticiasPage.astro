@@ -27,7 +27,7 @@ const confidenceLabels = dict.news.confidence as Record<string, string>;
 const { confidence: communityConfidenceLabels, ...feedbackLabels } = dict.communityFeedback;
 ---
 
-<BaseLayout locale={locale} title={t("news.title")}>
+<BaseLayout locale={locale} title={t("news.title")} description={t("news.subtitle")}>
   <PageHeader
     eyebrow={t("news.eyebrow")}
     title={t("news.title")}

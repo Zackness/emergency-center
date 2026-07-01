@@ -1,8 +1,7 @@
 import type { LinkCategory, Prisma } from "@prisma/client";
 import { SEED_EXTERNAL_SOURCES } from "@/data/external-sources";
 import { SEED_DAMAGE_REPORTS } from "@/data/damage-reports";
-import { getHospitalsCatalog, HOSPITALS_TOTAL_COUNT } from "@/data/hospitals";
-import { SEED_MISSING_PERSONS } from "@/data/missing-persons";
+import { getHospitalsCatalog } from "@/data/hospitals";
 import {
   SEED_AGENCIES,
   SEED_EXTERNAL_LINKS,
@@ -55,14 +54,10 @@ export async function fetchHelpCenters() {
       where: { isActive: true },
       orderBy: { name: "asc" },
     });
-    const mapped = rows.length ? rows.map(mapHelpCenter) : SEED_HELP_CENTERS;
-    const { mergeHelpCenters } = await import("@/lib/help-centers/feed");
-    const { LOCAL_CENTROACOPIO_CENTERS } = await import("@/data/centroacopio-local");
-    return mergeHelpCenters(mapped, LOCAL_CENTROACOPIO_CENTERS);
+    if (rows.length) return rows.map(mapHelpCenter);
+    return SEED_HELP_CENTERS;
   } catch {
-    const { mergeHelpCenters } = await import("@/lib/help-centers/feed");
-    const { LOCAL_CENTROACOPIO_CENTERS } = await import("@/data/centroacopio-local");
-    return mergeHelpCenters(SEED_HELP_CENTERS, LOCAL_CENTROACOPIO_CENTERS);
+    return SEED_HELP_CENTERS;
   }
 }
 
@@ -74,9 +69,7 @@ export async function fetchHospitals() {
       where: { isActive: true },
       orderBy: { name: "asc" },
     });
-    if (rows.length >= Math.min(200, Math.floor(HOSPITALS_TOTAL_COUNT * 0.25))) {
-      return rows.map(mapHospital);
-    }
+    if (rows.length) return rows.map(mapHospital);
     return catalog;
   } catch {
     return catalog;
@@ -126,6 +119,27 @@ export async function fetchExternalLinks(category: string) {
     return rows.map(mapExternalLink);
   } catch {
     return seed;
+  }
+}
+
+export async function fetchEmergencyNumbers() {
+  const { SEED_EMERGENCY_NUMBERS } = await import("@/data/seed");
+  if (!isDatabaseConfigured()) return SEED_EMERGENCY_NUMBERS;
+  try {
+    const rows = await prisma.emergencyNumber.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+    if (!rows.length) return SEED_EMERGENCY_NUMBERS;
+    return rows.map((row) => ({
+      id: row.id,
+      label_es: row.labelEs,
+      label_en: row.labelEn,
+      number: row.number,
+      sort_order: row.sortOrder,
+    }));
+  } catch {
+    return SEED_EMERGENCY_NUMBERS;
   }
 }
 
@@ -658,36 +672,16 @@ export async function queryDamageReportsFromDb(query: {
   );
 }
 
-/** Datos iniciales del hub /danos (SSR). Si la DB tarda, usa el snapshot local. */
+/** Datos unificados del hub /danos: BD + terremoto + Yummy + rdelbufalo + NASA. */
 export async function fetchDamageReportsForPage() {
-  const { LOCAL_DAMAGE_BUILDINGS } = await import("@/data/damage-buildings");
-  const { computeDamageStats } = await import("@/lib/damage-map/feed");
-  const { mergePriorityRescueSites } = await import("@/lib/damage-map/merge-priority");
-
-  const localSnapshot = () => {
-    const all = mergePriorityRescueSites(LOCAL_DAMAGE_BUILDINGS);
-    return {
-      items: all,
-      total: all.length,
-      stats: computeDamageStats(all),
-    };
+  const { fetchUnifiedDamageCatalog } = await import("@/lib/damage-map/merge-all");
+  const catalog = await fetchUnifiedDamageCatalog();
+  return {
+    items: catalog.items,
+    total: catalog.total,
+    stats: catalog.stats,
+    meta: catalog.meta,
   };
-
-  const timeoutMs = import.meta.env.DEV ? 2500 : 20000;
-
-  try {
-    return await Promise.race([
-      queryDamageReportsFromDb({ limit: 10000, offset: 0 }),
-      new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("damage-map page fetch timeout")), timeoutMs);
-      }),
-    ]);
-  } catch (err) {
-    if (err instanceof Error && err.message !== "damage-map page fetch timeout") {
-      console.error("[damage-map] page fetch failed, using local snapshot:", err);
-    }
-    return localSnapshot();
-  }
 }
 
 export async function createDamageReport(data: DamageReportRegistration) {

@@ -1,28 +1,36 @@
 {
   "source": "redayudavenezuela.com",
   "source_url": "https://redayudavenezuela.com",
-  "fetched_at": "2026-06-28T16:15:39.633Z",
+  "fetched_at": "2026-06-30T20:15:00.730Z",
   "stats": {
-    "salvo": 10062,
-    "atrapados": 131,
-    "danos": 1144,
-    "voluntarios": 864,
-    "necesidades": 423,
-    "puntos": 253,
-    "desaparecidos": 128940,
-    "hospital": 12913
+    "salvo": 9860,
+    "atrapados": 134,
+    "danos": 1224,
+    "voluntarios": 1114,
+    "necesidades": 629,
+    "puntos": 289,
+    "desaparecidos": 43596,
+    "hospital": 10319
   },
   "official": {
-    "fallecidos": 1430,
-    "heridos": 3238,
+    "fallecidos": 1943,
+    "heridos": 10571,
     "refugiados": null,
     "desaparecidos": null,
     "source": "Cifra oficial preliminar (vía Wikipedia) — en actualización",
-    "updated_at": "2026-06-28T16:14:23.712+00:00"
+    "updated_at": "2026-06-30T20:14:33.849+00:00"
   },
-  "ninos": 250,
-  "denuncias": 214,
+  "ninos": 1726,
+  "denuncias": 220,
   "quakes": [
+    {
+      "id": "us6000t8yf",
+      "mag": 4.6,
+      "place": "27 km N of Caraballeda, Venezuela",
+      "time": 1782730863516,
+      "lat": 10.8601,
+      "lng": -66.8435
+    },
     {
       "id": "us6000t8sx",
       "mag": 4.3,
@@ -74,10 +82,10 @@
     {
       "id": "us6000t80d",
       "mag": 4.5,
-      "place": "13 km N of Caucagüito, Venezuela",
-      "time": 1782339834046,
-      "lat": 10.6092,
-      "lng": -66.7168
+      "place": "12 km NNE of Caucagüito, Venezuela",
+      "time": 1782339833774,
+      "lat": 10.5911,
+      "lng": -66.6976
     },
     {
       "id": "us6000t7zp",

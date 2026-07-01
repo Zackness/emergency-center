@@ -6,11 +6,12 @@ import { LOCAL_DAMAGE_BUILDINGS } from "@/data/damage-buildings";
 import { dedupeUrlList, normalizeSearchText } from "./normalize";
 import { proxiedDamageMediaUrls } from "./media-proxy";
 import { mergePriorityRescueSites } from "./merge-priority";
+import { mergeUrgentRescueAlerts } from "./merge-urgent";
 
 let memoryCache: { at: number; items: DamageReport[] } | null = null;
 const MEMORY_TTL_MS = 5 * 60 * 1000;
 
-function importedToDamageReport(building: ImportedBuilding): DamageReport {
+export function importedToDamageReport(building: ImportedBuilding): DamageReport {
   const now = new Date().toISOString();
   return {
     id: `ext-${building.externalId}`,
@@ -95,7 +96,7 @@ export async function queryDamageReports(
   query: DamageMapQuery,
   fetchFromDb: () => Promise<DamageReport[]>
 ): Promise<{ items: DamageReport[]; total: number; stats: DamageMapStats }> {
-  const all = mergePriorityRescueSites(await fetchFromDb());
+  const all = mergeUrgentRescueAlerts(mergePriorityRescueSites(await fetchFromDb()));
   const filtered = filterDamageReports(all, query);
   const offset = query.offset ?? 0;
   const limit = query.limit ?? 50;

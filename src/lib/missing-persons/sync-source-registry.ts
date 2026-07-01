@@ -1,4 +1,3 @@
-import { ALLIED_PLATFORMS } from "@/data/allied-platforms";
 import type { AlliedPlatform } from "@/types";
 import { getAdapter, SOURCE_ADAPTERS } from "@/lib/missing-persons/adapters";
 
@@ -10,6 +9,7 @@ export const MISSING_PERSON_SOURCE_BY_DOMAIN: Record<string, string> = {
   "venezuelareporta.org": "venezuela-reporta",
   "desaparecidosterremotovenezuela.com": "desaparecidos-terremoto",
   "encuentralos.tecnosoft.dev": "encuentralos",
+  "red-de-esperanza-lime.vercel.app": "red-de-esperanza",
 };
 
 export function normalizeAlliedDomain(domain: string): string {
@@ -69,13 +69,10 @@ export async function resolveMissingPersonSyncSlugsAsync(
     if (fromAllied.length) return fromAllied;
   } catch (err) {
     console.warn(
-      "[sync] Plataformas aliadas desde BD no disponibles; usando lista local.",
+      "[sync] Plataformas aliadas desde BD no disponibles; usando adaptadores por defecto.",
       err instanceof Error ? err.message : err
     );
   }
-
-  const fromSeed = resolveMissingPersonSyncSlugs(ALLIED_PLATFORMS);
-  if (fromSeed.length) return fromSeed;
 
   return defaultMissingPersonSyncSlugs();
 }

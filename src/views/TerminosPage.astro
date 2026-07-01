@@ -19,7 +19,7 @@ const terms = dict.legal.terms as {
 };
 ---
 
-<BaseLayout locale={locale} title={terms.title}>
+<BaseLayout locale={locale} title={terms.title} description={terms.subtitle}>
   <PageHeader title={terms.title} subtitle={terms.subtitle} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="" />
   <LegalDocument
     updatedLabel={t("legal.updatedLabel")}

@@ -16,6 +16,79 @@ import type {
 const BASE = REDAYUDA_SOURCE_URL;
 const FETCH_TIMEOUT_MS = 20_000;
 
+const BROWSER_HEADERS = {
+  Accept: "application/json, text/html, */*",
+  "User-Agent":
+    "Mozilla/5.0 (compatible; EmergencyCenter/1.0; +https://startupven.com) AppleWebKit/537.36",
+  Referer: `${BASE}/`,
+};
+
+function parseCount(raw: string | undefined): number | null {
+  if (!raw) return null;
+  const n = Number(raw.replace(/[^\d]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/** Fallback: extrae stats embebidos en HTML (__NEXT_DATA__, scripts, etc.). */
+export function scrapeStatsFromHtml(html: string): Partial<RedAyudaStats> & { ninos?: number; denuncias?: number } {
+  const decoded = decodeHtml(html);
+  const out: Partial<RedAyudaStats> & { ninos?: number; denuncias?: number } = {};
+
+  const patterns: [keyof RedAyudaStats | "ninos" | "denuncias", RegExp][] = [
+    ["desaparecidos", /"desaparecidos"\s*:\s*(\d+)/i],
+    ["salvo", /"salvo"\s*:\s*(\d+)/i],
+    ["puntos", /"puntos"\s*:\s*(\d+)/i],
+    ["hospital", /"hospital"\s*:\s*(\d+)/i],
+    ["voluntarios", /"voluntarios"\s*:\s*(\d+)/i],
+    ["necesidades", /"necesidades"\s*:\s*(\d+)/i],
+    ["atrapados", /"atrapados"\s*:\s*(\d+)/i],
+    ["danos", /"danos"\s*:\s*(\d+)/i],
+    ["ninos", /"ninos"\s*:\s*(\d+)/i],
+    ["denuncias", /"denuncias"\s*:\s*(\d+)/i],
+  ];
+
+  for (const [key, re] of patterns) {
+    const match = decoded.match(re);
+    const value = parseCount(match?.[1]);
+    if (value != null) {
+      if (key === "ninos" || key === "denuncias") {
+        out[key] = value;
+      } else {
+        out[key as keyof RedAyudaStats] = value;
+      }
+    }
+  }
+
+  return out;
+}
+
+export function mergeRedAyudaSnapshots(
+  previous: RedAyudaSnapshot | null,
+  next: RedAyudaSnapshot,
+): RedAyudaSnapshot {
+  if (!previous) return next;
+
+  const mergedStats =
+    next.stats ??
+    (previous.stats
+      ? { ...previous.stats }
+      : null);
+
+  return {
+    ...next,
+    stats: mergedStats,
+    official: next.official ?? previous.official,
+    ninos: next.ninos ?? previous.ninos,
+    denuncias: next.denuncias ?? previous.denuncias,
+    quakes: next.quakes.length ? next.quakes : previous.quakes,
+    hospitals: next.hospitals.length ? next.hospitals : previous.hospitals,
+    phones: next.phones.length ? next.phones : previous.phones,
+    community_guide: next.community_guide.length
+      ? next.community_guide
+      : previous.community_guide,
+  };
+}
+
 function decodeHtml(text: string): string {
   return text
     .replace(/&nbsp;/g, " ")
@@ -111,11 +184,13 @@ export function scrapeCommunityGuide(html: string): RedAyudaCommunityGuideItem[]
 async function fetchJson<T>(path: string): Promise<T | null> {
   try {
     const res = await fetch(`${BASE}${path}`, {
-      headers: { Accept: "application/json" },
+      headers: BROWSER_HEADERS,
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     if (!res.ok) return null;
-    return (await res.json()) as T;
+    const text = await res.text();
+    if (text.trim().startsWith("<")) return null;
+    return JSON.parse(text) as T;
   } catch {
     return null;
   }
@@ -130,12 +205,19 @@ export async function fetchRedAyudaSnapshot(): Promise<RedAyudaSnapshot> {
       denuncias?: number;
     }>("/api/stats"),
     fetchJson<{ quakes?: RedAyudaQuake[] }>("/api/sismos"),
-    fetch(BASE, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }).catch(() => null),
+    fetch(BASE, {
+      headers: BROWSER_HEADERS,
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    }).catch(() => null),
   ]);
 
   let hospitals = REDAYUDA_CARACAS_HOSPITALS;
   let communityGuide = REDAYUDA_COMMUNITY_GUIDE;
   const phones: RedAyudaPhoneEntry[] = REDAYUDA_EMERGENCY_PHONES;
+  let stats = statsPayload?.stats ?? null;
+  let ninos = statsPayload?.ninos ?? null;
+  let denuncias = statsPayload?.denuncias ?? null;
+  let quakes = sismosPayload?.quakes ?? [];
 
   if (homeRes?.ok) {
     const html = await homeRes.text();
@@ -147,17 +229,35 @@ export async function fetchRedAyudaSnapshot(): Promise<RedAyudaSnapshot> {
     if (scrapedGuide.length >= 5) {
       communityGuide = scrapedGuide;
     }
+
+    if (!stats) {
+      const scraped = scrapeStatsFromHtml(html);
+      if (scraped.desaparecidos != null) {
+        stats = {
+          desaparecidos: scraped.desaparecidos,
+          salvo: scraped.salvo ?? 0,
+          puntos: scraped.puntos ?? 0,
+          hospital: scraped.hospital ?? 0,
+          voluntarios: scraped.voluntarios ?? 0,
+          necesidades: scraped.necesidades ?? 0,
+          atrapados: scraped.atrapados ?? 0,
+          danos: scraped.danos ?? 0,
+        };
+      }
+      ninos = ninos ?? scraped.ninos ?? null;
+      denuncias = denuncias ?? scraped.denuncias ?? null;
+    }
   }
 
   return {
     source: "redayudavenezuela.com",
     source_url: BASE,
     fetched_at: new Date().toISOString(),
-    stats: statsPayload?.stats ?? null,
+    stats,
     official: statsPayload?.official ?? null,
-    ninos: statsPayload?.ninos ?? null,
-    denuncias: statsPayload?.denuncias ?? null,
-    quakes: sismosPayload?.quakes ?? [],
+    ninos,
+    denuncias,
+    quakes,
     hospitals,
     phones,
     community_guide: communityGuide,

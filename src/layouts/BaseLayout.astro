@@ -5,23 +5,36 @@ import Footer from "@/components/layout/Footer.astro";
 import EmergencyBar from "@/components/layout/EmergencyBar.astro";
 import DevNoticeBar from "@/components/layout/DevNoticeBar.astro";
 import type { Locale } from "@/i18n/config";
-import { locales, localePath, ogLocaleTag } from "@/i18n/config";
+import { localePath, ogLocaleTag } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { buildSearchIndex } from "@/lib/search";
+import {
+  absoluteAssetUrl,
+  buildOrganizationJsonLd,
+  buildWebSiteJsonLd,
+  DEFAULT_OG_IMAGE,
+  hreflangAlternates,
+  ogLocaleAlternates,
+  SITE_NAME,
+  TWITTER_HANDLE,
+} from "@/lib/seo";
 import type { SearchResultType } from "@/types/search";
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
   locale: Locale;
   noEmergencyBar?: boolean;
 }
 
-const { title, description, locale, noEmergencyBar = false } = Astro.props;
+const { title, description, ogImage, locale, noEmergencyBar = false } = Astro.props;
 const { t, dict } = useTranslations(locale);
 const pageTitle = title ? `${title} — ${t("meta.title")}` : t("meta.title");
 const pageDescription = description ?? dict.meta.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = absoluteAssetUrl(Astro.site, ogImage ?? DEFAULT_OG_IMAGE);
+const alternateLocales = hreflangAlternates(Astro.site, Astro.url.pathname);
 const searchIndex = await buildSearchIndex(locale);
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 const searchLabels = {
@@ -33,6 +46,10 @@ const searchLabels = {
   external: t("search.external"),
   categories: categoryLabels,
 };
+const structuredData = [
+  buildWebSiteJsonLd(Astro.site, locale),
+  buildOrganizationJsonLd(Astro.site),
+];
 ---
 
 <!doctype html>
@@ -41,6 +58,7 @@ const searchLabels = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta
       name="theme-color"
       content="#fafafa"
@@ -67,23 +85,46 @@ const searchLabels = {
       })();
     </script>
 
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:locale" content={ogLocaleTag(locale)} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={pageTitle} />
+    {
+      ogLocaleAlternates(locale).map((tag) => (
+        <meta property="og:locale:alternate" content={tag} />
+      ))
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
 
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
     {
-      locales.map((loc) => (
-        <link rel="alternate" hreflang={loc} href={new URL(localePath(loc), Astro.site)} />
+      alternateLocales.map(({ locale: loc, href }) => (
+        <link rel="alternate" hreflang={loc} href={href} />
       ))
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(localePath("es"), Astro.site)} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={alternateLocales.find(({ locale: loc }) => loc === "es")?.href ?? canonicalURL.href}
+    />
 
     <title>{pageTitle}</title>
+    {
+      structuredData.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
   </head>
   <body class="min-h-screen flex flex-col">
     <script

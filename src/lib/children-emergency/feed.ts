@@ -4,6 +4,7 @@ import type {
   ChildrenEmergencyStats,
 } from "./types";
 import { LOCAL_CHILDREN_EMERGENCY_CASES } from "@/data/children-emergency-records";
+import { DATA_CACHE_SLUGS, getDataCache } from "@/lib/data-cache";
 import { fetchNexosignalRecords } from "./nexosignal";
 import { fetchRedAyudaNinosRecords } from "./redayuda";
 import { importedToChildCase } from "./mapper";
@@ -76,7 +77,22 @@ export async function fetchLiveChildrenEmergencyCases(): Promise<ChildEmergencyC
   return fetchLiveChildrenEmergencyCasesInternal();
 }
 
+async function loadChildrenFromCache(): Promise<ChildEmergencyCase[] | null> {
+  const cached = await getDataCache<{
+    fetched_at?: string;
+    items?: ChildEmergencyCase[];
+  }>(DATA_CACHE_SLUGS.CHILDREN_EMERGENCY);
+  if (!cached?.payload?.items?.length) return null;
+  return cached.payload.items;
+}
+
 async function fetchLiveChildrenEmergencyCasesInternal(): Promise<ChildEmergencyCase[]> {
+  const fromDb = await loadChildrenFromCache();
+  if (fromDb?.length) {
+    memoryCache = { at: Date.now(), cases: fromDb };
+    return fromDb;
+  }
+
   const now = Date.now();
   if (memoryCache && now - memoryCache.at < MEMORY_TTL_MS) {
     return memoryCache.cases;

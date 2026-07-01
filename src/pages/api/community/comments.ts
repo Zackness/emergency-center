@@ -3,6 +3,8 @@ import { getSessionUser } from "@/lib/auth-center";
 import { PUBLIC_FORM_RATE_LIMIT, guardPublicWrite, readJsonBody } from "@/lib/api-security";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
 import type { CommunityContentType } from "@/types/community-feedback";
+import { communityCommentSchema } from "@/lib/validation/schemas";
+import { parseBody, validationErrorResponse } from "@/lib/validation/parse";
 
 export const prerender = false;
 
@@ -72,30 +74,20 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (blocked) return blocked;
 
   try {
-    const body = await readJsonBody<Record<string, any>>(request);
+    const body = await readJsonBody(request);
+    const parsed = parseBody(communityCommentSchema, body);
+    if (!parsed.ok) return validationErrorResponse(parsed.error, parsed.details);
+
     const { createCommunityComment } = await import("@/lib/community-feedback");
     const user = await getSessionUser(request, cookies);
-
-    if (!body.content_type || !body.content_id || !body.body) {
-      return new Response(
-        JSON.stringify({ error: "Missing content_type, content_id or body" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    if (!VALID_TYPES.includes(body.content_type)) {
-      return new Response(JSON.stringify({ error: "Invalid content_type" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    const data = parsed.data;
 
     const comment = await createCommunityComment({
-      content_type: body.content_type,
-      content_id: String(body.content_id),
-      body: String(body.body),
-      author_name: body.author_name ? String(body.author_name) : null,
-      voter_token: body.voter_token ? String(body.voter_token).trim() : null,
+      content_type: data.content_type,
+      content_id: data.content_id,
+      body: data.body,
+      author_name: data.author_name,
+      voter_token: data.voter_token,
       profile_id: user?.id ?? null,
       profile_name: user ? await profileName(user.id) : null,
     });

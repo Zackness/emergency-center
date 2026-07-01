@@ -104,6 +104,44 @@ async function fetchVenezuelaReportaStats(): Promise<PlatformLiveStats | null> {
   };
 }
 
+async function fetchRedDeEsperanzaStats(): Promise<PlatformLiveStats | null> {
+  const { getRedEsperanzaConfig } = await import("@/lib/missing-persons/red-esperanza-config");
+  const { baseUrl, apiKey } = getRedEsperanzaConfig();
+
+  const pendingUrl = `${baseUrl}/rest/v1/desaparecidos?select=id&estado=eq.no_encontrado`;
+  const locatedUrl = `${baseUrl}/rest/v1/desaparecidos?select=id&estado=eq.encontrado`;
+
+  const headers = {
+    apikey: apiKey,
+    Authorization: `Bearer ${apiKey}`,
+    Accept: "application/json",
+    Prefer: "count=exact",
+  };
+
+  const [pendingRes, locatedRes] = await Promise.all([
+    fetch(pendingUrl, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }),
+    fetch(locatedUrl, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) }),
+  ]);
+
+  const parseCount = (res: Response): number | null => {
+    if (!res.ok) return null;
+    const range = res.headers.get("content-range");
+    const match = range?.match(/\/(\d+)$/);
+    return match ? Number(match[1]) : null;
+  };
+
+  const count_pending = parseCount(pendingRes);
+  const count_located = parseCount(locatedRes);
+  if (count_pending == null && count_located == null) return null;
+
+  const approximate_count =
+    count_pending != null && count_located != null
+      ? count_pending + count_located
+      : count_pending ?? count_located;
+
+  return { approximate_count, count_pending, count_located };
+}
+
 async function fetchRedAyudaVenezuelaStats(): Promise<PlatformLiveStats | null> {
   const data = await fetchJson<{
     stats?: { desaparecidos?: number; salvo?: number };
@@ -119,6 +157,7 @@ async function fetchRedAyudaVenezuelaStats(): Promise<PlatformLiveStats | null> 
 
 const LIVE_FETCHERS: Record<string, () => Promise<PlatformLiveStats | null>> = {
   "red-ayuda-venezuela": fetchRedAyudaVenezuelaStats,
+  "red-de-esperanza": fetchRedDeEsperanzaStats,
   "venezuela-te-busca": fetchVenezuelaTeBuscaStats,
   encuentralos: fetchEncuentralosStats,
   "desaparecidos-terremoto": fetchDesaparecidosTerremotoStats,

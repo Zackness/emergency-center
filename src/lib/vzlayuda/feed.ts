@@ -1,4 +1,5 @@
-import { getVzlaAyudaAvisos, VZLAYUDA_PLATFORM_URL } from "@/data/vzlayuda-resources";
+import { fetchVzlaAyudaSnapshotFeed } from "./snapshot-feed";
+import { VZLAYUDA_PLATFORM_URL } from "@/data/vzlayuda-resources";
 import type { VzlaAyudaAviso, VzlaAyudaTipo } from "@/lib/vzlayuda/types";
 
 export interface HelpListingItem {
@@ -112,7 +113,8 @@ export async function fetchHelpListings(query: HelpListingQuery = {}): Promise<{
   total: number;
   counts: { offer: number; request: number; vzlayuda: number; local: number };
 }> {
-  const vzlaItems = getVzlaAyudaAvisos().map(mapVzlaAviso);
+  const snapshot = await fetchVzlaAyudaSnapshotFeed();
+  const vzlaItems = (snapshot.avisos ?? []).map(mapVzlaAviso);
   let localItems: HelpListingItem[] = [];
 
   try {

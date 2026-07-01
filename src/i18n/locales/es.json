@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Emergency Center",
-    "description": "Hub central de información y ayuda durante emergencias nacionales en Venezuela. Centros de acopio, refugios, hospitales, organismos oficiales y más.",
+    "description": "Hub central de información verificada sobre el terremoto en Venezuela (junio 2026): centros de acopio, refugios, hospitales, desaparecidos, mapa de daños, voluntarios y ayuda solidaria.",
     "tagline": "Información verificada. Ayuda centralizada. Comunidad unida."
   },
   "nav": {
@@ -19,6 +19,7 @@
     "resources": "Recursos",
     "damage": "Mapa de daños",
     "roadmap": "Roadmap",
+    "apiDocs": "API para desarrolladores",
     "admin": "Admin",
     "menu": "Menú",
     "language": "Idioma",
@@ -226,7 +227,8 @@
         "trapped": "Atrapados",
         "children": "Niños en registro",
         "childrenMissing": "Niños desaparecidos / en peligro",
-        "childrenCritical": "Estado crítico"
+        "childrenCritical": "Estado crítico",
+        "damageReports": "Daños reportados"
       }
     }
   },
@@ -555,7 +557,26 @@
       "photosCount": "{count} fotos",
       "filterSeverity": "Nivel de daño",
       "filterState": "Estado",
-      "filterAll": "Todos"
+      "filterAll": "Todos",
+      "summaryCommunityTotal": "Reportes comunitarios (todas las fuentes)",
+      "summaryNasaEstimate": "Edificios estimados NASA (satélite)",
+      "summaryOnMap": "Marcadores en el mapa"
+    },
+    "urgentRescue": {
+      "badge": "Rescate urgente — hoy",
+      "published": "Reportado",
+      "call": "Llamar",
+      "whatsapp": "WhatsApp rescatistas",
+      "map": "Ver en mapa de daños"
+    },
+    "nasa": {
+      "bannerTitle": "Capa satelital NASA (Sentinel-1)",
+      "bannerBody": "Evaluación experimental con radar Copernicus: ~58.870 edificios con daño probable en la región afectada. Producto preliminar, no validado en campo.",
+      "bannerLink": "Ver mapa oficial NASA",
+      "satelliteToggle": "Mostrar detecciones satelitales en el mapa",
+      "satelliteEstimate": "~{count} edificios estimados por NASA",
+      "satelliteLoaded": "{count} edificios NASA cargados",
+      "satelliteLegend": "Puntos pequeños = satélite NASA"
     },
     "engineersPlatform": {
       "eyebrow": "Plataforma aliada",
@@ -574,17 +595,6 @@
       "companyBadge": "Empresa",
       "whatsappLabel": "WhatsApp",
       "disclaimer": "Información compartida por la comunidad en Instagram. No sustituye la inspección oficial de Protección Civil o el Colegio de Ingenieros. Ante riesgo inmediato, evacúa y llama al 171."
-    },
-    "priorityRescue": {
-      "title": "Sitios prioritarios de búsqueda y rescate",
-      "subtitle": "Listado de estructuras críticas y zonas con víctimas reportadas tras los sismos del 24 de junio de 2026. Coordenadas GPS para equipos de rescate.",
-      "structures": "Estructuras críticas",
-      "zones": "Zonas geográficas",
-      "victims": "Víctimas reportadas",
-      "source": "Fuente",
-      "priorityBadge": "Prioridad rescate",
-      "directions": "Cómo llegar",
-      "disclaimer": "Información compartida por la comunidad (@rdelbufalo / Terremoto Venezuela). Verifica con autoridades y equipos oficiales antes de desplegarte. En emergencia, llama al 171."
     },
     "form": {
       "notice": "Reporta solo información que conozcas. No publiques datos sensibles. Verifica antes de difundir.",
@@ -1113,6 +1123,43 @@
       "whatsappLabel": "Grupo de WhatsApp",
       "share": "Difunde con personas bilingües o multilingües que puedan apoyar la coordinación."
     },
+    "arePitasCall": {
+      "badge": "Comida solidaria",
+      "title": "Are Pitas — voluntarios para cocinar y repartir arepas",
+      "body": "Iniciativa ciudadana que lleva arepas a pacientes, acompañantes y personal médico en hospitales de Caracas. Coordinan turnos de cocina, empaque y distribución. También reciben donaciones de harina, rellenos, bolsas y vasos desechables.",
+      "priorityLabel": "¿Quién pueden sumarse?",
+      "priorityText": "Voluntarios para cocinar, empacar, transportar y coordinar jornadas; donantes de insumos de cocina",
+      "joinLabel": "Registrarse en are.pitas.ve",
+      "instagramLabel": "Instagram",
+      "share": "Difunde con cocineros, motorizados y vecinos que quieran apoyar con comida caliente en hospitales."
+    },
+    "previasisCall": {
+      "badge": "Apoyo psicológico",
+      "title": "Previasis — atención psicológica gratuita",
+      "body": "Previasis, empresa de medicina prepagada, activó apoyo psicológico sin costo para personas y familias afectadas por el terremoto del 24 de junio. Ofrecen contención emocional, orientación y acompañamiento en salud mental. Consulta cómo acceder al servicio en sus redes oficiales.",
+      "priorityLabel": "¿A quién está dirigido?",
+      "priorityText": "Personas afectadas por el sismo, familiares en duelo o angustia, y quienes necesiten contención emocional tras la emergencia",
+      "joinLabel": "Contactar en Instagram",
+      "instagramLabel": "Instagram",
+      "websiteLabel": "Sitio web",
+      "phoneLabel": "Llamar",
+      "share": "Difunde con familias, vecinos y equipos de salud que necesiten apoyo psicológico gratuito."
+    },
+    "op33TanaguarenaCall": {
+      "title": "URGENTE — OP33 Tanaguarena, bodegas subterráneas",
+      "subtitle": "Entre torres B y C · 30 de junio de 2026, 2:30 p. m.",
+      "body": "Se reporta situación crítica en bodegas subterráneas del OP33 en Tanaguarena (Caraballeda, La Guaira). Se necesitan rescatistas y voluntarios con experiencia. Contacto de coordinación: 0412-9195340.",
+      "urgency": "Reporte del día de la urgencia — 30 de junio de 2026, 2:30 p. m. (hora Venezuela)",
+      "targetLabel": "¿Quién puede acudir?",
+      "targetRegions": "Rescatistas, bomberos, protección civil y voluntarios con herramientas",
+      "deployLabel": "Ubicación",
+      "deployRegions": "OP33 Tanaguarena — bodegas subterráneas entre torres B y C",
+      "offerLabel": "Coordinación",
+      "offerText": "Llamar o escribir al contacto antes de desplazarse",
+      "phoneLabel": "Contacto rescate",
+      "whatsappLabel": "WhatsApp",
+      "share": "Difunde de inmediato con equipos de rescate y voluntarios disponibles hoy."
+    },
     "form": {
       "name": "Nombre completo",
       "city": "Ciudad",
@@ -1322,7 +1369,8 @@
       "visitWebsite": "Sitio web",
       "instagram": "Instagram",
       "phone": "Teléfono",
-      "viewHelpCenter": "Ver centro de acopio"
+      "viewHelpCenter": "Ver centro de acopio",
+      "sourcePublished": "Anuncio publicado"
     },
     "register": {
       "title": "¿Tu empresa quiere sumarse?",
@@ -1376,6 +1424,16 @@
       "title": "Apoyo médico y telemedicina",
       "subtitle": "Apps y plataformas solidarias para orientación médica, búsqueda de medicinas y coordinación de ayuda sanitaria durante la emergencia.",
       "openMission": "Abrir misión de rescate"
+    },
+    "apiDeveloper": {
+      "title": "API pública para desarrolladores",
+      "subtitle": "Conecta tu web o aplicación a los datos verificados del hub: acopios, daños, desaparecidos, mascotas, niños y plataformas aliadas.",
+      "cta": "Ver documentación de la API",
+      "highlights": [
+        "REST JSON en /api/v1 — lectura sin clave de API",
+        "Datos actualizados desde la base de datos y scraping aliado",
+        "CORS abierto · 120 solicitudes cada 10 minutos por IP"
+      ]
     }
   },
   "search": {
@@ -1585,6 +1643,29 @@
       ]
     }
   },
+  "apiDocs": {
+    "title": "API pública",
+    "subtitle": "Conecta tu web o app a los datos verificados de Emergency Center",
+    "intro": "Usa nuestra API REST para leer centros de acopio, desaparecidos, daños, mascotas, noticias y datos scrapeados de plataformas aliadas. No requiere clave para lectura; respeta el límite de solicitudes.",
+    "baseUrlLabel": "URL base",
+    "quickStartTitle": "Inicio rápido",
+    "quickStartSteps": [
+      "Consulta GET /api/v1 para ver el catálogo de endpoints.",
+      "Haz solicitudes GET con Accept: application/json desde tu servidor o frontend.",
+      "Filtra con query params (state, q, limit, page, etc.) según cada endpoint.",
+      "Para datos crudos de una aliada scrapeada, usa /api/v1/allied-data?domain=..."
+    ],
+    "limitsTitle": "Límites",
+    "limitsBody": "120 solicitudes GET cada 10 minutos por IP. Respuestas cacheadas ~2 minutos.",
+    "corsTitle": "CORS",
+    "corsBody": "Por defecto se permiten todos los orígenes. Configura PUBLIC_API_CORS_ORIGINS en el servidor para restringir dominios.",
+    "endpointsTitle": "Endpoints disponibles",
+    "alliedTitle": "Datos de plataformas aliadas",
+    "alliedBody": "Cada plataforma aliada con adaptador de scraping guarda su snapshot en la base de datos. Consulta por dominio o id de adaptador.",
+    "scrapeStatusTitle": "Estado del scraping",
+    "scrapeStatusBody": "Muestra cuándo se ejecutó el último sync de plataformas aliadas y qué adaptadores están registrados.",
+    "examplesTitle": "Ejemplos"
+  },
   "footer": {
     "madeBy": "Una iniciativa de",
     "and": "y",
@@ -1595,6 +1676,7 @@
     "disclaimer": "Esta plataforma centraliza información pública. Siempre verifica con fuentes oficiales.",
     "privacy": "Privacidad",
     "terms": "Términos",
+    "apiDocs": "API para desarrolladores",
     "legalTitle": "Legal"
   },
   "admin": {

@@ -19,6 +19,8 @@ import type { CentroacopioDeliveryView } from "@/lib/help-centers/types";
 import type { HelpCenter, MapLocation } from "@/types";
 import type { CommunityConfidenceLevel } from "@/types/community-feedback";
 
+import type { Locale } from "@/i18n/config";
+
 type HubTab = "centers" | "delivery";
 
 export interface HelpCenterView extends HelpCenter {
@@ -105,7 +107,7 @@ interface HubLabels {
 }
 
 interface HelpCenterHubProps {
-  locale: "es" | "en";
+  locale: Locale;
   centers: HelpCenterView[];
   labels: HubLabels;
   typeLabels: Record<string, string>;
@@ -119,6 +121,8 @@ interface HelpCenterHubProps {
   volunteersTransportPath: string;
   volunteersRegisterPath: string;
   alliedPlatformUrl: string;
+  /** Intro estático en Astro; evita duplicar aviso crítico y portales. */
+  hideIntro?: boolean;
 }
 
 function CenterGallery({ images, alt }: { images: string[]; alt: string }) {
@@ -157,6 +161,7 @@ export default function HelpCenterHub({
   volunteersTransportPath,
   volunteersRegisterPath,
   alliedPlatformUrl,
+  hideIntro = false,
 }: HelpCenterHubProps) {
   const [activeTab, setActiveTab] = useState<HubTab>("centers");
   const [cityFilter, setCityFilter] = useState("");
@@ -241,29 +246,36 @@ export default function HelpCenterHub({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const hash = window.location.hash.replace("#", "");
-    if (!hash) return;
-    const centerAnchor = resolveCenterHashAnchor(hash, catalogCenters.length ? catalogCenters : centers);
-    if (centerAnchor) {
-      setActiveTab("centers");
-      requestAnimationFrame(() => {
-        document.getElementById(centerAnchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
-    }
-    if (hash === "acopio-activos-rdelbufalo") {
-      setActiveTab("centers");
-      requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      return;
-    }
-    if (hash === "acopio-g3-caritas") {
-      setActiveTab("centers");
-      requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
+
+    const applyHashState = () => {
+      const hash = window.location.hash.replace("#", "");
+      const [hashPath, hashQuery = ""] = hash.split("?");
+      const zoneFromHash = new URLSearchParams(hashQuery).get("zona");
+      if (zoneFromHash) setCityFilter(zoneFromHash);
+
+      if (!hashPath) return;
+      const centerAnchor = resolveCenterHashAnchor(
+        hashPath,
+        catalogCenters.length ? catalogCenters : centers,
+      );
+      if (centerAnchor) {
+        setActiveTab("centers");
+        requestAnimationFrame(() => {
+          document.getElementById(centerAnchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        return;
+      }
+      if (hashPath === "acopio-activos-rdelbufalo" || hashPath === "acopio-g3-caritas" || hashPath === "directorio-ayuda") {
+        setActiveTab("centers");
+        requestAnimationFrame(() => {
+          document.getElementById(hashPath)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    };
+
+    applyHashState();
+    window.addEventListener("hashchange", applyHashState);
+    return () => window.removeEventListener("hashchange", applyHashState);
   }, [centers, catalogCenters]);
 
   const scrollToDirectory = () => {
@@ -283,85 +295,89 @@ export default function HelpCenterHub({
 
   return (
     <div className="space-y-10">
-      <p className="text-sm font-medium text-ink-secondary">{labels.hashtag}</p>
+      {!hideIntro && (
+        <>
+          <p className="text-sm font-medium text-ink-secondary">{labels.hashtag}</p>
 
-      <section
-        className="rounded-2xl border border-warning/40 bg-warning/10 p-5"
-        aria-labelledby="critical-notice-title"
-      >
-        <div className="flex gap-3">
-          <span className="text-xl" aria-hidden="true">
-            ⚠️
-          </span>
-          <div>
-            <h2 id="critical-notice-title" className="text-base font-semibold text-ink">
-              {labels.criticalTitle}
-            </h2>
-            <p className="mt-2 text-sm text-ink-secondary">{labels.criticalBody}</p>
+          <section
+            className="rounded-2xl border border-warning/40 bg-warning/10 p-5"
+            aria-labelledby="critical-notice-title"
+          >
+            <div className="flex gap-3">
+              <span className="text-xl" aria-hidden="true">
+                ⚠️
+              </span>
+              <div>
+                <h2 id="critical-notice-title" className="text-base font-semibold text-ink">
+                  {labels.criticalTitle}
+                </h2>
+                <p className="mt-2 text-sm text-ink-secondary">{labels.criticalBody}</p>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <article className="card flex flex-col p-5 sm:p-6">
+              <span className="text-2xl" aria-hidden="true">
+                📦
+              </span>
+              <h2 className="mt-3 text-lg font-semibold text-ink">{labels.portals.centers.title}</h2>
+              <p className="mt-2 flex-1 text-sm text-ink-secondary">
+                {labels.portals.centers.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button type="button" className="btn-primary text-sm" onClick={scrollToDirectory}>
+                  {labels.portals.centers.viewCta}
+                </button>
+                <a href={registerPath} className="btn-secondary text-sm">
+                  {labels.portals.centers.registerCta}
+                </a>
+              </div>
+            </article>
+
+            <article className="card flex flex-col p-5 sm:p-6">
+              <span className="text-2xl" aria-hidden="true">
+                🏍️
+              </span>
+              <h2 className="mt-3 text-lg font-semibold text-ink">{labels.portals.delivery.title}</h2>
+              <p className="mt-2 flex-1 text-sm text-ink-secondary">
+                {labels.portals.delivery.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button type="button" className="btn-primary text-sm" onClick={openDeliveryTab}>
+                  {labels.portals.delivery.viewCta}
+                </button>
+                <a href={volunteersRegisterPath} className="btn-secondary text-sm">
+                  {labels.portals.delivery.registerCta}
+                </a>
+              </div>
+            </article>
           </div>
-        </div>
-      </section>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <article className="card flex flex-col p-5 sm:p-6">
-          <span className="text-2xl" aria-hidden="true">
-            📦
-          </span>
-          <h2 className="mt-3 text-lg font-semibold text-ink">{labels.portals.centers.title}</h2>
-          <p className="mt-2 flex-1 text-sm text-ink-secondary">
-            {labels.portals.centers.description}
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" className="btn-primary text-sm" onClick={scrollToDirectory}>
-              {labels.portals.centers.viewCta}
-            </button>
-            <a href={registerPath} className="btn-secondary text-sm">
-              {labels.portals.centers.registerCta}
-            </a>
-          </div>
-        </article>
-
-        <article className="card flex flex-col p-5 sm:p-6">
-          <span className="text-2xl" aria-hidden="true">
-            🏍️
-          </span>
-          <h2 className="mt-3 text-lg font-semibold text-ink">{labels.portals.delivery.title}</h2>
-          <p className="mt-2 flex-1 text-sm text-ink-secondary">
-            {labels.portals.delivery.description}
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" className="btn-primary text-sm" onClick={openDeliveryTab}>
-              {labels.portals.delivery.viewCta}
-            </button>
-            <a href={volunteersRegisterPath} className="btn-secondary text-sm">
-              {labels.portals.delivery.registerCta}
-            </a>
-          </div>
-        </article>
-      </div>
-
-      <section>
-        <h2 className="text-lg font-semibold text-ink">{labels.zonesTitle}</h2>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {EMERGENCY_ZONES.map((zone) => {
-            const active = cityFilter === zone.id;
-            return (
-              <button
-                key={zone.id}
-                type="button"
-                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-                  active
-                    ? "border-accent bg-accent text-white"
-                    : "border-border bg-surface-elevated text-ink-secondary hover:border-accent/50 hover:text-accent"
-                }`}
-                onClick={() => setCityFilter(active ? "" : zone.id)}
-              >
-                {locale === "es" ? zone.label.es : zone.label.en}
-              </button>
-            );
-          })}
-        </div>
-      </section>
+          <section>
+            <h2 className="text-lg font-semibold text-ink">{labels.zonesTitle}</h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {EMERGENCY_ZONES.map((zone) => {
+                const active = cityFilter === zone.id;
+                return (
+                  <button
+                    key={zone.id}
+                    type="button"
+                    className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                      active
+                        ? "border-accent bg-accent text-white"
+                        : "border-border bg-surface-elevated text-ink-secondary hover:border-accent/50 hover:text-accent"
+                    }`}
+                    onClick={() => setCityFilter(active ? "" : zone.id)}
+                  >
+                    {locale === "es" ? zone.label.es : zone.label.en}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        </>
+      )}
 
       <ActiveAcopioCentersPanel
         locale={locale}

@@ -8,6 +8,7 @@ import HelpCommunitySection from "@/components/volunteers/HelpCommunitySection";
 import StructuralInspectionSection from "@/components/sections/StructuralInspectionSection.astro";
 import CommunityFeedback from "@/components/community/CommunityFeedback";
 import { INTERPRETER_VOLUNTEER_GROUP } from "@/data/interpreter-volunteer-group";
+import { PREVIASIS_PSYCH_SUPPORT } from "@/data/previasis-psych-support";
 import { RED_CROSS_VOLUNTEER_REGISTRY } from "@/data/red-cross-volunteer";
 import { CALIPSO_VOLUNTEER_LODGING } from "@/data/volunteer-lodging";
 import {
@@ -22,6 +23,7 @@ import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { VENEZUELA_STATES } from "@/data/seed";
+import { getUrgentRescueAlertCards } from "@/data/urgent-rescue-alerts";
 
 interface Props {
   locale: Locale;
@@ -38,6 +40,9 @@ const medicalCall = dict.volunteers.medicalCall;
 const unefmCall = dict.volunteers.unefmTucacasCall;
 const redCrossCall = dict.volunteers.redCrossCall;
 const interpretersCall = dict.volunteers.interpretersCall;
+const previasisCall = dict.volunteers.previasisCall;
+const op33Call = dict.volunteers.op33TanaguarenaCall;
+const op33Alert = getUrgentRescueAlertCards()[0];
 const vz = dict.volunteers.vzlayuda as Record<string, string>;
 
 const medicalMessage =
@@ -105,7 +110,7 @@ const hubLabels = {
 };
 ---
 
-<BaseLayout locale={locale} title={t("volunteers.title")}>
+<BaseLayout locale={locale} title={t("volunteers.title")} description={t("volunteers.subtitle")}>
   <PageHeader title={t("volunteers.title")} subtitle={t("volunteers.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="">
     <HelpCommunitySection
       client:load
@@ -158,6 +163,39 @@ const hubLabels = {
       titleKey="volunteers.structuralInspection.title"
       subtitleKey="volunteers.structuralInspection.subtitle"
     />
+
+    {
+      op33Alert && (
+        <RescuerCallCard
+          anchorId={op33Alert.mapAnchor}
+          title={op33Call.title}
+          subtitle={op33Call.subtitle}
+          body={op33Call.body}
+          urgency={op33Call.urgency}
+          phone={op33Alert.phone}
+          phoneLabel={op33Call.phoneLabel}
+          whatsappLabel={op33Call.whatsappLabel}
+          whatsappUrl={op33Alert.whatsappUrl}
+          shareLabel={op33Call.share}
+          targetLabel={op33Call.targetLabel}
+          targetRegions={op33Call.targetRegions}
+          deployLabel={op33Call.deployLabel}
+          deployRegions={op33Call.deployRegions}
+          offerLabel={op33Call.offerLabel}
+          offerText={op33Call.offerText}
+        >
+          <CommunityFeedback
+            client:visible
+            contentType="external_link"
+            contentId={op33Alert.id}
+            locale={locale}
+            labels={feedbackLabels}
+            confidenceLabels={confidenceLabels}
+            compact
+          />
+        </RescuerCallCard>
+      )
+    }
 
     <details class="mt-16 rounded-2xl border border-border bg-surface-muted/40 p-5 open:pb-6">
       <summary class="cursor-pointer text-lg font-semibold text-ink">
@@ -223,6 +261,37 @@ const hubLabels = {
         compact
       />
     </VolunteerRegistryCard>
+
+    <VolunteerGroupCard
+      anchorId={PREVIASIS_PSYCH_SUPPORT.id}
+      badge={previasisCall.badge}
+      title={previasisCall.title}
+      body={previasisCall.body}
+      priorityLabel={previasisCall.priorityLabel}
+      priorityText={previasisCall.priorityText}
+      joinLabel={previasisCall.joinLabel}
+      joinUrl={PREVIASIS_PSYCH_SUPPORT.instagramUrl}
+      displayPath={PREVIASIS_PSYCH_SUPPORT.instagramHandle}
+      secondaryJoinLabel={previasisCall.websiteLabel}
+      secondaryJoinUrl={PREVIASIS_PSYCH_SUPPORT.websiteUrl}
+      secondaryDisplayPath={PREVIASIS_PSYCH_SUPPORT.websiteDisplayPath}
+      shareLabel={previasisCall.share}
+    >
+      <div class="mt-4 flex flex-wrap gap-3 px-1">
+        <a href={PREVIASIS_PSYCH_SUPPORT.phoneTel} class="btn-secondary text-sm">
+          {previasisCall.phoneLabel}: {PREVIASIS_PSYCH_SUPPORT.phone}
+        </a>
+      </div>
+      <CommunityFeedback
+        client:visible
+        contentType="external_link"
+        contentId={PREVIASIS_PSYCH_SUPPORT.id}
+        locale={locale}
+        labels={feedbackLabels}
+        confidenceLabels={confidenceLabels}
+        compact
+      />
+    </VolunteerGroupCard>
 
     <VolunteerGroupCard
       anchorId="interpretes-idiomas"

@@ -21,14 +21,17 @@ const DAMAGE_COLORS: Record<string, string> = {
   evacuated: "#eab308",
 };
 
-function damageIcon(severity?: string, priority?: boolean) {
+function damageIcon(severity?: string, satellite?: boolean) {
   const color = DAMAGE_COLORS[severity ?? "damaged"] ?? DAMAGE_COLORS.damaged;
-  const size = priority ? 22 : 18;
-  const border = priority ? "4px solid #fef2f2" : "3px solid #fff";
-  const ring = priority ? "0 0 0 2px #dc2626" : "0 1px 4px rgba(0,0,0,0.4)";
+  const size = satellite ? 10 : 18;
+  const border = satellite ? "1px solid #fff" : "3px solid #fff";
+  const ring = satellite
+    ? "0 0 0 1px rgba(220,38,38,0.35)"
+    : "0 1px 4px rgba(0,0,0,0.4)";
+  const opacity = satellite ? "0.85" : "1";
   return L.divIcon({
     className: "damage-marker",
-    html: `<span style="display:block;width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${ring};"></span>`,
+    html: `<span style="display:block;width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${ring};opacity:${opacity};"></span>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -10],
@@ -37,7 +40,8 @@ function damageIcon(severity?: string, priority?: boolean) {
 
 function iconForLocation(loc: MapLocation) {
   if (loc.type === "damage") {
-    return damageIcon(loc.severity, loc.id.startsWith("priority-"));
+    const satellite = loc.id.startsWith("nasa-");
+    return damageIcon(loc.severity, satellite);
   }
   return defaultIcon;
 }
@@ -132,7 +136,7 @@ export interface MapViewInnerProps {
 }
 
 const RESPONSIVE_MAP_HEIGHT =
-  "h-[min(50vh,520px)] min-h-[220px] sm:h-[400px] lg:h-[480px]";
+  "h-[min(70vh,680px)] min-h-[280px] sm:h-[480px] lg:h-[600px]";
 
 export default function MapViewInner({
   locations,

@@ -24,6 +24,8 @@ export interface SolidarityCompany {
   website_url?: string;
   instagram_url?: string;
   phone?: string;
+  /** Fecha/hora del anuncio en redes o web (ISO 8601, UTC). */
+  source_published_at?: string;
   /** Enlace a sede de acopio en /centros-ayuda#id */
   help_center_id?: string;
   is_verified: boolean;
@@ -108,6 +110,27 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
       "https://listado.mercadolibre.com.ve/_Container_apoyo-venezuela-2",
     is_verified: true,
     sort_order: 3.5,
+  },
+  {
+    id: "mundomac",
+    slug: "mundomac",
+    name: "MundoMac (@mundodomac_ve)",
+    resources: ["internet", "telecom"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — sedes en Caracas, Lechería, Valencia, Maracay y más ciudades",
+      en: "Nationwide — stores in Caracas, Lechería, Valencia, Maracay and more cities",
+    },
+    description: {
+      es: "Centro de servicio autorizado Apple en Venezuela. Anunciaron en Instagram apoyo con señal Starlink gratuita para personas y comunidades afectadas por el terremoto del 24 de junio de 2026, facilitando conectividad donde las redes terrestres fallan. Coordinan orientación para activar el beneficio según las medidas vigentes de Starlink en zonas impactadas (incluye servicio sin costo hasta el 25 de julio para clientes elegibles, según el operador). Consulta sedes, pasos y actualizaciones en @mundodomac_ve o mundomac.com.ve.",
+      en: "Apple Authorized Service Provider in Venezuela. They announced on Instagram free Starlink connectivity support for people and communities affected by the June 24, 2026 earthquake, helping where terrestrial networks fail. They guide users on activating Starlink’s earthquake benefit in impacted areas (including free service through July 25 for eligible customers, per the operator). Check locations, steps and updates on @mundodomac_ve or mundomac.com.ve.",
+    },
+    website_url: "https://mundomac.com.ve/",
+    instagram_url: "https://www.instagram.com/mundodomac_ve/",
+    source_published_at: "2026-06-30T18:00:00.000Z",
+    is_verified: true,
+    sort_order: 3.45,
   },
   {
     id: "movistar",
@@ -426,6 +449,27 @@ export const SOLIDARITY_COMPANIES: SolidarityCompany[] = [
     help_center_id: "102",
     is_verified: false,
     sort_order: 20,
+  },
+  {
+    id: "previasis",
+    slug: "previasis",
+    name: "Previasis",
+    resources: ["medicine"],
+    state: "Nacional",
+    city: "Venezuela",
+    coverage: {
+      es: "Nacional — atención virtual y coordinación por Instagram",
+      en: "Nationwide — virtual care and coordination via Instagram",
+    },
+    description: {
+      es: "Empresa de medicina prepagada que activó apoyo psicológico gratuito para personas y familias afectadas por el terremoto del 24 de junio de 2026. Ofrecen contención emocional, orientación y acompañamiento en salud mental. Consulta disponibilidad, horarios y cómo acceder al servicio en Instagram @previasis o en previasis.com.",
+      en: "Prepaid medicine company that activated free psychological support for people and families affected by the June 24, 2026 earthquake. They offer emotional containment, guidance and mental health support. Check availability, hours and how to access the service on Instagram @previasis or at previasis.com.",
+    },
+    website_url: "https://previasis.com/",
+    instagram_url: "https://www.instagram.com/previasis/",
+    phone: "0424-5051851",
+    is_verified: true,
+    sort_order: 21,
   },
 ];
 

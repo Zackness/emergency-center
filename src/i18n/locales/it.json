@@ -1,8 +1,8 @@
 {
   "meta": {
     "title": "Emergency Center",
-    "description": "Central hub for information and aid during national emergencies in Venezuela. Collection centers, shelters, hospitals, official agencies and more.",
-    "tagline": "Verified information. Centralized aid. United community."
+    "description": "Hub centrale di informazioni e aiuto durante le emergenze nazionali in Venezuela. Centri di raccolta, rifugi, ospedali, organismi ufficiali e altro.",
+    "tagline": "Informazioni verificate. Aiuto centralizzato. Comunità unita."
   },
   "nav": {
     "home": "Home",
@@ -19,6 +19,7 @@
     "resources": "Resources",
     "damage": "Damage map",
     "roadmap": "Roadmap",
+    "apiDocs": "Developer API",
     "admin": "Admin",
     "menu": "Menu",
     "language": "Lingua",
@@ -534,17 +535,6 @@
       "reportCta": "Report damaged building",
       "note": "Independent initiative • contacto@cabreracg.com"
     },
-    "priorityRescue": {
-      "title": "Priority search and rescue sites",
-      "subtitle": "Critical structures and zones with reported victims after the June 24, 2026 earthquakes. GPS coordinates for rescue teams.",
-      "structures": "Critical structures",
-      "zones": "Geographic zones",
-      "victims": "Reported victims",
-      "source": "Source",
-      "priorityBadge": "Rescue priority",
-      "directions": "Directions",
-      "disclaimer": "Community-shared information (@rdelbufalo / Terremoto Venezuela). Verify with authorities and official teams before deploying. In an emergency, call 171."
-    },
     "form": {
       "notice": "Only report information you know. Do not post sensitive data. Verify before sharing.",
       "titleField": "Place name or reference",
@@ -969,6 +959,43 @@
       "whatsappLabel": "WhatsApp group",
       "share": "Share with bilingual or multilingual people who can support coordination."
     },
+    "arePitasCall": {
+      "badge": "Solidarity food",
+      "title": "Are Pitas — volunteers to cook and deliver arepas",
+      "body": "Citizen initiative bringing arepas to patients, companions and medical staff at Caracas hospitals. They coordinate kitchen, packing and distribution shifts. They also accept donations of corn flour, fillings, bags and disposable cups.",
+      "priorityLabel": "Who can join",
+      "priorityText": "Volunteers to cook, pack, transport and coordinate shifts; donors of kitchen supplies",
+      "joinLabel": "Sign up at are.pitas.ve",
+      "instagramLabel": "Instagram",
+      "share": "Share with cooks, drivers and neighbors who want to support hot meals at hospitals."
+    },
+    "previasisCall": {
+      "badge": "Psychological support",
+      "title": "Previasis — free psychological care",
+      "body": "Previasis, a prepaid medicine company, activated free psychological support for people and families affected by the June 24 earthquake. They offer emotional containment, guidance and mental health support. See how to access the service on their official channels.",
+      "priorityLabel": "Who is it for?",
+      "priorityText": "People affected by the earthquake, grieving or anxious relatives, and anyone who needs emotional support after the emergency",
+      "joinLabel": "Contact on Instagram",
+      "instagramLabel": "Instagram",
+      "websiteLabel": "Website",
+      "phoneLabel": "Call",
+      "share": "Share with families, neighbors and health teams who need free psychological support."
+    },
+    "op33TanaguarenaCall": {
+      "title": "URGENTE — OP33 Tanaguarena, magazzini sotterranei",
+      "subtitle": "Tra le torri B e C · 30 giugno 2026, ore 14:30",
+      "body": "Situazione critica segnalata nei magazzini sotterranei dell'OP33 a Tanaguarena (Caraballeda, La Guaira). Servono soccorritori e volontari esperti. Contatto di coordinamento: 0412-9195340.",
+      "urgency": "Segnalato il giorno dell'emergenza — 30 giugno 2026, ore 14:30 (ora del Venezuela)",
+      "targetLabel": "Chi può intervenire?",
+      "targetRegions": "Soccorritori, vigili del fuoco, protezione civile e volontari con attrezzature",
+      "deployLabel": "Ubicazione",
+      "deployRegions": "OP33 Tanaguarena — magazzini sotterranei tra le torri B e C",
+      "offerLabel": "Coordinamento",
+      "offerText": "Chiamare o scrivere al contatto prima di spostarsi",
+      "phoneLabel": "Contatto soccorso",
+      "whatsappLabel": "WhatsApp",
+      "share": "Condividi subito con squadre di soccorso e volontari disponibili oggi."
+    },
     "form": {
       "name": "Full name",
       "city": "City",
@@ -1225,6 +1252,16 @@
       "title": "Medical support and telemedicine",
       "subtitle": "Solidarity apps and platforms for medical guidance, medicine search and health aid coordination during the emergency.",
       "openMission": "Open rescue mission"
+    },
+    "apiDeveloper": {
+      "title": "Public API for developers",
+      "subtitle": "Connect your website or app to verified hub data: help centers, damage, missing persons, pets, children and allied platforms.",
+      "cta": "View API documentation",
+      "highlights": [
+        "REST JSON at /api/v1 — read access without an API key",
+        "Data updated from the database and allied scrapers",
+        "Open CORS · 120 requests per 10 minutes per IP"
+      ]
     }
   },
   "search": {
@@ -1434,6 +1471,29 @@
       ]
     }
   },
+  "apiDocs": {
+    "title": "Public API",
+    "subtitle": "Connect your site or app to verified Emergency Center data",
+    "intro": "Use our REST API to read help centers, missing persons, damage reports, pets, news, and scraped allied platform data. No API key required for read access; please respect rate limits.",
+    "baseUrlLabel": "Base URL",
+    "quickStartTitle": "Quick start",
+    "quickStartSteps": [
+      "Call GET /api/v1 to list available endpoints.",
+      "Send GET requests with Accept: application/json from your server or frontend.",
+      "Filter with query params (state, q, limit, page, etc.) per endpoint.",
+      "For raw allied platform snapshots, use /api/v1/allied-data?domain=..."
+    ],
+    "limitsTitle": "Rate limits",
+    "limitsBody": "120 GET requests per 10 minutes per IP. Responses cached ~2 minutes.",
+    "corsTitle": "CORS",
+    "corsBody": "All origins allowed by default. Set PUBLIC_API_CORS_ORIGINS on the server to restrict domains.",
+    "endpointsTitle": "Available endpoints",
+    "alliedTitle": "Allied platform data",
+    "alliedBody": "Each allied platform with a scraper adapter stores its snapshot in the database. Query by domain or adapter id.",
+    "scrapeStatusTitle": "Scrape status",
+    "scrapeStatusBody": "Shows when the last allied platform sync ran and which adapters are registered.",
+    "examplesTitle": "Examples"
+  },
   "footer": {
     "madeBy": "An initiative by",
     "and": "and",
@@ -1444,6 +1504,7 @@
     "disclaimer": "This platform centralizes public information. Always verify with official sources.",
     "privacy": "Privacy",
     "terms": "Terms",
+    "apiDocs": "Developer API",
     "legalTitle": "Legal"
   },
   "admin": {

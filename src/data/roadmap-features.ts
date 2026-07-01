@@ -52,7 +52,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
   },
   {
     id: "supabase-uploads",
-    status: "done",
+    status: "shipped",
     category: "infrastructure",
     progress: 100,
     title: {
@@ -81,16 +81,70 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
   },
   {
     id: "allied-platforms",
-    status: "in_progress",
+    status: "shipped",
     category: "community",
-    progress: 90,
+    progress: 100,
     title: {
       es: "Plataformas aliadas",
       en: "Allied platforms",
     },
     description: {
-      es: "Directorio de iniciativas ciudadanas que complementan la respuesta de emergencia.",
-      en: "Directory of citizen-led initiatives that complement the emergency response.",
+      es: "Directorio en BD con scraping unificado: DonarSeguro, Yummy SOS, VzlaAyuda, HuellasCAN, Red Ayuda y más.",
+      en: "DB-backed directory with unified scraping: DonarSeguro, Yummy SOS, VzlaAyuda, HuellasCAN, Red Ayuda and more.",
+    },
+    href: "/recursos",
+  },
+  {
+    id: "public-api",
+    status: "shipped",
+    category: "infrastructure",
+    title: {
+      es: "API pública v1 para desarrolladores",
+      en: "Public API v1 for developers",
+    },
+    description: {
+      es: "Endpoints REST de lectura (acopios, desaparecidos, daños, mascotas, aliadas) con CORS, rate limit y documentación en /api-docs.",
+      en: "Read-only REST endpoints (help centers, missing persons, damage, pets, allied data) with CORS, rate limits and docs at /api-docs.",
+    },
+    href: "/api-docs",
+  },
+  {
+    id: "allied-scrapers-db",
+    status: "shipped",
+    category: "infrastructure",
+    title: {
+      es: "Scraping aliado → base de datos",
+      en: "Allied scraping → database",
+    },
+    description: {
+      es: "Snapshots scrapeados en data_cache y tablas relacionales; nuevas plataformas aliadas se incorporan al orquestador sync:allied-scrapers.",
+      en: "Scraped snapshots in data_cache and relational tables; new allied platforms plug into the sync:allied-scrapers orchestrator.",
+    },
+  },
+  {
+    id: "form-sanitization",
+    status: "shipped",
+    category: "infrastructure",
+    title: {
+      es: "Formularios sanitizados (Zod)",
+      en: "Sanitized forms (Zod)",
+    },
+    description: {
+      es: "Validación y limpieza de entradas en reportes, voluntarios, noticias, centros de acopio y sugerencias.",
+      en: "Input validation and sanitization for reports, volunteers, news, help centers and suggestions.",
+    },
+  },
+  {
+    id: "auto-sync",
+    status: "shipped",
+    category: "infrastructure",
+    title: {
+      es: "Sincronización automática (GitHub Actions)",
+      en: "Automatic sync (GitHub Actions)",
+    },
+    description: {
+      es: "Workflow programado cada 8 h (scrapers) y diario (sync completo) sin depender de cron en Vercel.",
+      en: "Scheduled workflow every 8 h (scrapers) and daily (full sync) without Vercel cron.",
     },
   },
   {
@@ -106,19 +160,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
       en: "Publish news and vote whether items seem true or false to estimate collective credibility.",
     },
     href: "/noticias",
-  },
-  {
-    id: "auto-sync",
-    status: "planned",
-    category: "missing",
-    title: {
-      es: "Sincronización automática programada",
-      en: "Scheduled automatic sync",
-    },
-    description: {
-      es: "Actualización periódica de fuentes externas de desaparecidos sin intervención manual.",
-      en: "Periodic updates of external missing persons sources without manual intervention.",
-    },
   },
   {
     id: "pwa-offline",

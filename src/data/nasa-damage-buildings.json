@@ -1,0 +1,10 @@
+{
+  "source": "https://services7.arcgis.com/WSiUmUhlFx4CtMBB/ArcGIS/rest/services/202610_s1_likelydmgareas/FeatureServer/0",
+  "webmap": "https://gis.earthdata.nasa.gov/portal/apps/mapviewer/index.html?webmap=0c3d77dd5aae46e4829d9a282477615c",
+  "attribution": "Damage analysis of Copernicus Sentinel-1 data by Corey Scher and Jamon Van Den Hoek (Oregon State University). Overture Maps building footprints.",
+  "fetched_at": null,
+  "filter": "damage=1 AND damage_probability>=0.75 (ejecutar npm run fetch:nasa-damage)",
+  "estimate_total": 58870,
+  "count": 0,
+  "items": []
+}

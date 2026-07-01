@@ -29,7 +29,7 @@ const formLabels = {
 };
 ---
 
-<BaseLayout locale={locale} title={t("companies.title")}>
+<BaseLayout locale={locale} title={t("companies.title")} description={t("companies.subtitle")}>
   <PageHeader title={t("companies.title")} subtitle={t("companies.subtitle")} imageSrc="/images/headers/ayuda-comunitaria.svg" imageAlt="" />
 
   <div class="container-app pb-16 space-y-16 -mt-4">
@@ -73,6 +73,9 @@ const formLabels = {
               helpCenterLabel={t("companies.directory.viewHelpCenter")}
               verified={company.is_verified}
               verifiedLabel={t("common.verified")}
+              sourcePublishedAt={company.source_published_at}
+              sourcePublishedLabel={t("companies.directory.sourcePublished")}
+              locale={locale}
             />
             <CommunityFeedback
               client:visible

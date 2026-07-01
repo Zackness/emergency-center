@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly SUPABASE_SECRET_KEY?: string;
   readonly TERREMOTO_VZLA_SUPABASE_URL?: string;
   readonly TERREMOTO_VZLA_SUPABASE_KEY?: string;
+  readonly RED_ESPERANZA_SUPABASE_URL?: string;
+  readonly RED_ESPERANZA_SUPABASE_KEY?: string;
 }
 
 interface ImportMeta {

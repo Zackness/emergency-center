@@ -7,6 +7,7 @@ import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { resolvePanelPath } from "@/i18n/page-locale";
 import { VENEZUELA_STATES } from "@/data/seed";
+import { HELP_CENTERS_HEADER } from "@/data/site-images";
 
 interface Props {
   locale: Locale;
@@ -62,12 +63,14 @@ const typeLabels = dict.helpCenters.types as Record<string, string>;
 const acceptLabels = dict.helpCenters.accepts as Record<string, string>;
 ---
 
-<BaseLayout locale={locale} title={t("helpCenters.register.title")}>
+<BaseLayout locale={locale} title={t("helpCenters.register.title")} description={t("helpCenters.register.subtitle")} ogImage={HELP_CENTERS_HEADER}>
   <PageHeader
     title={t("helpCenters.register.title")}
     subtitle={t("helpCenters.register.subtitle")}
-    imageSrc="/images/headers/ayuda-comunitaria.svg"
-    imageAlt=""
+    imageSrc={HELP_CENTERS_HEADER}
+    imageAlt={locale === "es"
+      ? "Voluntarios organizando agua, alimentos e insumos en un centro de acopio"
+      : "Volunteers organizing water, food and supplies at a collection center"}
   >
     <HelpCenterRegisterHub
       client:load

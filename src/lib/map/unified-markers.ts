@@ -35,11 +35,11 @@ const DEFAULT_LIMITS: Record<UnifiedMapLayer, number> = {
   help_center: 800,
   hospital: 400,
   shelter: 100,
-  damage: 500,
+  damage: 3000,
   quake: 50,
   redayuda: 50,
   platform: 30,
-  children: 220,
+  children: 2000,
 };
 
 function normalizeSearch(text: string): string {
@@ -158,7 +158,6 @@ function damageMarkers(reports: DamageReport[], locale: Locale): UnifiedMapMarke
     secondaryHrefLabel: report.source_name ?? "Terremoto Venezuela",
     source: report.source_name,
     image_urls: report.image_urls,
-    priority: report.id.startsWith("priority-"),
   }));
 }
 
@@ -343,16 +342,15 @@ function redAyudaMarkers(locale: Locale): UnifiedMapMarker[] {
         state: "La Guaira",
         description:
           locale === "es"
-            ? "Personas atrapadas en estructuras — prioridad de rescate"
-            : "Persons trapped in structures — rescue priority",
-        href: `${path(locale, "danos")}#sitios-prioritarios-rescate`,
+            ? "Personas atrapadas en estructuras reportadas en Red Ayuda"
+            : "Persons trapped in structures reported on Red Ayuda",
+        href: path(locale, "danos"),
         hrefExternal: false,
-        hrefLabel: locale === "es" ? "Sitios prioritarios" : "Priority sites",
+        hrefLabel: locale === "es" ? "Mapa de daños" : "Damage map",
         secondaryHref: REDAYUDA_BASE,
         secondaryHrefExternal: true,
         secondaryHrefLabel: "Red Ayuda",
         source: "Red Ayuda Venezuela",
-        priority: true,
       });
     }
 

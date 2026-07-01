@@ -29,6 +29,16 @@ export interface DamageMapStats {
   damaged: number;
   evacuated: number;
   last_synced_at: string | null;
+  /** Reportes comunitarios unificados (sin capa NASA). */
+  community_total?: number;
+  /** Estimación NASA Sentinel-1 (~58k). */
+  nasa_estimate?: number;
+  /** Puntos NASA cargados localmente para el mapa. */
+  nasa_plotted?: number;
+  /** Reportes @rdelbufalo incluidos en el catálogo comunitario. */
+  priority_rescue?: number;
+  /** Marcadores totales en el mapa (comunidad + NASA). */
+  map_markers?: number;
 }
 
 export interface DamageMapQuery {

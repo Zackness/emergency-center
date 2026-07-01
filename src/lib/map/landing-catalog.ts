@@ -1,29 +1,23 @@
-import { getRedAyudaSnapshot } from "@/data/redayuda-resources";
+import { fetchRedAyudaSnapshotFeed } from "@/lib/redayuda/snapshot-feed";
 import {
   buildUnifiedMapMarkers,
   countMarkersByLayer,
 } from "@/lib/map/unified-markers";
 import { countChildMapStatuses } from "@/lib/map/children-case-markers";
 import { fetchLiveChildrenEmergencyCases } from "@/lib/children-emergency/feed";
+import { isNasaDamageReport } from "@/lib/damage-map/merge-nasa";
 import {
   fetchHelpCenters,
   fetchHospitals,
   fetchShelters,
   fetchDamageReportsForPage,
 } from "@/lib/data";
+import {
+  UNIFIED_MAP_CATALOG_MAX,
+  UNIFIED_MAP_LAYERS,
+} from "@/lib/map/catalog-layers";
 import type { Locale } from "@/i18n/config";
 import type { UnifiedMapLayer, UnifiedMapMarker } from "@/types/map";
-
-const ALL_LAYERS: UnifiedMapLayer[] = [
-  "help_center",
-  "hospital",
-  "shelter",
-  "damage",
-  "quake",
-  "redayuda",
-  "platform",
-  "children",
-];
 
 export interface LandingMapCatalog {
   markers: UnifiedMapMarker[];
@@ -45,6 +39,10 @@ export interface LandingMapCatalog {
     nexosignal: number;
     redayuda: number;
   } | null;
+  damageStats: {
+    communityTotal: number;
+    onMap: number;
+  } | null;
 }
 
 export interface LandingMapCatalogOptions {
@@ -55,23 +53,57 @@ export interface LandingMapCatalogOptions {
   maxTotal?: number;
 }
 
+/**
+ * Catálogo canónico del mapa general del sitio.
+ * Usa las mismas fuentes que /danos, centros-ayuda, niños, etc.
+ */
 export async function fetchLandingMapCatalog(
   locale: Locale,
   options: LandingMapCatalogOptions = {},
 ): Promise<LandingMapCatalog> {
-  const layers = options.layers?.length ? options.layers : ALL_LAYERS;
-  const maxTotal = Math.min(
-    2500,
-    Math.max(100, options.maxTotal ?? 2000),
-  );
+  const layers = options.layers?.length ? options.layers : UNIFIED_MAP_LAYERS;
 
-  const [helpCenters, hospitals, shelters, damageData, childCases] = await Promise.all([
-    fetchHelpCenters(),
+  const baseHelpCenters = await fetchHelpCenters();
+  const { queryHelpCentersCatalog } = await import("@/lib/help-centers/feed");
+  const helpCenterCatalog = await queryHelpCentersCatalog(baseHelpCenters, {
+    limit: 10_000,
+  });
+
+  const [hospitals, shelters, damageData, childCases] = await Promise.all([
     fetchHospitals(),
     fetchShelters(),
     fetchDamageReportsForPage(),
     fetchLiveChildrenEmergencyCases().catch(() => []),
   ]);
+
+  const helpCenters = helpCenterCatalog.centers;
+  const communityDamage = damageData.items.filter((d) => !isNasaDamageReport(d));
+  const communityTotal =
+    damageData.meta?.community_total ?? communityDamage.length;
+
+  const layerLimits = {
+    help_center: helpCenters.length,
+    hospital: hospitals.length,
+    shelter: shelters.length,
+    damage: damageData.items.length,
+    quake: 50,
+    redayuda: 50,
+    platform: 50,
+    children: childCases.length + 10,
+  };
+
+  const estimatedTotal =
+    helpCenters.length +
+    hospitals.length +
+    shelters.length +
+    damageData.items.length +
+    childCases.length +
+    200;
+
+  const maxTotal = Math.min(
+    UNIFIED_MAP_CATALOG_MAX,
+    Math.max(estimatedTotal, options.maxTotal ?? estimatedTotal),
+  );
 
   const buildOptions = {
     locale,
@@ -83,12 +115,13 @@ export async function fetchLandingMapCatalog(
     shelters,
     damageReports: damageData.items,
     childCases,
-    maxTotal: 5000,
+    limits: layerLimits,
+    maxTotal,
   };
 
   const allMarkers = buildUnifiedMapMarkers({
     ...buildOptions,
-    layers: ALL_LAYERS,
+    layers: UNIFIED_MAP_LAYERS,
   });
 
   const filtered = buildUnifiedMapMarkers({
@@ -97,15 +130,32 @@ export async function fetchLandingMapCatalog(
     maxTotal,
   });
 
-  const snapshot = getRedAyudaSnapshot();
+  const snapshot = await fetchRedAyudaSnapshotFeed();
   const stats = snapshot.stats;
+
+  const counts = countMarkersByLayer(allMarkers);
+  if (communityTotal > 0) {
+    counts.damage = communityTotal;
+  }
+  const childrenStats = childCases.length ? countChildMapStatuses(childCases) : null;
+  if (childrenStats?.total) {
+    counts.children = childrenStats.total;
+  }
+
+  const damageStats =
+    communityTotal > 0
+      ? {
+          communityTotal,
+          onMap: damageData.meta?.map_markers ?? damageData.items.length,
+        }
+      : null;
 
   return {
     markers: filtered,
     total: filtered.length,
     totalAvailable: allMarkers.length,
     truncated: filtered.length < allMarkers.length,
-    counts: countMarkersByLayer(allMarkers),
+    counts,
     redAyudaStats: stats
       ? {
           desaparecidos: stats.desaparecidos,
@@ -115,11 +165,15 @@ export async function fetchLandingMapCatalog(
           ninos: snapshot.ninos ?? 0,
         }
       : null,
-    childrenStats: childCases.length ? countChildMapStatuses(childCases) : null,
+    childrenStats,
+    damageStats,
   };
 }
 
-/** Cat�logo inicial para la landing (SSR / build est�tico). */
+/** Alias explícito: mapa general = catálogo unificado del sitio. */
+export const fetchUnifiedMapCatalog = fetchLandingMapCatalog;
+
+/** Catálogo inicial para la landing (SSR). */
 export async function fetchLandingMapCatalogForPage(locale: Locale): Promise<LandingMapCatalog> {
-  return fetchLandingMapCatalog(locale, { maxTotal: 2000 });
+  return fetchLandingMapCatalog(locale);
 }

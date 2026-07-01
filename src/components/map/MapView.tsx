@@ -3,7 +3,7 @@ import type { MapLocation } from "@/types";
 import type { MapViewInnerProps } from "@/components/map/MapViewInner";
 
 const RESPONSIVE_MAP_HEIGHT =
-  "h-[min(50vh,520px)] min-h-[220px] sm:h-[400px] lg:h-[480px]";
+  "h-[min(70vh,680px)] min-h-[280px] sm:h-[480px] lg:h-[600px]";
 
 export default function MapView({
   locations,

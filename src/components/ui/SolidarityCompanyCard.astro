@@ -20,6 +20,9 @@ interface Props {
   helpCenterLabel: string;
   verified?: boolean;
   verifiedLabel?: string;
+  sourcePublishedAt?: string;
+  sourcePublishedLabel?: string;
+  locale?: string;
 }
 
 const {
@@ -41,7 +44,20 @@ const {
   helpCenterLabel,
   verified,
   verifiedLabel,
+  sourcePublishedAt,
+  sourcePublishedLabel,
+  locale = "es",
 } = Astro.props;
+
+function formatPublishedAt(iso: string, locale: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return new Intl.DateTimeFormat(locale === "es" ? "es-VE" : "en-US", {
+    dateStyle: "long",
+    timeStyle: "short",
+    timeZone: "America/Caracas",
+  }).format(date);
+}
 ---
 
 <article class="card" id={id}>
@@ -54,6 +70,11 @@ const {
         )}
       </div>
       <p class="mt-2 text-sm text-ink-secondary leading-relaxed">{description}</p>
+      {sourcePublishedAt && sourcePublishedLabel && (
+        <p class="mt-2 text-xs text-ink-muted">
+          {sourcePublishedLabel}: {formatPublishedAt(sourcePublishedAt, locale)}
+        </p>
+      )}
     </div>
   </div>
 

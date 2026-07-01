@@ -69,6 +69,27 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
       en: "Directory that gathers legitimate organizations where you can donate safely to the Venezuela earthquake response, with verified links.",
     },
     color: "yellow",
+    sort_order: 22,
+  },
+  {
+    domain: "sos.yummyrides.com",
+    url: "https://sos.yummyrides.com",
+    description: {
+      es: "Yummy SOS: reporta daños estructurales, consulta sismos en vivo (USGS), refugios y recursos de emergencia. Traslados y entregas gratuitas vía la red Yummy.",
+      en: "Yummy SOS: report structural damage, view live earthquakes (USGS), shelters and emergency resources. Free transport and deliveries via the Yummy network.",
+    },
+    color: "red",
+    sort_order: 23,
+  },
+  {
+    domain: "are.pitas.ve",
+    url: "https://are.pitas.ve",
+    description: {
+      es: "Voluntarios que cocinan y reparten arepas en hospitales de Caracas. Regístrate para ayudar o donar insumos de cocina.",
+      en: "Volunteers cooking and delivering arepas to Caracas hospitals. Sign up to help or donate kitchen supplies.",
+    },
+    color: "yellow",
+    sort_order: 24,
   },
   {
     domain: "vzlayuda.com",
@@ -141,6 +162,15 @@ export const ALLIED_PLATFORMS: AlliedPlatform[] = [
       en: "Report and search for missing persons after the earthquake.",
     },
     color: "yellow",
+  },
+  {
+    domain: "red-de-esperanza-lime.vercel.app",
+    url: "https://red-de-esperanza-lime.vercel.app/",
+    description: {
+      es: "Red ciudadana: mapa de emergencias, reportar necesidades, SOS/rescate, centros de acopio y capa de personas desaparecidas con búsqueda por nombre.",
+      en: "Citizen network: emergency map, report needs, SOS/rescue, collection centers and missing persons layer with name search.",
+    },
+    color: "blue",
   },
   {
     domain: "huellascan.com",

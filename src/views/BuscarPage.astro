@@ -17,7 +17,7 @@ const initialQuery = Astro.url.searchParams.get("q") ?? "";
 const categoryLabels = dict.search.categories as Record<SearchResultType, string>;
 ---
 
-<BaseLayout locale={locale} title={t("search.title")}>
+<BaseLayout locale={locale} title={t("search.title")} description={t("search.subtitle")}>
   <PageHeader title={t("search.title")} subtitle={t("search.subtitle")} imageSrc="/images/headers/informacion-recursos.svg" imageAlt="">
     <GlobalSearch
       client:load

@@ -2,12 +2,14 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import DonationNeedsList from "@/components/ui/DonationNeedsList.astro";
+import HelpCenterPageIntro from "@/components/help-centers/HelpCenterPageIntro.astro";
 import HelpCenterHub from "@/components/help-centers/HelpCenterHub";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { fetchHelpCenters } from "@/lib/data";
 import { getHelpCenterImages } from "@/lib/help-centers";
+import { HELP_CENTERS_HEADER } from "@/data/site-images";
 
 interface Props {
   locale: Locale;
@@ -89,16 +91,31 @@ const acceptLabels = Object.fromEntries(
 );
 ---
 
-<BaseLayout locale={locale} title={t("helpCenters.title")}>
+<BaseLayout locale={locale} title={t("helpCenters.title")} description={t("helpCenters.subtitle")} ogImage={HELP_CENTERS_HEADER}>
   <PageHeader
     eyebrow={hub.heroBadge}
     title={hub.heroTitle}
     subtitle={hub.heroSubtitle}
-    imageSrc="/images/headers/ayuda-comunitaria.svg"
-    imageAlt=""
-  >
+    imageSrc={HELP_CENTERS_HEADER}
+    imageAlt={locale === "es"
+      ? "Voluntarios organizando agua, alimentos e insumos en un centro de acopio"
+      : "Volunteers organizing water, food and supplies at a collection center"}
+  />
+
+  <div class="container-app space-y-10 py-8 sm:py-10">
+    <HelpCenterPageIntro
+      locale={locale}
+      hashtag={hub.hashtag}
+      criticalTitle={hub.criticalTitle}
+      criticalBody={hub.criticalBody}
+      portals={hub.portals}
+      zonesTitle={hub.zonesTitle}
+      registerPath={localePath(locale, "centros-ayuda/registrar")}
+      volunteersRegisterPath={localePath(locale, "voluntarios")}
+    />
+
     <HelpCenterHub
-      client:only="react"
+      client:load
       locale={locale}
       centers={centerViews}
       labels={hubLabels}
@@ -113,14 +130,13 @@ const acceptLabels = Object.fromEntries(
       volunteersTransportPath={`${localePath(locale, "voluntarios")}#carreras-gratis-acopio`}
       volunteersRegisterPath={localePath(locale, "voluntarios")}
       alliedPlatformUrl="https://centroacopio.site/"
+      hideIntro
     />
 
-    <div class="mt-10">
-      <DonationNeedsList
-        locale={locale}
-        feedbackLabels={feedbackLabels}
-        confidenceLabels={confidenceLabels}
-      />
-    </div>
-  </PageHeader>
+    <DonationNeedsList
+      locale={locale}
+      feedbackLabels={feedbackLabels}
+      confidenceLabels={confidenceLabels}
+    />
+  </div>
 </BaseLayout>
